@@ -8,7 +8,7 @@
                 {{csrf_field()}}
                 <h1>Login</h1>
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                    <input type="email" class="form-control" name="email" placeholder="email" required="" />
+                    <input type="email" class="form-control" name="email" placeholder="Login" required="" />
                     @if ($errors->has('email'))
                         <span class="help-block">
                         <strong>{{ $errors->first('email') }}</strong>
@@ -16,7 +16,7 @@
                     @endif
                 </div>
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                    <input type="password" class="form-control" name="password" placeholder="Password" required="" />
+                    <input type="password" class="form-control" name="password" placeholder="Senha" required="" />
                     @if ($errors->has('password'))
                         <span class="help-block">
                         <strong>{{ $errors->first('password') }}</strong>
@@ -24,22 +24,18 @@
                     @endif
                 </div>
                 <div>
-                    <button class="btn btn-default submit" type="submit">Log in</button>
-                    <a class="reset_pass" href="{{ url('/password/reset') }}">Lost your password?</a>
+                    <button class="btn btn-default submit" type="submit">Entrar</button>
+                    <a class="reset_pass" href="{{ url('/password/reset') }}">Esqueceu sua senha?</a>
                 </div>
 
                 <div class="clearfix"></div>
 
                 <div class="separator">
-                    <p class="change_link">New to site?
-                        <a href="{{route('register')}}" class="to_register"> Create Account </a>
-                    </p>
-
                     <div class="clearfix"></div>
                     <br />
 
                     <div>
-                        <h1><i class="fa fa-plus-circle"></i> {{config('app.name')}}</h1>
+                        <h1><span class="image"><img src="/images/logo.png" alt="CDA-e" /></span></h1>
                         <p>©{{date('Y')}} </p>
                     </div>
                 </div>

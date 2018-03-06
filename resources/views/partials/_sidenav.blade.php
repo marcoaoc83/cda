@@ -1,7 +1,7 @@
 <div class="col-md-3 left_col">
     <div class="left_col scroll-view">
         <div class="navbar nav_title" style="border: 0;">
-            <a href="{{url('/')}}" class="site_title"><i class="fa fa-paw"></i> <span>{{config('app.name')}}</span></a>
+            <a href="{{url('/')}}" class="site_title"><span class="image"><img src="/images/logo-branco.png" alt="CDA-e" /></span></a>
         </div>
 
         <div class="clearfix"></div>
@@ -9,10 +9,10 @@
         <!-- menu profile quick info -->
         <div class="profile">
             <div class="profile_pic">
-                <img src="/images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="/images/user.png" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
-                <span>Welcome,</span>
+                <span>Olá,</span>
                 <h2>{{auth()->user()->name}}</h2>
             </div>
         </div>
@@ -25,12 +25,16 @@
             <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                    <li><a href="{{route('dashboard')}}"><i class="fa fa-home"></i> Dashboard</a>
-                    </li>
-                    <li><a><i class="fa fa-cogs"></i>Settings <span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fa fa-edit"></i>Cadastros<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">Role Managment</a></li>
-                            <li><a href="#">Configuration</a></li>
+                            <li><a href="#">Usuários</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-cogs"></i>Configurações <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="#">Usuários</a></li>
+                            <li><a href="#">Importar / Exportar</a></li>
+                            <li><a href="#">Solicitaçoes de Acesso</a></li>
                         </ul>
                     </li>
                 </ul>
