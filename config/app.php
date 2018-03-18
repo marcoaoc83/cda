@@ -180,8 +180,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-
-        Yajra\Acl\AclServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
         Softon\SweetAlert\SweetAlertServiceProvider::class,
 
     ],
@@ -234,6 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'SWAL' => Softon\SweetAlert\Facades\SWAL::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
     ],
 
 ];

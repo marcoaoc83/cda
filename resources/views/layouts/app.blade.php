@@ -17,6 +17,7 @@
 
         <!-- page content  -->
         @yield('content')
+
         <!-- /page content -->
 
         <!-- footer content -->
