@@ -1,31 +1,18 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
+
+
+Route::get('/', 'Portal\PortalController@index')->name('portal.home');
+
 
 Auth::routes();
 
+Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
-Route::get('/', function () {
-    return redirect(route('dashboard'));
-});
+    Route::get('admin', 'AdminController@index')->name('admin.home');
+    Route::get('admin/user', 'UserController@index')->name('admin.user');
 
-Route::group(['middleware'=>'auth'],function (){
-    /*
-    |--------------------------------------------------------------------------
-    | Dashboard
-    |--------------------------------------------------------------------------
-    */
-    Route::get('dashboard','HomeController@index')->name('dashboard');
-
-
+    Route::post('admin/user', 'UserController@userUpdate')->name('perfil.update');
 });
 

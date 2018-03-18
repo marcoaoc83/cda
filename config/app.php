@@ -180,6 +180,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
+        Yajra\Acl\AclServiceProvider::class,
+        Softon\SweetAlert\SweetAlertServiceProvider::class,
+
     ],
 
     /*
@@ -229,7 +233,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
-
+        'SWAL' => Softon\SweetAlert\Facades\SWAL::class,
     ],
 
 ];

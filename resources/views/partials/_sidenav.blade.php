@@ -27,7 +27,15 @@
                 <ul class="nav side-menu">
                     <li><a><i class="fa fa-edit"></i>Cadastros<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">Usuários</a></li>
+                            <li><a href="#">Canal</a></li>
+                            <li><a href="#">Carteira</a></li>
+                            <li><a href="#">Evento</a></li>
+                            <li><a href="#">Execução Fila</a></li>
+                            <li><a href="#">Fila Trabalho</a></li>
+                            <li><a href="#">Modelo Comunicação</a></li>
+                            <li><a href="#">Regra Calculo</a></li>
+                            <li><a href="#">Pessoa</a></li>
+                            <li><a href="tabelas">Tabelas Sistema</a></li>
                         </ul>
                     </li>
                     <li><a><i class="fa fa-cogs"></i>Configurações <span class="fa fa-chevron-down"></span></a>
