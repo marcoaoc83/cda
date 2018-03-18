@@ -12,7 +12,7 @@
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="{{ route('admin.user') }}"> Perfil</a></li>
+                        <li><a href="{{ route('perfil.ver') }}"> Perfil</a></li>
                         <li><a href="javascript:;">Help</a></li>
                         <li><a href="{{url('/logout')}}" onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">

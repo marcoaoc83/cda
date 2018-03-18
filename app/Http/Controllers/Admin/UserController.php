@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\DB;
 use Softon\SweetAlert\Facades\SWAL;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -37,5 +38,12 @@ class UserController extends Controller
         }
 
         return redirect()->back()->with('error','Falha!');
+    }
+
+    public function userList()
+    {
+        $users = DB::table('users')->get();
+
+        return view('admin.user.index',compact('users'));
     }
 }
