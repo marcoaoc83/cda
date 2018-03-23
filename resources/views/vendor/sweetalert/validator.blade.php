@@ -1,7 +1,7 @@
 @if($errors->any())
     <script>
         swal({
-            title: 'Validation Error',
+            title: 'Erro!',
             html: '{!! implode('<br>',$errors->all()) !!}',
             type: 'error'
         })

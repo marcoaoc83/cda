@@ -23,6 +23,11 @@
                     <div class="x_panel">
                         <div class="x_title">
                             <h2>Listagem de Usuários</h2>
+                            <a href="{{route('users.inserirGet')}}" style="margin-left: 15px" type="button" class="btn btn-success btn-sm ">
+                                <span class="glyphicon glyphicon-plus-sign "  style="color:white" aria-hidden="true"></span>
+                                Adicionar
+                            </a>
+
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -52,9 +57,12 @@
 
 @push('scripts')
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    @include('vendor.sweetalert.cdn')
+    @include('vendor.sweetalert.view')
+    @include('vendor.sweetalert.validator')
     <script type="text/javascript">
         $(document).ready(function() {
-            $('.datatable').DataTable({
+            var table = $('.datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: '{{ route('users.getdata') }}',
@@ -69,8 +77,47 @@
                 }
             });
         });
+
+        function deleteUser(dataId) {
+            swal({
+                    title             : "Tem certeza?",
+                    text              : "Este usuário será deletado!",
+                    type              : "warning",
+                    showCancelButton  : true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText : "Sim",
+                    cancelButtonText  : "Não"
+            }).then((resultado) => {
+                if (resultado.value) {
+                    $.ajax({
+                        dataType : 'json',
+                        type: 'POST',
+                        data: {
+                            _token: '{!! csrf_token() !!}',
+                        },
+                        url: '{{ url('admin/users/deletar') }}' + '/' + dataId,
+                        success: function( msg ) {
+                            $('.datatable').DataTable().ajax.reload();
+                            swal({
+                                position: 'top-end',
+                                type: 'success',
+                                title: 'Deletado com sucesso!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        },
+                        error: function( data ) {
+                            swal({
+                                position: 'top-end',
+                                type: 'error',
+                                title: 'Erro ao deletar!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    });
+                }
+            });
+        };
     </script>
-    @include('vendor.sweetalert.cdn')
-    @include('vendor.sweetalert.view')
-    @include('vendor.sweetalert.validator')
 @endpush

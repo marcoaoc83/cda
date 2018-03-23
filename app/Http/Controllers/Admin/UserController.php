@@ -23,31 +23,6 @@ class UserController extends Controller
 
         return view('admin.user.index',compact('users'));
     }
-    public function userUpdate(Request $request)
-    {
-        $data = $request->all();
-
-        if(empty($data['password'])){
-            unset($data['password']);
-        }else{
-            if($data['password']==$data['password2']) {
-                $data['password'] = bcrypt($data['password']);
-            }else {
-                swal()->error('Erro!', 'As senhas estão diferentes!', []);
-                return redirect()->back()->with('error','Falha!');
-            }
-
-        }
-
-        $update=auth()->user()->update($data);
-
-        if($update) {
-            SWAL::message('Salvo','Seu perfil foi salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-            return redirect()->route('admin.user')->with('success', 'Salvo com Sucesso!');
-        }
-
-        return redirect()->back()->with('error','Falha!');
-    }
 
     public function getPosts()
     {
@@ -56,7 +31,16 @@ class UserController extends Controller
 
         return Datatables::of($users)
             ->addColumn('action', function ($user) {
-                return '<a href="users/editar/'.$user->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>';
+                return '
+                <a href="users/editar/'.$user->id.'" class="btn btn-xs btn-primary">
+                    <i class="glyphicon glyphicon-edit"></i> Editar
+                </a>
+                <a href="javascript:;" onclick="deleteUser('.$user->id.')" class="btn btn-xs btn-danger deleteUser" >
+                <i class="glyphicon glyphicon-remove-circle"></i> Deletar
+                </a>
+                ';
+
+
             })
             ->make(true);
     }
@@ -79,11 +63,15 @@ class UserController extends Controller
             'name'       => 'required',
             'email'      => 'required|email',
         );
-        $validator = Validator::make(Input::all(), $rules);
+        $niceNames = array(
+            'name' => 'Nome'
+        );
 
+        $validator = Validator::make(Input::all(), $rules);
+        $validator->setAttributeNames($niceNames);
         // process the login
         if ($validator->fails()) {
-            return Redirect::to('users/editar/' . $id . '')
+            return back()
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
@@ -99,4 +87,58 @@ class UserController extends Controller
         }
     }
 
+    public function getInserir()
+    {
+
+        // show the view and pass the nerd to it
+        return view('admin.user.insere',compact('users'));
+    }
+
+
+    public function postInserir(Request $request)
+    {
+        // validate
+        // read more on validation at http://laravel.com/docs/validation
+        $rules = array(
+            'name'       => 'required',
+            'email'      => 'required|email',
+            'password'      => 'required',
+        );
+        $niceNames = array(
+            'name' => 'Nome',
+            'password' => 'Senha'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+        $validator->setAttributeNames($niceNames);
+        // process the login
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator)
+                ->withInput(Input::except('password'));
+        } else {
+            $data = $request->all();
+            if($data['password']==$data['password2']) {
+                $data['password'] = bcrypt($data['password']);
+            }else {
+                swal()->error('Erro!', 'As senhas estão diferentes!', []);
+                return back()
+                    ->withErrors($validator)
+                    ->withInput(Input::except('password'));
+            }
+            User::create($data);
+            SWAL::message('Salvo','Usuário foi salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+            return redirect()->route('admin.users');
+        }
+    }
+
+    public function postDeletar($id)
+    {
+        $user = User::find($id);
+        if($user->delete()) {
+            return 'true';
+        }else{
+            return 'false';
+        }
+    }
 }
