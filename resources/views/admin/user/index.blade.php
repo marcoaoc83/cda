@@ -2,6 +2,7 @@
 
 @section('styles')
     <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" rel="stylesheet">
 @endsection
 @section('content')
 
@@ -35,16 +36,16 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
-                                <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Nome</th>
-                                    <th>Email</th>
-                                    <th style="width: 55px">Ação</th>
-                                </tr>
-                                </thead>
-                            </table>
+                                <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th style="width: 55px">Ação</th>
+                                    </tr>
+                                    </thead>
+                                </table>
                         </div>
                     </div>
                 </div>
@@ -57,6 +58,7 @@
 
 @push('scripts')
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
     @include('vendor.sweetalert.cdn')
     @include('vendor.sweetalert.view')
     @include('vendor.sweetalert.validator')
@@ -65,6 +67,7 @@
             var table = $('.datatable').DataTable({
                 processing: true,
                 serverSide: true,
+                responsive: true,
                 ajax: '{{ route('users.getdata') }}',
                 columns: [
                     {data: 'id', name: 'id'},

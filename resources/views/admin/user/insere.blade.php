@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('content')
     <!-- page content -->
     @include('vendor.sweetalert.cdn')
@@ -15,6 +16,16 @@
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_content">
+                            <a class="btn btn-app" onclick="$('#send').trigger('click')">
+                                <i class="fa fa-save"></i> Salvar
+                            </a>
+                            <a class="btn btn-app">
+                                <i class="fa fa-repeat"></i> Atualizar
+                            </a>
+                        </div>
+                    </div>
                     <div class="x_panel">
                         <div class="x_title">
                             <h2>Novo Usuário <small></small></h2>
@@ -56,12 +67,7 @@
                                         <input value=""  type="password" id="password2" name="password2" required="required" data-match="#password" data-match-error="Senhas não conferem!" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
-                                <div class="ln_solid"></div>
-                                <div class="form-group">
-                                    <div class="col-md-6 col-md-offset-3">
-                                        <button id="send" type="submit" class="btn btn-success">Salvar</button>
-                                    </div>
-                                </div>
+                                <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>
                         </div>
                     </div>

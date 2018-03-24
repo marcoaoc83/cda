@@ -35,7 +35,7 @@
                             <li><a href="#">Modelo Comunicação</a></li>
                             <li><a href="#">Regra Calculo</a></li>
                             <li><a href="#">Pessoa</a></li>
-                            <li><a href="tabelas">Tabelas Sistema</a></li>
+                            <li><a href="{{ route('admin.tabsys') }}">Tabelas Sistema</a></li>
                         </ul>
                     </li>
                     <li><a><i class="fa fa-cogs"></i>Configurações <span class="fa fa-chevron-down"></span></a>

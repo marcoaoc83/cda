@@ -23,4 +23,13 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/users/editar/{id}', 'UserController@getEditar')->name('users.editarGet');
     Route::post('admin/users/editar/{id}', 'UserController@postEditar')->name('users.editarPost');
     Route::post('admin/users/deletar/{id}', 'UserController@postDeletar')->name('users.deletar');
+
+
+    Route::get('admin/tabsys', 'TabelasSistemaController@index')->name('admin.tabsys');
+    Route::get('admin/tabsys/getdata', 'TabelasSistemaController@getPosts')->name('tabsys.getdata');
+    Route::get('admin/tabsys/inserir', 'TabelasSistemaController@getInserir')->name('tabsys.inserirGet');
+    Route::post('admin/tabsys/inserir', 'TabelasSistemaController@postInserir')->name('tabsys.inserirPost');
+    Route::get('admin/tabsys/editar/{id}', 'TabelasSistemaController@getEditar')->name('tabsys.editarGet');
+    Route::post('admin/tabsys/editar/{id}', 'TabelasSistemaController@postEditar')->name('tabsys.editarPost');
+    Route::post('admin/tabsys/deletar/{id}', 'TabelasSistemaController@postDeletar')->name('tabsys.deletar');
 });
