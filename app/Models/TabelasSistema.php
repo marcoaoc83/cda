@@ -10,4 +10,6 @@ class TabelasSistema extends Model
         'TABSYSSG', 'TABSYSNM', 'TABSYSSQL',
     ];
     protected $table = 'cda_tabsys';
+    protected $primaryKey = 'TABSYSID';
+
 }

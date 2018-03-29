@@ -83,10 +83,10 @@
             });
         });
 
-        function deleteUser(dataId) {
+        function deleteTabelasSistema(dataId) {
             swal({
                 title             : "Tem certeza?",
-                text              : "Este usuário será deletado!",
+                text              : "Esta Tabela será deletada!",
                 type              : "warning",
                 showCancelButton  : true,
                 confirmButtonColor: "#DD6B55",

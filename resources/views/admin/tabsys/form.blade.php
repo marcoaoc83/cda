@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('styles')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css" rel="stylesheet">
+@endsection
 @section('content')
     <!-- page content -->
     @include('vendor.sweetalert.cdn')
@@ -20,14 +23,18 @@
                             <a class="btn btn-app" onclick="$('#send').trigger('click')">
                                 <i class="fa fa-save"></i> Salvar
                             </a>
-                            <a class="btn btn-app">
+                            <a class="btn btn-app" href="{{Request::url()}}">
                                 <i class="fa fa-repeat"></i> Atualizar
+                            </a>
+                            <a class="btn btn-app" href="{{ route('admin.tabsys') }}">
+                                <i class="fa fa-arrow-circle-left"></i> Voltar
                             </a>
                         </div>
                     </div>
+
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Dados da Tabela do Sistema <small></small></h2>
+                            <h2>Dados da Tabela <small></small></h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -36,24 +43,48 @@
                         </div>
                         <div class="x_content">
 
-                            <form class="form-horizontal form-label-left" novalidate method="post" action="{{ route('users.editarPost',$user->id) }}">
+                            <form class="form-horizontal form-label-left"    method="post" action="{{ route('tabsys.editarPost',$tabsys->TABSYSID) }}">
                                 {{ csrf_field() }}
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nome <span class="required">*</span>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Sigla <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{$user->name}}" id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name"  required="required" type="text">
+                                        <input value="{{$tabsys->TABSYSSG}}" id="TABSYSSG" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="TABSYSSG"  required="required" type="text">
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="email">Email <span class="required">*</span>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TABSYSNM">Nome <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{$user->email}}"  type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{$tabsys->TABSYSNM}}"  type="text" id="TABSYSNM" name="TABSYSNM" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">SQL
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="TABSYSSQL" name="TABSYSSQL" value="1" class="js-switch" @if($tabsys->TABSYSSQL==1) checked @endif >
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>
+                        </div>
+                    </div>
+                    <div class="x_panel">
+                        <div class="x_content">
+
+                            <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>Sigla</th>
+                                    <th>Nome</th>
+                                    <th>SQL</th>
+                                </tr>
+                                </thead>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -63,3 +94,9 @@
 
     <!-- /page content -->
 @endsection
+
+@push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js">
+    </script>
+
+@endpush

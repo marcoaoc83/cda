@@ -29,12 +29,12 @@ class TabelasSistemaController extends Controller
 
         return Datatables::of($cda_tabsys)
             ->addColumn('action', function ($tabsys) {
-                return;
+
                 return '
-                <a href="tabsys/editar/'.$tabsys->id.'" class="btn btn-xs btn-primary">
+                <a href="tabsys/editar/'.$tabsys->TABSYSID.'" class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i> Editar
                 </a>
-                <a href="javascript:;" onclick="deleteTabelasSistema('.$tabsys->id.')" class="btn btn-xs btn-danger deleteTabelasSistema" >
+                <a href="javascript:;" onclick="deleteTabelasSistema('.$tabsys->TABSYSID.')" class="btn btn-xs btn-danger deleteTabelasSistema" >
                 <i class="glyphicon glyphicon-remove-circle"></i> Deletar
                 </a>
                 ';
@@ -60,36 +60,25 @@ class TabelasSistemaController extends Controller
             ->with('tabsys', $tabsys);
     }
 
-    public function postEditar($id)
+    public function postEditar(Request $request, $id)
     {
-        // validate
-        // read more on validation at http://laravel.com/docs/validation
-        $rules = array(
-            'name'       => 'required',
-            'email'      => 'required|email',
-        );
-        $niceNames = array(
-            'name' => 'Nome'
-        );
 
-        $validator = Validator::make(Input::all(), $rules);
-        $validator->setAttributeNames($niceNames);
-        // process the login
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput(Input::except('password'));
-        } else {
-            // store
-            $tabsys = TabelasSistema::find($id);
-            $tabsys->name       = Input::get('name');
-            $tabsys->email      = Input::get('email');
-            $tabsys->save();
-
-            // redirect
-            SWAL::message('Salvo','Usuário foi salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-            return redirect()->route('admin.cda_tabsys');
+        if  ($request->TABSYSSQL) {
+            $request->TABSYSSQL      =1;
+        }else{
+            $request->TABSYSSQL      =0;
         }
+
+
+        $tabsys = TabelasSistema::findOrFail($id);
+        $tabsys->TABSYSSG       = $request->TABSYSSG;
+        $tabsys->TABSYSNM       = $request->TABSYSNM;
+        $tabsys->TABSYSSQL      = $request->TABSYSSQL;
+        $tabsys->save();
+        // redirect
+        SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+        return redirect()->route('admin.tabsys');
+
     }
 
     public function getInserir()
