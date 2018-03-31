@@ -20,13 +20,13 @@ class CreateRegTabsTable extends Migration
             $table->string('REGTABSG', 10);
             $table->string('REGTABNM', 60)->default(null);
             $table->longText('REGTABSQL');
-            $table->bigInteger('TABSYSID');
+            $table->unsignedBigInteger('TABSYSID');
             $table->string('REGTABIMP', 255)->default(null);
 
             $table->index('tabsysid','cda_regtab_fk_cda_tab_042413d3');
 
             $table->foreign('tabsysid')
-                ->references('tabsysid')->on('s');
+                ->references('tabsysid')->on('cda_tabsys');
 
             $table->timestamps();
 
