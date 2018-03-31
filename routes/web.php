@@ -36,4 +36,6 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/regtab/getdata', 'RegTabController@getPosts')->name('regtab.getdata');
     Route::post('admin/regtab/inserir', 'RegTabController@postInserir')->name('regtab.inserirPost');
     Route::post('admin/regtab/deletar/{id}', 'RegTabController@postDeletar')->name('regtab.deletar');
+    Route::get('admin/regtab/editar', 'RegTabController@getEditar')->name('regtab.editarGet');
+    Route::post('admin/regtab/editar/{id}', 'RegTabController@postEditar')->name('regtab.editarPost');
 });

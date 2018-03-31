@@ -28,34 +28,25 @@ class RegTabController extends Controller
             ->make(true);
     }
 
-    public function getEditar($id)
+    public function getEditar(Request $request)
     {
         // get the nerd
-        $tabsys = RegTab::find($id);
+        $tabsys = RegTab::find($request['id']);
 
         // show the view and pass the nerd to it
-        return View::make('admin.tabsys.form')
-            ->with('tabsys', $tabsys);
+        return  $tabsys;
     }
 
     public function postEditar(Request $request, $id)
     {
 
-        if  ($request->TABSYSSQL) {
-            $request->TABSYSSQL      =1;
-        }else{
-            $request->TABSYSSQL      =0;
-        }
-
-
         $tabsys = RegTab::findOrFail($id);
-        $tabsys->TABSYSSG       = $request->TABSYSSG;
-        $tabsys->TABSYSNM       = $request->TABSYSNM;
-        $tabsys->TABSYSSQL      = $request->TABSYSSQL;
-        $tabsys->save();
-        // redirect
-        SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-        return redirect()->route('admin.tabsys');
+        $tabsys->REGTABSG       = $request->REGTABSG;
+        $tabsys->REGTABNM       = $request->REGTABNM;
+        $tabsys->REGTABSQL      = $request->REGTABSQL;
+        if($tabsys->save())
+            return \response()->json(true);
+        return \response()->json(false);
 
     }
 
