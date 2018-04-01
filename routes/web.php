@@ -24,7 +24,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::post('admin/users/editar/{id}', 'UserController@postEditar')->name('users.editarPost');
     Route::post('admin/users/deletar/{id}', 'UserController@postDeletar')->name('users.deletar');
 
-
+    //Tabela
     Route::get('admin/tabsys', 'TabelasSistemaController@index')->name('admin.tabsys');
     Route::get('admin/tabsys/getdata', 'TabelasSistemaController@getPosts')->name('tabsys.getdata');
     Route::get('admin/tabsys/inserir', 'TabelasSistemaController@getInserir')->name('tabsys.inserirGet');
@@ -38,4 +38,13 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::post('admin/regtab/deletar/{id}', 'RegTabController@postDeletar')->name('regtab.deletar');
     Route::get('admin/regtab/editar', 'RegTabController@getEditar')->name('regtab.editarGet');
     Route::post('admin/regtab/editar/{id}', 'RegTabController@postEditar')->name('regtab.editarPost');
+
+    //Canal
+    Route::get('admin/canal', 'CanalController@index')->name('admin.canal');
+    Route::get('admin/canal/getdata', 'CanalController@getPosts')->name('canal.getdata');
+    Route::get('admin/canal/inserir', 'CanalController@getInserir')->name('canal.inserirGet');
+    Route::post('admin/canal/inserir', 'CanalController@postInserir')->name('canal.inserirPost');
+    Route::get('admin/canal/editar/{id}', 'CanalController@getEditar')->name('canal.editarGet');
+    Route::post('admin/canal/editar/{id}', 'CanalController@postEditar')->name('canal.editarPost');
+    Route::post('admin/canal/deletar/{id}', 'CanalController@postDeletar')->name('canal.deletar');
 });

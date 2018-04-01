@@ -27,7 +27,7 @@
                 <ul class="nav side-menu">
                     <li><a><i class="fa fa-edit"></i>Cadastros<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">Canal</a></li>
+                            <li><a href="{{ route('admin.canal') }}">Canal</a></li>
                             <li><a href="#">Carteira</a></li>
                             <li><a href="#">Evento</a></li>
                             <li><a href="#">Execução Fila</a></li>
