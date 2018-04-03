@@ -32,7 +32,7 @@
                             <li><a href="#">Evento</a></li>
                             <li><a href="#">Execução Fila</a></li>
                             <li><a href="#">Fila Trabalho</a></li>
-                            <li><a href="#">Modelo Comunicação</a></li>
+                            <li><a href="{{ route('admin.modelo') }}">Modelo Comunicação</a></li>
                             <li><a href="#">Regra Calculo</a></li>
                             <li><a href="#">Pessoa</a></li>
                             <li><a href="{{ route('admin.tabsys') }}">Tabelas Sistema</a></li>

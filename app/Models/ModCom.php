@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class ModCom extends Model
 {
     protected $fillable = [
-        'REGTABSG', 'REGTABNM', 'REGTABSQL','TABSYSID','REGTABIMP',
+        'ModComSg', 'ModComNm', 'TpModId','CanalId','ModComAnxId','ModComAnxId'
     ];
-    protected $table = 'cda_regtab';
-    protected $primaryKey = 'REGTABID';
+    protected $table = 'cda_modcom';
+    protected $primaryKey = 'ModComId';
 }

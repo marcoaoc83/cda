@@ -47,4 +47,14 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/canal/editar/{id}', 'CanalController@getEditar')->name('canal.editarGet');
     Route::post('admin/canal/editar/{id}', 'CanalController@postEditar')->name('canal.editarPost');
     Route::post('admin/canal/deletar/{id}', 'CanalController@postDeletar')->name('canal.deletar');
+
+    //Mod Com
+    Route::get('admin/modelo', 'ModeloController@index')->name('admin.modelo');
+    Route::get('admin/modelo/getdata', 'ModeloController@getPosts')->name('modelo.getdata');
+    Route::get('admin/modelo/inserir', 'ModeloController@getInserir')->name('modelo.inserirGet');
+    Route::post('admin/modelo/inserir', 'ModeloController@postInserir')->name('modelo.inserirPost');
+    Route::get('admin/modelo/editar/{id}', 'ModeloController@getEditar')->name('modelo.editarGet');
+    Route::post('admin/modelo/editar/{id}', 'ModeloController@postEditar')->name('modelo.editarPost');
+    Route::post('admin/modelo/deletar/{id}', 'ModeloController@postDeletar')->name('modelo.deletar');
+
 });
