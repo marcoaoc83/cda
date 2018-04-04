@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\ModCom;
+use App\Models\RegTab;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -46,10 +47,19 @@ class ModeloController extends Controller
     {
         // get the nerd
         $modelo = ModCom::find($id);
-
+        $cda_modcom = DB::table('cda_modcom')->get();
+        $tipoModelo = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','TpMod')
+            ->get();
+        ;
+        $canais = DB::table('cda_canal')->get();
         // show the view and pass the nerd to it
         return View::make('admin.modelo.form')
-            ->with('modelo', $modelo);
+            ->with('modelo', $modelo)
+            ->with('cda_modcom', $cda_modcom)
+            ->with('tipoModelo', $tipoModelo)
+            ->with('canais', $canais);
     }
 
     public function postEditar(Request $request, $id)
@@ -57,8 +67,12 @@ class ModeloController extends Controller
 
 
         $modelo = ModCom::findOrFail($id);
-        $modelo->ModComSG       = $request->ModComSG;
-        $modelo->ModComNM       = $request->ModComNM;
+        $modelo->ModComSg       = $request->ModComSg;
+        $modelo->ModComNm       = $request->ModComNm;
+        $modelo->TpModId       = $request->TpModId;
+        $modelo->CanalId       = $request->CanalId;
+        $modelo->ModComAnxId       = $request->ModComAnxId;
+        $modelo->ModTexto       = $request->ModTexto;
         $modelo->save();
         // redirect
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
@@ -68,41 +82,29 @@ class ModeloController extends Controller
 
     public function getInserir()
     {
-
+        $cda_modcom = DB::table('cda_modcom')->get();
+        $tipoModelo = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','TpMod')
+            ->get();
+        ;
+        $canais = DB::table('cda_canal')->get();
         // show the view and pass the nerd to it
-        return view('admin.modelo.insere',compact('cda_modcom'));
+        return view('admin.modelo.insere',[
+            'cda_modcom'=>$cda_modcom,
+            'tipoModelo'=>$tipoModelo,
+            'canais'=>$canais
+        ]);
     }
 
 
     public function postInserir(Request $request)
     {
-        // validate
-        // read more on validation at http://laravel.com/docs/validation
-        $rules = array(
-            'ModComSG'       => 'required',
-            'ModComNM'      => 'required'
-        );
-        $niceNames = array(
-            'ModComSG' => 'Sigla',
-            'ModComNM' => 'Nome'
-        );
+        $data = $request->all();
 
-        $validator = Validator::make(Input::all(), $rules);
-        $validator->setAttributeNames($niceNames);
-        // process the login
-        if ($validator->fails()) {
-            return back()
-                ->withErrors($validator)
-                ->withInput(Input);
-        } else {
-            $data = $request->all();
-            if(isset($data['ModComSQL'])) {
-                $data['ModComSQL'] = 1;
-            }
-            ModCom::create($data);
-            SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-            return redirect()->route('admin.modelo');
-        }
+        ModCom::create($data);
+        SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+        return redirect()->route('admin.modelo');
     }
 
     public function postDeletar($id)

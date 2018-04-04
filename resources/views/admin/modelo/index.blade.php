@@ -81,10 +81,10 @@
             });
         });
 
-        function deleteCanal(dataId) {
+        function deleteModCom(dataId) {
             swal({
                 title             : "Tem certeza?",
-                text              : "Este Canal será deletado!",
+                text              : "Este Modelo será deletado!",
                 type              : "warning",
                 showCancelButton  : true,
                 confirmButtonColor: "#DD6B55",
