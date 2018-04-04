@@ -125,10 +125,6 @@
 @endsection
 
 @push('scripts')
-    <script src="https://bootstrap-wysiwyg.github.io/bootstrap3-wysiwyg/components/wysihtml5x/dist/wysihtml5x-toolbar.min.js"></script>
-    <script src="https://bootstrap-wysiwyg.github.io/bootstrap3-wysiwyg/components/handlebars/handlebars.runtime.min.js"></script>
-    <script src="https://bootstrap-wysiwyg.github.io/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.min.js"></script>
-    <script>
-        $('#ModTexto').wysihtml5();
-    </script>
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=isjq7cqbipdtr3ubdw2gbrebsw72dyio7qj00lnza0453uxb"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
 @endpush
