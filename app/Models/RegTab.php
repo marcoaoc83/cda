@@ -11,4 +11,5 @@ class RegTab extends Model
     ];
     protected $table = 'cda_regtab';
     protected $primaryKey = 'REGTABID';
+    public $timestamps = false;
 }

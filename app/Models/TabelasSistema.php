@@ -11,5 +11,5 @@ class TabelasSistema extends Model
     ];
     protected $table = 'cda_tabsys';
     protected $primaryKey = 'TABSYSID';
-
+    public $timestamps = false;
 }

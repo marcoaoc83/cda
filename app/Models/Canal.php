@@ -11,4 +11,5 @@ class Canal extends Model
     ];
     protected $table = 'cda_canal';
     protected $primaryKey = 'CANALID';
+    public $timestamps = false;
 }

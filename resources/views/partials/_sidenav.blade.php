@@ -29,7 +29,7 @@
                         <ul class="nav child_menu">
                             <li><a href="{{ route('admin.canal') }}">Canal</a></li>
                             <li><a href="#">Carteira</a></li>
-                            <li><a href="#">Evento</a></li>
+                            <li><a href="{{ route('evento.index') }}">Evento</a></li>
                             <li><a href="#">Execução Fila</a></li>
                             <li><a href="#">Fila Trabalho</a></li>
                             <li><a href="{{ route('admin.modelo') }}">Modelo Comunicação</a></li>

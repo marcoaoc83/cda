@@ -57,4 +57,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::post('admin/modelo/editar/{id}', 'ModeloController@postEditar')->name('modelo.editarPost');
     Route::post('admin/modelo/deletar/{id}', 'ModeloController@postDeletar')->name('modelo.deletar');
 
+    Route::get('admin/evento/getdata', 'EventoController@getDadosDataTable')->name('evento.getdata');
+    Route::resource('admin/evento', 'EventoController');
+
 });

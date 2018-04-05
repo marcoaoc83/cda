@@ -11,4 +11,5 @@ class ModCom extends Model
     ];
     protected $table = 'cda_modcom';
     protected $primaryKey = 'ModComId';
+    public $timestamps = false;
 }
