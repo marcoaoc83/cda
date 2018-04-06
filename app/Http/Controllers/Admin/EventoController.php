@@ -90,9 +90,33 @@ class EventoController extends Controller
      * @param  \App\Evento  $evento
      * @return \Illuminate\Http\Response
      */
-    public function edit(Evento $evento)
+    public function edit($id)
     {
-        //
+        // get the nerd
+        $evento = Evento::find($id);
+
+        $TpAS = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','TpAS')
+            ->get();
+        ;
+        $ObjEvento = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','ObjEvento')
+            ->get();
+        ;
+        $TrCtr = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','TrCtr')
+            ->get();
+        ;
+        // show the view and pass the nerd to it
+        return view('admin.evento.edit',[
+            'Evento'=>$evento,
+            'ObjEvento'=>$ObjEvento,
+            'TrCtr'=>$TrCtr,
+            'TpAS'=>$TpAS
+        ]);
     }
 
     /**
@@ -102,9 +126,15 @@ class EventoController extends Controller
      * @param  \App\Evento  $evento
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Evento $evento)
+    public function update(Request $request,$id)
     {
-        //
+
+        $evento = Evento::findOrFail($id);
+        $evento->update($request->except(['_token']));
+
+        // redirect
+        SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+        return redirect()->route('evento.index');
     }
 
     /**
@@ -131,7 +161,7 @@ class EventoController extends Controller
             ->addColumn('action', function ($evento) {
 
                 return '
-                <a href="modelo/editar/'.$evento->EventoId.'" class="btn btn-xs btn-primary">
+                <a href="evento/'.$evento->EventoId.'/edit/" class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i> Editar
                 </a>
                 <a href="javascript:;" onclick="deleteEvento('.$evento->EventoId.')" class="btn btn-xs btn-danger deleteEvento" >

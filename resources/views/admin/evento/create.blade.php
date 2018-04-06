@@ -60,9 +60,9 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpASId">Objetivo do evento <span class="required">*</span></label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ObjEventoId">Objetivo do evento <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="TpASId" name="TpASId" required="required">
+                                        <select class="form-control" id="ObjEventoId" name="ObjEventoId" required="required">
                                             <option value=""></option>
                                                         @foreach($ObjEvento as $var)
                                                 <option value="{{$var->REGTABID}}">{{$var->REGTABNM}}</option>             
@@ -85,9 +85,9 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpASId">Transfere Contribuinte? <span class="required">*</span></label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TransfCtrId">Transfere Contribuinte? <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="TpASId" name="TpASId" required="required">
+                                        <select class="form-control" id="TransfCtrId" name="TransfCtrId" required="required">
                                             <option value=""></option>
                                                         @foreach($TrCtr as $var)
                                                 <option value="{{$var->REGTABID}}">{{$var->REGTABNM}}</option>             
