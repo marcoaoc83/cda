@@ -28,7 +28,7 @@
                     <li><a><i class="fa fa-edit"></i>Cadastros<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('admin.canal') }}">Canal</a></li>
-                            <li><a href="#">Carteira</a></li>
+                            <li><a href="{{ route('carteira.index') }}">Carteira</a></li>
                             <li><a href="{{ route('evento.index') }}">Evento</a></li>
                             <li><a href="#">Execução Fila</a></li>
                             <li><a href="{{ route('fila.index') }}">Fila Trabalho</a></li>
