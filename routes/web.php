@@ -60,4 +60,6 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/evento/getdata', 'EventoController@getDadosDataTable')->name('evento.getdata');
     Route::resource('admin/evento', 'EventoController');
 
+    Route::get('admin/fila/getdata', 'FilaController@getDadosDataTable')->name('fila.getdata');
+    Route::resource('admin/fila', 'FilaController');
 });
