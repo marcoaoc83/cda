@@ -65,4 +65,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/carteira/getdata', 'CarteiraController@getDadosDataTable')->name('carteira.getdata');
     Route::resource('admin/carteira', 'CarteiraController');
+
+    Route::get('admin/pessoa/getdata', 'PessoaController@getDadosDataTable')->name('pessoa.getdata');
+    Route::resource('admin/pessoa', 'PessoaController');
 });
