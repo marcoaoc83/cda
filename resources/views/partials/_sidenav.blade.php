@@ -33,7 +33,7 @@
                             <li><a href="#">Execução Fila</a></li>
                             <li><a href="{{ route('fila.index') }}">Fila Trabalho</a></li>
                             <li><a href="{{ route('admin.modelo') }}">Modelo Comunicação</a></li>
-                            <li><a href="#">Regra Calculo</a></li>
+                            <li><a href="{{ route('regcalc.index') }}">Regra Calculo</a></li>
                             <li><a href="{{ route('pessoa.index') }}">Pessoa</a></li>
                             <li><a href="{{ route('admin.tabsys') }}">Tabelas Sistema</a></li>
                         </ul>

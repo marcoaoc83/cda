@@ -68,4 +68,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/pessoa/getdata', 'PessoaController@getDadosDataTable')->name('pessoa.getdata');
     Route::resource('admin/pessoa', 'PessoaController');
+
+    Route::get('admin/regcalc/getdata', 'RegraCalculoController@getDadosDataTable')->name('regcalc.getdata');
+    Route::resource('admin/regcalc', 'RegraCalculoController');
 });

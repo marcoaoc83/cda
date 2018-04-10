@@ -27,7 +27,7 @@
                             <a class="btn btn-app" href="{{Request::url()}}">
                                 <i class="fa fa-repeat"></i> Atualizar
                             </a>
-                            <a class="btn btn-app" href="{{ route('evento.index') }}">
+                            <a class="btn btn-app" href="{{ route('pessoa.index') }}">
                                 <i class="fa fa-arrow-circle-left"></i> Voltar
                             </a>
                         </div>
