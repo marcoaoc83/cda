@@ -64,6 +64,12 @@
                             </form>
                         </div>
                     </div>
+
+                    @include('admin.canal.valenv.index');
+
+                    @include('admin.canal.tratret.index');
+
+                    @include('admin.canal.tippos.index');
                 </div>
             </div>
         </div>
@@ -72,6 +78,3 @@
     <!-- /page content -->
 @endsection
 
-@push('scripts')
-    @include('admin.canal.js.script');
-@endpush

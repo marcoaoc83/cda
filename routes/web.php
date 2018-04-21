@@ -71,4 +71,13 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/regcalc/getdata', 'RegraCalculoController@getDadosDataTable')->name('regcalc.getdata');
     Route::resource('admin/regcalc', 'RegraCalculoController');
+
+    Route::get('admin/valenv/getdata', 'ValEnvController@getDadosDataTable')->name('valenv.getdata');
+    Route::resource('admin/valenv', 'ValEnvController');
+
+    Route::get('admin/tratret/getdata', 'TratRetController@getDadosDataTable')->name('tratret.getdata');
+    Route::resource('admin/tratret', 'TratRetController');
+
+    Route::get('admin/tippos/getdata', 'TipPosController@getDadosDataTable')->name('tippos.getdata');
+    Route::resource('admin/tippos', 'TipPosController');
 });
