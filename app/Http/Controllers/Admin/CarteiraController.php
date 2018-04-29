@@ -105,11 +105,17 @@ class CarteiraController extends Controller
             ->where('TABSYSSG','OrigTrib')
             ->get();
         ;
+        $EntCart = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','EntCart')
+            ->get();
+        ;
         // show the view and pass the nerd to it
         return view('admin.carteira.edit',[
             'Carteira'=>$carteira,
             'TPAS'=>$TPAS,
             'OBJCART'=>$OBJCART,
+            'EntCart'=>$EntCart,
             'ORIGTRIB'=>$ORIGTRIB
         ]);
     }

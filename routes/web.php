@@ -86,4 +86,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/filaconf/getdata', 'FilaConfController@getDadosDataTable')->name('filaconf.getdata');
     Route::resource('admin/filaconf', 'FilaConfController');
+
+    Route::get('admin/entcart/getdata', 'EntCartController@getDadosDataTable')->name('entcart.getdata');
+    Route::resource('admin/entcart', 'EntCartController');
 });
