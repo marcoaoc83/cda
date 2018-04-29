@@ -6,41 +6,42 @@
 <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        var disp=false;
-        $('.sql').addClass('hidden');
-        if($("#CANALSQL").is(':checked')){
-            disp=true;
-            $('.sql').addClass('hidden');
-        }
-        var table = $('.datatable').DataTable({
+
+        var table = $('#tbHoraExec').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
             ajax: {
-                "url": "{{ route('regtab.getdata') }}",
+                "url": "{{ route('horaexec.getdata') }}",
                 "data": {
-                    "CANALID": '{{$canal->CANALID}}'
+                    "FilaTrabId": '{{$Fila->FilaTrabId}}'
                 }
             },
             columns: [
-                {
-                    data: 'REGTABID',
-                    name: 'REGTABID',
-                    "visible": false,
-                    "searchable": false
-                },
-                {
-                    data: 'REGTABSG',
-                    name: 'REGTABSG'
-                },
+
+
                 {
                     data: 'REGTABNM',
                     name: 'REGTABNM'
                 },
                 {
-                    data: 'REGTABSQL',
-                    name: 'REGTABSQL',
-                    "visible": disp,
+                    data: 'HInicial',
+                    name: 'HInicial'
+                },
+                {
+                    data: 'HFinal',
+                    name: 'HFinal'
+                },
+                {
+                    data: 'DiaSemId',
+                    name: 'DiaSemId',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'id',
+                    name: 'id',
+                    "visible": false,
                     "searchable": false
                 }
             ],
@@ -55,40 +56,27 @@
         });
 
         table.on( 'draw', function () {
-            $('#btEditar').addClass('disabled');
-            $('#btDeletar').addClass('disabled');
+            $('#pnHoraExec #btEditar').addClass('disabled');
+            $('#pnHoraExec #btDeletar').addClass('disabled');
         } );
-
-        $("#CANALSQL").click(function(){
-            // Get the column API object
-            var column = table.column('3');
-
-            // Toggle the visibility
-            column.visible(!column.visible());
-            if($("#CANALSQL").is(':checked')) {
-                $('.sql').removeClass('hidden');
-            }else{
-                $('.sql').addClass('hidden');
-            }
-        });
 
         table.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
-                $('#btEditar').removeClass('disabled');
-                $('#btDeletar').removeClass('disabled');
+                $('#pnHoraExec #btEditar').removeClass('disabled');
+                $('#pnHoraExec #btDeletar').removeClass('disabled');
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
-                $('#btEditar').addClass('disabled');
-                $('#btDeletar').addClass('disabled');
+                $('#pnHoraExec #btEditar').addClass('disabled');
+                $('#pnHoraExec #btDeletar').addClass('disabled');
             } );
 
 
-        $('#formModal').on('submit', function (e) {
-            $.post( "{{ route('regtab.inserirPost') }}", $( "#formModal" ).serialize() )
+        $('#formHoraExec').on('submit', function (e) {
+            $.post( "{{ route('horaexec.store') }}", $( "#formHoraExec" ).serialize() )
                 .done(function( data ){
                     if (data){
-                        $('#myModal').modal('toggle');
+                        $('#myModalHoraExec').modal('toggle');
                         swal({
                             position: 'top-end',
                             type: 'success',
@@ -101,12 +89,12 @@
                 });
             return false;
         });
-        $('#btDeletar').click(function () {
+        $('#pnHoraExec #btDeletar').click(function () {
             var linha =table.row('.selected').data();
-            var REGTABID = linha[   'REGTABID'];
+            var id = linha[   'id'];
             swal({
                 title             : "Tem certeza?",
-                text              : "Esta Registro será deletada!",
+                text              : "Esta registro será deletado!",
                 type              : "warning",
                 showCancelButton  : true,
                 confirmButtonColor: "#DD6B55",
@@ -119,8 +107,10 @@
                         type: 'POST',
                         data: {
                             _token: '{!! csrf_token() !!}',
+                            'id': id,
+                            _method: 'DELETE'
                         },
-                        url: '{{ url('admin/regtab/deletar') }}' + '/' + REGTABID,
+                        url: '{{ url('admin/horaexec/destroy') }}',
                         success: function (msg) {
                             $('.datatable').DataTable().ajax.reload();
                             swal({
@@ -145,21 +135,30 @@
             });
         });
 
-        $('#btEditar').click(function () {
+        $('#pnHoraExec #btEditar').click(function () {
             var linha =table.row('.selected').data();
-            var REGTABID = linha[   'REGTABID'];
+            var FilaTrabId = '{{$Fila->FilaTrabId}}';
+            var HInicial = linha[   'HInicial'];
+            var HFinal = linha[   'HFinal'];
+            var DiaSemId = linha[   'DiaSemId'];
+            var id = linha['id'];
             $.ajax({
                 dataType: 'json',
                 type: 'GET',
                 data: {
                     _token: '{!! csrf_token() !!}',
-                    id:REGTABID
+                    FilaTrabId:FilaTrabId,
+                    DiaSemId:DiaSemId,
+                    HInicial:HInicial,
+                    HFinal:HFinal,
+                    _method: 'GET'
                 },
-                url: '{{ url('admin/regtab/editar') }}',
+                url: '{{ url('admin/horaexec/1/edit/') }}',
                 success: function (retorno) {
-                    $('#REGTABSG_edt').val(retorno['REGTABSG']);
-                    $('#REGTABNM_edt').val(retorno['REGTABNM']);
-                    $('#REGTABSQL_edt').val(retorno['REGTABSQL']);
+                    $('#pnHoraExec #formEditar #DiaSemId').val(retorno['DiaSemId']);
+                    $('#pnHoraExec #formEditar #HInicial').val(retorno['HInicial']);
+                    $('#pnHoraExec #formEditar #HFinal').val(retorno['HFinal']);
+                    $('#pnHoraExec #formEditar #id').val(id);
                 },
                 error: function (retorno) {
                     console.log(retorno);
@@ -167,13 +166,17 @@
             });
         });
 
-        $('#formEditar').on('submit', function (e) {
-            var linha =table.row('.selected').data();
-            var REGTABID = linha[   'REGTABID'];
-            $.post( '{{ url('admin/regtab/editar') }}' + '/' + REGTABID, $( "#formEditar" ).serialize() )
-                .done(function( data ){
+        $('#pnHoraExec #formEditar').on('submit', function (e) {
+            var formData = $('#pnHoraExec #formEditar').serialize();
+
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                data:formData,
+                url: '{{ url('admin/horaexec/') }}'+'/' +$('#pnHoraExec #formEditar #id').val(),
+                success: function (data) {
                     if (data){
-                        $('#modalEdita').modal('toggle');
+                        $('#myModalHoraExecEdita').modal('toggle');
                         swal({
                             position: 'top-end',
                             type: 'success',
@@ -183,9 +186,9 @@
                         });
                         table.ajax.reload();
                     }
-                })
-                .error(function (retorno){
-                    $('#modalEdita').modal('toggle');
+            },
+                error: function (retorno) {
+                    $('#myModalHoraExecEdita').modal('toggle');
                     console.log(retorno.responseJSON.message);
                     swal({
                         position: 'top-end',
@@ -195,11 +198,24 @@
                         showConfirmButton: false,
                         timer: 7500
                     });
-                })
-            ;
+
+                }
+            });
+
             return false;
         });
 
 
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.js"></script>
+<script>
+    $("#HInicial").inputmask({
+        mask: ['99:99'],
+        keepStatic: true
+    });
+    $("#HFinal").inputmask({
+        mask: ['99:99'],
+        keepStatic: true
     });
 </script>

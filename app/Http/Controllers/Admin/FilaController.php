@@ -91,10 +91,17 @@ class FilaController extends Controller
         $Evento = DB::table('cda_evento')->get();
         ;
 
+        $DiaSem = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','DiaSem')
+            ->get();
+        ;
+
         // show the view and pass the nerd to it
         return view('admin.fila.edit',[
             'Evento'=>$Evento,
             'TpMod'=>$TpMod,
+            'DiaSem'=>$DiaSem,
             'Fila'=>$fila
         ]);
     }

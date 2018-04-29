@@ -80,4 +80,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/tippos/getdata', 'TipPosController@getDadosDataTable')->name('tippos.getdata');
     Route::resource('admin/tippos', 'TipPosController');
+
+    Route::get('admin/horaexec/getdata', 'HoraExecController@getDadosDataTable')->name('horaexec.getdata');
+    Route::resource('admin/horaexec', 'HoraExecController');
 });

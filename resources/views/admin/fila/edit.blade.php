@@ -75,8 +75,14 @@
                                 </div>
 
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
+                            </form>
                         </div>
                     </div>
+
+
+                    @include('admin.fila.horaexec.index');
+
+
                 </div>
             </div>
         </div>
