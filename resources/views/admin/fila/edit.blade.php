@@ -81,6 +81,7 @@
 
 
                     @include('admin.fila.horaexec.index');
+                    @include('admin.fila.filaconf.index');
 
 
                 </div>

@@ -97,11 +97,17 @@ class FilaController extends Controller
             ->get();
         ;
 
+        $RegTab = DB::table('cda_regtab')->get();
+
+        $TabTab = DB::table('cda_tabsys')->get();
+
         // show the view and pass the nerd to it
         return view('admin.fila.edit',[
             'Evento'=>$Evento,
             'TpMod'=>$TpMod,
             'DiaSem'=>$DiaSem,
+            'RegTab'=>$RegTab,
+            'TabTab'=>$TabTab,
             'Fila'=>$fila
         ]);
     }

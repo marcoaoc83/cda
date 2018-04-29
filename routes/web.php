@@ -83,4 +83,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/horaexec/getdata', 'HoraExecController@getDadosDataTable')->name('horaexec.getdata');
     Route::resource('admin/horaexec', 'HoraExecController');
+
+    Route::get('admin/filaconf/getdata', 'FilaConfController@getDadosDataTable')->name('filaconf.getdata');
+    Route::resource('admin/filaconf', 'FilaConfController');
 });
