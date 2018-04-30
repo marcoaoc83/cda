@@ -104,18 +104,39 @@ class CarteiraController extends Controller
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','OrigTrib')
             ->get();
-        ;
+
         $EntCart = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','EntCart')
             ->get();
-        ;
+
+        $FaseCart = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','FaseCart')
+            ->get();
+
+        $Evento = DB::table('cda_evento')->get();
+
+        $ModCom = DB::table('cda_modcom')->get();
+
+        $FilaTrab = DB::table('cda_filatrab')->get();
+
+        $Canal = DB::table('cda_canal')->get();
+
+        $RoteiroProx = DB::table('cda_roteiro')->get();
+
         // show the view and pass the nerd to it
         return view('admin.carteira.edit',[
             'Carteira'=>$carteira,
             'TPAS'=>$TPAS,
             'OBJCART'=>$OBJCART,
             'EntCart'=>$EntCart,
+            'FaseCart'=>$FaseCart,
+            'Evento'=>$Evento,
+            'ModCom'=>$ModCom,
+            'FilaTrab'=>$FilaTrab,
+            'Canal'=>$Canal,
+            'RoteiroProx'=>$RoteiroProx,
             'ORIGTRIB'=>$ORIGTRIB
         ]);
     }

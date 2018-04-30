@@ -89,4 +89,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/entcart/getdata', 'EntCartController@getDadosDataTable')->name('entcart.getdata');
     Route::resource('admin/entcart', 'EntCartController');
+
+    Route::get('admin/roteiro/getdata', 'RoteiroController@getDadosDataTable')->name('roteiro.getdata');
+    Route::resource('admin/roteiro', 'RoteiroController');
 });
