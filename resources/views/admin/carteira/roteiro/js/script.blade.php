@@ -115,20 +115,34 @@
             if ( type === 'row' ) {
                 $('#pnRoteiro #btEditar').removeClass('disabled');
                 $('#pnRoteiro #btDeletar').removeClass('disabled');
+
                 var RoteiroId = tableRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
+
                 var tableExecRot = $('#tbExecRot').DataTable();
                 var url = "{{ route('execrot.getdata') }}"+"/?RoteiroId="+RoteiroId[0];
                 tableExecRot.ajax.url(url).load( );
 
+                var tablePrRotCanal = $('#tbPrRotCanal').DataTable();
+                var url = "{{ route('prrotcanal.getdata') }}"+"/?RoteiroId="+RoteiroId[0];
+                tablePrRotCanal.ajax.url(url).load( );
+
                 $('#formExecRot #RoteiroId').val(RoteiroId[0]);
-                $('#formEditar #RoteiroId').val(RoteiroId[0]);
+                $('#myModalExecRotEdita #RoteiroId').val(RoteiroId[0]);
                 $('#pnExecRot #btInserir').removeClass('disabled');
+
+                $('#formPrRotCanal #RoteiroId').val(RoteiroId[0]);
+                $('#myPrRotCanal #RoteiroId').val(RoteiroId[0]);
+                $('#pnPrRotCanal #btInserir').removeClass('disabled');
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
                 $('#pnRoteiro #btEditar').addClass('disabled');
                 $('#pnRoteiro #btDeletar').addClass('disabled');
                 $('#pnExecRot #btInserir').addClass('disabled');
+
+                $('#pnRoteiro #btEditar').addClass('disabled');
+                $('#pnRoteiro #btDeletar').addClass('disabled');
+                $('#pnPrRotCanal #btInserir').addClass('disabled');
             } );
 
 

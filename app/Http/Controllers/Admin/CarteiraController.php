@@ -115,6 +115,11 @@ class CarteiraController extends Controller
             ->where('TABSYSSG','ExecRot')
             ->get();
 
+        $TpPos = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','TpPos')
+            ->get();
+
         $FaseCart = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','FaseCart')
@@ -140,6 +145,7 @@ class CarteiraController extends Controller
             'Evento'=>$Evento,
             'ModCom'=>$ModCom,
             'FilaTrab'=>$FilaTrab,
+            'TpPos'=>$TpPos,
             'Canal'=>$Canal,
             'RoteiroProx'=>$RoteiroProx,
             'ExecRot'=>$ExecRot,
