@@ -92,4 +92,8 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/roteiro/getdata', 'RoteiroController@getDadosDataTable')->name('roteiro.getdata');
     Route::resource('admin/roteiro', 'RoteiroController');
+
+
+    Route::get('admin/execrot/getdata', 'ExecRotController@getDadosDataTable')->name('execrot.getdata');
+    Route::resource('admin/execrot', 'ExecRotController');
 });

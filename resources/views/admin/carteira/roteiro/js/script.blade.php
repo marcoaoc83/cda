@@ -7,7 +7,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        var table = $('#tbRoteiro').DataTable({
+        var tableRoteiro = $('#tbRoteiro').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
@@ -106,20 +106,29 @@
             }
         });
 
-        table.on( 'draw', function () {
+        tableRoteiro.on( 'draw', function () {
             $('#pnRoteiro #btEditar').addClass('disabled');
             $('#pnRoteiro #btDeletar').addClass('disabled');
         } );
 
-        table.on( 'select', function ( e, dt, type, indexes ) {
+        tableRoteiro.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
                 $('#pnRoteiro #btEditar').removeClass('disabled');
                 $('#pnRoteiro #btDeletar').removeClass('disabled');
+                var RoteiroId = tableRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
+                var tableExecRot = $('#tbExecRot').DataTable();
+                var url = "{{ route('execrot.getdata') }}"+"/?RoteiroId="+RoteiroId[0];
+                tableExecRot.ajax.url(url).load( );
+
+                $('#formExecRot #RoteiroId').val(RoteiroId[0]);
+                $('#formEditar #RoteiroId').val(RoteiroId[0]);
+                $('#pnExecRot #btInserir').removeClass('disabled');
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
                 $('#pnRoteiro #btEditar').addClass('disabled');
                 $('#pnRoteiro #btDeletar').addClass('disabled');
+                $('#pnExecRot #btInserir').addClass('disabled');
             } );
 
 
@@ -135,13 +144,13 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        table.ajax.reload();
+                        tableRoteiro.ajax.reload();
                     }
                 });
             return false;
         });
         $('#pnRoteiro #btDeletar').click(function () {
-            var linha =table.row('.selected').data();
+            var linha =tableRoteiro.row('.selected').data();
             var id = linha[   'RoteiroId'];
             swal({
                 title             : "Tem certeza?",
@@ -187,7 +196,7 @@
         });
 
         $('#pnRoteiro #btEditar').click(function () {
-            var linha =table.row('.selected').data();
+            var linha =tableRoteiro.row('.selected').data();
             var RoteiroOrd = linha[   'RoteiroOrd'];
             var FaseCartId = linha[   'FaseCartId'];
             var EventoId = linha[   'EventoId'];
@@ -246,7 +255,7 @@
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        table.ajax.reload();
+                        tableRoteiro.ajax.reload();
                     }
             },
                 error: function (retorno) {
