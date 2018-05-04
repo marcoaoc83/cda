@@ -98,4 +98,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/prrotcanal/getdata', 'PrRotCanalController@getDadosDataTable')->name('prrotcanal.getdata');
     Route::resource('admin/prrotcanal', 'PrRotCanalController');
+
+    Route::get('admin/inscrmun/getdata', 'InscrMunController@getDadosDataTable')->name('inscrmun.getdata');
+    Route::resource('admin/inscrmun', 'InscrMunController');
 });

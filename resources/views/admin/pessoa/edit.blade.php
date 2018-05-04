@@ -16,7 +16,6 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
@@ -32,55 +31,72 @@
                             </a>
                         </div>
                     </div>
-
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Dados da Pessoa <small></small></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-
-                            <form class="form-horizontal form-label-left"    method="post" action="{{ route('pessoa.update',$Pessoa->PESSOAID) }}">
-                                {{ csrf_field() }}
-                                {{ method_field('PUT') }}
-                                <div class="item form-group ">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CARTEIRASG">Tipo
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12"  data-toggle="buttons">
-                                        <label class="btn btn-default  @if ($Pessoa->PESSOAFJ === 'PF') active @endif ">
-                                            <input type="radio" name="PESSOAFJ" id="PESSOAFJ_F" value="PF" @if ($Pessoa->PESSOAFJ === 'PF') checked @endif  > Física
-                                        </label>
-                                        <label class="btn btn-default @if ($Pessoa->PESSOAFJ === 'PJ') active @endif  ">
-                                            <input type="radio" name="PESSOAFJ" id="PESSOAFJ_J"  value="PJ"  @if ($Pessoa->PESSOAFJ === 'PJ') checked @endif > Jurídica
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CPF_CNPJNR">CPF / CNPJ <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ $Pessoa->CPF_CNPJNR }}" id="CPF_CNPJNR"  class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="CPF_CNPJNR"  required="required" type="text">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PESSOANMRS">Nome <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ $Pessoa->PESSOANMRS }}"  type="text" id="PESSOANMRS" name="PESSOANMRS" required="required" class="form-control col-md-7 col-xs-12">
-                                    </div>
-                                </div>
-
-                                <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
+            <ul class="nav nav-tabs">
+                <li role="presentation" class="active"><a data-toggle="tab" href="#1a">Dados</a></li>
+                {{--<li role="presentation"><a data-toggle="tab" href="#2a">Informações Economicas</a></li>--}}
+                {{--<li role="presentation"><a data-toggle="tab" href="#3a">Parcelas</a></li>--}}
+            </ul>
+
+            <div class="tab-content clearfix">
+
+                <div class="row tab-pane active" id="1a">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Dados da Pessoa <small></small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
+
+                                <form class="form-horizontal form-label-left"    method="post" action="{{ route('pessoa.update',$Pessoa->PESSOAID) }}">
+                                    {{ csrf_field() }}
+                                    {{ method_field('PUT') }}
+                                    <div class="item form-group ">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CARTEIRASG">Tipo
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12"  data-toggle="buttons">
+                                            <label class="btn btn-default  @if ($Pessoa->PESSOAFJ === 'PF') active @endif ">
+                                                <input type="radio" name="PESSOAFJ" id="PESSOAFJ_F" value="PF" @if ($Pessoa->PESSOAFJ === 'PF') checked @endif  > Física
+                                            </label>
+                                            <label class="btn btn-default @if ($Pessoa->PESSOAFJ === 'PJ') active @endif  ">
+                                                <input type="radio" name="PESSOAFJ" id="PESSOAFJ_J"  value="PJ"  @if ($Pessoa->PESSOAFJ === 'PJ') checked @endif > Jurídica
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CPF_CNPJNR">CPF / CNPJ <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input value="{{ $Pessoa->CPF_CNPJNR }}" id="CPF_CNPJNR"  class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="CPF_CNPJNR"  required="required" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PESSOANMRS">Nome <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input value="{{ $Pessoa->PESSOANMRS }}"  type="text" id="PESSOANMRS" name="PESSOANMRS" required="required" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+
+                                    <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        @include('admin.pessoa.inscrmun.index');
+                    </div>
+                </div>
+
+            </div>
+
         </div>
     </div>
 

@@ -71,9 +71,14 @@ class PessoaController extends Controller
         // get the nerd
         $pessoa = Pessoa::find($id);
 
+        $ORIGTRIB = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','OrigTrib')
+            ->get();
         // show the view and pass the nerd to it
         return view('admin.pessoa.edit',[
-            'Pessoa'=>$pessoa
+            'Pessoa'=>$pessoa,
+            'ORIGTRIB'=>$ORIGTRIB
         ]);
     }
 
