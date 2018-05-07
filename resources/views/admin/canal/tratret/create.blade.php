@@ -32,6 +32,7 @@
                             <select class="form-control" id="EventoId" name="EventoId" required="required">
                                 <option value=""></option>
                                     @foreach($Evento as $var)
+                                        @if($var->ObjEventoId != 30) @continue @endif;
                                         <option value="{{$var->EventoId}}" >({{$var->EventoSg}}) - {{$var->EventoNm}}</option>             
                                     @endforeach
                             </select>

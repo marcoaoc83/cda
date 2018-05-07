@@ -42,6 +42,7 @@
                                     <th>Id</th>
                                     <th>Sigla</th>
                                     <th>Nome</th>
+                                    <th>Canal</th>
                                     <th style="width: 55px">Ação</th>
                                 </tr>
                                 </thead>
@@ -73,6 +74,7 @@
                     {data: 'ModComID', name: 'ModComID'},
                     {data: 'ModComSG', name: 'ModComSG'},
                     {data: 'ModComNM', name: 'ModComNM'},
+                    {data: 'CANALNM', name: 'CANALNM'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 "language": {

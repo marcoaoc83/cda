@@ -13,18 +13,6 @@
                     <input type="hidden" name="FilaTrabId" value="{{$Fila->FilaTrabId}}">
 
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TABSYSID">Tab Tab<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="TABSYSID" name="TABSYSID" required="required" onclick="reloadVariaveis(this.value)">
-                                <option value=""></option>
-                                @foreach($TabTab as $var)
-                                    <option value="{{$var->TABSYSID}}" >{{$var->TABSYSSG}} - {{$var->TABSYSNM}}</option>             
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FilaConfId">Variáveis<span class="required">*</span>
@@ -33,7 +21,8 @@
                             <select class="form-control" id="FilaConfId" name="FilaConfId" required="required">
                                 <option value=""></option>
                                 @foreach($RegTab as $var)
-                                    <option value="{{$var->REGTABID}}" data-tabtab="{{$var->TABSYSID}}" hidden >{{$var->REGTABSG}} - {{$var->REGTABNM}}</option>             
+                                    @if($var->TABSYSID != 35) @continue @endif;
+                                    <option value="{{$var->REGTABID}}" data-tabtab="{{$var->TABSYSID}}"  >{{$var->REGTABSG}} - {{$var->REGTABNM}}</option>             
                                 @endforeach
                             </select>
                         </div>

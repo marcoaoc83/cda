@@ -20,7 +20,9 @@
             columns: [
                 {
                     data: 'TABSYSNM',
-                    name: 'TABSYSNM'
+                    name: 'TABSYSNM',
+                    "visible": false,
+                    "searchable": false
                 },
                 {
                     data: 'REGTABNM',
@@ -89,6 +91,7 @@
                             timer: 1500
                         });
                         table.ajax.reload();
+                        $("#formFilaConf").trigger('reset');
                     }
                 });
             return false;
@@ -159,7 +162,6 @@
                 },
                 url: '{{ url('admin/filaconf/1/edit/') }}',
                 success: function (retorno) {
-                    reloadVariaveisEdit(retorno['TABSYSID']);
                     $('#pnFilaConf #formEditar #TABSYSID').val(retorno['TABSYSID']);
                     $('#pnFilaConf #formEditar #FilaConfId').val(retorno['FilaConfId']);
                     $('#pnFilaConf #formEditar #FilaConfDs').val(retorno['FilaConfDs']);
@@ -213,28 +215,5 @@
 
     });
 
-    function reloadVariaveis(TABSYSID){
-        $("#formFilaConf #FilaConfId option").each(function()
-        {
-            if($(this ).data( "tabtab" )==TABSYSID){
-                $(this ).show();
-            }else{
-                $(this ).hide();
-            }
-        });
-        $('#formFilaConf #FilaConfId').val('');
-    }
-
-    function reloadVariaveisEdit(TABSYSID){
-        $("#formEditar #FilaConfId option").each(function()
-        {
-            if($(this ).data( "tabtab" )==TABSYSID){
-                $(this ).show();
-            }else{
-                $(this ).hide();
-            }
-        });
-        $('#formEditar #FilaConfId').val('');
-    }
 
 </script>

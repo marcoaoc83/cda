@@ -66,7 +66,7 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select class="form-control" id="TpRegCalcId" name="TpRegCalcId" >
                                             <option value=""></option>
-                                                        @foreach($TpJuro as $var)
+                                                        @foreach($TpRegCalc as $var)
                                                 <option value="{{$var->REGTABID}}"  @if ($RegraCalculo->TpRegCalcId === $var->REGTABID) selected @endif>{{$var->REGTABNM}}</option>             
                                                             @endforeach
                                         </select>

@@ -90,6 +90,7 @@
                             timer: 1500
                         });
                         table.ajax.reload();
+                        $("#formValEnv").trigger('reset');
                     }
                 });
             return false;

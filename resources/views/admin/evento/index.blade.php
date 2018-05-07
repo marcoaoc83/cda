@@ -40,8 +40,10 @@
                                 <thead>
                                 <tr>
                                     <th>Id</th>
+                                    <th>Ordem</th>
                                     <th>Sigla</th>
                                     <th>Nome</th>
+                                    <th>Objetivo do Evento</th>
                                     <th style="width: 55px">Ação</th>
                                 </tr>
                                 </thead>
@@ -71,8 +73,10 @@
                 ajax: '{{ route('evento.getdata') }}',
                 columns: [
                     {data: 'EventoId', name: 'EventoId'},
+                    {data: 'EventoOrd', name: 'EventoOrd'},
                     {data: 'EventoSg', name: 'EventoSg'},
                     {data: 'EventoNm', name: 'EventoNm'},
+                    {data: 'REGTABNM', name: 'REGTABNM'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 "language": {

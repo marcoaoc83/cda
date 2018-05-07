@@ -80,6 +80,7 @@
                             timer: 1500
                         });
                         table.ajax.reload();
+                        $("#formTipPos").trigger('reset');
                     }
                 });
             return false;

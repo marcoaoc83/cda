@@ -85,6 +85,7 @@
                             timer: 1500
                         });
                         table.ajax.reload();
+                        $("#formTratRet").trigger('reset');
                     }
                 });
             return false;

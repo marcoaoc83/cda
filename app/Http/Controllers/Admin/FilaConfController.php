@@ -106,7 +106,7 @@ class FilaConfController extends Controller
     {
         $filaconf = FilaConf::select(['cda_filaconf.*','TABSYSNM','REGTABNM'])
             ->join('cda_regtab', 'cda_regtab.REGTABID', '=', 'cda_filaconf.FilaConfId')
-            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_filaconf.TABSYSID')
+            ->leftjoin('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_filaconf.TABSYSID')
             ->where('cda_filaconf.FilaTrabId',$request->FilaTrabId)
             ->get();
         ;

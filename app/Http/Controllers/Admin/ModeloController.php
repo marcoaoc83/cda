@@ -26,7 +26,8 @@ class ModeloController extends Controller
 
     public function getPosts()
     {
-        $cda_modcom = ModCom::select(['ModComID', 'ModComSG', 'ModComNM']);
+        $cda_modcom = ModCom::select(['ModComID', 'ModComSG', 'ModComNM','CANALNM'])
+            ->join('cda_canal', 'cda_canal.CANALID', '=', 'cda_modcom.CanalId');
 
         return Datatables::of($cda_modcom)
             ->addColumn('action', function ($modelo) {

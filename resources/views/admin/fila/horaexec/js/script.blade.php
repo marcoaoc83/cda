@@ -26,11 +26,21 @@
                 },
                 {
                     data: 'HInicial',
-                    name: 'HInicial'
+                    name: 'HInicial',
+                    render: function ( data, type, row ) {
+                        if(data)
+                            return data.substring(0,5);
+                        return '';
+                    }
                 },
                 {
                     data: 'HFinal',
-                    name: 'HFinal'
+                    name: 'HFinal',
+                    render: function ( data, type, row ) {
+                        if(data)
+                            return data.substring(0,5);
+                        return '';
+                    }
                 },
                 {
                     data: 'DiaSemId',
@@ -85,6 +95,7 @@
                             timer: 1500
                         });
                         table.ajax.reload();
+                        $("#formHoraExec").trigger('reset');
                     }
                 });
             return false;
@@ -149,8 +160,8 @@
                     _token: '{!! csrf_token() !!}',
                     FilaTrabId:FilaTrabId,
                     DiaSemId:DiaSemId,
-                    HInicial:HInicial,
-                    HFinal:HFinal,
+                    HInicial:(HInicial || "").substring(0, 5),
+                    HFinal:(HFinal || "").substring(0, 5),
                     _method: 'GET'
                 },
                 url: '{{ url('admin/horaexec/1/edit/') }}',
