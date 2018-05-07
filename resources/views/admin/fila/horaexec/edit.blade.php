@@ -29,7 +29,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="HInicial">Hora Inicial <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" class="form-control has-feedback-left date-picker" id="HInicial" name="HInicial" aria-describedby="inputSuccess2Status">
+                            <input type="text" class="form-control has-feedback-left date-picker dtime" id="HInicial" name="HInicial" aria-describedby="inputSuccess2Status">
                             <span class="fa fa-clock-o form-control-feedback left" aria-hidden="true"></span>
                             <span id="inputSuccess2Status" class="sr-only">(success)</span>
                         </div>
@@ -39,7 +39,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="HFinal">Hora Final <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" class="form-control has-feedback-left date-picker" id="HFinal" name="HFinal" aria-describedby="inputSuccess2Status">
+                            <input type="text" class="form-control has-feedback-left date-picker dtime" id="HFinal" name="HFinal" aria-describedby="inputSuccess2Status">
                             <span class="fa fa-clock-o form-control-feedback left" aria-hidden="true"></span>
                             <span id="inputSuccess2Status" class="sr-only">(success)</span>
                         </div>

@@ -221,11 +221,7 @@
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.js"></script>
 <script>
-    $("#HInicial").inputmask({
-        mask: ['99:99'],
-        keepStatic: true
-    });
-    $("#HFinal").inputmask({
+    $(".dtime").inputmask({
         mask: ['99:99'],
         keepStatic: true
     });
