@@ -34,9 +34,9 @@
                 </div>
             </div>
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a data-toggle="tab" href="#1a">Dados</a></li>
-                {{--<li role="presentation"><a data-toggle="tab" href="#2a">Informações Economicas</a></li>--}}
-                {{--<li role="presentation"><a data-toggle="tab" href="#3a">Parcelas</a></li>--}}
+                <li role="presentation" class="active"><a data-toggle="tab" href="#1a">Dados Cadastrais</a></li>
+                <li role="presentation"><a data-toggle="tab" href="#2a">Informações Economicas</a></li>
+                <li role="presentation"><a data-toggle="tab" href="#3a">Parcelas</a></li>
             </ul>
 
             <div class="tab-content clearfix">
