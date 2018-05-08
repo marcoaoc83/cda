@@ -101,4 +101,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/inscrmun/getdata', 'InscrMunController@getDadosDataTable')->name('inscrmun.getdata');
     Route::resource('admin/inscrmun', 'InscrMunController');
+
+    Route::get('admin/pscanal/getdata', 'PsCanalController@getDadosDataTable')->name('pscanal.getdata');
+    Route::resource('admin/pscanal', 'PsCanalController');
 });

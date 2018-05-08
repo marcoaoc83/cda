@@ -93,6 +93,9 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         @include('admin.pessoa.inscrmun.index');
                     </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        @include('admin.pessoa.pscanal.index');
+                    </div>
                 </div>
 
             </div>
