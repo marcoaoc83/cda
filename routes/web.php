@@ -104,4 +104,24 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/pscanal/getdata', 'PsCanalController@getDadosDataTable')->name('pscanal.getdata');
     Route::resource('admin/pscanal', 'PsCanalController');
+
+    Route::get('admin/socresp/getdata', 'SocRespController@getDadosDataTable')->name('socresp.getdata');
+    Route::resource('admin/socresp', 'SocRespController');
+
+    Route::get('admin/ativecon/getdata', 'AtiveComController@getDadosDataTable')->name('ativecon.getdata');
+    Route::resource('admin/ativecon', 'AtiveComController');
+
+    Route::get('admin/credport/getdata', 'CredPortController@getDadosDataTable')->name('credport.getdata');
+    Route::resource('admin/credport', 'CredPortController');
+
+    Route::get('admin/parcela/getdata', 'ParcelaController@getDadosDataTable')->name('parcela.getdata');
+    Route::resource('admin/parcela', 'ParcelaController');
+
+    Route::get('admin/pcrot/getdata', 'PcRotController@getDadosDataTable')->name('pcrot.getdata');
+    Route::resource('admin/pcrot', 'PcRotController');
+
+    Route::get('admin/pcevento/getdata', 'PcEventoController@getDadosDataTable')->name('pcevento.getdata');
+    Route::resource('admin/pcevento', 'PcEventoController');
+
+
 });

@@ -42,6 +42,7 @@
             <div class="tab-content clearfix">
 
                 <div class="row tab-pane active" id="1a">
+                    <p> </p>
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="x_panel">
                             <div class="x_title">
@@ -91,13 +92,37 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        @include('admin.pessoa.inscrmun.index');
+                        @include('admin.pessoa.inscrmun.index')
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        @include('admin.pessoa.pscanal.index');
+                        @include('admin.pessoa.pscanal.index')
+                    </div>
+
+                </div>
+                <div class="row tab-pane" id="2a">
+                    <p> </p>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        @include('admin.pessoa.socresp.index')
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @include('admin.pessoa.ativecon.index')
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @include('admin.pessoa.credport.index')
                     </div>
                 </div>
-
+                <div class="row tab-pane" id="3a">
+                    <p> </p>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        @include('admin.pessoa.parcela.index')
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @include('admin.pessoa.pcrot.index')
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        @include('admin.pessoa.pcevento.index')
+                    </div>
+                </div>
             </div>
 
         </div>
