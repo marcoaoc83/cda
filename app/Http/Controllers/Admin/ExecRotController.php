@@ -16,9 +16,9 @@ class ExecRotController extends Controller
      */
     public function index()
     {
-        $cda_execrot = DB::table('cda_execrot')->get();
+        $cda_pscanal = DB::table('cda_pscanal')->get();
 
-        return view('admin.carteira.execrot.index',compact('cda_execrot'));
+        return view('admin.pessoa.pscanal.index',compact('cda_pscanal'));
     }
 
     /**

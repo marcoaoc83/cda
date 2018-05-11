@@ -9,7 +9,51 @@
 
         var tableSocResp = $('#tbSocResp').DataTable({
             processing: true,
+            serverSide: true,
+            responsive: true,
+            destroy: true,
+            ajax: {
+                "url": "{{ route('socresp.getdata') }}",
+                "data": {
+                    "PESSOAID": '{{$Pessoa->PESSOAID}}'
+                }
+            },
+            columns: [
+                {
+                    data: 'CPF_CNPJNR',
+                    name: 'CPF_CNPJNR'
+                },
+                {
+                    data: 'PESSOANMRS',
+                    name: 'PESSOANMRS'
+                },
 
+                {
+                    data: 'InicioDt',
+                    name: 'InicioDt'
+                },
+                {
+                    data: 'TerminoDt',
+                    name: 'TerminoDt'
+                },
+                {
+                    data: 'PessoaIdSR',
+                    name: 'PessoaIdSR',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'SocRespId',
+                    name: 'SocRespId',
+                    "visible": false,
+                    "searchable": false
+                }
+            ],
+            select: {
+                style: 'single',
+                info: false
+
+            },
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
             }
@@ -45,13 +89,14 @@
                             timer: 1500
                         });
                         tableSocResp.ajax.reload();
+                        $("#formSocResp").trigger('reset');
                     }
                 });
             return false;
         });
         $('#pnSocResp #btDeletar').click(function () {
             var linha =tableSocResp.row('.selected').data();
-            var INSCRMUNID = linha[   'INSCRMUNID'];
+            var SocRespId = linha[   'SocRespId'];
             swal({
                 title             : "Tem certeza?",
                 text              : "Esta registro será deletado!",
@@ -67,12 +112,12 @@
                         type: 'POST',
                         data: {
                             _token: '{!! csrf_token() !!}',
-                            'INSCRMUNID': INSCRMUNID,
+                            'SocRespId': SocRespId,
                             _method: 'DELETE'
                         },
                         url: '{{ url('admin/socresp/destroy') }}',
                         success: function (msg) {
-                            $('.datatable').DataTable().ajax.reload();
+                            $('#tbSocResp').DataTable().ajax.reload();
                             swal({
                                 position: 'top-end',
                                 type: 'success',
@@ -98,25 +143,11 @@
         $('#pnSocResp #btEditar').click(function () {
             var linha =tableSocResp.row('.selected').data();
 
-            var INSCRMUNID = linha['INSCRMUNID'];
-            var INSCRMUNNR = linha['INSCRMUNNR'];
-            var ORIGTRIBID = linha['ORIGTRIBID'];
-            var INICIODT = linha['INICIODT'];
-            var TERMINODT = linha['TERMINODT'];
-            var SITUACAO = linha['SITUACAO'];
+            $('#pnSocResp #formEditar #SocRespId').val(linha['SocRespId']);
+            $('#pnSocResp #formEditar #PessoaIdSR').val(linha['PessoaIdSR']);
+            $('#pnSocResp #formEditar #InicioDt').val(linha['InicioDt']);
+            $('#pnSocResp #formEditar #TerminoDt').val(linha['TerminoDt']);
 
-            $('#pnSocResp #formEditar #INSCRMUNID').val(INSCRMUNID);
-            $('#pnSocResp #formEditar #INSCRMUNNR').val(INSCRMUNNR);
-            $('#pnSocResp #formEditar #ORIGTRIBID').val(ORIGTRIBID);
-            $('#pnSocResp #formEditar #INICIODT').val(INICIODT);
-            $('#pnSocResp #formEditar #TERMINODT').val(TERMINODT);
-            $('#pnSocResp #formEditar #SITUACAO').val(SITUACAO);
-            var ativo=false;
-            if(SITUACAO==1) ativo=true;
-
-            if($( '#pnSocResp #formEditar #SITUACAO' ).prop("checked") !=ativo){
-                $( '#pnSocResp #formEditar #SITUACAO' ).trigger("click");
-            }
 
         });
 
@@ -127,7 +158,7 @@
                 dataType: 'json',
                 type: 'POST',
                 data:formData,
-                url: '{{ url('admin/socresp/') }}'+'/' +$('#pnSocResp #formEditar #INSCRMUNID').val(),
+                url: '{{ url('admin/socresp/') }}'+'/' +$('#pnSocResp #formEditar #SocRespId').val(),
                 success: function (data) {
                     if (data){
                         $('#myModalSocRespEdita').modal('toggle');

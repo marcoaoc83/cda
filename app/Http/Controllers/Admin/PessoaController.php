@@ -75,9 +75,28 @@ class PessoaController extends Controller
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','OrigTrib')
             ->get();
+
+        $FonteInfoId = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','FonteInfo')
+            ->get();
+
+        $Canal = DB::table('cda_canal')->get();
+
+        $PessoaIdSR = DB::table('cda_pessoa')->get();
+
+        $TipPos = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','TpPos')
+            ->get();
+
         // show the view and pass the nerd to it
         return view('admin.pessoa.edit',[
             'Pessoa'=>$pessoa,
+            'FonteInfoId'=>$FonteInfoId,
+            'Canal'=>$Canal,
+            'TipPos'=>$TipPos,
+            'PessoaIdSR'=>$PessoaIdSR,
             'ORIGTRIB'=>$ORIGTRIB
         ]);
     }

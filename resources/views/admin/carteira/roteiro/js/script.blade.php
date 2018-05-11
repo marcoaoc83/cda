@@ -139,9 +139,6 @@
                 $('#pnRoteiro #btEditar').addClass('disabled');
                 $('#pnRoteiro #btDeletar').addClass('disabled');
                 $('#pnExecRot #btInserir').addClass('disabled');
-
-                $('#pnRoteiro #btEditar').addClass('disabled');
-                $('#pnRoteiro #btDeletar').addClass('disabled');
                 $('#pnPrRotCanal #btInserir').addClass('disabled');
             } );
 

@@ -17,7 +17,9 @@ class PsCanalController extends Controller
      */
     public function index()
     {
-        //
+        $cda_execrot = DB::table('cda_execrot')->get();
+
+        return view('admin.carteira.execrot.index',compact('cda_execrot'));
     }
 
     /**
@@ -38,7 +40,12 @@ class PsCanalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $data = $request->all();
+
+        if (PsCanal::create($data))
+            return \response()->json(true);
+        return \response()->json(false);
     }
 
     /**
@@ -58,9 +65,9 @@ class PsCanalController extends Controller
      * @param  \App\Models\PsCanal  $psCanal
      * @return \Illuminate\Http\Response
      */
-    public function edit(PsCanal $psCanal)
+    public function edit(Request $request)
     {
-        //
+        return($request);
     }
 
     /**
@@ -70,9 +77,14 @@ class PsCanalController extends Controller
      * @param  \App\Models\PsCanal  $psCanal
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PsCanal $psCanal)
+    public function update(Request $request, $id)
     {
-        //
+
+        $ExecRot = PsCanal::findOrFail($id);
+        if($ExecRot->update($request->all()))
+            return \response()->json(true);
+        return \response()->json(false);
+
     }
 
     /**
@@ -81,9 +93,14 @@ class PsCanalController extends Controller
      * @param  \App\Models\PsCanal  $psCanal
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PsCanal $psCanal)
+    public function destroy(Request $request)
     {
-        //
+        $model = PsCanal::findOrFail($request->PsCanalId);
+        if($model->delete()) {
+            return 'true';
+        }else{
+            return 'false';
+        }
     }
 
 

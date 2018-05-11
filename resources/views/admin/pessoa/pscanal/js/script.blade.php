@@ -41,12 +41,12 @@
                     name: 'Email'
                 },
                 {
-                    data: 'CEPId',
-                    name: 'CEPId'
+                    data: 'CEP',
+                    name: 'CEP'
                 },
                 {
-                    data: 'LogradouroId',
-                    name: 'LogradouroId'
+                    data: 'Logradouro',
+                    name: 'Logradouro'
                 },
                 {
                     data: 'EnderecoNr',
@@ -111,13 +111,14 @@
                             timer: 1500
                         });
                         tablePsCanal.ajax.reload();
+                        $("#formPsCanal").trigger('reset');
                     }
                 });
             return false;
         });
         $('#pnPsCanal #btDeletar').click(function () {
             var linha =tablePsCanal.row('.selected').data();
-            var INSCRMUNID = linha[   'INSCRMUNID'];
+            var PsCanalId = linha[   'PsCanalId'];
             swal({
                 title             : "Tem certeza?",
                 text              : "Esta registro será deletado!",
@@ -133,12 +134,12 @@
                         type: 'POST',
                         data: {
                             _token: '{!! csrf_token() !!}',
-                            'INSCRMUNID': INSCRMUNID,
+                            'PsCanalId': PsCanalId,
                             _method: 'DELETE'
                         },
                         url: '{{ url('admin/pscanal/destroy') }}',
                         success: function (msg) {
-                            $('.datatable').DataTable().ajax.reload();
+                            $('#tbPsCanal').DataTable().ajax.reload();
                             swal({
                                 position: 'top-end',
                                 type: 'success',
@@ -164,25 +165,20 @@
         $('#pnPsCanal #btEditar').click(function () {
             var linha =tablePsCanal.row('.selected').data();
 
-            var INSCRMUNID = linha['INSCRMUNID'];
-            var INSCRMUNNR = linha['INSCRMUNNR'];
-            var ORIGTRIBID = linha['ORIGTRIBID'];
-            var INICIODT = linha['INICIODT'];
-            var TERMINODT = linha['TERMINODT'];
-            var SITUACAO = linha['SITUACAO'];
-
-            $('#pnPsCanal #formEditar #INSCRMUNID').val(INSCRMUNID);
-            $('#pnPsCanal #formEditar #INSCRMUNNR').val(INSCRMUNNR);
-            $('#pnPsCanal #formEditar #ORIGTRIBID').val(ORIGTRIBID);
-            $('#pnPsCanal #formEditar #INICIODT').val(INICIODT);
-            $('#pnPsCanal #formEditar #TERMINODT').val(TERMINODT);
-            $('#pnPsCanal #formEditar #SITUACAO').val(SITUACAO);
-            var ativo=false;
-            if(SITUACAO==1) ativo=true;
-
-            if($( '#pnPsCanal #formEditar #SITUACAO' ).prop("checked") !=ativo){
-                $( '#pnPsCanal #formEditar #SITUACAO' ).trigger("click");
-            }
+            $('#pnPsCanal #formEditar #PsCanalId').val(linha['PsCanalId']);
+            $('#pnPsCanal #formEditar #FonteInfoId').val(linha['FonteInfoId']);
+            $('#pnPsCanal #formEditar #CanalId').val(linha['CanalId']);
+            $('#pnPsCanal #formEditar #TipPosId').val(linha['TipPosId']);
+            $('#pnPsCanal #formEditar #CEP').val(linha['CEP']);
+            $('#pnPsCanal #formEditar #Logradouro').val(linha['Logradouro']);
+            $('#pnPsCanal #formEditar #EnderecoNr').val(linha['EnderecoNr']);
+            $('#pnPsCanal #formEditar #Complemento').val(linha['Complemento']);
+            $('#pnPsCanal #formEditar #TelefoneNr').val(linha['TelefoneNr']);
+            $('#pnPsCanal #formEditar #Email').val(linha['Email']);
+            $('#pnPsCanal #formEditar #LogradouroDesc').val(linha['LogradouroDesc']);
+            $('#pnPsCanal #formEditar #Bairro').val(linha['Bairro']);
+            $('#pnPsCanal #formEditar #Cidade').val(linha['Cidade']);
+            $('#pnPsCanal #formEditar #UF').val(linha['UF']);
 
         });
 
@@ -193,7 +189,7 @@
                 dataType: 'json',
                 type: 'POST',
                 data:formData,
-                url: '{{ url('admin/pscanal/') }}'+'/' +$('#pnPsCanal #formEditar #INSCRMUNID').val(),
+                url: '{{ url('admin/pscanal/') }}'+'/' +$('#pnPsCanal #formEditar #PsCanalId').val(),
                 success: function (data) {
                     if (data){
                         $('#myModalPsCanalEdita').modal('toggle');

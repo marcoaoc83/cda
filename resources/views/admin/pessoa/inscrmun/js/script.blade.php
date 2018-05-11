@@ -73,11 +73,39 @@
             if ( type === 'row' ) {
                 $('#pnInscrMun #btEditar').removeClass('disabled');
                 $('#pnInscrMun #btDeletar').removeClass('disabled');
+
+                var INSCRMUNID = tableInscrMun.rows( indexes ).data().pluck( 'INSCRMUNID' );
+                var tablePsCanal = $('#tbPsCanal').DataTable();
+                var url = "{{ route('pscanal.getdata') }}"+"/?INSCRMUNID="+INSCRMUNID[0];
+                tablePsCanal.ajax.url(url).load( );
+                $('#formPsCanal #InscrMunId').val(INSCRMUNID[0]);
+                $('#myModalPsCanalEdita #InscrMunId').val(INSCRMUNID[0]);
+                $('#pnPsCanal #btInserir').removeClass('disabled');
+
+
+                var INSCRMUNID = tableInscrMun.rows( indexes ).data().pluck( 'INSCRMUNID' );
+                var tableSocResp = $('#tbSocResp').DataTable();
+                var url = "{{ route('socresp.getdata') }}"+"/?INSCRMUNID="+INSCRMUNID[0];
+                tableSocResp.ajax.url(url).load( );
+                $('#formSocResp #InscrMunId').val(INSCRMUNID[0]);
+                $('#myModalSocRespEdita #InscrMunId').val(INSCRMUNID[0]);
+                $('#pnSocResp #btInserir').removeClass('disabled');
+
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
                 $('#pnInscrMun #btEditar').addClass('disabled');
                 $('#pnInscrMun #btDeletar').addClass('disabled');
+
+                $('#pnPsCanal #btEditar').addClass('disabled');
+                $('#pnPsCanal #btDeletar').addClass('disabled');
+                $('#pnPsCanal #btInserir').addClass('disabled');
+
+                $('#pnSocResp #btEditar').addClass('disabled');
+                $('#pnSocResp #btDeletar').addClass('disabled');
+                $('#pnSocResp #btInserir').addClass('disabled');
+
+
             } );
 
 

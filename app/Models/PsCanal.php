@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PsCanal extends Model
 {
     protected $fillable = [
-        'PessoaId','InscrMunId', 'FonteInfoId', 'TipPosId', 'CEPId',  'LogradouroId',  'EnderecoNr',  'Complemento', 'TelefoneNr', 'Email', 'CanalId', 'LogradouroDesc', 'Bairro', 'Cidade', 'UF'
+        'PessoaId','InscrMunId', 'FonteInfoId', 'TipPosId', 'CEP',  'Logradouro',  'EnderecoNr',  'Complemento', 'TelefoneNr', 'Email', 'CanalId', 'LogradouroDesc', 'Bairro', 'Cidade', 'UF'
     ];
     protected $table = 'cda_pscanal';
     public $timestamps = false;
