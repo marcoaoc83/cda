@@ -105,7 +105,7 @@ class SocRespController extends Controller
     {
         $cda_socresp = SocResp::select(['cda_socresp.*','cda_pessoa.PESSOANMRS','cda_pessoa.CPF_CNPJNR'])
             ->leftjoin('cda_pessoa', 'cda_pessoa.PESSOAID', '=', 'cda_socresp.PessoaIdSR')
-            ->where('cda_socresp.PESSOAID',$request->PESSOAID)
+            ->where('cda_socresp.InscrMunId',$request->INSCRMUNID)
             ->get();
 
         return Datatables::of($cda_socresp)->make(true);

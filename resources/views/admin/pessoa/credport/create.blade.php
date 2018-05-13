@@ -17,7 +17,7 @@
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PessoaIdCP">Nome <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="PessoaIdCP" name="PessoaIdCP" required="required">
+                            <select class="form-control selectpicker" title="" data-live-search="true" id="PessoaIdCP" name="PessoaIdCP" required="required">
                                 <option value=""></option>
                                 @foreach($PessoaIdCP as $var)
                                     <option value="{{$var->PESSOAID}}" >{{$var->PESSOANMRS}} - {{$var->CPF_CNPJNR}}</option>             

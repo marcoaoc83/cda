@@ -1,3 +1,5 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
 <div class="x_panel" id="pnCredPort">
     <div class="x_title">
         <h2>Credenciais no Portal<small></small></h2>

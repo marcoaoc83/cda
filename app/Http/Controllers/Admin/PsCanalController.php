@@ -117,7 +117,7 @@ class PsCanalController extends Controller
             ->leftjoin('cda_regtab as TipPosId', 'TipPosId.REGTABID', '=', 'cda_pscanal.TipPosId')
             ->leftjoin('cda_canal', 'cda_canal.CANALID', '=', 'cda_pscanal.CanalId')
             ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_pscanal.InscrMunId')
-            ->where('cda_pscanal.PESSOAID',$request->PESSOAID)
+            ->where('cda_pscanal.INSCRMUNID',$request->INSCRMUNID)
             ->get();
         ;
 
