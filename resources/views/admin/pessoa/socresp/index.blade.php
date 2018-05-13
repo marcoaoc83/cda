@@ -20,7 +20,6 @@
             <i class="fa fa-trash"> Deletar</i>
         </a>
     </div>
-    <div clas
     <div class="x_content">
         <table id="tbSocResp" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
             <thead>

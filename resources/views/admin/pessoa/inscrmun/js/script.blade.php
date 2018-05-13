@@ -82,8 +82,6 @@
                 $('#myModalPsCanalEdita #InscrMunId').val(INSCRMUNID[0]);
                 $('#pnPsCanal #btInserir').removeClass('disabled');
 
-
-                var INSCRMUNID = tableInscrMun.rows( indexes ).data().pluck( 'INSCRMUNID' );
                 var tableSocResp = $('#tbSocResp').DataTable();
                 var url = "{{ route('socresp.getdata') }}"+"/?INSCRMUNID="+INSCRMUNID[0];
                 tableSocResp.ajax.url(url).load( );
@@ -91,6 +89,19 @@
                 $('#myModalSocRespEdita #InscrMunId').val(INSCRMUNID[0]);
                 $('#pnSocResp #btInserir').removeClass('disabled');
 
+                var tableAtiveCom = $('#tbAtiveCom').DataTable();
+                var url = "{{ route('ativecon.getdata') }}"+"/?INSCRMUNID="+INSCRMUNID[0];
+                tableAtiveCom.ajax.url(url).load( );
+                $('#formAtiveCom #InscrMunId').val(INSCRMUNID[0]);
+                $('#myModalAtiveComEdita #InscrMunId').val(INSCRMUNID[0]);
+                $('#pnAtiveCom #btInserir').removeClass('disabled');
+
+                var tableCredPort = $('#tbCredPort').DataTable();
+                var url = "{{ route('credport.getdata') }}"+"/?INSCRMUNID="+INSCRMUNID[0];
+                tableCredPort.ajax.url(url).load( );
+                $('#formCredPort #InscrMunId').val(INSCRMUNID[0]);
+                $('#myModalCredPortEdita #InscrMunId').val(INSCRMUNID[0]);
+                $('#pnCredPort #btInserir').removeClass('disabled');
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
@@ -105,7 +116,13 @@
                 $('#pnSocResp #btDeletar').addClass('disabled');
                 $('#pnSocResp #btInserir').addClass('disabled');
 
+                $('#pnAtiveCom #btEditar').addClass('disabled');
+                $('#pnAtiveCom #btDeletar').addClass('disabled');
+                $('#pnAtiveCom #btInserir').addClass('disabled');
 
+                $('#pnCredPort #btEditar').addClass('disabled');
+                $('#pnCredPort #btDeletar').addClass('disabled');
+                $('#pnCredPort #btInserir').addClass('disabled');
             } );
 
 

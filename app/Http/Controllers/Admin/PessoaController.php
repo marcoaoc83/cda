@@ -84,6 +84,7 @@ class PessoaController extends Controller
         $Canal = DB::table('cda_canal')->get();
 
         $PessoaIdSR = DB::table('cda_pessoa')->get();
+        $PessoaIdCP = DB::table('cda_pessoa')->get();
 
         $TipPos = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
@@ -97,6 +98,7 @@ class PessoaController extends Controller
             'Canal'=>$Canal,
             'TipPos'=>$TipPos,
             'PessoaIdSR'=>$PessoaIdSR,
+            'PessoaIdCP'=>$PessoaIdCP,
             'ORIGTRIB'=>$ORIGTRIB
         ]);
     }
