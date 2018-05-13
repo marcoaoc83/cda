@@ -91,6 +91,21 @@ class PessoaController extends Controller
             ->where('TABSYSSG','TpPos')
             ->get();
 
+        $StPag = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','StPag')
+            ->get();
+
+        $SitCob = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','StCob')
+            ->get();
+
+        $Tributo = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','Tributo')
+            ->get();
+
         // show the view and pass the nerd to it
         return view('admin.pessoa.edit',[
             'Pessoa'=>$pessoa,
@@ -99,7 +114,10 @@ class PessoaController extends Controller
             'TipPos'=>$TipPos,
             'PessoaIdSR'=>$PessoaIdSR,
             'PessoaIdCP'=>$PessoaIdCP,
-            'ORIGTRIB'=>$ORIGTRIB
+            'ORIGTRIB'=>$ORIGTRIB,
+            'SitCob'=>$SitCob,
+            'Tributo'=>$Tributo,
+            'StPag'=>$StPag
         ]);
     }
 

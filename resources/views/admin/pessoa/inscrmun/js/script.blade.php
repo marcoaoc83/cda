@@ -102,6 +102,13 @@
                 $('#formCredPort #InscrMunId').val(INSCRMUNID[0]);
                 $('#myModalCredPortEdita #InscrMunId').val(INSCRMUNID[0]);
                 $('#pnCredPort #btInserir').removeClass('disabled');
+
+                var tableParcela = $('#tbParcela').DataTable();
+                var url = "{{ route('parcela.getdata') }}"+"/?INSCRMUNID="+INSCRMUNID[0];
+                tableParcela.ajax.url(url).load( );
+                $('#formParcela #InscrMunId').val(INSCRMUNID[0]);
+                $('#myModalParcelaEdita #InscrMunId').val(INSCRMUNID[0]);
+                $('#pnParcela #btInserir').removeClass('disabled');
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
@@ -123,6 +130,10 @@
                 $('#pnCredPort #btEditar').addClass('disabled');
                 $('#pnCredPort #btDeletar').addClass('disabled');
                 $('#pnCredPort #btInserir').addClass('disabled');
+
+                $('#pnParcela #btEditar').addClass('disabled');
+                $('#pnParcela #btDeletar').addClass('disabled');
+                $('#pnParcela #btInserir').addClass('disabled');
             } );
 
 

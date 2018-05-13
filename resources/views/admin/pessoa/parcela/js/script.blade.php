@@ -9,7 +9,116 @@
 
         var tableParcela = $('#tbParcela').DataTable({
             processing: true,
-            "autoWidth": false,
+            serverSide: true,
+            responsive: true,
+            destroy: true,
+            ajax: {
+                "url": "{{ route('parcela.getdata') }}",
+                "data": {
+                    "PESSOAID": '{{$Pessoa->PESSOAID}}'
+                }
+            },
+            columns: [
+                {
+                    data: 'SitPag',
+                    name: 'SitPag'
+                },
+                {
+                    data: 'SitCob',
+                    name: 'SitCob'
+                },
+                {
+                    data: 'OrigTrib',
+                    name: 'OrigTrib'
+                },
+                {
+                    data: 'Tributo',
+                    name: 'Tributo'
+                },
+                {
+                    data: 'LancamentoDt',
+                    name: 'LancamentoDt'
+                },
+                {
+                    data: 'ParcelaNr',
+                    name: 'ParcelaNr'
+                },
+                {
+                    data: 'PlanoQt',
+                    name: 'PlanoQt'
+                },
+                {
+                    data: 'VencimentoDt',
+                    name: 'VencimentoDt'
+                },
+                {
+                    data: 'PrincipalVr',
+                    name: 'PrincipalVr'
+                },
+                {
+                    data: 'MultaVr',
+                    name: 'MultaVr'
+                },
+                {
+                    data: 'JurosVr',
+                    name: 'JurosVr'
+                },
+                {
+                    data: 'TaxaVr',
+                    name: 'TaxaVr'
+                },
+                {
+                    data: 'AcrescimoVr',
+                    name: 'AcrescimoVr'
+                },
+                {
+                    data: 'DescontoVr',
+                    name: 'DescontoVr'
+                },
+                {
+                    data: 'Honorarios',
+                    name: 'Honorarios'
+                },
+                {
+                    data: 'TotalVr',
+                    name: 'TotalVr'
+                },
+                {
+                    data: 'SitPagId',
+                    name: 'SitPagId',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'SitCobId',
+                    name: 'SitCobId',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'OrigTribId',
+                    name: 'OrigTribId',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'TributoId',
+                    name: 'TributoId',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'ParcelaId',
+                    name: 'ParcelaId',
+                    "visible": false,
+                    "searchable": false
+                }
+            ],
+            select: {
+                style: 'single',
+                info: false
+
+            },
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
             }
@@ -45,13 +154,14 @@
                             timer: 1500
                         });
                         tableParcela.ajax.reload();
+                        $("#formParcela").trigger('reset');
                     }
                 });
             return false;
         });
         $('#pnParcela #btDeletar').click(function () {
             var linha =tableParcela.row('.selected').data();
-            var INSCRMUNID = linha[   'INSCRMUNID'];
+            var ParcelaId = linha[   'ParcelaId'];
             swal({
                 title             : "Tem certeza?",
                 text              : "Esta registro será deletado!",
@@ -67,12 +177,12 @@
                         type: 'POST',
                         data: {
                             _token: '{!! csrf_token() !!}',
-                            'INSCRMUNID': INSCRMUNID,
+                            'ParcelaId': ParcelaId,
                             _method: 'DELETE'
                         },
                         url: '{{ url('admin/parcela/destroy') }}',
                         success: function (msg) {
-                            $('.datatable').DataTable().ajax.reload();
+                            $('#tbParcela').DataTable().ajax.reload();
                             swal({
                                 position: 'top-end',
                                 type: 'success',
@@ -98,25 +208,24 @@
         $('#pnParcela #btEditar').click(function () {
             var linha =tableParcela.row('.selected').data();
 
-            var INSCRMUNID = linha['INSCRMUNID'];
-            var INSCRMUNNR = linha['INSCRMUNNR'];
-            var ORIGTRIBID = linha['ORIGTRIBID'];
-            var INICIODT = linha['INICIODT'];
-            var TERMINODT = linha['TERMINODT'];
-            var SITUACAO = linha['SITUACAO'];
-
-            $('#pnParcela #formEditar #INSCRMUNID').val(INSCRMUNID);
-            $('#pnParcela #formEditar #INSCRMUNNR').val(INSCRMUNNR);
-            $('#pnParcela #formEditar #ORIGTRIBID').val(ORIGTRIBID);
-            $('#pnParcela #formEditar #INICIODT').val(INICIODT);
-            $('#pnParcela #formEditar #TERMINODT').val(TERMINODT);
-            $('#pnParcela #formEditar #SITUACAO').val(SITUACAO);
-            var ativo=false;
-            if(SITUACAO==1) ativo=true;
-
-            if($( '#pnParcela #formEditar #SITUACAO' ).prop("checked") !=ativo){
-                $( '#pnParcela #formEditar #SITUACAO' ).trigger("click");
-            }
+            $('#pnParcela #formEditar #ParcelaId').val(linha['ParcelaId']);
+            $('#pnParcela #formEditar #SitPagId').val(linha['SitPagId']);
+            $('#pnParcela #formEditar #SitCobId').val(linha['SitCobId']);
+            $('#pnParcela #formEditar #OrigTribId').val(linha['OrigTribId']);
+            $('#pnParcela #formEditar #TributoId').val(linha['TributoId']);
+            $('#pnParcela #formEditar #LancamentoDt').val(linha['LancamentoDt']);
+            $('#pnParcela #formEditar #LancamentoNr').val(linha['LancamentoNr']);
+            $('#pnParcela #formEditar #VencimentoDt').val(linha['VencimentoDt']);
+            $('#pnParcela #formEditar #ParcelaNr').val(linha['ParcelaNr']);
+            $('#pnParcela #formEditar #PlanoQt').val(linha['PlanoQt']);
+            $('#pnParcela #formEditar #PrincipalVr').val(linha['PrincipalVr']);
+            $('#pnParcela #formEditar #MultaVr').val(linha['MultaVr']);
+            $('#pnParcela #formEditar #JurosVr').val(linha['JurosVr']);
+            $('#pnParcela #formEditar #TaxaVr').val(linha['TaxaVr']);
+            $('#pnParcela #formEditar #AcrescimoVr').val(linha['AcrescimoVr']);
+            $('#pnParcela #formEditar #DescontoVr').val(linha['DescontoVr']);
+            $('#pnParcela #formEditar #Honorarios').val(linha['Honorarios']);
+            $('#pnParcela #formEditar #TotalVr').val(linha['TotalVr']);
 
         });
 
@@ -127,7 +236,7 @@
                 dataType: 'json',
                 type: 'POST',
                 data:formData,
-                url: '{{ url('admin/parcela/') }}'+'/' +$('#pnParcela #formEditar #INSCRMUNID').val(),
+                url: '{{ url('admin/parcela/') }}'+'/' +$('#pnParcela #formEditar #ParcelaId').val(),
                 success: function (data) {
                     if (data){
                         $('#myModalParcelaEdita').modal('toggle');
