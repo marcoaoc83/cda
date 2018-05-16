@@ -123,5 +123,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/pcevento/getdata', 'PcEventoController@getDadosDataTable')->name('pcevento.getdata');
     Route::resource('admin/pcevento', 'PcEventoController');
 
+    Route::get('admin/regparc/getdata', 'RegParcController@getDadosDataTable')->name('regparc.getdata');
+    Route::resource('admin/regparc', 'RegParcController');
 
 });

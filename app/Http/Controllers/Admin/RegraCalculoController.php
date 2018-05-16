@@ -106,6 +106,11 @@ class RegraCalculoController extends Controller
             ->where('TABSYSSG','TpJuro')
             ->get();
         ;
+        $OpReg = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','OpReg')
+            ->get();
+        ;
         $ModCom = DB::table('cda_modcom')->get();
         // show the view and pass the nerd to it
         return view('admin.regra.edit',[
@@ -113,6 +118,7 @@ class RegraCalculoController extends Controller
             'ModCom'=>$ModCom,
             'TpRegCalc'=>$TpRegCalc,
             'IndReaj'=>$IndReaj,
+            'OpReg'=>$OpReg,
             'TpJuro'=>$TpJuro
         ]);
     }

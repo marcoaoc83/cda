@@ -97,7 +97,7 @@
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="InicioDt">Vigencia</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{$RegraCalculo->InicioDt }}" type="text" class="form-control has-feedback-left date-picker" id="InicioDt" name="InicioDt" aria-describedby="inputSuccess2Status">
+                                        <input value="{{ date( 'd/m/Y' , strtotime($RegraCalculo->InicioDt))}}" type="text" class="form-control has-feedback-left date-picker" id="InicioDt" name="InicioDt" aria-describedby="inputSuccess2Status">
                                         <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                         <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                     </div>
@@ -105,7 +105,7 @@
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TerminoDt">Termino</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="text" value="{{$RegraCalculo->TerminoDt }}" class="form-control has-feedback-left date-picker" id="TerminoDt" name="TerminoDt" aria-describedby="inputSuccess2Status">
+                                        <input type="text" value="{{ date( 'd/m/Y' , strtotime($RegraCalculo->TerminoDt))}}" class="form-control has-feedback-left date-picker" id="TerminoDt" name="TerminoDt" aria-describedby="inputSuccess2Status">
                                         <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                         <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                     </div>
@@ -154,6 +154,10 @@
                             </form>
                         </div>
                     </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        @include('admin.regra.regparc.index');
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -162,6 +166,78 @@
     <!-- /page content -->
 @endsection
 
-@push('scripts')
 
+@push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js">
+        jQuery(function($){
+            $.datepicker.regional['pt-BR'] = {
+                closeText: 'Fechar',
+                prevText: '&#x3c;Anterior',
+                nextText: 'Pr&oacute;ximo&#x3e;',
+                currentText: 'Hoje',
+                monthNames: ['Janeiro','Fevereiro','Mar&ccedil;o','Abril','Maio','Junho',
+                    'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+                monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun',
+                    'Jul','Ago','Set','Out','Nov','Dez'],
+                dayNames: ['Domingo','Segunda-feira','Ter&ccedil;a-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sabado'],
+                dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+                dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd/mm/yy',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''};
+            $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+        $(function() {
+            $('.date-picker').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: false,
+                drops:'up',
+                "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "De",
+                    "toLabel": "Até",
+                    "customRangeLabel": "Custom",
+                    "daysOfWeek": [
+                        "Dom",
+                        "Seg",
+                        "Ter",
+                        "Qua",
+                        "Qui",
+                        "Sex",
+                        "Sáb"
+                    ],
+                    "monthNames": [
+                        "Janeiro",
+                        "Fevereiro",
+                        "Março",
+                        "Abril",
+                        "Maio",
+                        "Junho",
+                        "Julho",
+                        "Agosto",
+                        "Setembro",
+                        "Outubro",
+                        "Novembro",
+                        "Dezembro"
+                    ],
+                    "firstDay": 0
+                }
+            }, function(chosen_date) {
+                this.element.val(chosen_date.format('DD/MM/YYYY'));
+            });
+        });
+    </script>
 @endpush
