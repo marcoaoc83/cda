@@ -41,8 +41,14 @@
                     <li><a><i class="fa fa-cogs"></i>Configurações <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('admin.users') }}">Usuários</a></li>
-                            <li><a href="#">Importar / Exportar</a></li>
                             <li><a href="#">Solicitaçoes de Acesso</a></li>
+                            <li class="active"><a>Importar / Exportar<span class="fa fa-chevron-down"></span></a>
+                                <ul class="nav child_menu" style="display: block;">
+                                    <li class="sub_menu"><a href="{{ route('implayout.index') }}">Layout Importação</a></li>
+                                    <li><a href="#level2_1">Importação</a></li>
+
+                                </ul>
+                            </li>
                         </ul>
                     </li>
                 </ul>

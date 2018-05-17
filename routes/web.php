@@ -126,4 +126,10 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/regparc/getdata', 'RegParcController@getDadosDataTable')->name('regparc.getdata');
     Route::resource('admin/regparc', 'RegParcController');
 
+    Route::get('admin/implayout/getdata', 'ImpLayoutController@getDadosDataTable')->name('implayout.getdata');
+    Route::resource('admin/implayout', 'ImpLayoutController');
+
+    Route::get('admin/impcampo/getdata', 'ImpCampoController@getDadosDataTable')->name('impcampo.getdata');
+    Route::resource('admin/impcampo', 'ImpCampoController');
+
 });
