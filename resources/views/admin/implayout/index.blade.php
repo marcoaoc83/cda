@@ -83,10 +83,10 @@
             });
         });
 
-        function deleteEvento(dataId) {
+        function deleteImpLayout(dataId) {
             swal({
                 title             : "Tem certeza?",
-                text              : "Este Evento será deletado!",
+                text              : "Este ImpLayout será deletado!",
                 type              : "warning",
                 showCancelButton  : true,
                 confirmButtonColor: "#DD6B55",
