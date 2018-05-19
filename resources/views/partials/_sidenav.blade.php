@@ -45,7 +45,7 @@
                             <li class="active"><a>Importar / Exportar<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: block;">
                                     <li class="sub_menu"><a href="{{ route('implayout.index') }}">Layout Importação</a></li>
-                                    <li><a href="#level2_1">Importação</a></li>
+                                    <li><a href="{{ route('importacao.index') }}">Importação</a></li>
 
                                 </ul>
                             </li>

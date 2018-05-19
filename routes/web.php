@@ -132,4 +132,6 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/impcampo/getdata', 'ImpCampoController@getDadosDataTable')->name('impcampo.getdata');
     Route::resource('admin/impcampo', 'ImpCampoController');
 
+    Route::resource('admin/importacao', 'ImportacaoController');
+
 });
