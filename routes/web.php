@@ -134,4 +134,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::resource('admin/importacao', 'ImportacaoController');
 
+    Route::get('admin/solicitar_acesso/getdata', 'SolicitarAcessoController@getDadosDataTable')->name('solicitar_acesso.getdata');
+    Route::resource('admin/solicitar_acesso', 'SolicitarAcessoController');
+
 });

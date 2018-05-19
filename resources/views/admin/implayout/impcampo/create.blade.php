@@ -22,22 +22,28 @@
                     </div>
 
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CampoDB">Campo - BD <span class="required">*</span>
-                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CampoDB">Campo - BD<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input value="{{ old('CampoDB') }}"  type="text" id="CampoDB" name="CampoDB" required="required" class="form-control col-md-7 col-xs-12">
+                            <select class="form-control" id="CampoDB" name="CampoDB" required="required">
+                                <option value=""></option>
+                                    @foreach($Campos as $var)
+                                        @if ($ImpLayout->LayoutTabela === $var->tabela)
+                                            <option value="{{$var->coluna}}">{{$var->coluna}}</option> 
+                                        @endif           
+                                    @endforeach
+                            </select>
                         </div>
                     </div>
 
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CampoPK">PK ?
-                        </label>
-                        <div class="col-md-7" style="margin-top: 5px">
-                            <label style="">
-                                <input type="checkbox" id="CampoPK" name="CampoPK" value="1" class="js-switch" >
-                            </label>
-                        </div>
-                    </div>
+                    {{--<div class="item form-group">--}}
+                        {{--<label class="control-label col-md-3 col-sm-3 col-xs-12" for="CampoPK">PK ?--}}
+                        {{--</label>--}}
+                        {{--<div class="col-md-7" style="margin-top: 5px">--}}
+                            {{--<label style="">--}}
+                                {{--<input type="checkbox" id="CampoPK" name="CampoPK" value="1" class="js-switch" >--}}
+                            {{--</label>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
 
 
                     <div class="item form-group">

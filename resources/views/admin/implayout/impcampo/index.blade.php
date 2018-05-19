@@ -27,7 +27,6 @@
             <tr>
                 <th>Nome Campo Arquivo</th>
                 <th>Nome Campo BD</th>
-                <th>PK</th>
                 <th>Valor Fixo</th>
             </tr>
             </thead>

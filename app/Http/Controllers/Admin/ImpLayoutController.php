@@ -96,8 +96,13 @@ Where
   information_schema.tables.TABLE_NAME Like 'cda_%'
 ");
 
+        $Campos=DB::select("Select (INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME) coluna , INFORMATION_SCHEMA.COLUMNS.TABLE_NAME tabela From INFORMATION_SCHEMA.COLUMNS 
+Where
+table_schema = '".DB::getDatabaseName()."'");
+
         // show the view and pass the nerd to it
         return view('admin.implayout.edit',[
+            'Campos'=>$Campos,
             'ImpLayout'=>$implayout,
             'Tabelas'=>$Tabelas
         ]);

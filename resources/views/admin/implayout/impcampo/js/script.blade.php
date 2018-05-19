@@ -27,10 +27,6 @@
                     name: 'CampoDB'
                 },
                 {
-                    data: 'CampoPK',
-                    name: 'CampoPK'
-                },
-                {
                     data: 'CampoValorFixo',
                     name: 'CampoValorFixo'
                 },
