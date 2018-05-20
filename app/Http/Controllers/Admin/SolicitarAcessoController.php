@@ -19,7 +19,7 @@ class SolicitarAcessoController extends Controller
     public function index()
     {
         $cda_solicitar_acesso = DB::table('cda_solicitar_acesso')->get();
-        return view('solicitar_acesso.index',compact('cda_solicitar_acesso'));
+        return view('admin.solicitar_acesso.index',compact('cda_solicitar_acesso'));
     }
 
     /**

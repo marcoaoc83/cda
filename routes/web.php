@@ -64,6 +64,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::resource('admin/fila', 'FilaController');
 
     Route::get('admin/carteira/getdata', 'CarteiraController@getDadosDataTable')->name('carteira.getdata');
+    Route::get('admin/carteira/getdataRoteiro', 'CarteiraController@getDadosDataTableRoteiro')->name('carteira.getdataRoteiro');
     Route::resource('admin/carteira', 'CarteiraController');
 
     Route::get('admin/pessoa/getdata', 'PessoaController@getDadosDataTable')->name('pessoa.getdata');
@@ -136,5 +137,10 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/solicitar_acesso/getdata', 'SolicitarAcessoController@getDadosDataTable')->name('solicitar_acesso.getdata');
     Route::resource('admin/solicitar_acesso', 'SolicitarAcessoController');
+
+    Route::get('admin/execfila/getdataFxAtraso', 'ExecFilaController@getDadosDataTableFxAtraso')->name('execfila.getdataFxAtraso');
+    Route::get('admin/execfila/getdataFxValor', 'ExecFilaController@getDadosDataTableFxValor')->name('execfila.getdataFxValor');
+    Route::get('admin/execfila/getdataParcela', 'ExecFilaController@getDadosDataTableParcela')->name('execfila.getdataParcela');
+    Route::resource('admin/execfila', 'ExecFilaController');
 
 });

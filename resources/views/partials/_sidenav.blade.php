@@ -30,7 +30,7 @@
                             <li><a href="{{ route('admin.canal') }}">Canal</a></li>
                             <li><a href="{{ route('carteira.index') }}">Carteira</a></li>
                             <li><a href="{{ route('evento.index') }}">Evento</a></li>
-                            <li><a href="#">Execução Fila</a></li>
+                            <li><a href="{{ route('execfila.index') }}">Execução Fila</a></li>
                             <li><a href="{{ route('fila.index') }}">Fila Trabalho</a></li>
                             <li><a href="{{ route('admin.modelo') }}">Modelo Comunicação</a></li>
                             <li><a href="{{ route('regcalc.index') }}">Regra Calculo</a></li>
