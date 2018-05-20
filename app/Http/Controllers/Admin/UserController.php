@@ -49,9 +49,10 @@ class UserController extends Controller
     {
         // get the nerd
         $user = User::find($id);
-
+        $funcoes = DB::select("SELECT * FROM cda_user_funcao ORDER BY fun_id");
         // show the view and pass the nerd to it
         return View::make('admin.user.form')
+            ->with('funcoes', $funcoes)
             ->with('user', $user);
     }
 
@@ -89,9 +90,9 @@ class UserController extends Controller
 
     public function getInserir()
     {
-
+        $funcoes = DB::select("SELECT * FROM cda_user_funcao ORDER BY fun_id");
         // show the view and pass the nerd to it
-        return view('admin.user.insere',compact('users'));
+        return view('admin.user.insere',compact('funcoes'));
     }
 
 

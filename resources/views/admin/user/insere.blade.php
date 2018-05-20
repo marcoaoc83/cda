@@ -40,6 +40,17 @@
                             <form class="form-horizontal form-label-left"   method="post" action="{{ route('users.inserirPost') }}">
                                 {{ csrf_field() }}
                                 <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="funcao">Função<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="funcao" name="funcao" >
+                                            <option value=""></option>
+                                                        @foreach($funcoes as $var)
+                                                <option value="{{$var->fun_id}}" >{{$var->fun_nome}}</option>             
+                                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -53,6 +64,7 @@
                                         <input value="{{ old('email') }}"  type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
+
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Senha <span class="required">*</span>
                                     </label>

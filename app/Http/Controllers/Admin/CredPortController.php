@@ -41,9 +41,25 @@ class CredPortController extends Controller
 
         $data = $request->all();
         $data['Senha'] = bcrypt($data['Senha']);
-        if (CredPort::create($data))
+
+        $id=CredPort::create($data)->CredPortId;
+        if ($id){
+
+            $sql="INSERT INTO users SET ";
+            $sql.="email ='".$data['Email']."',";
+            $sql.="password ='".$data['Senha']."',";
+            $sql.="CredPortId ='".$id."',";
+            $sql.="funcao ='4',";
+            $sql.="name ='".$data['name']."'";
+
+            DB::insert($sql);
             return \response()->json(true);
-        return \response()->json(false);
+
+        }else{
+            return \response()->json(false);
+        }
+
+
     }
 
     /**

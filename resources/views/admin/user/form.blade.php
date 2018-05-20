@@ -39,6 +39,17 @@
                             <form class="form-horizontal form-label-left" novalidate method="post" action="{{ route('users.editarPost',$user->id) }}">
                                 {{ csrf_field() }}
                                 <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="funcao">Função<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="funcao" name="funcao" >
+                                            <option value=""></option>
+                                                        @foreach($funcoes as $var)
+                                                <option value="{{$var->fun_id}}" @if ($user->funcao === $var->fun_id) selected @endif>{{$var->fun_nome}}</option>             
+                                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nome <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">

@@ -14,14 +14,14 @@
                     <input type="hidden" name="PessoaId" value="{{$Pessoa->PESSOAID}}">
                     <input type="hidden" id="InscrMunId" name="InscrMunId" >
                     <input type="hidden" id="CredPortId" name="CredPortId">
-
+                    <input type="hidden" id="name" name="name">
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PessoaIdCP">Nome <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="PessoaIdCP" name="PessoaIdCP" required="required">
+                            <select class="form-control"  onchange="$('#name').val( $(this).find(':selected').data('name'))"  id="PessoaIdCP" name="PessoaIdCP" required="required">
                                 <option value=""></option>
                                 @foreach($PessoaIdCP as $var)
-                                    <option value="{{$var->PESSOAID}}" >{{$var->PESSOANMRS}} - {{$var->CPF_CNPJNR}}</option>             
+                                    <option value="{{$var->PESSOAID}}" data-name="{{$var->PESSOANMRS}}" >{{$var->PESSOANMRS}} - {{$var->CPF_CNPJNR}}</option>             
                                 @endforeach
                             </select>
                         </div>
@@ -42,6 +42,14 @@
                             <span id="inputSuccess2Status" class="sr-only">(success)</span>
                         </div>
                     </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Email">Email <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value="{{ old('email') }}"  type="email" id="Email" name="Email" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                    </div>
+
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Senha">Senha
                         </label>
