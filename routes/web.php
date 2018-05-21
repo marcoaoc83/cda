@@ -4,13 +4,14 @@
 
 
 Route::get('/', 'Portal\PortalController@index')->name('portal.home');
-
+Route::get('distribuicao', 'DistribuicaoController@index')->name('distribuicao');
 
 Auth::routes();
 
 Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin', 'AdminController@index')->name('admin.home');
+
 
 
     Route::post('admin/perfil', 'PerfilController@editar')->name('perfil.update');
