@@ -83,7 +83,7 @@
                     <div class="line-dec"></div>
                     <p>Crie sua conta agora e tenha acesso a seus débitos da PREFEITURA DE "CIDADE"</p>
                     <div class="primary-blue-button">
-                        <a href="#" class="scroll-link" data-id="portfolio">Continuar</a>
+                        <a href="{{url('/solicitacao')}}" target="_blank">Continuar</a>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                     <div class="line-dec"></div>
                     <p>Integer hendrerit vehicula mauris, sed pellentesque sem facilisis at. Aliquam vel arcu metus. Nam sem lectus, mattis non tellus et, tincidunt condimentum eros.</p>
                     <div class="primary-blue-button">
-                        <a href="#" class="scroll-link" data-id="portfolio">Continuar</a>
+                        <a href="{{url('/login')}}" target="_blank">Continuar</a>
                     </div>
                 </div>
             </div>
@@ -109,7 +109,7 @@
                     <div class="line-dec"></div>
                     <p>Integer hendrerit vehicula mauris, sed pellentesque sem facilisis at. Aliquam vel arcu metus. Nam sem lectus, mattis non tellus et, tincidunt condimentum eros.</p>
                     <div class="primary-blue-button">
-                        <a href="#" class="scroll-link" data-id="portfolio">Continuar</a>
+                        <a href="{{url('/login')}}" target="_blank">Continuar</a>
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                     <div class="line-dec"></div>
                     <p>Integer hendrerit vehicula mauris, sed pellentesque sem facilisis at. Aliquam vel arcu metus. Nam sem lectus, mattis non tellus et, tincidunt condimentum eros.</p>
                     <div class="primary-blue-button">
-                        <a href="#" class="scroll-link" data-id="portfolio">Continuar</a>
+                        <a href="{{url('/login')}}" target="_blank">Continuar</a>
                     </div>
                 </div>
             </div>
