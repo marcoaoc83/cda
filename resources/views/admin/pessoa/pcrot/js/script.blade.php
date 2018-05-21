@@ -6,9 +6,46 @@
 <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-
+        console.log();
         var tablePcRot = $('#tbPcRot').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            destroy: true,
+            ajax: {
+                "url": "{{ route('pcrot.getdata') }}"
+            },
+            columns: [
+                {
+                    data: 'Carteira',
+                    name: 'Carteira'
+                },
+                {
+                    data: 'Ordem',
+                    name: 'Ordem'
+                },
+                {
+                    data: 'Fase',
+                    name: 'Fase'
+                },
+                {
+                    data: 'Evento',
+                    name: 'Evento'
+                },
+                {
+                    data: 'EntradaDt',
+                    name: 'EntradaDt'
+                },
+                {
+                    data: 'SaidaDt',
+                    name: 'SaidaDt'
+                }
+            ],
+            select: {
+                style: 'single',
+                info: false
 
+            },
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
             }

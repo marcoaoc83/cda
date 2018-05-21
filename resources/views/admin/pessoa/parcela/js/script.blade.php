@@ -131,8 +131,13 @@
 
         tableParcela.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
+                var ParcelaId = tableParcela.rows( indexes ).data().pluck( 'ParcelaId' );
                 $('#pnParcela #btEditar').removeClass('disabled');
                 $('#pnParcela #btDeletar').removeClass('disabled');
+
+                var tablePcRot = $('#tbPcRot').DataTable();
+                var url = "{{ route('pcrot.getdata') }}"+"/?ParcelaId="+ParcelaId[0];
+                tablePcRot.ajax.url(url).load( );
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
