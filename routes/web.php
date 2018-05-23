@@ -15,8 +15,6 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin', 'AdminController@index')->name('admin.home');
 
-
-
     Route::post('admin/perfil', 'PerfilController@editar')->name('perfil.update');
     Route::get('admin/perfil', 'PerfilController@index')->name('perfil.ver');
 
@@ -138,6 +136,8 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::resource('admin/impcampo', 'ImpCampoController');
 
     Route::resource('admin/importacao', 'ImportacaoController');
+
+    Route::resource('admin/uploadtinymce', 'tinymceController');
 
     Route::get('admin/solicitar_acesso/getdata', 'SolicitarAcessoController@getDadosDataTable')->name('solicitar_acesso.getdata');
     Route::resource('admin/solicitar_acesso', 'SolicitarAcessoController');
