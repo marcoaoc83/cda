@@ -89,5 +89,26 @@
 @endsection
 
 @push('scripts')
-
+<script>
+    function reloadCampo(form,tabela)
+    {
+        var FKCampo = $(form+" #FKCampo");
+        FKCampo.empty();
+        $.ajax({
+            type: "get",
+            dataType: 'json',
+            url: "{{route("implayout.getcampos")}}",
+            data: {
+                'tabela': tabela,
+                _token: '{!! csrf_token() !!}'
+            },
+            success: function(data){
+                FKCampo.append('<option value=""></option>');
+                $.each(data, function(i, d) {
+                    FKCampo.append('<option value="' + d.coluna + '">' + d.coluna.toUpperCase() + '</option>');
+                });
+            }
+        });
+    }
+</script>
 @endpush

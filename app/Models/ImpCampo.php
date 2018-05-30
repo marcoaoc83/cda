@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ImpCampo extends Model
 {
     protected $fillable = [
-        'LayoutId', 'CampoNm', 'CampoDB', 'CampoPK', 'CampoValorFixo'
+        'LayoutId', 'CampoNm', 'CampoDB', 'CampoValorFixo',  'CampoValorFixo'
     ];
     protected $table = 'cda_imp_campo';
     protected $primaryKey = 'CampoID';

@@ -120,7 +120,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <textarea name="ModTexto" id="ModTexto" rows="20" class="resizable_textarea form-control"></textarea>
+                            <textarea name="ModTexto"  style="z-index:10000;"   id="ModTexto" rows="20" class="resizable_textarea form-control"></textarea>
                         </div>
                     </div>
                 </div>
@@ -150,6 +150,7 @@
             ],
             image_title: true,
             automatic_uploads: true,
+            fullpage_hide_in_source_view: true,
             images_upload_url: '{{url("/admin/uploadtinymce/")}}',
             file_picker_types: 'image',
             file_picker_callback: function(cb, value, meta) {

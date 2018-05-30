@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use Softon\SweetAlert\Facades\SWAL;
 
@@ -52,7 +53,15 @@ class ImportacaoController extends Controller
                     SWAL::message('Erro','Falha ao importar','error',['timer'=>4000,'showConfirmButton'=>false]);
                 }
 
+            }elseif($ext == "csv"){
+                if($this->importarCSV($request)){
+                    SWAL::message('Salvo','Importação realizada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+                }else{
+                    SWAL::message('Erro','Falha ao importar','error',['timer'=>4000,'showConfirmButton'=>false]);
+                }
+
             }
+
             // redirect
             return redirect()->route('importacao.index');
         }
@@ -151,6 +160,17 @@ class ImportacaoController extends Controller
         $implayout = ImpLayout::select(['cda_imp_layout.*','Campo.CampoNm','Campo.CampoDB','Campo.CampoPK','Campo.CampoValorFixo'])
             ->leftJoin('cda_imp_campo  as Campo', 'Campo.LayoutId', '=', 'cda_imp_layout.LayoutId')
             ->get();
+
+        $path = $request->file('imp_arquivo')->getRealPath();
+        $data = Excel::load($path)->get();
+        if(!empty($data) && $data->count())
+        {
+            $data = $data->toArray();
+            for($i=0;$i<count($data);$i++)
+            {
+                $dataImported[] = $data[$i];
+            }
+        }
 
     }
 }

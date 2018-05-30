@@ -182,7 +182,7 @@ return [
 
         Yajra\DataTables\DataTablesServiceProvider::class,
         Softon\SweetAlert\SweetAlertServiceProvider::class,
-        Orchestra\Parser\XmlServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -234,7 +234,7 @@ return [
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
         'SWAL' => Softon\SweetAlert\Facades\SWAL::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
-        'XmlParser' => Orchestra\Parser\Xml\Facade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];
