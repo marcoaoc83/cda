@@ -161,4 +161,18 @@ table_schema = '".DB::getDatabaseName()."'");
             })
             ->make(true);
     }
+
+    public function getCampos(Request $request)
+    {
+        $Campos=DB::select("Select 
+(INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME) coluna , 
+INFORMATION_SCHEMA.COLUMNS.TABLE_NAME tabela 
+From INFORMATION_SCHEMA.COLUMNS 
+Where
+INFORMATION_SCHEMA.COLUMNS.TABLE_NAME= '{$request->tabela}'
+and table_schema = '".DB::getDatabaseName()."'");
+
+
+        return  $Campos;
+    }
 }
