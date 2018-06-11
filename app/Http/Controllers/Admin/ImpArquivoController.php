@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\ImpCampo;
+use App\Models\ImpArquivo;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
-class ImpCampoController extends Controller
+class ImpArquivoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,9 @@ class ImpCampoController extends Controller
      */
     public function index()
     {
-        $cda_imp_campo = DB::table('cda_imp_campo')->get();
+        $cda_imp_arquivo = DB::table('cda_imp_arquivo')->get();
 
-        return view('admin.implayout.impcampo.index',compact('cda_imp_campo'));
+        return view('admin.implayout.imparvivo.index',compact('cda_imp_arquivo'));
     }
 
     /**
@@ -29,7 +29,7 @@ class ImpCampoController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -40,14 +40,9 @@ class ImpCampoController extends Controller
      */
     public function store(Request $request)
     {
-        if  ($request->CampoPK) {
-            $request->CampoPK      =1;
-        }else{
-            $request->CampoPK      =0;
-        }
         $data = $request->all();
 
-        if (ImpCampo::create($data))
+        if (ImpArquivo::create($data))
             return \response()->json(true);
         return \response()->json(false);
     }
@@ -55,10 +50,10 @@ class ImpCampoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ImpCampo  $impCampo
+     * @param  \App\Models\ImpArquivo  $impArquivo
      * @return \Illuminate\Http\Response
      */
-    public function show(ImpCampo $impCampo)
+    public function show(ImpArquivo $impArquivo)
     {
         //
     }
@@ -66,7 +61,7 @@ class ImpCampoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ImpCampo  $impCampo
+     * @param  \App\Models\ImpArquivo  $impArquivo
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request)
@@ -74,27 +69,18 @@ class ImpCampoController extends Controller
         return($request);
     }
 
-
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ImpCampo  $impCampo
+     * @param  \App\Models\ImpArquivo  $impArquivo
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,$id)
     {
-        if  ($request->CampoPK) {
-            $request->CampoPK      =1;
-        }else{
-            $request->CampoPK      =0;
-        }
-        $ImpCampo = ImpCampo::findOrFail($id);
-        $ImpCampo->CampoNm       = $request->CampoNm;
-        $ImpCampo->CampoDB       = $request->CampoDB;
-        $ImpCampo->CampoPK       = $request->CampoPK;
-        $ImpCampo->CampoValorFixo       = $request->CampoValorFixo;
-        if($ImpCampo->save())
+        $ImpArquivo = ImpArquivo::findOrFail($id);
+
+        if($ImpArquivo->update($request->all()))
             return \response()->json(true);
         return \response()->json(false);
     }
@@ -102,12 +88,12 @@ class ImpCampoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ImpCampo  $impCampo
+     * @param  \App\Models\ImpArquivo  $impArquivo
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
     {
-        $model = ImpCampo::findOrFail($request->CampoID);
+        $model = ImpArquivo::findOrFail($request->ArquivoId);
         if($model->delete()) {
             return 'true';
         }else{
@@ -115,11 +101,11 @@ class ImpCampoController extends Controller
         }
     }
 
-
     public function getDadosDataTable(Request $request)
     {
-        $entcart = ImpCampo::select(['cda_imp_campo.*'])
-            ->where('cda_imp_campo.ArquivoId',$request->ArquivoId)
+        $entcart = ImpArquivo::select(['cda_imp_arquivo.*','cda_regtab.*'])
+            ->join('cda_regtab', 'cda_regtab.REGTABID', '=', 'cda_imp_arquivo.TpArqId')
+            ->where('cda_imp_arquivo.LayoutId',$request->LayoutId)
             ->get();
         ;
 

@@ -59,16 +59,24 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutTabela">Tabela BD <span class="required">*</span></label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="DiretorioDs">Diretório
+                                    </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="LayoutTabela" name="LayoutTabela" required="required">
-                                            <option value=""></option>
-                                            @foreach($Tabelas as $var)
-                                                <option value="{{$var->alias}}">{{$var->nome}}</option>             
-                                            @endforeach
-                                        </select>
+                                        <input value="{{ old('DiretorioDs')  }}"  type="text" id="DiretorioDs" name="DiretorioDs" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
+
+                                {{--<div class="item form-group">--}}
+                                    {{--<label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutTabela">Tabela BD <span class="required">*</span></label>--}}
+                                    {{--<div class="col-md-6 col-sm-6 col-xs-12">--}}
+                                        {{--<select class="form-control" id="LayoutTabela" name="LayoutTabela" required="required">--}}
+                                            {{--<option value=""></option>--}}
+                                {{--            @foreach($Tabelas as $var)--}}
+                                                {{--<option value="{{$var->alias}}">{{$var->nome}}</option>             --}}
+                                {{--            @endforeach--}}
+                                        {{--</select>--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
 
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>

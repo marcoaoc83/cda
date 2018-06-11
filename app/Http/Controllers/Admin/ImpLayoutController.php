@@ -100,10 +100,17 @@ Where
 Where
 table_schema = '".DB::getDatabaseName()."'");
 
+        $TpArq = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','TpArq')
+            ->get();
+        ;
+
         // show the view and pass the nerd to it
         return view('admin.implayout.edit',[
             'Campos'=>$Campos,
             'ImpLayout'=>$implayout,
+            'TpArq'=>$TpArq,
             'Tabelas'=>$Tabelas
         ]);
     }

@@ -134,7 +134,9 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::resource('admin/implayout', 'ImpLayoutController');
 
     Route::get('admin/impcampo/getdata', 'ImpCampoController@getDadosDataTable')->name('impcampo.getdata');
+    Route::get('admin/imparquivo/getdata', 'ImpArquivoController@getDadosDataTable')->name('imparquivo.getdata');
     Route::resource('admin/impcampo', 'ImpCampoController');
+    Route::resource('admin/imparquivo', 'ImpArquivoController');
 
     Route::resource('admin/importacao', 'ImportacaoController');
 
