@@ -11,6 +11,7 @@
                 <form id="formImpCampo"  class="form-horizontal form-label-left" >
                     {{ csrf_field() }}
                     <input type="hidden" name="LayoutId" value="{{$ImpLayout->LayoutId}}">
+                    <input type="hidden" id="ArquivoId" name="ArquivoId">
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CampoDB">Campo no BD <span class="required">*</span></label>

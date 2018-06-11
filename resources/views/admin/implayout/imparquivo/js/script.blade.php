@@ -77,6 +77,10 @@
                 var ArquivoId = tableImpArquivo.rows( indexes ).data().pluck( 'ArquivoId' );
 
                 reloadCampo('#formImpCampo #CampoDB',TabelaBD[0]);
+                reloadCampo('#myModalImpCampoEdita #CampoDB',TabelaBD[0]);
+
+                $('#formImpCampo #ArquivoId').val(ArquivoId[0]);
+                $('#myModalImpCampoEdita #ArquivoId').val(ArquivoId[0]);
 
                 var tableImpCampo = $('#tbImpCampo').DataTable();
                 var url = "{{ route('impcampo.getdata') }}"+"/?ArquivoId="+ArquivoId[0];

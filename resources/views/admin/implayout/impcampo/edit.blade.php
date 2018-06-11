@@ -12,6 +12,7 @@
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
                     <input type="hidden" name="LayoutId" value="{{$ImpLayout->LayoutId}}">
+                    <input type="hidden" id="ArquivoId" name="ArquivoId">
                     <input type="hidden" name="CampoID" id="CampoID" value="">
 
 
