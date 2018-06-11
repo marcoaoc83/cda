@@ -94,6 +94,9 @@ class ImpCampoController extends Controller
         $ImpCampo->CampoDB       = $request->CampoDB;
         $ImpCampo->CampoPK       = $request->CampoPK;
         $ImpCampo->CampoValorFixo       = $request->CampoValorFixo;
+        $ImpCampo->FKTabela       = $request->FKTabela;
+        $ImpCampo->FKCampo       = $request->FKCampo;
+        $ImpCampo->CampoTipo       = $request->CampoTipo;
         if($ImpCampo->save())
             return \response()->json(true);
         return \response()->json(false);

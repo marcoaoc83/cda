@@ -31,6 +31,24 @@
                     name: 'CampoValorFixo'
                 },
                 {
+                    data: 'FKTabela',
+                    name: 'FKTabela',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'FKCampo',
+                    name: 'FKCampo',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'CampoTipo',
+                    name: 'CampoTipo',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
                     data: 'LayoutId',
                     name: 'LayoutId',
                     "visible": false,
@@ -141,12 +159,17 @@
             var CampoDB = linha[   'CampoDB'];
             var CampoPK = linha[   'CampoPK'];
             var CampoValorFixo = linha['CampoValorFixo'];
+            var CampoTipo = linha['CampoTipo'];
             var CampoID = linha['CampoID'];
             $('#pnImpCampo #formEditar #LayoutId').val(LayoutId);
             $('#pnImpCampo #formEditar #CampoNm').val(CampoNm);
             $('#pnImpCampo #formEditar #CampoDB').val(CampoDB);
             $('#pnImpCampo #formEditar #CampoPK').val(CampoPK);
+            $('#pnImpCampo #formEditar #FKTabela').val( linha['FKTabela']);
+            $('#pnImpCampo #formEditar #FKCampo').val( linha['FKCampo']);
             $('#pnImpCampo #formEditar #CampoValorFixo').val(CampoValorFixo);
+            $('#pnImpCampo #formEditar [name=\'CampoTipo\']').trigger('click');
+            $('#pnImpCampo #formEditar [name="CampoTipo"][value='+CampoTipo+']').trigger('click');
             $('#pnImpCampo #formEditar #CampoID').val(CampoID);
         });
 

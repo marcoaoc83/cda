@@ -28,10 +28,10 @@
                     </div>
 
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CampoNm">Coluna do Arquivo <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CampoNm">Coluna do Arquivo
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input value="{{ old('CampoNm') }}"  type="text" id="CampoNm" name="CampoNm" required="required" class="form-control col-md-7 col-xs-12">
+                            <input value="{{ old('CampoNm') }}"  type="text" id="CampoNm" name="CampoNm"  class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 
@@ -40,13 +40,13 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Campo</label>
                         <div class="col-md-6 col-sm-6 col-xs-12"  data-toggle="buttons">
                             <label class="btn btn-default active " onclick="$('.TFixo').addClass('hidden');$('.TFK').addClass('hidden');">
-                                <input type="radio" name="TComum" id="TComum" value="1" checked="checked" >Comum
+                                <input type="radio" name="CampoTipo" id="TComum" value="1" checked="checked" >Comum
                             </label>
                             <label class="btn btn-default "  onclick="$('.TFixo').removeClass('hidden');$('.TFK').addClass('hidden');">
-                                <input type="radio" name="TComum" id="TFixo" value="2">Fixo
+                                <input type="radio" name="CampoTipo" id="TFixo" value="2">Fixo
                             </label>
                             <label class="btn btn-default " onclick="$('.TFixo').addClass('hidden');$('.TFK').removeClass('hidden');">
-                                <input type="radio" name="TComum" id="TFK" value="3"   >FK
+                                <input type="radio" name="CampoTipo" id="TFK" value="3"   >FK
                             </label>
                         </div>
                     </div>
