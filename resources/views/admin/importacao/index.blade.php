@@ -42,10 +42,10 @@
                             <form class="form-horizontal form-label-left"    method="post" action="{{ route('importacao.store') }}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Layout <span class="required">*</span></label>
+                                <div class="item form-group" id="divLayout">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId" >Layout <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="LayoutId" name="LayoutId" required="required">
+                                        <select class="form-control" id="LayoutId" name="LayoutId" required="required" onchange="montaUpload(this.value)">
                                             <option value=""></option>
                                                 @foreach($Layout as $var)
                                                 <option value="{{$var->LayoutId}}">{{$var->LayoutNm}}</option>             
@@ -114,6 +114,24 @@
         $(function() {
             bs_input_file();
         });
+        function montaUpload(LayoutId) {
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                data: {
+                    _token: '{!! csrf_token() !!}',
+                    LayoutId:LayoutId,
+                    _method: 'POST'
+                },
+                url: '{{ url('admin/implayout/montaupload/') }}',
+                success: function (retorno) {
+                    var arquivos = $.parseJSON(retorno);
+                },
+                error: function (retorno) {
+                    console.log(retorno);
+                }
+            });
+        }
     </script>
 
 @endpush

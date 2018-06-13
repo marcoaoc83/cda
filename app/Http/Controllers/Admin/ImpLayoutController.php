@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\ImpArquivo;
 use App\Models\ImpLayout;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
@@ -181,5 +182,10 @@ and table_schema = '".DB::getDatabaseName()."'");
 
 
         return  $Campos;
+    }
+
+    public function MontaUpload(Request $request){
+        $ImpArquivo = ImpArquivo::where('LayoutId', $request->LayoutId);
+        dd($ImpArquivo);
     }
 }

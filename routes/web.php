@@ -131,6 +131,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/implayout/getcampos', 'ImpLayoutController@getCampos')->name('implayout.getcampos');
     Route::get('admin/implayout/getdata', 'ImpLayoutController@getDadosDataTable')->name('implayout.getdata');
+    Route::post('admin/implayout/montaupload', 'ImpLayoutController@MontaUpload')->name('implayout.montaupload');
     Route::resource('admin/implayout', 'ImpLayoutController');
 
     Route::get('admin/impcampo/getdata', 'ImpCampoController@getDadosDataTable')->name('impcampo.getdata');
