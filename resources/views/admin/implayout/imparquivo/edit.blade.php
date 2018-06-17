@@ -24,17 +24,6 @@
                     </div>
 
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TabelaBD">Tabela BD <span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="TabelaBD" name="TabelaBD" required="required">
-                                <option value=""></option>
-                                    @foreach($Tabelas as $var)
-                                    <option value="{{$var->alias}}">{{$var->nome}}</option>             
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ArquivoDs">Arq Origem<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">

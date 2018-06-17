@@ -91,6 +91,7 @@ class ImpCampoController extends Controller
         }
         $ImpCampo = ImpCampo::findOrFail($id);
         $ImpCampo->CampoNm       = $request->CampoNm;
+        $ImpCampo->TabelaDB       = $request->TabelaDB;
         $ImpCampo->CampoDB       = $request->CampoDB;
         $ImpCampo->CampoPK       = $request->CampoPK;
         $ImpCampo->CampoValorFixo       = $request->CampoValorFixo;

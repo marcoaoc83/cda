@@ -26,7 +26,6 @@
             <thead>
             <tr>
                 <th>Ordem</th>
-                <th>Tabela</th>
                 <th>Arquivo Origem</th>
                 <th>Tp Arq</th>
             </tr>

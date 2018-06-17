@@ -15,21 +15,28 @@
                     <input type="hidden" id="ArquivoId" name="ArquivoId">
                     <input type="hidden" name="CampoID" id="CampoID" value="">
 
-
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TabelaDB">Tabela BD <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="form-control" id="TabelaDB" name="TabelaDB" required="required" onchange="reloadCampo('#formEditar #CampoDB',this.value)">
+                                <option value=""></option>
+                                    @foreach($Tabelas as $var)
+                                    <option value="{{$var->alias}}">{{$var->nome}}</option>             
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CampoDB">Campo no BD <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" id="CampoDB" name="CampoDB" required="required">
                                 <option value=""></option>
-                                    @foreach($Campos as $var)
-                                    @if ($ImpLayout->LayoutTabela === $var->tabela)
-                                        <option value="{{$var->coluna}}">{{$var->coluna}}</option> 
-                                    @endif           
-                                @endforeach
+                                 
                             </select>
                         </div>
                     </div>
+
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CampoNm">Coluna do Arquivo

@@ -23,6 +23,10 @@
                     name: 'CampoNm'
                 },
                 {
+                    data: 'TabelaDB',
+                    name: 'TabelaDB'
+                },
+                {
                     data: 'CampoDB',
                     name: 'CampoDB'
                 },
@@ -156,6 +160,7 @@
             var linha =table.row('.selected').data();
             var LayoutId = '{{$ImpLayout->LayoutId}}';
             var CampoNm = linha[   'CampoNm'];
+            var TabelaDB = linha[   'TabelaDB'];
             var CampoDB = linha[   'CampoDB'];
             var CampoPK = linha[   'CampoPK'];
             var CampoValorFixo = linha['CampoValorFixo'];
@@ -163,7 +168,9 @@
             var CampoID = linha['CampoID'];
             $('#pnImpCampo #formEditar #LayoutId').val(LayoutId);
             $('#pnImpCampo #formEditar #CampoNm').val(CampoNm);
-            $('#pnImpCampo #formEditar #CampoDB').val(CampoDB);
+            $('#pnImpCampo #formEditar #TabelaDB').val(TabelaDB);
+            reloadCampo('#formEditar #CampoDB',TabelaDB);
+
             $('#pnImpCampo #formEditar #CampoPK').val(CampoPK);
             $('#pnImpCampo #formEditar #FKTabela').val( linha['FKTabela']);
             $('#pnImpCampo #formEditar #FKCampo').val( linha['FKCampo']);
@@ -171,6 +178,7 @@
             $('#pnImpCampo #formEditar [name=\'CampoTipo\']').trigger('click');
             $('#pnImpCampo #formEditar [name="CampoTipo"][value='+CampoTipo+']').trigger('click');
             $('#pnImpCampo #formEditar #CampoID').val(CampoID);
+            $('#pnImpCampo #formEditar #CampoDB').val(CampoDB);
         });
 
         $('#pnImpCampo #formEditar').on('submit', function (e) {

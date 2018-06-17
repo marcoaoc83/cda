@@ -26,6 +26,7 @@
             <thead>
             <tr>
                 <th>Nome Campo Arquivo</th>
+                <th>Tabela BD</th>
                 <th>Nome Campo BD</th>
                 <th>Valor Fixo</th>
             </tr>

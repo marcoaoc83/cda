@@ -23,10 +23,6 @@
                     name: 'ArquivoOrd'
                 },
                 {
-                    data: 'TabelaBD',
-                    name: 'TabelaBD'
-                },
-                {
                     data: 'ArquivoDs',
                     name: 'ArquivoDs'
                 },
