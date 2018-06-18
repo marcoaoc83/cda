@@ -184,8 +184,8 @@ and table_schema = '".DB::getDatabaseName()."'");
         return  $Campos;
     }
 
-    public function MontaUpload(Request $request){
+    public function montaArquivo(Request $request){
         $ImpArquivo = ImpArquivo::where('LayoutId', $request->LayoutId);
-        dd($ImpArquivo);
+        return json_encode($ImpArquivo->get()->all(),JSON_UNESCAPED_UNICODE);
     }
 }

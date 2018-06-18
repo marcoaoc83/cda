@@ -45,11 +45,23 @@
                                 <div class="item form-group" id="divLayout">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId" >Layout <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="LayoutId" name="LayoutId" required="required" onchange="montaUpload(this.value)">
+                                        <select class="form-control" id="LayoutId" name="LayoutId" required="required" onchange="montaArquivo(this.value)">
                                             <option value=""></option>
                                                 @foreach($Layout as $var)
                                                 <option value="{{$var->LayoutId}}">{{$var->LayoutNm}}</option>             
                                                 @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="item form-group" id="divLayout">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ArquivoId" >Layout Arquivo<span class="required">*</span></label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="ArquivoId" name="ArquivoId" required="required">
+                                            <option value=""></option>
+                                                @foreach($Layout as $var)
+                                                <option value="{{$var->LayoutId}}">{{$var->LayoutNm}}</option>             
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -114,7 +126,8 @@
         $(function() {
             bs_input_file();
         });
-        function montaUpload(LayoutId) {
+        function montaArquivo(LayoutId) {
+            $('#ArquivoId').children().remove();
             $.ajax({
                 dataType: 'json',
                 type: 'POST',
@@ -123,9 +136,14 @@
                     LayoutId:LayoutId,
                     _method: 'POST'
                 },
-                url: '{{ url('admin/implayout/montaupload/') }}',
+                url: '{{ url('admin/implayout/montaarquivo/') }}',
                 success: function (retorno) {
-                    var arquivos = $.parseJSON(retorno);
+                    if(retorno) {
+                        var arquivos = JSON.parse(JSON.stringify(retorno));
+                        $.each(arquivos, function( index, value ) {
+                            $('#ArquivoId').append($('<option>', {value:value['ArquivoId'], text:value['ArquivoDs']}));
+                        });
+                    }
                 },
                 error: function (retorno) {
                     console.log(retorno);
