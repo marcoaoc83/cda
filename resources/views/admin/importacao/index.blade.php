@@ -48,7 +48,7 @@
                                         <select class="form-control" id="LayoutId" name="LayoutId" required="required" onchange="montaArquivo(this.value)">
                                             <option value=""></option>
                                                 @foreach($Layout as $var)
-                                                <option value="{{$var->LayoutId}}">{{$var->LayoutNm}}</option>             
+                                                    <option value="{{$var->LayoutId}}">{{$var->LayoutNm}}</option>             
                                                 @endforeach
                                         </select>
                                     </div>
@@ -58,10 +58,6 @@
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ArquivoId" >Layout Arquivo<span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select class="form-control" id="ArquivoId" name="ArquivoId" required="required">
-                                            <option value=""></option>
-                                                @foreach($Layout as $var)
-                                                <option value="{{$var->LayoutId}}">{{$var->LayoutNm}}</option>             
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

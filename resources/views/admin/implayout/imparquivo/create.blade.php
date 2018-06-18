@@ -17,7 +17,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ArquivoOrd">Ord<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input value="{{ old('ArquivoOrd') }}"  type="text" id="ArquivoOrd" name="ArquivoOrd" required="required" class="form-control col-md-7 col-xs-12">
+                            <input value="{{ old('ArquivoOrd') }}"  type="number" id="ArquivoOrd" name="ArquivoOrd" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 

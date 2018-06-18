@@ -179,6 +179,8 @@
             $('#pnImpCampo #formEditar [name="CampoTipo"][value='+CampoTipo+']').trigger('click');
             $('#pnImpCampo #formEditar #CampoID').val(CampoID);
             $('#pnImpCampo #formEditar #CampoDB').val(CampoDB);
+            $('#pnImpCampo #formEditar #OrdTable').val( linha['OrdTable']);
+            $('#pnImpCampo #formEditar #TipoDados').val( linha['TipoDados']);
         });
 
         $('#pnImpCampo #formEditar').on('submit', function (e) {

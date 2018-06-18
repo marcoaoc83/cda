@@ -28,7 +28,9 @@
                 <th>Nome Campo Arquivo</th>
                 <th>Tabela BD</th>
                 <th>Nome Campo BD</th>
+                <th>Tipo Campo</th>
                 <th>Valor Fixo</th>
+                <th>Ord Table</th>
             </tr>
             </thead>
         </table>

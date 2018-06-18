@@ -16,6 +16,13 @@
                     <input type="hidden" name="CampoID" id="CampoID" value="">
 
                     <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="OrdTable">Ord Table<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value="{{ old('OrdTable') }}"  type="number" id="OrdTable" name="OrdTable" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TabelaDB">Tabela BD <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" id="TabelaDB" name="TabelaDB" required="required" onchange="reloadCampo('#formEditar #CampoDB',this.value)">
@@ -47,6 +54,22 @@
                     </div>
 
 
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TipoDados">Tipo Dados<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="form-control" id="TipoDados" name="TipoDados" required="TipoDados" >
+                                <option value=""></option>
+                                <option value="databr">Data BR</option>
+                                <option value="dataus">Data US</option>
+                                <option value="float">Float</option>
+                                <option value="hora">Hora</option>
+                                <option value="int">Integer</option>
+                                <option value="char">Texto</option>
+                                <option value="text">Texto Longo</option>
+                            </select>
+                        </div>
+                    </div>
                     <div class="item form-group ">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Tipo Campo</label>
                         <div class="col-md-6 col-sm-6 col-xs-12"  data-toggle="buttons">

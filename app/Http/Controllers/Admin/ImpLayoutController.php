@@ -42,6 +42,7 @@ From
   information_schema.tables
 Where
   information_schema.tables.TABLE_NAME Like 'cda_%'
+  	group by nome
 ");
 
         // show the view and pass the nerd to it
@@ -95,6 +96,7 @@ From
   information_schema.tables
 Where
   information_schema.tables.TABLE_NAME Like 'cda_%'
+  	group by nome
 ");
 
         $Campos=DB::select("Select (INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME) coluna , INFORMATION_SCHEMA.COLUMNS.TABLE_NAME tabela From INFORMATION_SCHEMA.COLUMNS 
@@ -178,7 +180,7 @@ INFORMATION_SCHEMA.COLUMNS.TABLE_NAME tabela
 From INFORMATION_SCHEMA.COLUMNS 
 Where
 INFORMATION_SCHEMA.COLUMNS.TABLE_NAME= '{$request->tabela}'
-and table_schema = '".DB::getDatabaseName()."'");
+and table_schema = '".DB::getDatabaseName()."' 	group by coluna");
 
 
         return  $Campos;

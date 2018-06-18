@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\ImpCampo;
 use App\Models\ImpLayout;
 use App\Models\Importacao;
 use Illuminate\Http\Request;
@@ -157,20 +158,29 @@ class ImportacaoController extends Controller
 
     protected function importarCSV($request){
 
-        $implayout = ImpLayout::select(['cda_imp_layout.*','Campo.CampoNm','Campo.CampoDB','Campo.CampoPK','Campo.CampoValorFixo'])
-            ->leftJoin('cda_imp_campo  as Campo', 'Campo.LayoutId', '=', 'cda_imp_layout.LayoutId')
+        $ImpCampo = ImpCampo::select(['*'])
+            ->where('ArquivoId',  $request->ArquivoId)
             ->get();
+
+        foreach ($ImpCampo as $campos){
+            $Layout[$campos['TabelaDB']]=$campos;
+        }
+
+        dd($ImpCampo[0]['CampoNm']);
 
         $path = $request->file('imp_arquivo')->getRealPath();
         $data = Excel::load($path)->get();
         if(!empty($data) && $data->count())
         {
             $data = $data->toArray();
+            // Percorrendo a linha
             for($i=0;$i<count($data);$i++)
             {
-                $dataImported[] = $data[$i];
+                $linha = $data[$i];
+
             }
         }
+
 
     }
 }
