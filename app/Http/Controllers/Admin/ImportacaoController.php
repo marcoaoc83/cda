@@ -157,7 +157,7 @@ class ImportacaoController extends Controller
     }
 
     protected function importarCSV($request){
-
+        DB::disableQueryLog();
         $ImpCampo = ImpCampo::select(['*'])
             ->where('ArquivoId',  $request->ArquivoId)
             ->orderBy("OrdTable","asc")
