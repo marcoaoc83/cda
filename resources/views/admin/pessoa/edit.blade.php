@@ -145,6 +145,7 @@
 
         $(".typeahead").typeahead(
             {
+                minLength:4,
                 source: function(query, process) {
                     $.ajax({
                         url: "{{ url('admin/pessoa/findpessoa') }}",
