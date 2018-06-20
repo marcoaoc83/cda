@@ -158,6 +158,7 @@ class ImportacaoController extends Controller
 
     protected function importarCSV($request){
         DB::disableQueryLog();
+        ini_set("max_input_time",-1);
         $ImpCampo = ImpCampo::select(['*'])
             ->where('ArquivoId',  $request->ArquivoId)
             ->orderBy("OrdTable","asc")
