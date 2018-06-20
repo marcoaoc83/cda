@@ -168,10 +168,10 @@ class ImportacaoController extends Controller
         }
 
         $path = $request->file('imp_arquivo')->getRealPath();
-        $data = Excel::load($path)->get();
-        if(!empty($data) && $data->count())
+        $data = self::csv_to_array($path,";");
+
+        if(!empty($data) )
         {
-            $data = $data->toArray();
             // Percorrendo a linha
             for($i=0;$i<count($data);$i++)
             {
@@ -184,7 +184,7 @@ class ImportacaoController extends Controller
                     foreach ($Tabela as $Campo) {
 
                         if($Campo["CampoTipo"]==1) {
-                            $values .= $Campo["CampoDB"]." = '".$linha[strtolower($Campo["CampoNm"])]."',";
+                            $values .= $Campo["CampoDB"]." = '".$linha[($Campo["CampoNm"])]."',";
                         }
 
                         if($Campo["CampoTipo"]==2) {
@@ -197,7 +197,7 @@ class ImportacaoController extends Controller
 
                             $coluna=DB::select($query);
 
-                            $query=" SELECT * FROM ".$Campo['FKTabela']." WHERE ".$Campo['FKCampo']." = '".$linha[strtolower($Campo["CampoNm"])]."'";
+                            $query=" SELECT * FROM ".$Campo['FKTabela']." WHERE ".$Campo['FKCampo']." = '".$linha[($Campo["CampoNm"])]."'";
                             $fk=DB::select($query);
 
                             $values .= " ".$Campo["CampoDB"]." = '".$fk[0]->{$coluna[0]->coluna}."',";
@@ -216,5 +216,37 @@ class ImportacaoController extends Controller
         // redirect
         SWAL::message('Salvo','Importado com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect("admin/importacao");
+    }
+
+    public function csv_to_array($filename = '') {
+            $row = 0;
+            $col = 0;
+
+            $handle = @fopen($filename, "r");
+            if ($handle)
+            {
+                while (($row = fgetcsv($handle, 4096,';')) !== false)
+                {
+                    if (empty($fields))
+                    {
+                        $fields = $row;
+                        continue;
+                    }
+
+                    foreach ($row as $k=>$value)
+                    {
+                        $results[$col][$fields[$k]] = $value;
+                    }
+                    $col++;
+                    unset($row);
+                }
+                if (!feof($handle))
+                {
+                    echo "Error: unexpected fgets() failn";
+                }
+                fclose($handle);
+            }
+
+            return $results;
     }
 }
