@@ -18,6 +18,12 @@
                 }
             },
             columns: [
+
+                {
+                    data: 'OrdTable',
+                    name: 'OrdTable'
+                },
+
                 {
                     data: 'CampoNm',
                     name: 'CampoNm'

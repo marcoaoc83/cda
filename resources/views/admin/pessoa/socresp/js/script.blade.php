@@ -145,6 +145,7 @@
 
             $('#pnSocResp #formEditar #SocRespId').val(linha['SocRespId']);
             $('#pnSocResp #formEditar #PessoaIdSR').val(linha['PessoaIdSR']);
+            $('#pnSocResp #formEditar #PessoaIdSRName').val(linha['PESSOANMRS']);
             $('#pnSocResp #formEditar #InicioDt').val(linha['InicioDt']);
             $('#pnSocResp #formEditar #TerminoDt').val(linha['TerminoDt']);
 

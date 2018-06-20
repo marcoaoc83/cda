@@ -25,6 +25,7 @@
         <table id="tbImpCampo" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
             <thead>
             <tr>
+                <th>Ordem</th>
                 <th>Nome Campo Arquivo</th>
                 <th>Tabela BD</th>
                 <th>Nome Campo BD</th>

@@ -2,6 +2,9 @@
 @section('styles')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/select/1.1.2/css/select.dataTables.min.css" rel="stylesheet">
+<style>
+    .typeahead { z-index: 9999999; }
+</style>
 @endsection
 @section('content')
     <!-- page content -->
@@ -133,10 +136,34 @@
 
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
     <script>
         $("input[id*='CPF_CNPJNR']").inputmask({
             mask: ['999.999.999-99', '99.999.999/9999-99'],
             keepStatic: true
         });
+
+        $(".typeahead").typeahead(
+            {
+                source: function(query, process) {
+                    $.ajax({
+                        url: "{{ url('admin/pessoa/findpessoa') }}",
+                        type: 'GET',
+                        data: 'query=' + query,
+                        dataType: 'JSON',
+                        async: false,
+                        success: function(data) {
+                            console.log(data);
+                            return process(data);
+                        }
+                    });
+                },
+                afterSelect: function (data) {
+                    //print the id to developer tool's console
+                    $("#formSocResp #PessoaIdSR").val(data.id);
+                    $("#formEditar  #PessoaIdSR").val(data.id);
+                }
+            }
+        );
     </script>
 @endpush

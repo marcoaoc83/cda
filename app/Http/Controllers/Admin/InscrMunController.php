@@ -109,7 +109,7 @@ class InscrMunController extends Controller
     public function getDadosDataTable(Request $request)
     {
         $inscrmun = InscrMun::select(['cda_inscrmun.*','REGTABSG', 'REGTABNM', ])
-            ->join('cda_regtab', 'cda_regtab.REGTABID', '=', 'cda_inscrmun.ORIGTRIBID')
+            ->leftjoin('cda_regtab', 'cda_regtab.REGTABID', '=', 'cda_inscrmun.ORIGTRIBID')
             ->where('cda_inscrmun.PESSOAID',$request->PESSOAID)
             ->get();
         ;

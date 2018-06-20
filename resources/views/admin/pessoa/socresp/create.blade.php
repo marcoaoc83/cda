@@ -13,16 +13,13 @@
                     <input type="hidden" name="PessoaId" value="{{$Pessoa->PESSOAID}}">
                     <input type="hidden" id="InscrMunId" name="InscrMunId" >
                     <input type="hidden" id="SocRespId" name="SocRespId">
+                    <input type="hidden" id="PessoaIdSR" name="PessoaIdSR">
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PessoaIdSR">Socio <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="PessoaIdSR" name="PessoaIdSR" required="required">
-                                <option value=""></option>
-                                @foreach($PessoaIdSR as $var)
-                                    <option value="{{$var->PESSOAID}}" >{{$var->PESSOANMRS}} - {{$var->CPF_CNPJNR}}</option>             
-                                @endforeach
-                            </select>
+
+                            <input type="text" name="PessoaIdSRName" id="PessoaIdSRName" class="form-control col-md-10 typeahead"  data-provide="typeahead">
                         </div>
                     </div>
 

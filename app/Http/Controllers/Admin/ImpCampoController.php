@@ -124,6 +124,8 @@ class ImpCampoController extends Controller
     {
         $entcart = ImpCampo::select(['cda_imp_campo.*'])
             ->where('cda_imp_campo.ArquivoId',$request->ArquivoId)
+            ->orderBy('OrdTable', 'ASC')
+            ->orderBy('CampoID', 'ASC')
             ->get();
         ;
 

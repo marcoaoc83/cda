@@ -160,13 +160,12 @@ class ImportacaoController extends Controller
 
         $ImpCampo = ImpCampo::select(['*'])
             ->where('ArquivoId',  $request->ArquivoId)
-            ->get();
+            ->orderBy("OrdTable","asc")
+            ->get()->all();
 
         foreach ($ImpCampo as $campos){
-            $Layout[$campos['TabelaDB']]=$campos;
+            $Layout[$campos['TabelaDB']][] = json_decode(json_encode($campos), true);
         }
-
-        dd($ImpCampo[0]['CampoNm']);
 
         $path = $request->file('imp_arquivo')->getRealPath();
         $data = Excel::load($path)->get();
@@ -178,9 +177,44 @@ class ImportacaoController extends Controller
             {
                 $linha = $data[$i];
 
+                foreach ($Layout as $key => $Tabela){
+
+                    $sql = "INSERT INTO " . $key . " SET ";
+                    $values="";
+                    foreach ($Tabela as $Campo) {
+
+                        if($Campo["CampoTipo"]==1) {
+                            $values .= $Campo["CampoDB"]." = '".$linha[strtolower($Campo["CampoNm"])]."',";
+                        }
+
+                        if($Campo["CampoTipo"]==2) {
+                            $values .= $Campo["CampoDB"]." = '".$Campo["CampoValorFixo"]."',";
+                        }
+
+                        if($Campo["CampoTipo"]==3) {
+
+                            $query="SELECT column_name AS coluna FROM information_schema.columns WHERE table_schema=DATABASE() AND  column_key='PRI' AND table_name='".$Campo['FKTabela']."'";
+
+                            $coluna=DB::select($query);
+
+                            $query=" SELECT * FROM ".$Campo['FKTabela']." WHERE ".$Campo['FKCampo']." = '".$linha[strtolower($Campo["CampoNm"])]."'";
+                            $fk=DB::select($query);
+
+                            $values .= " ".$Campo["CampoDB"]." = '".$fk[0]->{$coluna[0]->coluna}."',";
+                        }
+                    }
+
+                    $values=substr_replace($values, '', -1);
+                    $sql=$sql.$values." ON DUPLICATE KEY UPDATE ".$values;
+
+                    DB::insert($sql);
+
+                }
             }
         }
 
-
+        // redirect
+        SWAL::message('Salvo','Importado com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+        return redirect("admin/importacao");
     }
 }

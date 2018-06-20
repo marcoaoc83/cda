@@ -70,6 +70,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::resource('admin/carteira', 'CarteiraController');
 
     Route::get('admin/pessoa/getdata', 'PessoaController@getDadosDataTable')->name('pessoa.getdata');
+    Route::get('admin/pessoa/findpessoa', 'PessoaController@findPessoa')->name('pessoa.findpessoa');
     Route::resource('admin/pessoa', 'PessoaController');
 
     Route::get('admin/regcalc/getdata', 'RegraCalculoController@getDadosDataTable')->name('regcalc.getdata');

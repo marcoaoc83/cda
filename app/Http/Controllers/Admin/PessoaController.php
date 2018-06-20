@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Pessoa;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Softon\SweetAlert\Facades\SWAL;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -172,5 +173,23 @@ class PessoaController extends Controller
                 ';
             })
             ->make(true);
+    }
+
+    public function findPessoa()
+    {
+        $data = strtolower(Input::get('query'));
+        $cda_pessoa = Pessoa::select(['PESSOAID','PESSOANMRS', 'CPF_CNPJNR'])
+            ->whereRaw('LOWER(PESSOANMRS) LIKE ? ',['%'.trim(strtolower($data)).'%'])
+            ->orWhere('CPF_CNPJNR','like','%'.$data.'%');
+        //dd($cda_pessoa);
+        $pessoas=$cda_pessoa->get()->all();
+        $x=0;
+        $return=[];
+        foreach ($pessoas as $pessoa){
+            $return[$x]['id']= $pessoa['PESSOAID'];
+            $return[$x]['name']= strtoupper($pessoa['PESSOANMRS'])." - ".$pessoa['CPF_CNPJNR'];
+            $x++;
+        }
+        return json_encode($return,JSON_UNESCAPED_UNICODE);
     }
 }
