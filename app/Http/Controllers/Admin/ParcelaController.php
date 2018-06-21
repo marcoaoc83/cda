@@ -110,12 +110,14 @@ class ParcelaController extends Controller
             'OrigTribT.REGTABNM as  OrigTrib',
             'TributoT.REGTABNM as  Tributo',
             ])
-            ->join('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
-            ->join('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
-            ->join('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
-            ->join('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
-            ->where('cda_parcela.InscrMunId',$request->INSCRMUNID)
-            ->get();
+            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
+            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
+            ->where('cda_parcela.PessoaId',$request->PESSOAID);
+        if($request->INSCRMUNID)
+            $cda_parcela->where('cda_parcela.INSCRMUNID',$request->INSCRMUNID);
+        $cda_parcela->get();
 
         return Datatables::of($cda_parcela)->make(true);
     }

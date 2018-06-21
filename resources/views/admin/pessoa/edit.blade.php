@@ -143,7 +143,7 @@
             keepStatic: true
         });
 
-        $(".typeahead").typeahead(
+        $("#myModalSocResp .typeahead").typeahead(
             {
                 minLength:4,
                 source: function(query, process) {
@@ -154,15 +154,84 @@
                         dataType: 'JSON',
                         async: false,
                         success: function(data) {
-                            console.log(data);
+                            
                             return process(data);
                         }
                     });
                 },
                 afterSelect: function (data) {
                     //print the id to developer tool's console
-                    $("#formSocResp #PessoaIdSR").val(data.id);
-                    $("#formEditar  #PessoaIdSR").val(data.id);
+                    $("#myModalSocResp #PessoaIdSR").val(data.id);
+                }
+            }
+        );
+        $("#myModalSocRespEdita .typeahead").typeahead(
+            {
+                minLength:4,
+                source: function(query, process) {
+                    $.ajax({
+                        url: "{{ url('admin/pessoa/findpessoa') }}",
+                        type: 'GET',
+                        data: 'query=' + query,
+                        dataType: 'JSON',
+                        async: false,
+                        success: function(data) {
+                            
+                            return process(data);
+                        }
+                    });
+                },
+                afterSelect: function (data) {
+                    //print the id to developer tool's console
+                    $("#myModalSocRespEdita  #PessoaIdSR").val(data.id);
+                }
+            }
+        );
+
+
+        $("#myModalCredPort .typeahead").typeahead(
+            {
+                minLength:4,
+                source: function(query, process) {
+                    $.ajax({
+                        url: "{{ url('admin/pessoa/findpessoa') }}",
+                        type: 'GET',
+                        data: 'query=' + query,
+                        dataType: 'JSON',
+                        async: false,
+                        success: function(data) {
+                            
+                            return process(data);
+                        }
+                    });
+                },
+                afterSelect: function (data) {
+                    //print the id to developer tool's console
+                    $("#myModalCredPort  #PessoaIdCP").val(data.id);
+                }
+            }
+        );
+
+
+        $("#myModalCredPortEdita .typeahead").typeahead(
+            {
+                minLength:4,
+                source: function(query, process) {
+                    $.ajax({
+                        url: "{{ url('admin/pessoa/findpessoa') }}",
+                        type: 'GET',
+                        data: 'query=' + query,
+                        dataType: 'JSON',
+                        async: false,
+                        success: function(data) {
+                            
+                            return process(data);
+                        }
+                    });
+                },
+                afterSelect: function (data) {
+                    //print the id to developer tool's console
+                    $("#myModalCredPortEdita #PessoaIdCP").val(data.id);
                 }
             }
         );

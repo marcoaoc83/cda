@@ -14,16 +14,11 @@
                     <input type="hidden" id="InscrMunId" name="InscrMunId" >
                     <input type="hidden" id="CredPortId" name="CredPortId">
                     <input type="hidden" id="name" name="name">
+                    <input type="hidden" id="PessoaIdCP" name="PessoaIdCP">
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PessoaIdCP">Nome <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PessoaIdCPName">Nome <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-
-                            <select class="form-control" title="" onchange="$('#name').val( $(this).find(':selected').data('name'))" data-live-search="true" id="PessoaIdCP" name="PessoaIdCP" required="required">
-                                <option value=""></option>
-                                @foreach($PessoaIdCP as $var)
-                                    <option value="{{$var->PESSOAID}}" data-name="{{$var->PESSOANMRS}}" >{{$var->PESSOANMRS}} - {{$var->CPF_CNPJNR}}</option>             
-                                @endforeach
-                            </select>
+                            <input type="text" name="PessoaIdCPName" id="PessoaIdCPName" class="form-control col-md-10 typeahead"  data-provide="typeahead">
                         </div>
                     </div>
 
