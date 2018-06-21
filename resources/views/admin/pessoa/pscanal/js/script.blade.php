@@ -53,6 +53,10 @@
                     name: 'EnderecoNr'
                 },
                 {
+                    data: 'Complemento',
+                    name: 'Complemento'
+                },
+                {
                     data: 'Bairro',
                     name: 'Bairro'
                 },
@@ -60,10 +64,7 @@
                     data: 'Cidade',
                     name: 'Cidade'
                 },
-                {
-                    data: 'UF',
-                    name: 'UF'
-                },
+
                 {
                     data: 'PsCanalId',
                     name: 'PsCanalId',

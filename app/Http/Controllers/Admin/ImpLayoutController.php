@@ -187,7 +187,7 @@ and table_schema = '".DB::getDatabaseName()."' 	group by coluna");
     }
 
     public function montaArquivo(Request $request){
-        $ImpArquivo = ImpArquivo::where('LayoutId', $request->LayoutId);
+        $ImpArquivo = ImpArquivo::where('LayoutId', $request->LayoutId)->orderBy('ArquivoOrd','asc');
         return json_encode($ImpArquivo->get()->all(),JSON_UNESCAPED_UNICODE);
     }
 }

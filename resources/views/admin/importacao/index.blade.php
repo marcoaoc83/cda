@@ -124,6 +124,7 @@
         });
         function montaArquivo(LayoutId) {
             $('#ArquivoId').children().remove();
+            $('#ArquivoId').append($('<option>', {value:'', text:'Carregando...'}));
             $.ajax({
                 dataType: 'json',
                 type: 'POST',
@@ -134,8 +135,10 @@
                 },
                 url: '{{ url('admin/implayout/montaarquivo/') }}',
                 success: function (retorno) {
+                    $('#ArquivoId').children().remove();
                     if(retorno) {
                         var arquivos = JSON.parse(JSON.stringify(retorno));
+                        $('#ArquivoId').append($('<option>', {value:'', text:''}));
                         $.each(arquivos, function( index, value ) {
                             $('#ArquivoId').append($('<option>', {value:value['ArquivoId'], text:value['ArquivoDs']}));
                         });
