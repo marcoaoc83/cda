@@ -51,5 +51,9 @@ class Parcela extends Model
         if($value)
             $this->attributes['VencimentoDt'] = Carbon::createFromFormat("d/m/Y",$value)->format('Y-m-d');
     }
-
+    public function setPagamentoDtAttribute($value)
+    {
+        if($value)
+            $this->attributes['PagamentoDt'] = Carbon::createFromFormat("d/m/Y",$value)->format('Y-m-d');
+    }
 }
