@@ -159,6 +159,7 @@ class ImportacaoController extends Controller
     protected function importarCSV($request){
         DB::disableQueryLog();
         ini_set("max_input_time",-1);
+        ini_set('memory_limit', -1);
         $ImpCampo = ImpCampo::select(['*'])
             ->where('ArquivoId',  $request->ArquivoId)
             ->orderBy("OrdTable","asc")
@@ -183,9 +184,19 @@ class ImportacaoController extends Controller
                     $sql = "INSERT INTO " . $key . " SET ";
                     $values="";
                     foreach ($Tabela as $Campo) {
+                        $value=$linha[($Campo["CampoNm"])];
+
+                        if($Campo["TipoDados"]=="date"){
+                            $value=strftime("%Y-%m-%d", strtotime($value));
+                        }
+
+                        if($Campo["TipoDados"]=="moedabr"){
+                            $value=str_replace([".","$","R"],"",$value);
+                            $value=trim(str_replace(",",".",$value));
+                        }
 
                         if($Campo["CampoTipo"]==1) {
-                            $values .= $Campo["CampoDB"]." = '".$linha[($Campo["CampoNm"])]."',";
+                            $values .= $Campo["CampoDB"]." = '".$value."',";
                         }
 
                         if($Campo["CampoTipo"]==2) {
@@ -198,7 +209,7 @@ class ImportacaoController extends Controller
 
                             $coluna=DB::select($query);
 
-                            $query=" SELECT * FROM ".$Campo['FKTabela']." WHERE ".$Campo['FKCampo']." = '".$linha[($Campo["CampoNm"])]."'";
+                            $query=" SELECT * FROM ".$Campo['FKTabela']." WHERE ".$Campo['FKCampo']." = '".$value."'";
                             $fk=DB::select($query);
 
                             $values .= " ".$Campo["CampoDB"]." = '".$fk[0]->{$coluna[0]->coluna}."',";

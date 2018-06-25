@@ -60,11 +60,12 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" id="TipoDados" name="TipoDados" required="TipoDados" >
                                 <option value=""></option>
-                                <option value="databr">Data BR</option>
-                                <option value="dataus">Data US</option>
-                                <option value="float">Float</option>
+                                <option value="data">Data</option>
+                                <option value="moedabr">Moeda BR</option>
+                                <option value="moedaus">Moeda US</option>
+                                <option value="decimal">Decimal</option>
                                 <option value="hora">Hora</option>
-                                <option value="int">Integer</option>
+                                <option value="int">Inteiro</option>
                                 <option value="char">Texto</option>
                                 <option value="text">Texto Longo</option>
                             </select>

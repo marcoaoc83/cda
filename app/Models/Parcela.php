@@ -27,6 +27,7 @@ class Parcela extends Model
         'DescontoVr',
         'Honorarios',
         'TotalVr',
+        'PagamentoDt',
     ];
     protected $table = 'cda_parcela';
     public $timestamps = false;
