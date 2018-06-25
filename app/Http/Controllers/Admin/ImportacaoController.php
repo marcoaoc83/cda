@@ -157,7 +157,7 @@ class ImportacaoController extends Controller
     }
 
     protected function importarCSV($request){
-        DB::disableQueryLog();
+        //DB::disableQueryLog();
         ini_set("max_input_time",-1);
         ini_set('memory_limit', -1);
         $ImpCampo = ImpCampo::select(['*'])
