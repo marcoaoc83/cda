@@ -35,7 +35,7 @@ class Parcela extends Model
 
     protected $dateFormat = 'd/m/Y';
 
-    protected $dates = ['LancamentoDt', 'VencimentoDt'];
+    protected $dates = ['LancamentoDt','PagamentoDt', 'VencimentoDt'];
 
     protected $casts = [
         'driver_expiration'     => 'date'
