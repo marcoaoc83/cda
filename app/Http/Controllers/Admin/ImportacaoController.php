@@ -172,6 +172,9 @@ class ImportacaoController extends Controller
         $path = $request->file('imp_arquivo')->getRealPath();
         $data = self::csv_to_array($path,";");
 
+        $coluna_fk=[];
+        $consulta_fk=[];
+
         if(!empty($data) )
         {
             // Percorrendo a linha
@@ -204,15 +207,30 @@ class ImportacaoController extends Controller
                         }
 
                         if($Campo["CampoTipo"]==3) {
+                            $var=null;
+                            if(empty($coluna_fk[$Campo['FKTabela']])) {
+                                $query = "SELECT column_name AS coluna FROM information_schema.columns WHERE table_schema=DATABASE() AND  column_key='PRI' AND table_name='" . $Campo['FKTabela'] . "'";
+                                $coluna = DB::select($query);
+                                $coluna=$coluna[0]->coluna;
+                                $coluna_fk[$Campo['FKTabela']]=$coluna;
+                            }else{
+                                $coluna=$coluna_fk[$Campo['FKTabela']];
+                            }
 
-                            $query="SELECT column_name AS coluna FROM information_schema.columns WHERE table_schema=DATABASE() AND  column_key='PRI' AND table_name='".$Campo['FKTabela']."'";
+                            if(empty($consulta_fk[$Campo['FKTabela']][$Campo['FKCampo']][$value])){
+                                $query=" SELECT * FROM ".$Campo['FKTabela']." WHERE ".$Campo['FKCampo']." = '".$value."'";
+                                $fk=DB::select($query);
+                                if($fk[0]) {
+                                    $var = $fk[0]->{$coluna};
+                                    $consulta_fk[$Campo['FKTabela']][$Campo['FKCampo']][$value] = $var;
+                                }
 
-                            $coluna=DB::select($query);
+                            }else{
+                                $var=$consulta_fk[$Campo['FKTabela']][$Campo['FKCampo']][$value];
+                            }
 
-                            $query=" SELECT * FROM ".$Campo['FKTabela']." WHERE ".$Campo['FKCampo']." = '".$value."'";
-                            $fk=DB::select($query);
+                            $values .= " " . $Campo["CampoDB"] . " = '" . $var . "',";
 
-                            $values .= " ".$Campo["CampoDB"]." = '".$fk[0]->{$coluna[0]->coluna}."',";
                         }
                     }
 
