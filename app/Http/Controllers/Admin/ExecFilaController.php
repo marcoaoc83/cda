@@ -160,6 +160,7 @@ class ExecFilaController extends Controller
         ini_set('memory_limit', '-1');
         $Parcela = Parcela::select([
             'cda_parcela.*',
+            DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
             'SitPagT.REGTABNM as  SitPag',
             'SitCobT.REGTABNM as  SitCob',
             'OrigTribT.REGTABNM as  OrigTrib',
@@ -171,7 +172,7 @@ class ExecFilaController extends Controller
             ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
             //->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->groupBy('cda_parcela.ParcelaId')
-            ->limit(1000)
+            ->limit(10000)
             ->get();
         return Datatables::of($Parcela)->make(true);
 
