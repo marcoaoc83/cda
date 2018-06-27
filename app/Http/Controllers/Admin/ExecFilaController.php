@@ -157,6 +157,7 @@ class ExecFilaController extends Controller
 
     public function getDadosDataTableParcela()
     {
+        ini_set('memory_limit', '-1');
         $Parcela = Parcela::select([
             'cda_parcela.*',
             'SitPagT.REGTABNM as  SitPag',
@@ -170,6 +171,7 @@ class ExecFilaController extends Controller
             ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
             //->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->groupBy('cda_parcela.ParcelaId')
+            ->limit(1000)
             ->get();
         return Datatables::of($Parcela)->make(true);
 
