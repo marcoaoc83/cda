@@ -43,8 +43,8 @@ class DistribuicaoController extends Controller
                 Where
                   (cda_parcela.VENCIMENTODT Is Not Null) And
                   (cda_regtab.REGTABSG = 'A')";
-
-        $consulta= DB::select($sql)->limit(1000);
+        ini_set('memory_limit', '-1');
+        $consulta= DB::select($sql)->limit(100);
         dd($consulta);
         $where="";
         foreach ($consulta as $parcelas){
