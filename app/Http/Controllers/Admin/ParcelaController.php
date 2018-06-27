@@ -105,6 +105,7 @@ class ParcelaController extends Controller
     {
         $cda_parcela = Parcela::select([
             'cda_parcela.*',
+            DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
             'SitPagT.REGTABNM as  SitPag',
             'SitCobT.REGTABNM as  SitCob',
             'OrigTribT.REGTABNM as  OrigTrib',
