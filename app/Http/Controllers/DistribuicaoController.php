@@ -45,6 +45,7 @@ class DistribuicaoController extends Controller
                   (cda_regtab.REGTABSG = 'A')";
 
         $consulta= DB::select($sql);
+        dd($consulta);
         $where="";
         foreach ($consulta as $parcelas){
 
