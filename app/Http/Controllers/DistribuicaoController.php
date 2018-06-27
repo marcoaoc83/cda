@@ -42,9 +42,9 @@ class DistribuicaoController extends Controller
                   cda_regtab On cda_parcela.SITPAGID = cda_regtab.REGTABID
                 Where
                   (cda_parcela.VENCIMENTODT Is Not Null) And
-                  (cda_regtab.REGTABSG = 'A')";
+                  (cda_regtab.REGTABSG = 'A') LIMIT 1000";
         ini_set('memory_limit', '-1');
-        $consulta= DB::select($sql)->limit(100);
+        $consulta= DB::select($sql);
         dd($consulta);
         $where="";
         foreach ($consulta as $parcelas){
