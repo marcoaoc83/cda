@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Jobs\ImportacaoJob;
 use App\Models\ImpCampo;
 use App\Models\ImpLayout;
 use App\Models\Importacao;
@@ -44,9 +45,23 @@ class ImportacaoController extends Controller
      */
     public function store(Request $request)
     {
+
+        $nameFile=null;
         // Verifica se informou o arquivo e se é válido
         if ($request->hasFile('imp_arquivo') && $request->imp_arquivo->isValid()) {
+
+            //Define um aleatório para o arquivo baseado no timestamps atual
+            $name = uniqid(date('HisYmd'));
+            // Recupera a extensão do arquivo
             $ext = $request->imp_arquivo->getClientOriginalExtension();
+            // Define finalmente o nome
+            $nameFile = "{$name}.{$ext}";
+            $upload = $request->imp_arquivo->storeAs('importacao', $nameFile, 'local');
+
+            ImportacaoJob::dispatch($request->ArquivoId,$upload);
+            SWAL::message('Salvo','Importação enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
+            return redirect()->route('importacao.index');
+
             if($ext == "xml"){
                 if($this->importarXML($request)){
                     SWAL::message('Salvo','Importação realizada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
@@ -55,7 +70,7 @@ class ImportacaoController extends Controller
                 }
 
             }elseif($ext == "csv"){
-                if($this->importarCSV($request)){
+                if($this->importarCSV( $request->ArquivoId,$upload)){
                     SWAL::message('Salvo','Importação realizada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
                 }else{
                     SWAL::message('Erro','Falha ao importar','error',['timer'=>4000,'showConfirmButton'=>false]);
@@ -156,12 +171,10 @@ class ImportacaoController extends Controller
         }
     }
 
-    protected function importarCSV($request){
-        //DB::disableQueryLog();
-        ini_set("max_input_time",-1);
-        ini_set('memory_limit', -1);
+    protected function importarCSV($ArquivoId,$upload){
+
         $ImpCampo = ImpCampo::select(['*'])
-            ->where('ArquivoId',  $request->ArquivoId)
+            ->where('ArquivoId', $ArquivoId)
             ->orderBy("OrdTable","asc")
             ->get()->all();
 
@@ -169,7 +182,7 @@ class ImportacaoController extends Controller
             $Layout[$campos['TabelaDB']][] = json_decode(json_encode($campos), true);
         }
 
-        $path = $request->file('imp_arquivo')->getRealPath();
+        $path = storage_path("app/".$upload);
         $data = self::csv_to_array($path,";");
 
         $coluna_fk=[];

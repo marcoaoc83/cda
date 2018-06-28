@@ -8,6 +8,7 @@ Route::get('/solicitacao', 'Portal\PortalController@solicitacao')->name('portal.
 Route::post('/solicitacao', 'Portal\PortalController@solicitacaoSend')->name('portal.solicitacaoSend');
 
 Route::get('distribuicao', 'DistribuicaoController@index')->name('distribuicao');
+Route::get('crontab', 'CronController@index')->name('crontab');
 
 Auth::routes();
 
