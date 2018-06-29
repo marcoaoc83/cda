@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ImportacaoJob implements ShouldQueue
 {
@@ -17,6 +18,7 @@ class ImportacaoJob implements ShouldQueue
 
     protected $ArquivoId;
     protected $File;
+    protected $SpliceFile=[];
     /**
      * Create a new job instance.
      *
@@ -35,12 +37,55 @@ class ImportacaoJob implements ShouldQueue
      */
     public function handle()
     {
+        $targetpath=storage_path("app/");
 
-        self::importarCSV($this->ArquivoId,$this->File);
+        $arquivos=self::split_file($targetpath.$this->File,$targetpath."importacao/split/");
+
+        foreach ($arquivos as $arquivo) {
+            self::importarCSV($this->ArquivoId, $arquivo);
+        }
 
     }
 
-    public function importarCSV($ArquivoId,$upload){
+    function split_file($source, $targetpath=null, $lines=10000){
+
+        $i=0;
+        $j=1;
+        $date =date("YmdHis");
+        $buffer='';
+
+        $handle = fopen ($source, "r");
+        $files_name=[];
+        while (!feof ($handle)) {
+
+            $row = fgets($handle, 4096);
+
+            if (empty($header)){
+                $header = $row;
+                continue;
+            }
+            if($i<=$lines){
+                $fname =$targetpath."part_".$date."-".$j.".csv";
+                $files_name[]=$fname;
+                if(empty($fhandle)) {
+                    $fhandle = fopen($fname, "w") or die($php_errormsg);
+                    fwrite($fhandle,$header.$row);
+                }else{
+                    fwrite($fhandle,$row);
+                }
+                $i++;
+            }else{
+                fclose($fhandle);
+                $fhandle=null;
+                $i=0;
+                $j++;
+            }
+        }
+        fclose ($handle);
+        return $files_name;
+    }
+
+    public function importarCSV($ArquivoId,$path){
 
         $ImpCampo = ImpCampo::select(['*'])
             ->where('ArquivoId', $ArquivoId)
@@ -51,7 +96,6 @@ class ImportacaoJob implements ShouldQueue
             $Layout[$campos['TabelaDB']][] = json_decode(json_encode($campos), true);
         }
 
-        $path = storage_path("app/".$upload);
         $data = self::csv_to_array($path,";");
 
         $coluna_fk=[];
