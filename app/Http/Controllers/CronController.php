@@ -14,6 +14,7 @@ class CronController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        ImportacaoJob::dispatch();
+        Artisan::call('queue:forget');
+        Artisan::call('queue:work');
     }
 }
