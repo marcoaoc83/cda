@@ -62,24 +62,24 @@ class ImportacaoController extends Controller
             SWAL::message('Salvo','Importação enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
             return redirect()->route('importacao.index');
 
-            if($ext == "xml"){
-                if($this->importarXML($request)){
-                    SWAL::message('Salvo','Importação realizada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-                }else{
-                    SWAL::message('Erro','Falha ao importar','error',['timer'=>4000,'showConfirmButton'=>false]);
-                }
-
-            }elseif($ext == "csv"){
-                if($this->importarCSV( $request->ArquivoId,$upload)){
-                    SWAL::message('Salvo','Importação realizada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-                }else{
-                    SWAL::message('Erro','Falha ao importar','error',['timer'=>4000,'showConfirmButton'=>false]);
-                }
-
-            }
-
-            // redirect
-            return redirect()->route('importacao.index');
+//            if($ext == "xml"){
+//                if($this->importarXML($request)){
+//                    SWAL::message('Salvo','Importação realizada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+//                }else{
+//                    SWAL::message('Erro','Falha ao importar','error',['timer'=>4000,'showConfirmButton'=>false]);
+//                }
+//
+//            }elseif($ext == "csv"){
+//                if($this->importarCSV( $request->ArquivoId,$upload)){
+//                    SWAL::message('Salvo','Importação realizada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+//                }else{
+//                    SWAL::message('Erro','Falha ao importar','error',['timer'=>4000,'showConfirmButton'=>false]);
+//                }
+//
+//            }
+//
+//            // redirect
+//            return redirect()->route('importacao.index');
         }
 
     }
