@@ -82,6 +82,7 @@ class ImportacaoJob implements ShouldQueue
                 $j++;
             }
         }
+        $files_name[]=$fname;
         fclose ($handle);
         return $files_name;
     }
