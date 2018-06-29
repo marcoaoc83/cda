@@ -66,7 +66,7 @@ class ImportacaoJob implements ShouldQueue
             }
             if($i<=$lines){
                 $fname =$targetpath."part_".$date."-".$j.".csv";
-                $files_name[]=$fname;
+
                 if(empty($fhandle)) {
                     $fhandle = fopen($fname, "w") or die($php_errormsg);
                     fwrite($fhandle,$header.$row);
@@ -76,6 +76,7 @@ class ImportacaoJob implements ShouldQueue
                 $i++;
             }else{
                 fclose($fhandle);
+                $files_name[]=$fname;
                 $fhandle=null;
                 $i=0;
                 $j++;
