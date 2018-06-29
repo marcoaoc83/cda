@@ -15,6 +15,6 @@ class CronController extends Controller
      */
     public function index(){
        // Artisan::call('queue:forget');
-        Artisan::call('queue:work',["--timeout"=>1000]);
+        Artisan::call('queue:work',["--timeout"=>1000,"--queue"=>"importacao"]);
     }
 }

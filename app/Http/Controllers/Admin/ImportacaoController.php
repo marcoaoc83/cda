@@ -58,7 +58,7 @@ class ImportacaoController extends Controller
             $nameFile = "{$name}.{$ext}";
             $upload = $request->imp_arquivo->storeAs('importacao', $nameFile, 'local');
 
-            ImportacaoJob::dispatch($request->ArquivoId,$upload);
+            ImportacaoJob::dispatch($request->ArquivoId,$upload)->onQueue("importacao");
             SWAL::message('Salvo','Importação enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
             return redirect()->route('importacao.index');
 
