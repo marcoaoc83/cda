@@ -77,6 +77,7 @@ class ImportacaoJob implements ShouldQueue
                 }
                 $i++;
             }else{
+                fwrite($fhandle,$row);
                 fclose($fhandle);
 
                 $fhandle=null;

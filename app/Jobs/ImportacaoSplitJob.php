@@ -121,14 +121,11 @@ class ImportacaoSplitJob implements ShouldQueue
 
                         $values=substr_replace($values, '', -1);
                         $sql=$sql.$values." ON DUPLICATE KEY UPDATE ".$values;
-
-
-                            DB::insert($sql);
-
-
+                        DB::insert($sql);
                     }
                 }
                 DB::commit();
+                unlink($path);
             } catch (\Exception $e) {
                 echo $e->getMessage();
                 DB::rollback();
