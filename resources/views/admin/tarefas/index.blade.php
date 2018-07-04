@@ -59,6 +59,11 @@
     @include('vendor.sweetalert.view')
     @include('vendor.sweetalert.validator')
     <script type="text/javascript">
+        function verTarefa(id) {
+            var texto=$("#tar_desc"+id).val();
+
+            swal(""+texto);
+        }
         $(document).ready(function() {
             var table = $('.datatable').DataTable({
                 "order": [[ 0, "desc" ]],
@@ -96,6 +101,7 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
                 }
             });
+
         });
 
     </script>

@@ -98,9 +98,11 @@ class TarefasController extends Controller
             ->addColumn('action',
                 function ($table) {
                     return  '
+                         <input type="hidden" id="tar_desc'.$table->tar_id.'"  value="'.$table->tar_descricao.'">
                         <a href="javascript:;" onclick="verTarefa('.$table->tar_id.')" class="btn btn-xs btn-info" >
                         <i class="glyphicon glyphicon-plus-sign"></i> Detalhes
-                        </a>';
+                        </a>
+                        ';
                 })
             ->make(true);
     }
