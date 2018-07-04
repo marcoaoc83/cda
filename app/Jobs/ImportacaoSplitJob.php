@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\ImpCampo;
 use App\Models\Importacao;
+use App\Models\Tarefas;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -17,16 +18,20 @@ class ImportacaoSplitJob implements ShouldQueue
 
     protected $ArquivoId;
     protected $File;
+    protected $Tarefa;
+    protected $TotalArquivos;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($ArquivoId,$File)
+    public function __construct($ArquivoId,$File,$Tarefa,$TotalArquivos)
     {
         $this->ArquivoId=$ArquivoId;
         $this->File=$File;
+        $this->Tarefa=$Tarefa;
+        $this->TotalArquivos=$TotalArquivos;
     }
 
     /**
@@ -37,6 +42,15 @@ class ImportacaoSplitJob implements ShouldQueue
     public function handle()
     {
         self::importarCSV($this->ArquivoId, $this->File);
+        $qt=explode("--",$this->File);
+        $qt=explode(".",$qt[1]);
+        if($qt[0]==$this->TotalArquivos){
+            $Tarefa= Tarefas::findOrFail($this->Tarefa);
+            $Tarefa->update([
+                "tar_status"    => "Finalizado",
+                "tar_jobs"      => $this->job->getJobId()
+            ]);
+        }
     }
 
     public function importarCSV($ArquivoId,$path){

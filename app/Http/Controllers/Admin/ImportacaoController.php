@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Jobs\ImportacaoJob;
+use App\Models\ImpArquivo;
 use App\Models\ImpCampo;
 use App\Models\ImpLayout;
 use App\Models\Importacao;
+use App\Models\Tarefas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -58,28 +60,24 @@ class ImportacaoController extends Controller
             $nameFile = "{$name}.{$ext}";
             $upload = $request->imp_arquivo->storeAs('importacao', $nameFile, 'local');
 
-            ImportacaoJob::dispatch($request->ArquivoId,$upload)->onQueue("importacao");
+
+            $LayoutArquivo=ImpArquivo::findOrFail($request->ArquivoId);
+            $data=date("d/m/Y H:i:s");
+            $desc=<<<EOD
+            Arquivo Enviado: {$request->imp_arquivo->getClientOriginalName()}
+            Data Envio: $data
+EOD;
+
+            $tarefa=Tarefas::create([
+                    'tar_categoria' => 'importacao',
+                    'tar_titulo' => 'Importação de '.$LayoutArquivo->ArquivoDs,
+                    'tar_descricao' => $desc,
+                    'tar_status' => 'Aguardando'
+                ]);
+            ImportacaoJob::dispatch($request->ArquivoId,$upload,$tarefa->tar_id)->onQueue("importacao");
             SWAL::message('Salvo','Importação enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
             return redirect()->route('importacao.index');
 
-//            if($ext == "xml"){
-//                if($this->importarXML($request)){
-//                    SWAL::message('Salvo','Importação realizada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-//                }else{
-//                    SWAL::message('Erro','Falha ao importar','error',['timer'=>4000,'showConfirmButton'=>false]);
-//                }
-//
-//            }elseif($ext == "csv"){
-//                if($this->importarCSV( $request->ArquivoId,$upload)){
-//                    SWAL::message('Salvo','Importação realizada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-//                }else{
-//                    SWAL::message('Erro','Falha ao importar','error',['timer'=>4000,'showConfirmButton'=>false]);
-//                }
-//
-//            }
-//
-//            // redirect
-//            return redirect()->route('importacao.index');
         }
 
     }
@@ -171,125 +169,4 @@ class ImportacaoController extends Controller
         }
     }
 
-    protected function importarCSV($ArquivoId,$upload){
-
-        $ImpCampo = ImpCampo::select(['*'])
-            ->where('ArquivoId', $ArquivoId)
-            ->orderBy("OrdTable","asc")
-            ->get()->all();
-
-        foreach ($ImpCampo as $campos){
-            $Layout[$campos['TabelaDB']][] = json_decode(json_encode($campos), true);
-        }
-
-        $path = storage_path("app/".$upload);
-        $data = self::csv_to_array($path,";");
-
-        $coluna_fk=[];
-        $consulta_fk=[];
-
-        if(!empty($data) )
-        {
-            // Percorrendo a linha
-            for($i=0;$i<count($data);$i++)
-            {
-                $linha = $data[$i];
-
-                foreach ($Layout as $key => $Tabela){
-
-                    $sql = "INSERT INTO " . $key . " SET ";
-                    $values="";
-                    foreach ($Tabela as $Campo) {
-                        $value=$linha[($Campo["CampoNm"])];
-
-                        if($Campo["TipoDados"]=="date"){
-                            $value=strftime("%Y-%m-%d", strtotime($value));
-                        }
-
-                        if($Campo["TipoDados"]=="moedabr"){
-                            $value=str_replace([".","$","R"],"",$value);
-                            $value=trim(str_replace(",",".",$value));
-                        }
-
-                        if($Campo["CampoTipo"]==1) {
-                            $values .= $Campo["CampoDB"]." = '".$value."',";
-                        }
-
-                        if($Campo["CampoTipo"]==2) {
-                            $values .= $Campo["CampoDB"]." = '".$Campo["CampoValorFixo"]."',";
-                        }
-
-                        if($Campo["CampoTipo"]==3) {
-                            $var=null;
-                            if(empty($coluna_fk[$Campo['FKTabela']])) {
-                                $query = "SELECT column_name AS coluna FROM information_schema.columns WHERE table_schema=DATABASE() AND  column_key='PRI' AND table_name='" . $Campo['FKTabela'] . "'";
-                                $coluna = DB::select($query);
-                                $coluna=$coluna[0]->coluna;
-                                $coluna_fk[$Campo['FKTabela']]=$coluna;
-                            }else{
-                                $coluna=$coluna_fk[$Campo['FKTabela']];
-                            }
-
-                            if(empty($consulta_fk[$Campo['FKTabela']][$Campo['FKCampo']][$value])){
-                                $query=" SELECT * FROM ".$Campo['FKTabela']." WHERE ".$Campo['FKCampo']." = '".$value."'";
-                                $fk=DB::select($query);
-                                if($fk[0]) {
-                                    $var = $fk[0]->{$coluna};
-                                    $consulta_fk[$Campo['FKTabela']][$Campo['FKCampo']][$value] = $var;
-                                }
-
-                            }else{
-                                $var=$consulta_fk[$Campo['FKTabela']][$Campo['FKCampo']][$value];
-                            }
-
-                            $values .= " " . $Campo["CampoDB"] . " = '" . $var . "',";
-
-                        }
-                    }
-
-                    $values=substr_replace($values, '', -1);
-                    $sql=$sql.$values." ON DUPLICATE KEY UPDATE ".$values;
-
-                    DB::insert($sql);
-
-                }
-            }
-        }
-
-        // redirect
-        SWAL::message('Salvo','Importado com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-        return redirect("admin/importacao");
-    }
-
-    public function csv_to_array($filename = '') {
-            $row = 0;
-            $col = 0;
-
-            $handle = @fopen($filename, "r");
-            if ($handle)
-            {
-                while (($row = fgetcsv($handle, 4096,';')) !== false)
-                {
-                    if (empty($fields))
-                    {
-                        $fields = $row;
-                        continue;
-                    }
-
-                    foreach ($row as $k=>$value)
-                    {
-                        $results[$col][$fields[$k]] = $value;
-                    }
-                    $col++;
-                    unset($row);
-                }
-                if (!feof($handle))
-                {
-                    echo "Error: unexpected fgets() failn";
-                }
-                fclose($handle);
-            }
-
-            return $results;
-    }
 }

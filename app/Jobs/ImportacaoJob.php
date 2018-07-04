@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\ImpCampo;
 use App\Models\Importacao;
+use App\Models\Tarefas;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,16 +19,18 @@ class ImportacaoJob implements ShouldQueue
 
     protected $ArquivoId;
     protected $File;
+    protected $Tarefa;
     protected $SpliceFile=[];
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($ArquivoId,$File)
+    public function __construct($ArquivoId,$File,$Tarefa)
     {
        $this->ArquivoId=$ArquivoId;
        $this->File=$File;
+       $this->Tarefa=$Tarefa;
     }
 
     /**
@@ -37,12 +40,17 @@ class ImportacaoJob implements ShouldQueue
      */
     public function handle()
     {
+
+        $Tarefa= Tarefas::findOrFail($this->Tarefa);
+        $Tarefa->update([
+            "tar_status" => "Em Execução"
+        ]);
         $targetpath=storage_path("app/");
 
         $arquivos=self::split_file($targetpath.$this->File,$targetpath."importacao/split/");
 
         foreach ($arquivos as $arquivo) {
-            ImportacaoSplitJob::dispatch($this->ArquivoId,$arquivo)->onQueue("importacao");
+            ImportacaoSplitJob::dispatch($this->ArquivoId,$arquivo,$this->Tarefa,count($arquivos))->onQueue("importacao");
         }
 
     }
@@ -65,7 +73,7 @@ class ImportacaoJob implements ShouldQueue
                 continue;
             }
             if($i<=$lines){
-                $fname =$targetpath."part_".$date."-".$j.".csv";
+                $fname =$targetpath."part_".$date."--".$j.".csv";
                 if(!in_array($fname,$files_name)){
                     $files_name[]=$fname;
                 }

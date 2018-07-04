@@ -153,4 +153,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/execfila/getdataParcela', 'ExecFilaController@getDadosDataTableParcela')->name('execfila.getdataParcela');
     Route::resource('admin/execfila', 'ExecFilaController');
 
+    Route::get('admin/tarefas/getdata', 'TarefasController@getDadosDataTable')->name('tarefas.getdata');
+    Route::resource('admin/tarefas', 'TarefasController');
+
 });
