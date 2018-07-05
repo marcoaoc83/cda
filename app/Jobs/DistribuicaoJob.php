@@ -31,8 +31,7 @@ class DistribuicaoJob implements ShouldQueue
      */
     public function handle()
     {
-        DB::connection()->disableQueryLog();
-        DB::connection()->getPdo()->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+
         $sql_prime="Select
                   cda_parcela.ParcelaId,
                   cda_parcela.PessoaId,
