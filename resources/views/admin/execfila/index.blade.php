@@ -30,7 +30,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content " style="display: none;">
-                            <form class="form-horizontal form-label-left"    method="post" action="{{ route('importacao.store') }}" enctype="multipart/form-data">
+                            <form class="form-horizontal form-label-left"    method="post" action="" enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
                                 <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
@@ -94,9 +94,9 @@
                                     <h2>Faixa Atraso</h2>
                                     <table id="tbFxAtraso" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                         <thead>
-                                        <tr>
-                                            <th>Faixa</th>
-                                        </tr>
+                                            <tr>
+                                                <th>Faixa</th>
+                                            </tr>
                                         </thead>
                                     </table>
                                 </div>
@@ -111,7 +111,7 @@
                                     </table>
                                 </div>
                                 <div class="x_panel text-center" style="background-color: #BDBDBD">
-                                    <a class="btn btn-app">
+                                    <a class="btn btn-app" id="btfiltrar">
                                         <i class="fa fa-filter"></i> Filtrar
                                     </a>
                                 </div>
@@ -274,6 +274,7 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
+                "pageLength": 25,
                 ajax: '{{ route('execfila.getdataFxAtraso') }}',
                 select: {
                     style: 'multi',
@@ -297,6 +298,7 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
+                "pageLength": 25,
                 ajax: '{{ route('execfila.getdataFxValor') }}',
                 select: {
                     style: 'multi',

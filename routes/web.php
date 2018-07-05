@@ -4,10 +4,11 @@
 
 
 Route::get('/', 'Portal\PortalController@index')->name('portal.home');
-Route::get('/solicitacao', 'Portal\PortalController@solicitacao')->name('portal.solicitacao');
-Route::post('/solicitacao', 'Portal\PortalController@solicitacaoSend')->name('portal.solicitacaoSend');
+Route::get('solicitacao', 'Portal\PortalController@solicitacao')->name('portal.solicitacao');
+Route::post('solicitacao', 'Portal\PortalController@solicitacaoSend')->name('portal.solicitacaoSend');
 
 Route::get('distribuicao', 'DistribuicaoController@index')->name('distribuicao');
+Route::get('distribuicao/truncate', 'DistribuicaoController@truncate')->name('truncate');
 Route::get('crontab', 'CronController@index')->name('crontab');
 
 Auth::routes();

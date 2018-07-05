@@ -170,9 +170,10 @@ class ExecFilaController extends Controller
             ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
             ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
             ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
-            //->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->where('cda_parcela.SitPagId', '53')
             ->groupBy('cda_parcela.ParcelaId')
-            ->limit(10)
+            ->limit(100)
             ->get();
         return Datatables::of($Parcela)->make(true);
 
