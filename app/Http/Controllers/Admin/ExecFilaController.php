@@ -171,7 +171,7 @@ class ExecFilaController extends Controller
             ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
             ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
             ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
-            ->where('cda_parcela.SitPagId', '53')
+            ->where('cda_parcela.SitPagId', '61')
             ->groupBy('cda_parcela.ParcelaId')
             ->limit(100)
             ->get();
