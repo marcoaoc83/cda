@@ -13,9 +13,14 @@ class CronController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function importacao(){
        // Artisan::call('queue:forget');
         Artisan::call('queue:work',["--timeout"=>1000,"--queue"=>"importacao"]);
+
+    }
+    public function distribuicao(){
+       // Artisan::call('queue:forget');
         Artisan::call('queue:work',["--timeout"=>1000,"--queue"=>"distribuicao"]);
+
     }
 }

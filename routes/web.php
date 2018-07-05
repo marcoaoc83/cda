@@ -9,7 +9,8 @@ Route::post('solicitacao', 'Portal\PortalController@solicitacaoSend')->name('por
 
 Route::get('distribuicao', 'DistribuicaoController@index')->name('distribuicao');
 Route::get('distribuicao/truncate', 'DistribuicaoController@truncate')->name('truncate');
-Route::get('crontab', 'CronController@index')->name('crontab');
+Route::get('crontab/importacao', 'CronController@importacao');
+Route::get('crontab/distribuicao', 'CronController@distribuicao');
 
 Auth::routes();
 
