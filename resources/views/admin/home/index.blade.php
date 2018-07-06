@@ -5,34 +5,41 @@
     <div class="right_col" role="main">
         <div class="">
             <div class="row top_tiles" style="margin: 10px 0;">
-                <div class="col-md-2 col-sm-2 col-xs-4 tile">
-                    <span>Total Parcelas</span>
-                    <h2>{{$parcela_qtde}}</h2>
-                    <span class="sparkline_one" style="height: 160px;">
-                      <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                  </span>
+
+                <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                        <div class="count">{{$parcela_qtde}}</div>
+                        <h3>Total Parcelas</h3>
+                        <p></p>
+                    </div>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-6 tile">
-                    <span>Total R$</span>
-                    <h2>R$ {{$parcela_sum}}</h2>
-                    <span class="sparkline_one" style="height: 160px;">
-                      <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                  </span>
+
+                <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-usd" style="padding-left: 15px"></i></div>
+                        <div class="count"  >{{$parcela_sum}}</div>
+                        <h3>Total</h3>
+                        <p></p>
+                    </div>
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-6 tile">
-                    <span>Total Parcelas Abertas</span>
-                    <h2>{{$parcela_qtde_aberta}}</h2>
-                    <span class="sparkline_three" style="height: 160px;">
-                      <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                  </span>
+                <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+                        <div class="count"  >{{$parcela_qtde_aberta}}</div>
+                        <h3>Total Parcelas Abertas</h3>
+                        <p></p>
+                    </div>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-6 tile">
-                    <span>Total Abertas R$</span>
-                    <h2>{{$parcela_sum_aberta}}</h2>
-                    <span class="sparkline_one" style="height: 160px;">
-                      <canvas width="200" height="60" style="display: inline-block; vertical-align: top; width: 94px; height: 30px;"></canvas>
-                  </span>
+                <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <div class="tile-stats">
+                        <div class="icon"><i class="fa fa-usd" style="padding-left: 15px"></i></div>
+                        <div class="count"  >{{$parcela_sum_aberta}}</div>
+                        <h3>Total Abertas</h3>
+                        <p></p>
+                    </div>
                 </div>
+
             </div>
             <br />
 
