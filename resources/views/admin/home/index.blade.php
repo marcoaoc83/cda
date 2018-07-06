@@ -10,7 +10,7 @@
                     <div class="tile-stats">
                         <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
                         <div class="count">{{$parcela_qtde}}</div>
-                        <h3>Total Parcelas</h3>
+                        <h3>Parcelas</h3>
                         <p></p>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                     <div class="tile-stats">
                         <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
                         <div class="count"  >{{$parcela_qtde_aberta}}</div>
-                        <h3>Total Parcelas Abertas</h3>
+                        <h3>Parcelas Abertas</h3>
                         <p></p>
                     </div>
                 </div>
