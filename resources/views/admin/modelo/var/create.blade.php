@@ -51,15 +51,18 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="var_tipo">Tipo<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" id="var_tipo" name="var_tipo" required="required">
+                                <option value="array">Arvore (Array)</option>
                                 <option value="cep">CEP</option>
-                                <option value="cod_barras">Código de Barras</option>
                                 <option value="cnpj">CNPJ</option>
+                                <option value="cod_barras">Código de Barras</option>
+                                <option value="contador">Contador</option>
                                 <option value="cpf">CPF</option>
                                 <option value="data">Data</option>
                                 <option value="datahora">Data - Hora</option>
                                 <option value="hora">Hora</option>
                                 <option value="inteiro">Inteiro</option>
                                 <option value="moeda">Moeda</option>
+                                <option value="sum">Soma</option>
                                 <option value="text" selected>Texto</option>
                             </select>
                         </div>
