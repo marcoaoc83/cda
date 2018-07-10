@@ -34,7 +34,7 @@
                 <div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <div class="tile-stats">
                         <div class="icon"><i class="fa fa-usd" style="padding-left: 15px"></i></div>
-                        <div class="count"  >{{$parcela_sum_aberta}}</div>
+                        <div class="count">{{$parcela_sum_aberta}}</div>
                         <h3>Total Abertas</h3>
                         <p></p>
                     </div>

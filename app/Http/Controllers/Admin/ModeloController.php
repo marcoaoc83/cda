@@ -53,13 +53,28 @@ class ModeloController extends Controller
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','TpMod')
             ->get();
-        ;
+
+        $Tabelas = DB::select("Select
+  Replace(Upper(information_schema.tables.TABLE_NAME), 'CDA_', '') As nome,
+  information_schema.tables.TABLE_NAME As alias
+From
+  information_schema.tables
+Where
+  information_schema.tables.TABLE_NAME Like 'cda_%'
+  	group by nome
+");
+        $Campos=DB::select("Select (INFORMATION_SCHEMA.COLUMNS.COLUMN_NAME) coluna , INFORMATION_SCHEMA.COLUMNS.TABLE_NAME tabela From INFORMATION_SCHEMA.COLUMNS 
+Where
+table_schema = '".DB::getDatabaseName()."'");
+
         $canais = DB::table('cda_canal')->get();
         // show the view and pass the nerd to it
         return View::make('admin.modelo.form')
             ->with('modelo', $modelo)
             ->with('cda_modcom', $cda_modcom)
             ->with('tipoModelo', $tipoModelo)
+            ->with('Tabelas', $Tabelas)
+            ->with('Campos', $Campos)
             ->with('canais', $canais);
     }
 

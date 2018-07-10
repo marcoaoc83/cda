@@ -17,8 +17,9 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-            <form class="form-horizontal form-label-left"    method="post" action="{{ route('modelo.editarPost',$modelo->ModComId) }}">
+
             <div class="row">
+                <form class="form-horizontal form-label-left"    method="post" action="{{ route('modelo.editarPost',$modelo->ModComId) }}">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_content">
@@ -115,9 +116,12 @@
                             </div>
                         </div>
                     </div>
+                </form>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    @include('admin.modelo.var.index');
                 </div>
 
-                </form>
+                </div>
         </div>
     </div>
 
@@ -164,5 +168,30 @@
                 };
                 input.click();
             }
-        });</script>
+        });
+
+        function reloadCampo(element,tabela)
+        {
+            var FKCampo = $(element);
+            FKCampo.empty();
+            FKCampo.append('<option value="">Carregando...</option>');
+            $.ajax({
+                type: "get",
+                dataType: 'json',
+                url: "{{route("implayout.getcampos")}}",
+                data: {
+                    'tabela': tabela,
+                    _token: '{!! csrf_token() !!}'
+                },
+                success: function(data){
+                    FKCampo.empty();
+                    FKCampo.append('<option value=""></option>');
+                    $.each(data, function(i, d) {
+                        FKCampo.append('<option value="' + d.coluna + '">' + d.coluna.toUpperCase() + '</option>');
+                    });
+                }
+            });
+        }
+
+    </script>
 @endpush
