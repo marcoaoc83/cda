@@ -138,7 +138,6 @@
                                     <th>Nome</th>
                                     <th>Sit Pag</th>
                                     <th>Orig Trib</th>
-                                    <th>Tributo</th>
                                     <th>Lcto</th>
                                     <th>Pc</th>
                                     <th>Pl</th>
@@ -249,7 +248,13 @@
     <script src="https://cdn.datatables.net/select/1.1.2/js/dataTables.select.min.js"></script>
     <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
     <script type="text/javascript">
+        function filtrarParcelas(){
+            var tbParcela = $('#tbParcela').DataTable();
+            var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltro').serialize();
+            tbParcela.ajax.url(url).load();
+        }
         $(document).ready(function() {
+
             var tbRoteiro = $('#tbRoteiro').DataTable({
                 processing: true,
                 serverSide: true,
@@ -371,15 +376,11 @@
                 serverSide: true,
                 responsive: true,
                 ajax: '{{ route('execfila.getdataParcela') }}',
-                select: {
-                    style: 'multi',
-                    info:false
-                },
+                "pageLength": 100,
                 columns: [
                     {data: 'Nome', name: 'Nome'},
                     {data: 'SitPag', name: 'SitPag'},
                     {data: 'OrigTrib', name: 'OrigTrib'},
-                    {data: 'Tributo', name: 'Tributo'},
                     {data: 'LancamentoNr', name: 'LancamentoNr'},
                     {data: 'ParcelaNr', name: 'ParcelaNr'},
                     {data: 'PlanoQt', name: 'PlanoQt'},
