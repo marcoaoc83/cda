@@ -162,18 +162,18 @@ class ExecFilaController extends Controller
             'cda_parcela.*',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
             'SitPagT.REGTABNM as  SitPag',
-            'SitCobT.REGTABNM as  SitCob',
             'OrigTribT.REGTABNM as  OrigTrib',
             'TributoT.REGTABNM as  Tributo',
+            DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Cadastrado',VencimentoDt) as Nome"),
         ])
             ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
-            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
             ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
             ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
             ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->where('cda_parcela.SitPagId', '61')
             ->groupBy('cda_parcela.ParcelaId')
-            ->limit(100)
+            ->limit(1)
             ->get();
         return Datatables::of($Parcela)->make(true);
 

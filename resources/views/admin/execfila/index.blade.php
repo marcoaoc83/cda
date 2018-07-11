@@ -30,7 +30,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content " style="display: none;">
-                            <form class="form-horizontal form-label-left"    method="post" action="" enctype="multipart/form-data">
+                            <form class="form-horizontal form-label-left" id="formFiltro"    method="post" action="" enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
                                 <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
@@ -73,7 +73,7 @@
                                 <a href="#">
                                     <div class="mail_list"></div>
                                 </a>
-                                <div class="x_content">
+                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                                     <h2>Carteira e Roteiro</h2>
                                     <table id="tbRoteiro" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                         <thead>
@@ -111,7 +111,7 @@
                                     </table>
                                 </div>
                                 <div class="x_panel text-center" style="background-color: #BDBDBD">
-                                    <a class="btn btn-app" id="btfiltrar">
+                                    <a class="btn btn-app" id="btfiltrar" onclick="filtrarParcelas()" >
                                         <i class="fa fa-filter"></i> Filtrar
                                     </a>
                                 </div>
@@ -135,14 +135,15 @@
                             <table id="tbParcela" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                 <tr>
+                                    <th>Nome</th>
                                     <th>Sit Pag</th>
-                                    <th>Sit Cob</th>
                                     <th>Orig Trib</th>
                                     <th>Tributo</th>
                                     <th>Lcto</th>
                                     <th>Pc</th>
                                     <th>Pl</th>
                                     <th>Vencimento</th>
+                                    <th>Valor</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -264,11 +265,31 @@
                     {data: 'EventoNM', name: 'EventoNM'},
                     {data: 'ModComNM', name: 'ModComNM'},
                     {data: 'CanalNM', name: 'CanalNM'},
+                    {
+                        data: 'RoteiroId',
+                        name: 'RoteiroId',
+                        "visible": false,
+                        "searchable": false
+                    },
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
                 }
             });
+            tbRoteiro.on( 'select', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
+                    $('#formFiltro').append('<input type="hidden" id="roteirosId'+RoteiroId[0]+'" name="roteirosId[]" value='+RoteiroId[0]+' />');
+                }
+            })
+            .on( 'deselect', function ( e, dt, type, indexes ){
+                if ( type === 'row' ) {
+                    var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
+                    $( "#roteirosId"+RoteiroId[0] ).remove();
+                }
+            });
+
+
 
             var tbFxAtraso = $('#tbFxAtraso').DataTable({
                 processing: true,
@@ -293,6 +314,20 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
                 }
             });
+            tbFxAtraso.on( 'select', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    var FxAtrasoId = tbFxAtraso.rows( indexes ).data().pluck( 'REGTABID' );
+                    $('#formFiltro').append('<input type="hidden" id="FxAtrasoId'+FxAtrasoId[0]+'" name="FxAtrasoId[]" value='+FxAtrasoId[0]+' />');
+                }
+            })
+            .on( 'deselect', function ( e, dt, type, indexes ){
+                if ( type === 'row' ) {
+                    var FxAtrasoId = tbFxAtraso.rows( indexes ).data().pluck( 'REGTABID' );
+                    $( "#FxAtrasoId"+FxAtrasoId[0] ).remove();
+                }
+            });
+
+
 
             var tbFxValor = $('#tbFxValor').DataTable({
                 processing: true,
@@ -318,6 +353,19 @@
                 }
             });
 
+            tbFxValor.on( 'select', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    var FxValorId = tbFxValor.rows( indexes ).data().pluck( 'REGTABID' );
+                    $('#formFiltro').append('<input type="hidden" id="FxValorId'+FxValorId[0]+'" name="FxValorId[]" value='+FxValorId[0]+' />');
+                }
+            })
+            .on( 'deselect', function ( e, dt, type, indexes ){
+                if ( type === 'row' ) {
+                    var FxValorId = tbFxValor.rows( indexes ).data().pluck( 'REGTABID' );
+                    $( "#FxValorId"+FxValorId[0] ).remove();
+                }
+            });
+
             var tbParcela = $('#tbParcela').DataTable({
                 processing: true,
                 serverSide: true,
@@ -328,14 +376,15 @@
                     info:false
                 },
                 columns: [
+                    {data: 'Nome', name: 'Nome'},
                     {data: 'SitPag', name: 'SitPag'},
-                    {data: 'SitCob', name: 'SitCob'},
                     {data: 'OrigTrib', name: 'OrigTrib'},
                     {data: 'Tributo', name: 'Tributo'},
                     {data: 'LancamentoNr', name: 'LancamentoNr'},
                     {data: 'ParcelaNr', name: 'ParcelaNr'},
                     {data: 'PlanoQt', name: 'PlanoQt'},
                     {data: 'VencimentoDt', name: 'VencimentoDt'},
+                    {data: 'TotalVr', name: 'TotalVr'},
                     {
                         data: 'ParcelaId',
                         name: 'ParcelaId',

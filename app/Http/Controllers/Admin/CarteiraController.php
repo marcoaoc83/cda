@@ -226,6 +226,7 @@ class CarteiraController extends Controller
             ->leftJoin('cda_canal  as CANAL', 'CANAL.CANALID', '=', 'cda_roteiro.CanalId')
             ->leftJoin('cda_carteira  as Carteira', 'Carteira.CARTEIRAID', '=', 'cda_roteiro.RoteiroId')
             ->leftJoin('cda_roteiro  as PROX', 'PROX.RoteiroId', '=', 'cda_roteiro.RoteiroProxId')
+            ->orderBy('cda_roteiro.RoteiroOrd','asc')
             ->get();
 
         return Datatables::of($roteiro)->make(true);
