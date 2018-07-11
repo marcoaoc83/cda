@@ -375,7 +375,7 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                ajax: '{{ route('execfila.getdataParcela') }}',
+                ajax: '{{ route('execfila.getdataParcela') }}'+"/?limit=0",
                 "pageLength": 100,
                 columns: [
                     {data: 'Nome', name: 'Nome'},

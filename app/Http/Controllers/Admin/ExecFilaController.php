@@ -160,6 +160,10 @@ class ExecFilaController extends Controller
         ini_set('memory_limit', '-1');
 
         $where=' 1 ';
+        $limit=10000;
+        if($request->limit!=null){
+            $limit=$request->limit;
+        }
 
         if($request->FilaTrabId){
             $where.=' AND cda_roteiro.FilaTrabId='.$request->FilaTrabId;
@@ -180,7 +184,7 @@ class ExecFilaController extends Controller
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
             ->groupBy('cda_parcela.ParcelaId')
-            ->limit(10000)
+            ->limit($limit)
             ->get();
 
 
