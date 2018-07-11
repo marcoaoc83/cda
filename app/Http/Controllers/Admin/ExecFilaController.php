@@ -169,6 +169,11 @@ class ExecFilaController extends Controller
             $where.=' AND cda_roteiro.FilaTrabId='.$request->FilaTrabId;
         }
 
+        if($request->roteirosId){
+            $where.=' AND cda_roteiro.RoteiroId IN ('.implode(',',$request->roteirosId).')';
+        }
+
+
         $Parcela = Parcela::select([
             'cda_parcela.*',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),

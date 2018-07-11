@@ -34,7 +34,7 @@
                                 {{ csrf_field() }}
 
                                 <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
-                                    <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  >
+                                    <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="filtrarCarteira(this.value)" >
                                         <option value="" hidden selected disabled>Selecionar Fila</option>
                                         @foreach($FilaTrab as $var)
                                             <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             
@@ -248,11 +248,19 @@
     <script src="https://cdn.datatables.net/select/1.1.2/js/dataTables.select.min.js"></script>
     <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
     <script type="text/javascript">
+
         function filtrarParcelas(){
             var tbParcela = $('#tbParcela').DataTable();
             var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltro').serialize();
             tbParcela.ajax.url(url).load();
         }
+
+        function filtrarCarteira(fila){
+            var tbRoteiro = $('#tbRoteiro').DataTable();
+            var url = "{{ route('carteira.getdataRoteiro') }}"+"/?fila="+fila;
+            tbRoteiro.ajax.url(url).load();
+        }
+
         $(document).ready(function() {
 
             var tbRoteiro = $('#tbRoteiro').DataTable({

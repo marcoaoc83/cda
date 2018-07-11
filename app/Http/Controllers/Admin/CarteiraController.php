@@ -207,8 +207,13 @@ class CarteiraController extends Controller
             ->make(true);
     }
 
-    public function getDadosDataTableRoteiro()
+    public function getDadosDataTableRoteiro(Request $request)
     {
+        $where=1;
+        if($request->fila){
+            $where.=" AND cda_roteiro.FilaTrabId = '$request->fila'";
+        }
+
         $roteiro = Roteiro::select([
             'cda_roteiro.*',
             'Carteira.CARTEIRASG',
@@ -224,8 +229,9 @@ class CarteiraController extends Controller
             ->leftJoin('cda_modcom  as ModCom', 'ModCom.ModComId', '=', 'cda_roteiro.ModComId')
             ->leftJoin('cda_filatrab  as FilaTrab', 'FilaTrab.FilaTrabId', '=', 'cda_roteiro.FilaTrabId')
             ->leftJoin('cda_canal  as CANAL', 'CANAL.CANALID', '=', 'cda_roteiro.CanalId')
-            ->leftJoin('cda_carteira  as Carteira', 'Carteira.CARTEIRAID', '=', 'cda_roteiro.RoteiroId')
+            ->leftJoin('cda_carteira  as Carteira', 'Carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
             ->leftJoin('cda_roteiro  as PROX', 'PROX.RoteiroId', '=', 'cda_roteiro.RoteiroProxId')
+            ->whereRaw($where)
             ->orderBy('cda_roteiro.RoteiroOrd','asc')
             ->get();
 
