@@ -160,7 +160,7 @@ class ExecFilaController extends Controller
         ini_set('memory_limit', '-1');
 
         $where=' 1 ';
-        $limit=10000;
+        $limit=100000;
         if($request->limit!=null){
             $limit=$request->limit;
         }
