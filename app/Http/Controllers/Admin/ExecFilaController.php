@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Jobs\ExecFilaJob;
 use App\Models\ExecFila;
+use App\Models\Fila;
 use App\Models\Parcela;
+use App\Models\Tarefas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -42,58 +46,19 @@ class ExecFilaController extends Controller
      */
     public function store(Request $request)
     {
-        $sql="Select
-              cda_parcela.PARCELAID,
-              cda_parcela.PESSOAID,
-              cda_parcela.SITPAGID,
-              cda_parcela.SITCOBID,
-              cda_parcela.INSCRMUNID,
-              cda_parcela.ORIGTRIBID,
-              cda_parcela.TRIBUTOID,
-              cda_pcrot.SaidaDt,
-              cda_roteiro.RoteiroId,
-              cda_roteiro.CarteiraId,
-              cda_roteiro.FaseCartId,
-              cda_roteiro.EventoId,
-              cda_roteiro.ModComId,
-              cda_roteiro.FilaTrabId,
-              cda_roteiro.CanalId
-            From
-              cda_parcela
-              INNER Join
-              cda_pcrot On cda_parcela.PARCELAID = cda_pcrot.ParcelaId
-              INNER Join
-              cda_roteiro On cda_pcrot.RoteiroId = cda_roteiro.RoteiroId
-            Where
-              (cda_parcela.PARCELAID In (".implode(',',$request->parcelasId).")) And
-              (cda_pcrot.SaidaDt Is Null)";
+        parse_str($request->dados, $dados);
 
+        $fila = Fila::find($dados['FilaTrabId']);
+        $tarefa=Tarefas::create([
+            'tar_categoria' => 'execfila',
+            'tar_titulo' => 'Execução de '.$fila->FilaTrabNm,
+            'tar_status' => 'Aguardando'
+        ]);
 
-        $parcelas= DB::select($sql);
-
-        $event=false;
-        foreach ($parcelas as $linha){
-
-            $sql="INSERT INTO cda_pcevento SET ";
-            $sql.="PESSOAID='".$linha->PESSOAID."',";
-            $sql.="INSCRMUNID='".$linha->INSCRMUNID."',";
-            $sql.="PARCELAID='".$linha->PARCELAID."',";
-            $sql.="EVENTOID='".$linha->EventoId."',";
-            $sql.="EVENTODT='".date('Y-m-d')."',";
-            $sql.="CARTEIRAID='".$linha->CarteiraId."',";
-            $sql.="FILATRABID='".$linha->FilaTrabId."',";
-            $sql.="PSCANALID='".$linha->CanalId."',";
-            $sql.="MODCOMID='".$linha->ModComId."'";
-
-            $event=DB::insert($sql);
-        }
-        if($event){
-            SWAL::message('Salvo','Execução gravada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-        }else{
-            SWAL::message('Erro','Falha na gravação, nenhuma parcela foi salva!','error',['timer'=>4000,'showConfirmButton'=>false]);
-        }
-        // redirect
+        ExecFilaJob::dispatch($dados,$tarefa->tar_id)->onQueue("execfila");
+        SWAL::message('Salvo','Execução de Fila enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('execfila.index');
+
     }
 
     /**

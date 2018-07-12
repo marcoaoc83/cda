@@ -150,10 +150,11 @@
                     </div>
                     <form  id="formParcelas" method="post" action="{{ route('execfila.store') }}" >
                         {{ csrf_field() }}
+                        <input type="hidden" id="dados" name="dados">
                     </form>
                     <div class="x_panel text-center">
-                        <a class="btn btn-app " onclick="$('#formParcelas').submit()">
-                            <i class="fa fa-save"></i> Gravar o Evento
+                        <a class="btn btn-app "    onclick="execFila()">
+                            <i class="fa fa-save"></i> Executar Fila
                         </a>
                     </div>
 
@@ -253,6 +254,21 @@
             var tbParcela = $('#tbParcela').DataTable();
             var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltro').serialize();
             tbParcela.ajax.url(url).load();
+        }
+
+        function execFila() {
+            if($("#FilaTrabId").val()>0) {
+                $('#dados').val($('#formFiltro').serialize());
+                $('#formParcelas').submit();
+            }else{
+                swal({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Selecione uma Fila no filtro!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
         }
 
         function filtrarCarteira(fila){
