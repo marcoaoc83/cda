@@ -161,4 +161,5 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/modelovar/getdata', 'ModeloVarController@getDadosDataTable')->name('modelovar.getdata');
     Route::resource('admin/modelovar', 'ModeloVarController');
 
+    Route::resource('admin/portal', 'PortalAdmController');
 });

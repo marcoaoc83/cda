@@ -1,0 +1,3 @@
+
+#PF .pf-menu::before { content: none !important; }
+#PF .pf-nav::after { content: none !important; }

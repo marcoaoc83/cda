@@ -42,7 +42,6 @@
                         <ul class="nav child_menu">
                             <li><a href="{{ route('admin.users') }}">Usuários</a></li>
                             <li><a href="{{ route('tarefas.index') }}">Tarefas</a></li>
-                            <li><a href="{{ route('solicitar_acesso.index') }}">Solicitaçoes de Acesso</a></li>
                             <li class="active"><a>Importar / Exportar<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: block;">
                                     <li class="sub_menu"><a href="{{ route('implayout.index') }}">Layout Importação</a></li>
@@ -50,6 +49,12 @@
 
                                 </ul>
                             </li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-globe"></i>Portal<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{ route('portal.index') }}">Configurações</a></li>
+                            <li><a href="{{ route('solicitar_acesso.index') }}">Solicitaçoes de Acesso</a></li>
                         </ul>
                     </li>
                 </ul>
