@@ -1,24 +1,32 @@
 :root {
+
+	--bg-color:#FFFFFF;
+
     --text-grey-primary: #EBEBEB;
     --text-grey-secondary: #DEE2E6;
     --text-grey-tertiary: #999999;
     --text-grey-quaternary: #666666;
     --text-grey-quinary: #333333;
+
+
     --text-blue-primary: #014A9E;
     --text-blue-secundary: #002F66;
     --text-blue-tertiary: #002A5B;
+
+
     --text-orange-primary: #E7BC25;
     --text-orange-secundary: #FFCC17;
 
 	--menu-text: #1a1a1a;
 	--rodape1:#002F66;
 	--rodape2:#002A5B;
-	--rodape-letras:#FFCC17;
+	--rodape-letras:#FFF;
 
     --img-slide-arrow: url(../imgs/slide-arrow.svg);
 }
 
 * { font-family: 'Open Sans', sans-serif !important; }
+body { background-color: var(--bg-color)}
 #PF .pf-nav { padding: 1.2rem 1rem; }
 #PF .pf-nav ul { padding-top: 10px; }
 #PF .pf-logo { position:absolute;top: 0;left: 0;z-index: 100;margin: 15px 0 0 15px; }

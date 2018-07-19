@@ -184,7 +184,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div id="cp2" class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor" id="port_cor" class="form-control "  value="#FFFFFF"/>
+                                            <input type="text" name="port_cor" id="port_cor" class="form-control "  value="{{ $Var->port_cor }}"/>
                                             <span class="input-group-addon"><i></i></span>
                                         </div>
                                     </div>
@@ -195,7 +195,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_letra" id="port_cor_letra" class="form-control "  value="#002F66"/>
+                                            <input type="text" name="port_cor_letra" id="port_cor_letra" class="form-control "  value="{{ $Var->port_cor_letra }}"/>
                                             <span class="input-group-addon"><i></i></span>
                                         </div>
                                     </div>
@@ -206,7 +206,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_menu1" id="port_cor_menu1" class="form-control "  value="#FFCC17"/>
+                                            <input type="text" name="port_cor_menu1" id="port_cor_menu1" class="form-control "  value="{{ $Var->port_cor_menu1 }}"/>
                                             <span class="input-group-addon"><i></i></span>
                                         </div>
                                     </div>
@@ -217,7 +217,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_menu2" id="port_cor_menu2" class="form-control" value="#E7BC25"/>
+                                            <input type="text" name="port_cor_menu2" id="port_cor_menu2" class="form-control" value="{{ $Var->port_cor_menu2 }}"/>
                                             <span class="input-group-addon"><i></i></span>
                                         </div>
                                     </div>
@@ -228,7 +228,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_menu_letra" id="port_cor_menu_letra" class="form-control"  value="#1a1a1a"/>
+                                            <input type="text" name="port_cor_menu_letra" id="port_cor_menu_letra" class="form-control"  value="{{ $Var->port_cor_menu_letra }}"/>
                                             <span class="input-group-addon"><i></i></span>
                                         </div>
                                     </div>
@@ -239,7 +239,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_rodape1" id="port_cor_rodape1" class="form-control "  value="#002F66"/>
+                                            <input type="text" name="port_cor_rodape1" id="port_cor_rodape1" class="form-control "  value="{{ $Var->port_cor_rodape1 }}"/>
                                             <span class="input-group-addon"><i></i></span>
                                         </div>
                                     </div>
@@ -250,7 +250,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_rodape2" id="port_cor_rodape2" class="form-control "  value="#002A5B"/>
+                                            <input type="text" name="port_cor_rodape2" id="port_cor_rodape2" class="form-control "  value="{{ $Var->port_cor_rodape2 }}"/>
                                             <span class="input-group-addon"><i></i></span>
                                         </div>
                                     </div>
@@ -262,7 +262,7 @@
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_rodape_letra" id="port_cor_rodape_letra" class="form-control "  value="#FFFFFF"/>
+                                            <input type="text" name="port_cor_rodape_letra" id="port_cor_rodape_letra" class="form-control "  value="{{ $Var->port_cor_rodape_letra }}"/>
                                             <span class="input-group-addon"><i></i></span>
                                         </div>
                                     </div>
@@ -290,7 +290,7 @@
             $(".input-file").before(
                 function() {
                     if ( ! $(this).prev().hasClass('input-ghost') ) {
-                        var element = $("<input type='file' accept='.png, .gif, .jpg, .jpeg' class='input-ghost'  required=\"required\" style='visibility:hidden; height:0'>");
+                        var element = $("<input type='file' accept='.png, .svg, .gif, .jpg, .jpeg' class='input-ghost'  required=\"required\" style='visibility:hidden; height:0'>");
                         element.attr("name",$(this).attr("name"));
                         element.change(function(){
                             element.next(element).find('input').val((element.val()).split('\\').pop());

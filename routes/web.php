@@ -1,18 +1,26 @@
 <?php
 
 
+use Illuminate\Support\Facades\Auth;
 
-
+//PORTAL FRONT
 Route::get('/', 'Portal\PortalController@index')->name('portal.home');
+Route::get('legislacao', 'Portal\PortalController@legislacao')->name('portal.legislacao');
+Route::get('ajuda', 'Portal\PortalController@ajuda')->name('portal.ajuda');
+Route::get('acesso', 'Portal\PortalController@acesso')->name('portal.acesso');
 Route::get('solicitacao', 'Portal\PortalController@solicitacao')->name('portal.solicitacao');
 Route::post('solicitacao', 'Portal\PortalController@solicitacaoSend')->name('portal.solicitacaoSend');
 
+//CRONTAB
 Route::get('distribuicao', 'DistribuicaoController@index')->name('distribuicao');
 Route::get('distribuicao/truncate', 'DistribuicaoController@truncate')->name('truncate');
 Route::get('crontab/importacao', 'CronController@importacao');
 Route::get('crontab/distribuicao', 'CronController@distribuicao');
 
-Auth::routes();
+// Authentication Routes...
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
