@@ -42,16 +42,6 @@ class PortalAdmController extends Controller
     {
         $data = $request->all();
 
-        unset($data['_token']);
-        unset($data['port_logo_topoTmp']);
-        unset($data['port_logo_rodapeTmp']);
-        unset($data['port_banner_lateralTmp']);
-        unset($data['port_banner1Tmp']);
-        unset($data['port_banner2Tmp']);
-        unset($data['port_banner3Tmp']);
-        unset($data['port_banner4Tmp']);
-        unset($data['port_banner5Tmp']);
-
         $path='/images/portal/';
         if ($request->hasFile('port_logo_topo') && $request->port_logo_topo->isValid()) {
 
@@ -66,7 +56,9 @@ class PortalAdmController extends Controller
             $port_logo_topo->move(public_path($path), $nameFile);
             $data['port_logo_topo'] = $nameFile;
         }
-
+        if(!$data['port_logo_topoTmp']){
+            $data['port_logo_topo'] = '';
+        }
         if ($request->hasFile('port_logo_rodape') && $request->port_logo_rodape->isValid()) {
 
             //Define um aleatório para o arquivo baseado no timestamps atual
@@ -80,7 +72,9 @@ class PortalAdmController extends Controller
             $port_logo_rodape->move(public_path($path), $nameFile);
             $data['port_logo_rodape'] = $nameFile;
         }
-
+        if(!$data['port_logo_rodapeTmp']){
+            $data['port_logo_rodape'] = '';
+        }
         if ($request->hasFile('port_banner_lateral') && $request->port_banner_lateral->isValid()) {
 
             //Define um aleatório para o arquivo baseado no timestamps atual
@@ -94,7 +88,9 @@ class PortalAdmController extends Controller
             $port_banner_lateral->move(public_path($path), $nameFile);
             $data['port_banner_lateral'] = $nameFile;
         }
-
+        if(!$data['port_banner_lateralTmp']){
+            $data['port_banner_lateral'] = '';
+        }
         if ($request->hasFile('port_banner1') && $request->port_banner1->isValid()) {
 
             //Define um aleatório para o arquivo baseado no timestamps atual
@@ -108,7 +104,9 @@ class PortalAdmController extends Controller
             $port_banner1->move(public_path($path), $nameFile);
             $data['port_banner1'] = $nameFile;
         }
-
+        if(!$data['port_banner1Tmp']){
+            $data['port_banner1'] = '';
+        }
         if ($request->hasFile('port_banner2') && $request->port_banner2->isValid()) {
 
             //Define um aleatório para o arquivo baseado no timestamps atual
@@ -122,7 +120,9 @@ class PortalAdmController extends Controller
             $port_banner2->move(public_path($path), $nameFile);
             $data['port_banner2'] = $nameFile;
         }
-
+        if(!$data['port_banner2Tmp']){
+            $data['port_banner2'] = '';
+        }
         if ($request->hasFile('port_banner3') && $request->port_banner3->isValid()) {
 
             //Define um aleatório para o arquivo baseado no timestamps atual
@@ -136,7 +136,9 @@ class PortalAdmController extends Controller
             $port_banner3->move(public_path($path), $nameFile);
             $data['port_banner3'] = $nameFile;
         }
-
+        if(!$data['port_banner3Tmp']){
+            $data['port_banner3'] = '';
+        }
         if ($request->hasFile('port_banner4') && $request->port_banner4->isValid()) {
 
             //Define um aleatório para o arquivo baseado no timestamps atual
@@ -150,7 +152,9 @@ class PortalAdmController extends Controller
             $port_banner4->move(public_path($path), $nameFile);
             $data['port_banner4'] = $nameFile;
         }
-
+        if(!$data['port_banner4Tmp']){
+            $data['port_banner4'] = '';
+        }
         if ($request->hasFile('port_banner5') && $request->port_banner5->isValid()) {
 
             //Define um aleatório para o arquivo baseado no timestamps atual
@@ -164,6 +168,19 @@ class PortalAdmController extends Controller
             $port_banner5->move(public_path($path), $nameFile);
             $data['port_banner5'] = $nameFile;
         }
+        if(!$data['port_banner5Tmp']){
+            $data['port_banner5'] = '';
+        }
+
+        unset($data['_token']);
+        unset($data['port_logo_topoTmp']);
+        unset($data['port_logo_rodapeTmp']);
+        unset($data['port_banner_lateralTmp']);
+        unset($data['port_banner1Tmp']);
+        unset($data['port_banner2Tmp']);
+        unset($data['port_banner3Tmp']);
+        unset($data['port_banner4Tmp']);
+        unset($data['port_banner5Tmp']);
 
         DB::table('cda_portal')->update($data);
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);

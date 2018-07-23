@@ -54,6 +54,7 @@
                     <li><a><i class="fa fa-globe"></i>Portal<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('portal.index') }}">Configurações</a></li>
+                            <li><a href="{{ route('faq.index') }}">FAQ</a></li>
                             <li><a href="{{ route('solicitar_acesso.index') }}">Solicitaçoes de Acesso</a></li>
                         </ul>
                     </li>

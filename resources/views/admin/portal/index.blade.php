@@ -55,13 +55,14 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file" name="port_logo_topo">
-                                            <input type="text" value="@if(isset($Var->port_logo_topo)){{ $Var->port_logo_topo }}@endif" name="port_logo_topoTmp" class="form-control" />
+                                            <input type="text" value="@if(isset($Var->port_logo_topo)){{ $Var->port_logo_topo }}@endif" name="port_logo_topoTmp" id="port_logo_topoTmp" class="form-control" />
                                             <span class="input-group-btn">
-                                                    <button class="btn btn-default btn-choose" type="button">...</button>
-                                                </span>
+                                                <button class="btn btn-default btn-choose" type="button">...</button>
+                                            </span>
                                         </div>
 
                                     </div>
+                                    <i class="fa fa-close" onclick="$('#port_logo_topoTmp').val('')" style="cursor: pointer"></i>
                                 </div>
 
 
@@ -70,13 +71,14 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file" name="port_logo_rodape">
-                                            <input type="text" value="@if(isset($Var->port_logo_rodape)){{ $Var->port_logo_rodape }}@endif" name="port_logo_rodapeTmp" class="form-control" />
+                                            <input type="text" value="@if(isset($Var->port_logo_rodape)){{ $Var->port_logo_rodape }}@endif" name="port_logo_rodapeTmp" id="port_logo_rodapeTmp" class="form-control" />
                                             <span class="input-group-btn">
                                                     <button class="btn btn-default btn-choose" type="button">...</button>
                                                 </span>
                                         </div>
 
                                     </div>
+                                    <i class="fa fa-close" onclick="$('#port_logo_rodapeTmp').val('')" style="cursor: pointer"></i>
                                 </div>
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_endereco">Endereço 
@@ -100,13 +102,13 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                             <div class="input-group input-file" name="port_banner_lateral">
-                                                <input type="text" value="@if(isset($Var->port_banner_lateral)){{ $Var->port_banner_lateral }}@endif" name="port_banner_lateralTmp" class="form-control" />
+                                                <input type="text" value="@if(isset($Var->port_banner_lateral)){{ $Var->port_banner_lateral }}@endif" name="port_banner_lateralTmp" id="port_banner_lateralTmp" class="form-control" />
                                                 <span class="input-group-btn">
                                                     <button class="btn btn-default btn-choose" type="button">...</button>
                                                 </span>
                                             </div>
-
                                     </div>
+                                    <i class="fa fa-close" onclick="$('#port_banner_lateralTmp').val('')" style="cursor: pointer"></i>
                                 </div>
 
                                 <div class="item form-group">
@@ -114,13 +116,14 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file" name="port_banner1">
-                                            <input type="text"  name="port_banner1Tmp"  value="@if(isset($Var->port_banner1)){{ $Var->port_banner1 }}@endif" class="form-control" />
+                                            <input type="text"  name="port_banner1Tmp"  id="port_banner1Tmp" value="@if(isset($Var->port_banner1)){{ $Var->port_banner1 }}@endif" class="form-control" />
                                             <span class="input-group-btn">
                                                     <button class="btn btn-default btn-choose" type="button">...</button>
                                                 </span>
                                         </div>
 
                                     </div>
+                                    <i class="fa fa-close" onclick="$('#port_banner1Tmp').val('')" style="cursor: pointer"></i>
                                 </div>
 
                                 <div class="item form-group">
@@ -128,13 +131,14 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"   name="port_banner2">
-                                            <input type="text"  name="port_banner2Tmp"  value="@if(isset($Var->port_banner2)){{ $Var->port_banner2 }}@endif"  class="form-control" />
+                                            <input type="text"  name="port_banner2Tmp"  id="port_banner2Tmp"  value="@if(isset($Var->port_banner2)){{ $Var->port_banner2 }}@endif"  class="form-control" />
                                             <span class="input-group-btn">
                                                     <button class="btn btn-default btn-choose" type="button">...</button>
                                                 </span>
                                         </div>
 
                                     </div>
+                                    <i class="fa fa-close" onclick="$('#port_banner2Tmp').val('')" style="cursor: pointer"></i>
                                 </div>
 
                                 <div class="item form-group">
@@ -142,13 +146,14 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"  name="port_banner3">
-                                            <input type="text"  name="port_banner3Tmp"  value="@if(isset($Var->port_banner3)){{ $Var->port_banner3 }}@endif"   class="form-control" />
+                                            <input type="text"  name="port_banner3Tmp"  id="port_banner3Tmp"  value="@if(isset($Var->port_banner3)){{ $Var->port_banner3 }}@endif"   class="form-control" />
                                             <span class="input-group-btn">
                                                     <button class="btn btn-default btn-choose" type="button">...</button>
                                                 </span>
                                         </div>
 
                                     </div>
+                                    <i class="fa fa-close" onclick="$('#port_banner3Tmp').val('')" style="cursor: pointer"></i>
                                 </div>
 
                                 <div class="item form-group">
@@ -156,13 +161,14 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"  name="port_banner4">
-                                            <input type="text"  name="port_banner4Tmp"  value="@if(isset($Var->port_banner4)){{ $Var->port_banner4 }}@endif"  class="form-control" />
+                                            <input type="text"  name="port_banner4Tmp"  id="port_banner4Tmp"   value="@if(isset($Var->port_banner4)){{ $Var->port_banner4 }}@endif"  class="form-control" />
                                             <span class="input-group-btn">
                                                     <button class="btn btn-default btn-choose" type="button">...</button>
                                                 </span>
                                         </div>
 
                                     </div>
+                                    <i class="fa fa-close" onclick="$('#port_banner4Tmp').val('')" style="cursor: pointer"></i>
                                 </div>
 
                                 <div class="item form-group">
@@ -170,13 +176,14 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"   name="port_banner5">
-                                            <input type="text"  name="port_banner5Tmp"  value="@if(isset($Var->port_banner5)){{ $Var->port_banner5 }}@endif"  class="form-control" />
+                                            <input type="text"  name="port_banner5Tmp"  id="port_banner5Tmp"  value="@if(isset($Var->port_banner5)){{ $Var->port_banner5 }}@endif"  class="form-control" />
                                             <span class="input-group-btn">
                                                     <button class="btn btn-default btn-choose" type="button">...</button>
                                                 </span>
                                         </div>
 
                                     </div>
+                                    <i class="fa fa-close" onclick="$('#port_banner5Tmp').val('')" style="cursor: pointer"></i>
                                 </div>
 
                                 <div class="item form-group">

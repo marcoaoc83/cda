@@ -7,12 +7,12 @@
             <form role="form" method="POST" action="{{ url('/login') }}">
                 {{csrf_field()}}
                 <h1>Login</h1>
-                <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                    <input type="email" class="form-control" name="email" placeholder="Login" required="" />
-                    @if ($errors->has('email'))
+                <div class="form-group{{ $errors->has('documento') ? ' has-error' : '' }}">
+                    <input type="text" class="form-control" name="documento" placeholder="Login" required="" />
+                    @if ($errors->has('documento'))
                         <span class="help-block">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
+                            <strong>{{ $errors->first('documento') }}</strong>
+                        </span>
                     @endif
                 </div>
                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
