@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Portal;
 
 use App\Http\Controllers\Controller;
+use App\Models\Faq;
 use App\Models\PortalAdm;
 use App\Models\SolicitarAcesso;
 use Illuminate\Http\Request;
@@ -36,7 +37,8 @@ class PortalController extends Controller
     public function ajuda()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
-        return view('portal.index.ajuda')->with('Var',$Var[0]);
+        $Faq=Faq::select(['cda_portal_faq.*'])->orderBy('faq_ordem','ASC')->get();
+        return view('portal.index.ajuda')->with('Var',$Var[0])->with('Faq',$Faq);
     }
     public function acesso()
     {

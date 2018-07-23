@@ -7,51 +7,19 @@
 
 
             <div class="accordion" id="accordionExample">
-                <div class="mb-0 mt-3" id="headingOne">
-                    <h6 class="pf-text-muted font-weight-bold pf-cursor-pointer" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">1) Como faço para agendar atendimento na Plataforma de Atendimento?</h6>
-                </div>
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <div class="card-body pf-word-wrap pf-text-secondary">
-                        Para realizar o agendamento é necessário seguir os passos abaixo descritos:<br>
-                        <br>
-                        a. Acessar o link: http://agendamento.uberlandia.mg.gov.br/agendamento <br>
-                        b. Faça seu cadastro para ter acesso aos serviços (caso já possua clique em "ENTRAR");<br>
-                        c. Escolha o serviço desejado;<br>
-                        d. Em seguida seleciona a unidade, data e horário disponíveis;<br>
-                        e. Confira as informações e clique em "CONFIRMAR AGENDAMENTO" para concluir;<br>
-                        f. Anote a senha informada e compareça ao local no dia e horário agendado.
+                @foreach($Faq as $key => $var)
+                    <div class="mb-0 mt-3" id="heading{{$key}}">
+                        <h6 class="pf-text-muted font-weight-bold pf-cursor-pointer" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="true" aria-controls="collapse{{$key}}">
+                            {{$var->faq_titulo}}
+                        </h6>
                     </div>
-                </div>
-                <div class="mb-0 mt-3" id="headingTwo">
-                    <h6 class="pf-text-muted font-weight-bold collapsed pf-cursor-pointer" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">2) Como faço para agendar atendimento na Plataforma de Atendimento?</h6>
-                </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                    <div class="card-body pf-word-wrap pf-text-secondary">
-                        Para realizar o agendamento é necessário seguir os passos abaixo descritos:<br>
-                        <br>
-                        a. Acessar o link: http://agendamento.uberlandia.mg.gov.br/agendamento <br>
-                        b. Faça seu cadastro para ter acesso aos serviços (caso já possua clique em "ENTRAR");<br>
-                        c. Escolha o serviço desejado;<br>
-                        d. Em seguida seleciona a unidade, data e horário disponíveis;<br>
-                        e. Confira as informações e clique em "CONFIRMAR AGENDAMENTO" para concluir;<br>
-                        f. Anote a senha informada e compareça ao local no dia e horário agendado.
+                    <div id="collapse{{$key}}" class="collapse" aria-labelledby="heading{{$key}}" data-parent="#accordionExample">
+                        <div class="card-body pf-word-wrap pf-text-secondary">
+                            {!! ($var->faq_texto)!!}
+                        </div>
                     </div>
-                </div>
-                <div class="mb-0 mt-3" id="headingThree">
-                    <h6 class="pf-text-muted font-weight-bold collapsed pf-cursor-pointer" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">3) Como faço para agendar atendimento na Plataforma de Atendimento?</h6>
-                </div>
-                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-                    <div class="card-body pf-word-wrap pf-text-secondary">
-                        Para realizar o agendamento é necessário seguir os passos abaixo descritos:<br>
-                        <br>
-                        a. Acessar o link: http://agendamento.uberlandia.mg.gov.br/agendamento <br>
-                        b. Faça seu cadastro para ter acesso aos serviços (caso já possua clique em "ENTRAR");<br>
-                        c. Escolha o serviço desejado;<br>
-                        d. Em seguida seleciona a unidade, data e horário disponíveis;<br>
-                        e. Confira as informações e clique em "CONFIRMAR AGENDAMENTO" para concluir;<br>
-                        f. Anote a senha informada e compareça ao local no dia e horário agendado.
-                    </div>
-                </div>
+                @endforeach
+
             </div>
 
         </div>
