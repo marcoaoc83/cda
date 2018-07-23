@@ -7,9 +7,9 @@
             </div>
             <div class="col-12 col-lg-6 col-xl-4 offset-xl-4">
                 <div><i class="fas fa-map-marker-alt fa-lg"></i> <span> </span>Endereço</div>
-                <p class="ml-5">{!! $Var->port_endereco !!}</p>
+                <p class="ml-5">{!! nl2br($Var->port_endereco) !!}</p>
                 <div><i class="far fa-clock fa-lg"></i> <span> </span>Horário de Atendimento</div>
-                <p class="ml-5">{!! $Var->port_horario !!}</p>
+                <p class="ml-5">{!! nl2br($Var->port_horario) !!}</p>
             </div>
         </div>
     </div>

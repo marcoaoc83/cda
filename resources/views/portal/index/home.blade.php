@@ -89,24 +89,24 @@
                     <div class="col-lg-6 h3 text-center pt-4 pb-4 pf-text-primary d-none d-lg-block"><strong>Serviços Disponíveis</strong></div>
                 </div>
                 <div class="row justify-content-start">
-                    <a href="#" class="col-6 col-lg-3 border-right border-left border-top pf-td-none m-lg-2 lg-border pf-acesso-rapido">
+                    <a href="{{route('portal.acesso')}}" class="col-6 col-lg-3 border-right border-left border-top pf-td-none m-lg-2 lg-border pf-acesso-rapido">
                         <img src="{{asset('images/portal/ico-consultar-debitos.svg')}}" class="pb-4 pt-4" alt="Consultar Débitos" />
                         <h6 class="text-body">Consultar Débitos</h6>
                         <p class="text-secondary">Consulte os débitos de sua inscrição e gere o extrato.</p>
                     </a>
-                    <a href="#" class="col-6 col-lg-3 border-right border-top pf-td-none m-lg-2 lg-border pf-acesso-rapido">
+                    <a href="{{route('portal.acesso')}}" class="col-6 col-lg-3 border-right border-top pf-td-none m-lg-2 lg-border pf-acesso-rapido">
                         <img src="{{asset('images/portal/ico-emitir-guia.svg')}}" class="pb-4 pt-4" alt="Emitir Guia" />
                         <h6 class="text-body">Emitir Guia</h6>
                         <p class="text-secondary">Emitir guia dos débitos em aberto.</p>
                     </a>
                 </div>
                 <div class="row">
-                    <a href="#" class="col-6 col-lg-3 border-right border-left border-top border-bottom pf-td-none m-lg-2 lg-border pf-acesso-rapido">
+                    <a href="{{route('portal.acesso')}}" class="col-6 col-lg-3 border-right border-left border-top border-bottom pf-td-none m-lg-2 lg-border pf-acesso-rapido">
                         <img src="{{asset('images/portal/ico-parcelamento.svg')}}" class="pb-4 pt-4" alt="Parcelamento" />
                         <h6 class="text-body">Parcelamento</h6>
                         <p class="text-secondary">Simule e realiza o parcelamentos em aberto.</p>
                     </a>
-                    <a href="ajuda.html" class="col-6 col-lg-3 border-right border-top border-bottom pf-td-none m-lg-2 lg-border pf-acesso-rapido">
+                    <a href="{{route('portal.ajuda')}}" class="col-6 col-lg-3 border-right border-top border-bottom pf-td-none m-lg-2 lg-border pf-acesso-rapido">
                         <img src="{{asset('images/portal/ico-duvidas-frequentes.svg')}}" class="pb-4 pt-4" alt="Dúvidas Frequentes" />
                         <h6 class="text-body">Dúvidas Frequentes</h6>
                         <p class="text-secondary">Obtenha respostas para as perguntas mais frequentes.</p>
