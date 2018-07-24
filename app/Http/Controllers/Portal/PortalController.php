@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Portal;
 
 use App\Http\Controllers\Controller;
 use App\Models\Faq;
+use App\Models\Legislacao;
 use App\Models\PortalAdm;
 use App\Models\SolicitarAcesso;
 use Illuminate\Http\Request;
@@ -19,7 +20,10 @@ class PortalController extends Controller
     public function legislacao()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
-        return view('portal.index.legislacao')->with('Var',$Var[0]);
+        $Legislacao=Legislacao::select(['cda_portal_legislacao.*'])->get();
+        return view('portal.index.legislacao')
+            ->with('Var',$Var[0])
+            ->with('Legislacao',$Legislacao);
     }
     public function solicitacao()
     {
@@ -30,9 +34,15 @@ class PortalController extends Controller
     {
         $data = $request->all();
 
+        $data['soa_documento']=preg_replace('/[^0-9]/','',$data['soa_documento']);
+
+        if($data['soa_data_nasc'])
+            $data['soa_data_nasc'] = date("Y-m-d", strtotime($data['soa_data_nasc']));
+
         SolicitarAcesso::create($data);
         SWAL::message('Solicitação','Enviada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-        return view('portal.solicitacao.index');
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+        return view('portal.index.solicitacao')->with('Var',$Var[0]);
     }
     public function ajuda()
     {

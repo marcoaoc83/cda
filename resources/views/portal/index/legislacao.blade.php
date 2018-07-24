@@ -6,13 +6,15 @@
             <p class="pf-text-muted mb-4">Sobre as principais leis, decretos e documentos que regem a legalidade dos processos de Dívida Ativa.</p>
 
             <div class="row">
+                @foreach($Legislacao as $key => $var)
                 <div class="col-12 col-sm-6 col-lg-3 text-center mb-4">
-                    <a href="#" class="pf-td-none">
+                    <a href="{{asset('uploads/'.$var->leg_arquivo)}}" target="_blank" class="pf-td-none">
                         <img src="{{asset('images/portal/ico-legislacao.svg')}}" class="mb-4 mt-4" alt="" />
-                        <div class="h6 text-left pf-text-secondary pf-text-titulo-legislacao">Lei complementar nº 225 de 23 de dezembro de 1999</div>
-                        <p class="text-left pf-text-muted">Dispõe sobre as datas de vencimento dos créditos tributários que menciona e dá Outras providências.</p>
+                        <div class="h6 text-left pf-text-secondary pf-text-titulo-legislacao">{{$var->leg_titulo}}</div>
+                        <p class="text-left pf-text-muted">{{$var->leg_descricao}}</p>
                     </a>
                 </div>
+                @endforeach
             </div>
 
         </div>

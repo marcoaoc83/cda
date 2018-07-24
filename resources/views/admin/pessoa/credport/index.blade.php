@@ -10,7 +10,7 @@
         <div class="clearfix"></div>
     </div>
     <div class="x_content x_title profile_title">
-        <a class="btn btn-default btn-xs disabled" id="btInserir"  data-toggle="modal" data-target="#myModalCredPort">
+        <a class="btn btn-default btn-xs " id="btInserir"  data-toggle="modal" data-target="#myModalCredPort">
             <i class="fa fa-plus-square"> Inserir</i>
         </a>
         @include('admin.pessoa.credport.create')

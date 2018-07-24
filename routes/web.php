@@ -173,4 +173,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/faq/getdata', 'FaqController@getDadosDataTable')->name('faq.getdata');
     Route::resource('admin/faq', 'FaqController');
+
+    Route::get('admin/legislacao/getdata', 'LegislacaoController@getDadosDataTable')->name('legislacao.getdata');
+    Route::resource('admin/legislacao', 'LegislacaoController');
 });
