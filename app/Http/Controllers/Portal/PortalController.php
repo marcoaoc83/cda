@@ -7,6 +7,7 @@ use App\Models\Faq;
 use App\Models\Legislacao;
 use App\Models\PortalAdm;
 use App\Models\SolicitarAcesso;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Softon\SweetAlert\Facades\SWAL;
 
@@ -36,8 +37,9 @@ class PortalController extends Controller
 
         $data['soa_documento']=preg_replace('/[^0-9]/','',$data['soa_documento']);
 
-        if($data['soa_data_nasc'])
-            $data['soa_data_nasc'] = date("Y-m-d", strtotime($data['soa_data_nasc']));
+        if($data['soa_data_nasc']){
+            $data['soa_data_nasc']=Carbon::createFromFormat('d/m/Y', $data['soa_data_nasc'])->format('Y-m-d');
+        }
 
         SolicitarAcesso::create($data);
         SWAL::message('Solicitação','Enviada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);

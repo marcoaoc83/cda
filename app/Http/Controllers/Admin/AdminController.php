@@ -12,10 +12,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $user=User::find(auth()->user()->id);
-        if($user->funcao==4){
-            return view('admin.cidadao.index');
-        }
+
         $parcela_qtde = Parcela::count('ParcelaId');
         $parcela_qtde=number_format($parcela_qtde, 0, '', '.');
 

@@ -26,4 +26,21 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function isAdmin()
+    {
+        return $this->funcao == 1 ? true : false; // this looks for an admin column in your users table
+    }
+    public function isMaster()
+    {
+        return $this->funcao == 2 ? true : false; // this looks for an admin column in your users table
+    }
+    public function isServidor()
+    {
+        return $this->funcao == 3 ? true : false; // this looks for an admin column in your users table
+    }
+    public function isCidadao()
+    {
+        return $this->funcao == 4 ? true : false; // this looks for an admin column in your users table
+    }
 }
