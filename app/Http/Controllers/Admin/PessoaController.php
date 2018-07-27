@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Pessoa;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Maatwebsite\Excel\Facades\Excel;
 use Softon\SweetAlert\Facades\SWAL;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -191,5 +193,50 @@ class PessoaController extends Controller
             $x++;
         }
         return json_encode($return,JSON_UNESCAPED_UNICODE);
+    }
+    public function export(Request $request)
+    {
+        if($request->tipo == "csv"){
+            return self::exportCSV();
+        }
+        if($request->tipo == "txt"){
+            return self::exportTXT();
+        }
+        if($request->tipo == "pdf"){
+            return self::exportPDF();
+        }
+    }
+
+    public function exportPDF()
+    {
+        $data = Pessoa::select('PESSOAID as ID','CPF_CNPJNR as DOCUMENTO' ,'PESSOANMRS as NOME')->get();
+        // Send data to the view using loadView function of PDF facade
+        $pdf = PDF::loadView('admin.pessoa.export',  compact('data'));
+        // If you want to store the generated pdf to the server then you can use the store function
+        //$pdf->save(storage_path().'_filename.pdf');
+        // Finally, you can download the file using download function
+        return $pdf->stream('pessoa.pdf');
+    }
+
+    public function exportCSV()
+    {
+        $data = Pessoa::select('PESSOAID as ID','CPF_CNPJNR as DOCUMENTO' ,'PESSOANMRS as NOME')->get()->toArray();
+        return Excel::create('pessoa', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download("csv");
+    }
+
+    public function exportTXT()
+    {
+        $data = Pessoa::select('PESSOAID as ID','CPF_CNPJNR as DOCUMENTO' ,'PESSOANMRS as NOME')->get()->toArray();
+        return Excel::create('pessoa', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download("txt");
     }
 }

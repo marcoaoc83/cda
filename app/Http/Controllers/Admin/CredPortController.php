@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\CredPort;
+use App\Models\Pessoa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -43,14 +44,16 @@ class CredPortController extends Controller
         $data['Senha'] = bcrypt($data['Senha']);
 
         $id=CredPort::create($data)->CredPortId;
+        $Pessoa= Pessoa::find($data['PessoaIdCP']);
+        $nome =explode(" ",$Pessoa->PESSOANMRS);
         if ($id){
 
             $sql="INSERT INTO users SET ";
-            $sql.="email ='".$data['Email']."',";
             $sql.="password ='".$data['Senha']."',";
             $sql.="CredPortId ='".$id."',";
             $sql.="funcao ='4',";
-            $sql.="name ='".$data['name']."'";
+            $sql.="name ='".$nome[0]."',";
+            $sql.="documento ='".$Pessoa->CPF_CNPJNR."'";
 
             DB::insert($sql);
             return \response()->json(true);

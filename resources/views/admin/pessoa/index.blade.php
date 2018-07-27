@@ -30,7 +30,14 @@
                             </a>
 
                             <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true"><i class="fa fa-download"></i></a>
+                                    <ul class="dropdown-menu" role="menu" style="background-color: #f0f0f0">
+                                        <li><a href="{{route("pessoa.export",["tipo"=>'pdf'])}}" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a></li>
+                                        <li><a href="{{route("pessoa.export",["tipo"=>'csv'])}}" target="_blank"><i class="fa fa-file-excel-o"></i> CSV</a></li>
+                                        <li><a href="{{route("pessoa.export",["tipo"=>'txt'])}}" target="_blank"><i class="fa fa-file-text-o"></i> TXT</a></li>
+                                    </ul>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>

@@ -4,6 +4,7 @@
     <link href="https://cdn.datatables.net/select/1.1.2/css/select.dataTables.min.css" rel="stylesheet">
 <style>
     .typeahead { z-index: 9999999; }
+
 </style>
 @endsection
 @section('content')

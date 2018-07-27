@@ -27,8 +27,8 @@
                 <ul class="nav side-menu">
                     <li><a><i class="fa fa-edit"></i>Menu<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="#">Conheça seus Débitos</a></li>
-                            <li><a href="#">Negocie seus Débitos</a></li>
+                            <li><a href="{{ route('admin.debitos') }}">Conheça seus Débitos</a></li>
+                            <li><a href="#">Ajuda</a></li>
                         </ul>
                     </li>
                 </ul>

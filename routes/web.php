@@ -30,7 +30,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
     Route::get('admin/perfil', 'PerfilController@index')->name('perfil.ver');
 
     Route::group(['middleware'=>['cidadao']],function () {
-        //Route::get('cidadao', 'AdminController@index')->name('admin.home');
+        Route::get('admin/debitos', 'AdminController@debitos')->name('admin.debitos');
     });
 
     Route::group(['middleware'=>['admin']],function () {
@@ -88,6 +88,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
         Route::get('admin/pessoa/getdata', 'PessoaController@getDadosDataTable')->name('pessoa.getdata');
         Route::get('admin/pessoa/findpessoa', 'PessoaController@findPessoa')->name('pessoa.findpessoa');
+        Route::get('admin/pessoa/export', 'PessoaController@export')->name('pessoa.export');
         Route::resource('admin/pessoa', 'PessoaController');
 
         Route::get('admin/regcalc/getdata', 'RegraCalculoController@getDadosDataTable')->name('regcalc.getdata');
