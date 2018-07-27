@@ -7,7 +7,7 @@
         <th>DOCUMENTO</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody style="font-size: 11px">
     @foreach($data as $customer)
         <tr>
             <td>{{ $customer->ID }}</td>

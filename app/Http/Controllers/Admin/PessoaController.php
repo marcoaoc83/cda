@@ -209,12 +209,14 @@ class PessoaController extends Controller
 
     public function exportPDF()
     {
-        $data = Pessoa::select('PESSOAID as ID','CPF_CNPJNR as DOCUMENTO' ,'PESSOANMRS as NOME')->get();
+        ini_set('max_execution_time', 500);
+        $data = Pessoa::select('PESSOAID as ID','CPF_CNPJNR as DOCUMENTO' ,'PESSOANMRS as NOME')->limit(1000)->get();
         // Send data to the view using loadView function of PDF facade
         $pdf = PDF::loadView('admin.pessoa.export',  compact('data'));
         // If you want to store the generated pdf to the server then you can use the store function
         //$pdf->save(storage_path().'_filename.pdf');
         // Finally, you can download the file using download function
+        $pdf->setOptions(['dpi' => 30, 'defaultFont' => 'sans-serif']);
         return $pdf->stream('pessoa.pdf');
     }
 
