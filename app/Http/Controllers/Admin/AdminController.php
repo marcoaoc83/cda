@@ -6,7 +6,9 @@ use App\Models\Parcela;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
 {
@@ -36,5 +38,26 @@ class AdminController extends Controller
     public function debitos()
     {
         return view('admin.cidadao.debitos.index');
+    }
+
+    public function getDadosDataTable(Request $request)
+    {
+        $cda_parcela = Parcela::select([
+            'cda_parcela.*',
+            DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
+            'SitPagT.REGTABNM as  SitPag',
+            'SitCobT.REGTABNM as  SitCob',
+            'OrigTribT.REGTABNM as  OrigTrib',
+            'TributoT.REGTABNM as  Tributo',
+            'Pessoa.PESSOANMRS as Nome'
+        ])
+            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
+            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->leftjoin('cda_pessoa as Pessoa', 'Pessoa.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
+            ->where('cda_parcela.PessoaId',Auth::user()->pessoa_id);
+        $cda_parcela->get();
+        return Datatables::of($cda_parcela)->make(true);
     }
 }

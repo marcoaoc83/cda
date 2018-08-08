@@ -31,6 +31,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
     Route::group(['middleware'=>['cidadao']],function () {
         Route::get('admin/debitos', 'AdminController@debitos')->name('admin.debitos');
+        Route::get('admin/debitos/getdata', 'AdminController@getDadosDataTable')->name('debitos.getdata');
     });
 
     Route::group(['middleware'=>['admin']],function () {

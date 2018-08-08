@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\CredPort;
 use App\Models\Pessoa;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -48,14 +49,15 @@ class CredPortController extends Controller
         $nome =explode(" ",$Pessoa->PESSOANMRS);
         if ($id){
 
-            $sql="INSERT INTO users SET ";
-            $sql.="password ='".$data['Senha']."',";
-            $sql.="CredPortId ='".$id."',";
-            $sql.="funcao ='4',";
-            $sql.="name ='".$nome[0]."',";
-            $sql.="documento ='".$Pessoa->CPF_CNPJNR."'";
+            User::insertOnDuplicateKey([
+                'password'    => $data['Senha'],
+                'CredPortId'  =>$id,
+                'funcao' => '4',
+                'name' => $nome[0],
+                'documento' => $Pessoa->CPF_CNPJNR,
+                'pessoa_id' => $data['PessoaId'],
+            ], ['name','pessoa_id']);
 
-            DB::insert($sql);
             return \response()->json(true);
 
         }else{
@@ -133,7 +135,7 @@ class CredPortController extends Controller
     {
         $cda_credport = CredPort::select(['cda_credport.*','cda_pessoa.PESSOANMRS','cda_pessoa.CPF_CNPJNR'])
             ->leftjoin('cda_pessoa', 'cda_pessoa.PESSOAID', '=', 'cda_credport.PessoaIdCP')
-            ->where('cda_credport.InscrMunId',$request->INSCRMUNID)
+            ->where('cda_credport.PESSOAID',$request->PESSOAID)
             ->get();
 
         return Datatables::of($cda_credport)->make(true);

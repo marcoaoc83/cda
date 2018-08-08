@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^0.8.2",
         "cviebrock/eloquent-sluggable": "^4.2",
         "fideloper/proxy": "~3.3",
+        "guidocella/eloquent-insert-on-duplicate-key": "^2.2",
         "laravel/framework": "5.5.*",
         "laravel/scout": "^3.0",
         "laravel/tinker": "~1.0",
