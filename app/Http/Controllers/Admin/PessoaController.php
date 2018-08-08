@@ -181,10 +181,11 @@ class PessoaController extends Controller
     {
         $data = strtolower(Input::get('query'));
         $cda_pessoa = Pessoa::select(['PESSOAID','PESSOANMRS', 'CPF_CNPJNR'])
-            ->whereRaw('CPF_CNPJNR IS NOT NULL')
-            ->whereRaw('LOWER(PESSOANMRS) LIKE ? ',['%'.trim(strtolower($data)).'%'])
-            ->orWhere('CPF_CNPJNR','like','%'.$data.'%');
+            ->whereRaw('
+            CPF_CNPJNR <> "" and 
+            (LOWER(PESSOANMRS) LIKE "%'.trim(strtolower($data)).'%" or CPF_CNPJNR LIKE "%'.trim(strtolower($data)).'%" ) ');
         //dd($cda_pessoa);
+        error_log($cda_pessoa->toSql());
         $pessoas=$cda_pessoa->get()->all();
         $x=0;
         $return=[];
