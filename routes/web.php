@@ -184,5 +184,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
         Route::get('admin/legislacao/getdata', 'LegislacaoController@getDadosDataTable')->name('legislacao.getdata');
         Route::resource('admin/legislacao', 'LegislacaoController');
+
+        Route::resource('admin/boleto', 'BoletoController');
     });
 });

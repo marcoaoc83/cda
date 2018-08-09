@@ -8,6 +8,7 @@
         "php": ">=7.0.0",
         "barryvdh/laravel-dompdf": "^0.8.2",
         "cviebrock/eloquent-sluggable": "^4.2",
+        "eduardokum/laravel-boleto": "^0.7.8",
         "fideloper/proxy": "~3.3",
         "guidocella/eloquent-insert-on-duplicate-key": "^2.2",
         "laravel/framework": "5.5.*",
