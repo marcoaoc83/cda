@@ -29,74 +29,76 @@
                             </a>
                         </div>
                     </div>
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" class="active"><a data-toggle="tab" href="#1a">Dados</a></li>
+                        <li role="presentation"><a data-toggle="tab" href="#2a">Banners</a></li>
+                        <li role="presentation"><a data-toggle="tab" href="#3a">Cores</a></li>
+                        <li role="presentation"><a data-toggle="tab" href="#4a">Boleto</a></li>
+                    </ul>
                     <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Configuração<small></small></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
                         <div class="x_content">
 
                             <form class="form-horizontal form-label-left"  novalidate  method="post" action="{{ route('portal.store') }}" enctype="multipart/form-data">
                                 {{ csrf_field() }}
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_titulo">Titulo
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="@if(isset($Var->port_titulo)){{ $Var->port_titulo }}@endif" name="port_titulo"  id="port_titulo" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
-                                    </div>
-                                </div>
+                                <div class="tab-content">
 
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Logo Topo </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
-
-                                        <div class="input-group input-file" name="port_logo_topo">
-                                            <input type="text" value="@if(isset($Var->port_logo_topo)){{ $Var->port_logo_topo }}@endif" name="port_logo_topoTmp" id="port_logo_topoTmp" class="form-control" />
-                                            <span class="input-group-btn">
-                                                <button class="btn btn-default btn-choose" type="button">...</button>
-                                            </span>
+                                <div class="row tab-pane active" id="1a">
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_titulo">Titulo
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input value="@if(isset($Var->port_titulo)){{ $Var->port_titulo }}@endif" name="port_titulo"  id="port_titulo" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
                                         </div>
-
                                     </div>
-                                    <i class="fa fa-close" onclick="$('#port_logo_topoTmp').val('')" style="cursor: pointer"></i>
-                                </div>
 
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Logo Topo </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Logo Rodapé </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
-
-                                        <div class="input-group input-file" name="port_logo_rodape">
-                                            <input type="text" value="@if(isset($Var->port_logo_rodape)){{ $Var->port_logo_rodape }}@endif" name="port_logo_rodapeTmp" id="port_logo_rodapeTmp" class="form-control" />
-                                            <span class="input-group-btn">
+                                            <div class="input-group input-file" name="port_logo_topo">
+                                                <input type="text" value="@if(isset($Var->port_logo_topo)){{ $Var->port_logo_topo }}@endif" name="port_logo_topoTmp" id="port_logo_topoTmp" class="form-control" />
+                                                <span class="input-group-btn">
                                                     <button class="btn btn-default btn-choose" type="button">...</button>
                                                 </span>
+                                            </div>
+
                                         </div>
-
+                                        <i class="fa fa-close" onclick="$('#port_logo_topoTmp').val('')" style="cursor: pointer"></i>
                                     </div>
-                                    <i class="fa fa-close" onclick="$('#port_logo_rodapeTmp').val('')" style="cursor: pointer"></i>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_endereco">Endereço 
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <textarea name="port_endereco"  id="port_endereco"  class="resizable_textarea form-control" placeholder="">@if(isset($Var->port_endereco)){{ $Var->port_endereco }}@endif</textarea>
+
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Logo Rodapé </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
+
+                                            <div class="input-group input-file" name="port_logo_rodape">
+                                                <input type="text" value="@if(isset($Var->port_logo_rodape)){{ $Var->port_logo_rodape }}@endif" name="port_logo_rodapeTmp" id="port_logo_rodapeTmp" class="form-control" />
+                                                <span class="input-group-btn">
+                                                        <button class="btn btn-default btn-choose" type="button">...</button>
+                                                    </span>
+                                            </div>
+
+                                        </div>
+                                        <i class="fa fa-close" onclick="$('#port_logo_rodapeTmp').val('')" style="cursor: pointer"></i>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_endereco">Endereço
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <textarea name="port_endereco"  id="port_endereco"  class="resizable_textarea form-control" placeholder="">@if(isset($Var->port_endereco)){{ $Var->port_endereco }}@endif</textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_horario">Horário
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <textarea name="port_horario"  id="port_horario"  class="resizable_textarea form-control" placeholder="">@if(isset($Var->port_horario)){{ $Var->port_horario }}@endif</textarea>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_horario">Horário 
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <textarea name="port_horario"  id="port_horario"  class="resizable_textarea form-control" placeholder="">@if(isset($Var->port_horario)){{ $Var->port_horario }}@endif</textarea>
-                                    </div>
-                                </div>
-
-
+                                <div class="row tab-pane" id="2a">
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Lateral </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
@@ -185,92 +187,139 @@
                                     </div>
                                     <i class="fa fa-close" onclick="$('#port_banner5Tmp').val('')" style="cursor: pointer"></i>
                                 </div>
+                                </div>
+                                <div class="row tab-pane" id="3a">
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor">Site - Cor Fundo
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div id="cp2" class="input-group colorpicker-component colorpicker" title="">
+                                                <input type="text" name="port_cor" id="port_cor" class="form-control "  value="{{ $Var->port_cor }}"/>
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor">Site - Cor Fundo
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div id="cp2" class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor" id="port_cor" class="form-control "  value="{{ $Var->port_cor }}"/>
-                                            <span class="input-group-addon"><i></i></span>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_letra">Site - Cor Letra
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div  class="input-group colorpicker-component colorpicker" title="">
+                                                <input type="text" name="port_cor_letra" id="port_cor_letra" class="form-control "  value="{{ $Var->port_cor_letra }}"/>
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_menu1">Menu - Cor Fundo
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div  class="input-group colorpicker-component colorpicker" title="">
+                                                <input type="text" name="port_cor_menu1" id="port_cor_menu1" class="form-control "  value="{{ $Var->port_cor_menu1 }}"/>
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_menu2">Menu - Cor Borda
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div  class="input-group colorpicker-component colorpicker" title="">
+                                                <input type="text" name="port_cor_menu2" id="port_cor_menu2" class="form-control" value="{{ $Var->port_cor_menu2 }}"/>
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_menu_letra">Menu - Cor Letra
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div  class="input-group colorpicker-component colorpicker" title="">
+                                                <input type="text" name="port_cor_menu_letra" id="port_cor_menu_letra" class="form-control"  value="{{ $Var->port_cor_menu_letra }}"/>
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_rodape1">Rodapé - Cor Fundo 1
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div  class="input-group colorpicker-component colorpicker" title="">
+                                                <input type="text" name="port_cor_rodape1" id="port_cor_rodape1" class="form-control "  value="{{ $Var->port_cor_rodape1 }}"/>
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_rodape2">Rodapé - Cor Fundo 2
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div  class="input-group colorpicker-component colorpicker" title="">
+                                                <input type="text" name="port_cor_rodape2" id="port_cor_rodape2" class="form-control "  value="{{ $Var->port_cor_rodape2 }}"/>
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_rodape_letra">Rodapé - Cor Letra
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div  class="input-group colorpicker-component colorpicker" title="">
+                                                <input type="text" name="port_cor_rodape_letra" id="port_cor_rodape_letra" class="form-control "  value="{{ $Var->port_cor_rodape_letra }}"/>
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_letra">Site - Cor Letra
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_letra" id="port_cor_letra" class="form-control "  value="{{ $Var->port_cor_letra }}"/>
-                                            <span class="input-group-addon"><i></i></span>
+                                    <div class="row tab-pane" id="4a">
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_agencia">Agencia
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input value="@if(isset($Var->port_boleto_agencia)){{ $Var->port_boleto_agencia }}@endif" name="port_boleto_agencia"  id="port_boleto_agencia" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_menu1">Menu - Cor Fundo
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_menu1" id="port_cor_menu1" class="form-control "  value="{{ $Var->port_cor_menu1 }}"/>
-                                            <span class="input-group-addon"><i></i></span>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_codigo_cliente">Código Cliente
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input value="@if(isset($Var->port_boleto_codigo_cliente)){{ $Var->port_boleto_codigo_cliente }}@endif" name="port_boleto_codigo_cliente"  id="port_boleto_codigo_cliente" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_menu2">Menu - Cor Borda
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_menu2" id="port_cor_menu2" class="form-control" value="{{ $Var->port_cor_menu2 }}"/>
-                                            <span class="input-group-addon"><i></i></span>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_instrucao1">Instrução 1
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input value="@if(isset($Var->port_boleto_instrucao1)){{ $Var->port_boleto_instrucao1 }}@endif" name="port_boleto_instrucao1"  id="port_boleto_instrucao1" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_menu_letra">Menu - Cor Letra
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_menu_letra" id="port_cor_menu_letra" class="form-control"  value="{{ $Var->port_cor_menu_letra }}"/>
-                                            <span class="input-group-addon"><i></i></span>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_instrucao2">Instrução 2
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input value="@if(isset($Var->port_boleto_instrucao2)){{ $Var->port_boleto_instrucao2 }}@endif" name="port_boleto_instrucao2"  id="port_boleto_instrucao2" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_rodape1">Rodapé - Cor Fundo 1
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_rodape1" id="port_cor_rodape1" class="form-control "  value="{{ $Var->port_cor_rodape1 }}"/>
-                                            <span class="input-group-addon"><i></i></span>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_instrucao3">Instrução 3
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input value="@if(isset($Var->port_boleto_instrucao3)){{ $Var->port_boleto_instrucao3 }}@endif" name="port_boleto_instrucao3"  id="port_boleto_instrucao3" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_rodape2">Rodapé - Cor Fundo 2
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_rodape2" id="port_cor_rodape2" class="form-control "  value="{{ $Var->port_cor_rodape2 }}"/>
-                                            <span class="input-group-addon"><i></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_cor_rodape_letra">Rodapé - Cor Letra
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div  class="input-group colorpicker-component colorpicker" title="">
-                                            <input type="text" name="port_cor_rodape_letra" id="port_cor_rodape_letra" class="form-control "  value="{{ $Var->port_cor_rodape_letra }}"/>
-                                            <span class="input-group-addon"><i></i></span>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_instrucao4">Instrução 4
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input value="@if(isset($Var->port_boleto_instrucao4)){{ $Var->port_boleto_instrucao4 }}@endif" name="port_boleto_instrucao4"  id="port_boleto_instrucao4" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

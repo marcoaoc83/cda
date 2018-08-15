@@ -38,7 +38,7 @@ class BoletoController extends Controller
             'cidade'    => 'City',
         ]);
         $caixa = new Caixa();
-        //$caixa->setLogo('/path/to/logo.png');
+        $caixa->setLogo('/path/to/logo.png');
         $caixa->setDataVencimento(Carbon::createFromFormat('Y-m-d','2018-10-07'));
         $caixa->setValor('100');
         $caixa->setNumero(1);
@@ -50,10 +50,10 @@ class BoletoController extends Controller
         $caixa->setCodigoCliente(222222);
         $caixa->setDescricaoDemonstrativo(['demonstrativo 1', 'demonstrativo 2', 'demonstrativo 3']);
         $caixa->setInstrucoes(['instrucao 1', 'instrucao 2', 'instrucao 3']);
-        $caixa->addDescricaoDemonstrativo('demonstrativo 4');
+        //$caixa->addDescricaoDemonstrativo('demonstrativo 4');
 
 
-         $caixa->renderPDF(true);
+        $caixa->renderPDF(true);
 
         $pdf = new Pdf();
         $pdf->addBoleto($caixa);
