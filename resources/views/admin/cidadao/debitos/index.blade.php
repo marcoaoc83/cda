@@ -26,7 +26,7 @@
                         <a class="btn btn-app "    onclick="">
                             <i class="fa fa-print"></i> Extrato
                         </a>
-                        <a class="btn btn-app "    onclick="">
+                        <a class="btn btn-app boleto"    onclick="">
                             <i class="fa fa-barcode"></i> Boleto
                         </a>
                     </div>
@@ -68,7 +68,7 @@
                         <a class="btn btn-app "    onclick="">
                             <i class="fa fa-print"></i> Extrato
                         </a>
-                        <a class="btn btn-app "    onclick="">
+                        <a class="btn btn-app boleto"  >
                             <i class="fa fa-barcode"></i> Boleto
                         </a>
                     </div>
@@ -163,6 +163,7 @@
     <script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.1.2/js/dataTables.select.min.js"></script>
     <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
     <script type="text/javascript">
 
         function filtrarParcelas(){
@@ -193,13 +194,18 @@
         }
 
         $(document).ready(function() {
-
+            $('.boleto').hide();
             var tbParcela = $('#tbParcela').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
                 ajax: '{{ route('debitos.getdata') }}'+"/?limit=0",
                 "pageLength": 100,
+                select: {
+                    style: 'single',
+                    info: false
+
+                },
                 columns: [
                     {data: 'Nome', name: 'Nome'},
                     {data: 'SitPag', name: 'SitPag'},
@@ -225,15 +231,26 @@
                 if ( type === 'row' ) {
                     var ParcelaId = tbParcela.rows( indexes ).data().pluck( 'ParcelaId' );
                     $('#formParcelas').append('<input type="hidden" id="parcelasId'+ParcelaId[0]+'" name="parcelasId[]" value='+ParcelaId[0]+' />');
+
+                    var sit =tbParcela.rows( indexes ).data().pluck( 'SitPag' );
+                    if(sit[0]=='Aberta'){
+                        $('.boleto').show();
+                    }
+
                 }
             })
             .on( 'deselect', function ( e, dt, type, indexes ){
                 if ( type === 'row' ) {
                     var ParcelaId = tbParcela.rows( indexes ).data().pluck( 'ParcelaId' );
                     $( "#parcelasId"+ParcelaId[0] ).remove();
+                    $('.boleto').hide();
                 }
             });
 
+            $('.boleto').click(function () {
+                var linha = tbParcela.row('.selected').data();
+                window.open('boleto/'+CryptoJS.MD5(linha['ParcelaId']), '_blank');
+            });
         });
     </script>
 @endpush

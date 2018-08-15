@@ -280,6 +280,13 @@
                                 </div>
                                     <div class="row tab-pane" id="4a">
                                         <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_nr_documento">CNPJ
+                                            </label>
+                                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                                <input value="@if(isset($Var->port_boleto_nr_documento)){{ $Var->port_boleto_nr_documento }}@endif" name="port_boleto_nr_documento"  id="port_boleto_nr_documento" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_agencia">Agencia
                                             </label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">

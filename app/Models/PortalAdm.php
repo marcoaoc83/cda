@@ -26,6 +26,13 @@ class PortalAdm extends Model
         'port_cor_rodape1',
         'port_cor_rodape2',
         'port_cor_rodape_letra',
+        'port_boleto_nr_documento',
+        'port_boleto_agencia',
+        'port_boleto_codigo_cliente',
+        'port_boleto_instrucao1',
+        'port_boleto_instrucao2',
+        'port_boleto_instrucao3',
+        'port_boleto_instrucao4',
     ];
     protected $table = 'cda_portal';
     protected $primaryKey = null;
