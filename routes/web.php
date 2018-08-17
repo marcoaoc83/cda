@@ -187,5 +187,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
         Route::resource('admin/legislacao', 'LegislacaoController');
 
         Route::resource('admin/boleto', 'BoletoController');
+
+        Route::resource('admin/relatorios', 'RelatoriosController');
     });
 });

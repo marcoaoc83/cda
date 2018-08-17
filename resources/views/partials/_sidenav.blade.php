@@ -51,6 +51,11 @@
                             </li>
                         </ul>
                     </li>
+                    <li><a><i class="fa fa-list-alt"></i>Relatórios<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{ route('relatorios.index') }}">Gerador Relatórios</a></li>
+                        </ul>
+                    </li>
                     <li><a><i class="fa fa-globe"></i>Portal<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
                             <li><a href="{{ route('portal.index') }}">Configurações</a></li>
