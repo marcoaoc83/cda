@@ -188,6 +188,7 @@ Route::group(['middleware'=>['auth'],'namespace' =>'Admin'],function (){
 
         Route::resource('admin/boleto', 'BoletoController');
 
+        Route::get('admin/relatorios/getdata', 'RelatoriosController@getDadosDataTable')->name('relatorios.getdata');
         Route::resource('admin/relatorios', 'RelatoriosController');
     });
 });

@@ -61,11 +61,7 @@
     @include('vendor.sweetalert.view')
     @include('vendor.sweetalert.validator')
     <script type="text/javascript">
-        function verTarefa(id) {
-            var texto=$("#tar_desc"+id).val();
 
-            swal(""+texto);
-        }
         $(document).ready(function() {
             var table = $('.datatable').DataTable({
                 "order": [[ 0, "desc" ]],
@@ -73,10 +69,10 @@
                 serverSide: true,
                 responsive: true,
                 "pageLength": 50,
-                ajax: '{{ route('tarefas.getdata') }}',
+                ajax: '{{ route('relatorios.getdata') }}',
                 columns: [
-                    {data: 'tar_id', name: 'tar_id'},
-                    {data: 'tar_titulo', name: 'tar_titulo'},
+                    {data: 'rel_id', name: 'rel_id'},
+                    {data: 'rel_titulo', name: 'rel_titulo'},
                     {
                         data: 'action',
                         name: 'action',
@@ -90,6 +86,46 @@
             });
 
         });
-
+        function deleteRelatorios(dataId) {
+            swal({
+                title             : "Tem certeza?",
+                text              : "Este Relatorio será deletado!",
+                type              : "warning",
+                showCancelButton  : true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText : "Sim",
+                cancelButtonText  : "Não"
+            }).then((resultado) => {
+                if (resultado.value) {
+                    $.ajax({
+                        dataType : 'json',
+                        type:'delete',
+                        data: {
+                            _token: '{!! csrf_token() !!}',
+                        },
+                        url: '{{ url('admin/relatorios') }}' + '/' + dataId,
+                        success: function( msg ) {
+                            $('.datatable').DataTable().ajax.reload();
+                            swal({
+                                position: 'top-end',
+                                type: 'success',
+                                title: 'Deletado com sucesso!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        },
+                        error: function( data ) {
+                            swal({
+                                position: 'top-end',
+                                type: 'error',
+                                title: 'Erro ao deletar!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    });
+                }
+            });
+        };
     </script>
 @endpush
