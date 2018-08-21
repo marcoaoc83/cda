@@ -169,6 +169,7 @@ return [
          */
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
+        ZanySoft\Zip\ZipServiceProvider::class,
 
 
         /*
@@ -237,6 +238,7 @@ return [
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Zip' => ZanySoft\Zip\ZipFacade::class,
     ],
 
 ];

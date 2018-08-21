@@ -23,4 +23,9 @@ class CronController extends Controller
         Artisan::call('queue:work',["--timeout"=>1000,"--queue"=>"distribuicao"]);
 
     }
+    public function execfila(){
+        // Artisan::call('queue:forget');
+        Artisan::call('queue:work',["--timeout"=>1000,"--queue"=>"execfila"]);
+
+    }
 }

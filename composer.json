@@ -19,6 +19,7 @@
         "prettus/l5-repository": "^2.6",
         "softon/sweetalert": "^1.0",
         "yajra/laravel-datatables-oracle": "^8.4",
+        "zanysoft/laravel-zip": "^1.0",
         "zizaco/entrust": "^1.8"
     },
     "require-dev": {

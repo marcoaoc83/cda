@@ -15,7 +15,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use League\Flysystem\File;
+use ZanySoft\Zip\Zip;
 
 class ExecFilaJob implements ShouldQueue
 {
@@ -133,9 +135,14 @@ class ExecFilaJob implements ShouldQueue
             self::geraModelo2($pessoa);
         }
 
+        $zip = Zip::create('public/uploads/execucao'.$this->Tarefa.'.zip');
+        $targetpath=storage_path("app/public/");
+        $dir=$targetpath."filas/tarefa".$this->Tarefa;
+        $zip->add($dir);
         $Tarefa= Tarefas::findOrFail($this->Tarefa);
         $Tarefa->update([
             "tar_status"    => "Finalizado",
+            'tar_descricao' => 'URL: '. URL::to('/').'/uploads/execucao'.$this->Tarefa.'.zip',
             "tar_jobs"      => $this->job->getJobId()
         ]);
 
