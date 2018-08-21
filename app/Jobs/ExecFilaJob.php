@@ -135,7 +135,7 @@ class ExecFilaJob implements ShouldQueue
             self::geraModelo2($pessoa);
         }
 
-        $zip = Zip::create($this->Tarefa.'.zip');
+        $zip = Zip::create('uploads/execucao'.$this->Tarefa.'.zip');
         $targetpath=storage_path("app/public/");
         $dir=$targetpath."filas/tarefa".$this->Tarefa;
         $zip->add($dir);
