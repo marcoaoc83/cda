@@ -142,7 +142,7 @@ class ExecFilaJob implements ShouldQueue
         $Tarefa= Tarefas::findOrFail($this->Tarefa);
         $Tarefa->update([
             "tar_status"    => "Finalizado",
-            'tar_descricao' => 'URL: '. URL::to('/').'/uploads/execucao'.$this->Tarefa.'.zip',
+            'tar_descricao' =>  URL::to('/').'/uploads/execucao'.$this->Tarefa.'.zip',
             "tar_jobs"      => $this->job->getJobId()
         ]);
 
