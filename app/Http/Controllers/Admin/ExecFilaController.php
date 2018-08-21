@@ -157,7 +157,22 @@ class ExecFilaController extends Controller
             ->limit($limit)
             ->get();
 
-
+        error_log( Parcela::select([
+            'cda_parcela.*',
+            DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
+            'SitPagT.REGTABNM as SitPag',
+            'OrigTribT.REGTABNM as OrigTrib',
+            DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
+        ])
+            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->where('cda_parcela.SitPagId', '61')
+            ->whereRaw($where)
+            ->groupBy('cda_parcela.ParcelaId')
+            ->limit($limit)->toSql());
 
         return Datatables::of($Parcela)->make(true);
 

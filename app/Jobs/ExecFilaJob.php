@@ -102,9 +102,9 @@ class ExecFilaJob implements ShouldQueue
               cda_regtab TRIB On cda_parcela.TRIBUTOID = TRIB.REGTABID  
        
             Where
-              (cda_pcrot.SaidaDt Is Null) ".$where;
+              (cda_pcrot.SaidaDt Is Null) AND cda_parcela.SitPagId =61 ".$where;
 
-        $parcelas= DB::select($sql);
+        $parcelas= DB::select($sql." GROUP BY cda_parcela.ParcelaId");
 
         foreach ($parcelas as $linha){
 
@@ -187,6 +187,9 @@ class ExecFilaJob implements ShouldQueue
         $html=str_replace("{{JMDT}}",$JMDT,$html);
         $html=str_replace("{{HONORT}}",$HONORT,$html);
         $html=str_replace("{{TOTALT}}",$TOTALT,$html);
+
+        $html=str_replace("{{NOTIFICACAO}}",date('Y').str_pad($this->Tarefa,8,"0",STR_PAD_LEFT),$html);
+        $html=str_replace("{{DIANOTIFICACAO}}",Carbon::parse()->format('d/m/Y'),$html);
 
         $targetpath=storage_path("app/public/");
         $dir=$targetpath."filas/tarefa".$this->Tarefa."/";
