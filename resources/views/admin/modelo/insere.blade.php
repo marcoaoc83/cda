@@ -1,7 +1,13 @@
 @extends('layouts.app')
 @section('styles')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://bootstrap-wysiwyg.github.io/bootstrap3-wysiwyg/dist/bootstrap3-wysihtml5.min.css"></link>
+    <!-- Include external CSS. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+
+    <!-- Include Editor style. -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/css/froala_style.min.css" rel="stylesheet" type="text/css" />
 @endsection
 @section('content')
     <!-- page content -->
@@ -135,45 +141,13 @@
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js">
     </script>
-    <script src="{{url('tinymce/jquery.tinymce.min.js')}}"></script>
-    <script src="{{ url('tinymce/tinymce.min.js') }}"></script>
-    <script>tinymce.init({
-            selector: 'textarea',
-            theme: 'modern',
-            plugins: 'print preview fullpage searchreplace autolink directionality  visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount   imagetools    contextmenu colorpicker textpattern help',
-            toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-            image_advtab: true,
-            language_url : "{{ url('tinymce/pt_BR.js') }}",
-            content_css: [
-                '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-                '//www.tinymce.com/css/codepen.min.css'
-            ],
-            image_title: true,
-            automatic_uploads: true,
-            fullpage_hide_in_source_view: true,
-            images_upload_url: '{{url("/admin/uploadtinymce/")}}',
-            file_picker_types: 'image',
-            file_picker_callback: function(cb, value, meta) {
+    <!-- Include external JS libs. -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
 
-                var input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.setAttribute('accept', 'image/*');
+    <!-- Include Editor JS files. -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/js/froala_editor.pkgd.min.js"></script>
 
-                input.onchange = function() {
-                    var file = this.files[0];
-
-                    var reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = function () {
-                        var id = 'blobid' + (new Date()).getTime();
-                        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-                        var base64 = reader.result.split(',')[1];
-                        var blobInfo = blobCache.create(id, file, base64);
-                        blobCache.add(blobInfo);
-                        cb(blobInfo.blobUri(), { title: file.name });
-                    };
-                };
-                input.click();
-            }
-        });</script>
+    <script>$('textarea').froalaEditor();</script>
 @endpush
