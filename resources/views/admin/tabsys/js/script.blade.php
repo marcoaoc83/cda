@@ -187,12 +187,17 @@
                 })
                 .error(function (retorno){
                     $('#modalEdita').modal('toggle');
-                    console.log(retorno.responseJSON.message);
+                    if(retorno.responseJSON.error){
+                        var msg=retorno.responseJSON.error;
+                    }else{
+                        var msg=retorno.responseJSON.message;
+                    }
+                    //console.log(retorno.responseJSON.message);
                     swal({
                         position: 'top-end',
                         type: 'error',
                         title: 'Erro!',
-                        text: retorno.responseJSON.message,
+                        text: msg,
                         showConfirmButton: false,
                         timer: 7500
                     });

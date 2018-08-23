@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\RegTab;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
@@ -39,6 +40,18 @@ class RegTabController extends Controller
 
     public function postEditar(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'REGTABSG' => 'required|unique:cda_regtab|max:20'
+        ]);
+
+        $validator->setAttributeNames(['REGTABSG'=>'Sigla']);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            $error= $errors->first('REGTABSG');
+            return \response()->json(["error"=>$error],500);
+        }
 
         $tabsys = RegTab::findOrFail($id);
         $tabsys->REGTABSG       = $request->REGTABSG;
