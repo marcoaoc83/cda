@@ -149,5 +149,8 @@
     <!-- Include Editor JS files. -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.8.4/js/froala_editor.pkgd.min.js"></script>
 
-    <script>$('textarea').froalaEditor();</script>
+    <script>$('textarea').froalaEditor({
+            language: 'pt_br',
+            imageUploadURL: '{{url("/admin/uploadfroala")}}'
+        });</script>
 @endpush

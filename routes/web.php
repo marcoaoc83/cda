@@ -17,7 +17,8 @@ Route::get('distribuicao/truncate', 'DistribuicaoController@truncate')->name('tr
 Route::get('crontab/importacao', 'CronController@importacao');
 Route::get('crontab/distribuicao', 'CronController@distribuicao');
 Route::get('crontab/execfila', 'CronController@execfila');
-
+Route::post('admin/uploadfroala', 'Admin\FroalaController@store');
+Route::get('admin/uploadfroala', 'Admin\FroalaController@store');
 // Authentication Routes...
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
