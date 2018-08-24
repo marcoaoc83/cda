@@ -19,7 +19,26 @@
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-
+                    <div class="x_panel" id="pnHoraExec">
+                        <div class="x_title">
+                            <h2>Fila<small></small></h2>
+                            <ul class="nav navbar-right panel_toolbox">
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="x_content">
+                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
+                                <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="filtrarCarteira(this.value)" >
+                                    <option value="" hidden selected disabled>Selecionar Fila</option>
+                                    @foreach($FilaTrab as $var)
+                                        <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                     <div class="x_panel " >
                         <div class="x_title">
                             <h2>Filtros<small></small></h2>
@@ -33,34 +52,26 @@
                             <form class="form-horizontal form-label-left" id="formFiltro"    method="post" action="" enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
-                                <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
-                                    <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="filtrarCarteira(this.value)" >
-                                        <option value="" hidden selected disabled>Selecionar Fila</option>
-                                        @foreach($FilaTrab as $var)
-                                            <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             
-                                        @endforeach
-                                    </select>
-                                </div>
                                 <a href="#">
                                     <div class="mail_list"></div>
                                 </a>
                                 <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left date-picker" placeholder="Vc Inicio" id="VencimentoInicio" name="VencimentoInicio" aria-describedby="inputSuccess2Status">
+                                    <input type="text" class="form-control has-feedback-left date-picker" style="padding-right: 1px !important;" placeholder="Vc Inicio" id="VencimentoInicio" name="VencimentoInicio" aria-describedby="inputSuccess2Status">
                                     <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                     <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left date-picker" placeholder="Vc Final" id="VencimentoFinal" name="VencimentoFinal" aria-describedby="inputSuccess2Status">
+                                    <input type="text" class="form-control has-feedback-left date-picker"  style="padding-right: 1px !important;" placeholder="Vc Final" id="VencimentoFinal" name="VencimentoFinal" aria-describedby="inputSuccess2Status">
                                     <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                     <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left date-picker" placeholder="Cpt Inicio" id="CompetenciaInicio" name="CompetenciaInicio" aria-describedby="inputSuccess2Status">
+                                    <input type="text" class="form-control has-feedback-left date-picker"  style="padding-right: 1px !important;" placeholder="Cpt Inicio" id="CompetenciaInicio" name="CompetenciaInicio" aria-describedby="inputSuccess2Status">
                                     <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                     <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left date-picker" placeholder="Cpt Final" id="CompetenciaFinal" name="CompetenciaFinal" aria-describedby="inputSuccess2Status">
+                                    <input type="text" class="form-control has-feedback-left date-picker"  style="padding-right: 1px !important;" placeholder="Cpt Final" id="CompetenciaFinal" name="CompetenciaFinal" aria-describedby="inputSuccess2Status">
                                     <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                                     <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                 </div>
@@ -235,7 +246,11 @@
                     "firstDay": 0
                 }
             }, function(chosen_date) {
-                this.element.val(chosen_date.format('DD/MM/YYYY'));
+                if(this.element.attr('id')=='CompetenciaInicio' || this.element.attr('id')=='CompetenciaFinal'){
+                    this.element.val(chosen_date.format('MM/YYYY'));
+                }else{
+                    this.element.val(chosen_date.format('DD/MM/YYYY'));
+                }
             });
         });
     </script>
@@ -252,7 +267,7 @@
 
         function filtrarParcelas(){
             var tbParcela = $('#tbParcela').DataTable();
-            var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltro').serialize();
+            var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltro').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
             tbParcela.ajax.url(url).load();
         }
 
