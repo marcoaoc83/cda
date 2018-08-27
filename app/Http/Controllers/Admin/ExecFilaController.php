@@ -163,7 +163,8 @@ class ExecFilaController extends Controller
                 ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
                 ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
                 ->where('cda_parcela.SitPagId', '61')
-                ->whereRaw($where.$where2)->get();
+                ->whereRaw($where.$where2)
+                ->get();
 
             foreach ($Parcelas as $values){
                 if($values['PessoaId'])
@@ -178,13 +179,16 @@ class ExecFilaController extends Controller
             foreach ($regtab as $value){
                 $arrayFxValorId[]= " ".$value['REGTABSQL'];
             }
-            $where3.=" AND (".implode(' OR ',$arrayFxValorId).")";
+            $where3.="  (".implode(' OR ',$arrayFxValorId).")";
 
             $Parcelas = Parcela::select('cda_parcela.PessoaId')
                 ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
                 ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
                 ->where('cda_parcela.SitPagId', '61')
-                ->whereRaw($where.$where3)->get();
+                ->whereRaw($where)
+                ->groupBy('cda_parcela.PessoaId')
+                ->havingRaw($where3)
+                ->get();
 
             foreach ($Parcelas as $values){
                 if($values['PessoaId'])
