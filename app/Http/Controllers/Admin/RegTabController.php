@@ -23,7 +23,7 @@ class RegTabController extends Controller
     public function getPosts(Request $request)
     {
 
-        $cda_regtab = RegTab::select(['REGTABID', 'REGTABSG', 'REGTABNM', 'REGTABSQL', 'REGTABSQL', 'TABSYSID'])->where('TABSYSID', $request->TABSYSID);
+        $cda_regtab = RegTab::select(['REGTABID', 'REGTABSG','REGTABSGUSER', 'REGTABNM', 'REGTABSQL', 'REGTABSQL', 'TABSYSID'])->where('TABSYSID', $request->TABSYSID);
 
         return Datatables::of($cda_regtab)
             ->make(true);
@@ -55,6 +55,7 @@ class RegTabController extends Controller
 
         $tabsys = RegTab::findOrFail($id);
         $tabsys->REGTABSG       = $request->REGTABSG;
+        $tabsys->REGTABSGUSER       = $request->REGTABSGUSER;
         $tabsys->REGTABNM       = $request->REGTABNM;
         $tabsys->REGTABSQL      = $request->REGTABSQL;
         if($tabsys->save())

@@ -18,7 +18,8 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Sigla</th>
+                <th>Sigla Única</th>
+                <th>Sigla Usuário</th>
                 <th>Nome</th>
                 <th>SQL</th>
             </tr>

@@ -34,6 +34,10 @@
                     name: 'REGTABSG'
                 },
                 {
+                    data: 'REGTABSGUSER',
+                    name: 'REGTABSGUSER'
+                },
+                {
                     data: 'REGTABNM',
                     name: 'REGTABNM'
                 },
@@ -159,6 +163,7 @@
                 url: '{{ url('admin/regtab/editar') }}',
                 success: function (retorno) {
                     $('#REGTABSG_edt').val(retorno['REGTABSG']);
+                    $('#REGTABSGUSER_edt').val(retorno['REGTABSGUSER']);
                     $('#REGTABNM_edt').val(retorno['REGTABNM']);
                     $('#REGTABSQL_edt').val(retorno['REGTABSQL']);
                 },
