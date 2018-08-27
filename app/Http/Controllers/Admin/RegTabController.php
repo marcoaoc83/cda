@@ -41,7 +41,7 @@ class RegTabController extends Controller
     public function postEditar(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'REGTABSG' => 'required|unique:cda_regtab|max:20'
+            'REGTABSG' => 'required|unique:cda_regtab,REGTABSG,'.$id.',REGTABID|max:20'
         ]);
 
         $validator->setAttributeNames(['REGTABSG'=>'Sigla']);

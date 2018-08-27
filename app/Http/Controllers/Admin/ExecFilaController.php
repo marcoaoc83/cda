@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Jobs\ExecFilaJob;
+use App\Jobs\ExecFilaParcelaJob;
 use App\Models\ExecFila;
 use App\Models\Fila;
 use App\Models\Parcela;
+use App\Models\RegTab;
 use App\Models\Tarefas;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -46,16 +50,16 @@ class ExecFilaController extends Controller
      */
     public function store(Request $request)
     {
-        parse_str($request->dados, $dados);
 
-        $fila = Fila::find($dados['FilaTrabId']);
+
+        $fila = Fila::find($request->filaId);
         $tarefa=Tarefas::create([
-            'tar_categoria' => 'execfila',
+            'tar_categoria' => 'execfilaParcela',
             'tar_titulo' => 'Execução de '.$fila->FilaTrabNm,
             'tar_status' => 'Aguardando'
         ]);
 
-        ExecFilaJob::dispatch($dados,$tarefa->tar_id)->onQueue("execfila");
+        ExecFilaParcelaJob::dispatch($request->parcelas,$tarefa->tar_id)->onQueue("execfilaparcela");
         SWAL::message('Salvo','Execução de Fila enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('execfila.index');
 
@@ -125,6 +129,7 @@ class ExecFilaController extends Controller
         ini_set('memory_limit', '-1');
 
         $where=' 1 ';
+        $where2=$where3=$ParcelasFxAtraso=$ParcelasFxValor='';
         $limit=100000;
         if($request->limit!=null){
             $limit=$request->limit;
@@ -138,7 +143,59 @@ class ExecFilaController extends Controller
             $where.=' AND cda_roteiro.RoteiroId IN ('.implode(',',$request->roteirosId).')';
         }
 
+        if($request->VencimentoInicio){
+            $request->VencimentoInicio=Carbon::createFromFormat('d/m/Y', $request->VencimentoInicio)->format('Y-m-d');
+            $where.=" AND cda_parcela.VencimentoDt >='".$request->VencimentoInicio."'";
+        }
+        if($request->VencimentoFinal){
+            $request->VencimentoFinal=Carbon::createFromFormat('d/m/Y', $request->VencimentoFinal)->format('Y-m-d');
+            $where.=" AND cda_parcela.VencimentoDt <='".$request->VencimentoFinal."'";
+        }
+        if($request->FxAtrasoId){
+            $arrayFxAtraso=[];
+            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxAtrasoId).')')->get();
+            foreach ($regtab as $value){
+                $arrayFxAtraso[]= " ".$value['REGTABSQL'];
+            }
+            $where2.=" AND (".implode(' OR ',$arrayFxAtraso).")";
+            $Parcelas = Parcela::select('cda_parcela.PessoaId')
+                ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+                ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+                ->where('cda_parcela.SitPagId', '61')
+                ->whereRaw($where.$where2)->get();
 
+            foreach ($Parcelas as $values){
+                $ParcelasFxAtraso[]=$values['PessoaId'];
+            }
+
+
+        }
+        if($request->FxValorId){
+            $arrayFxValorId=[];
+            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxValorId).')')->get();
+            foreach ($regtab as $value){
+                $arrayFxValorId[]= " ".$value['REGTABSQL'];
+            }
+            $where3.=" AND (".implode(' OR ',$arrayFxValorId).")";
+
+            $Parcelas = Parcela::select('cda_parcela.PessoaId')
+                ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+                ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+                ->where('cda_parcela.SitPagId', '61')
+                ->whereRaw($where.$where3)->get();
+
+            foreach ($Parcelas as $values){
+                $ParcelasFxValor[]=$values['PessoaId'];
+            }
+
+        }
+
+        if($ParcelasFxAtraso){
+            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$ParcelasFxAtraso).')';
+        }
+        if($ParcelasFxValor){
+            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$ParcelasFxValor).')';
+        }
         $Parcela = Parcela::select([
             'cda_parcela.*',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
