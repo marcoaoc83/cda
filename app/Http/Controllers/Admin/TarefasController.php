@@ -99,13 +99,13 @@ class TarefasController extends Controller
                 function ($table) {
                     $bt="";
                     if($table->tar_status=="Aguardando"){
-                    $bt='<a href="javascript:;" onclick="execTarefa(\''.strtolower($table->tar_categoria).'\','.$table->tar_id.')" class="btn btn-xs btn-primary" >
+                    $bt='<a href="javascript:;" onclick="execTarefa(\''.strtolower($table->tar_categoria).'\','.$table->tar_id.');$(this).hide();" class="btn btn-xs btn-primary" >
                         <i class="fa fa-play-circle"></i> Executar
                         </a>';
                     }
                     return  '
                          <input type="hidden" id="tar_desc'.$table->tar_id.'"  value="'.$table->tar_descricao.'">
-                        <a href="javascript:;" onclick="verTarefa('.$table->tar_id.');$(this).hide();" class="btn btn-xs btn-info" >
+                        <a href="javascript:;" onclick="verTarefa('.$table->tar_id.');" class="btn btn-xs btn-info" >
                         <i class="glyphicon glyphicon-plus-sign"></i> Detalhes
                         </a>
                         
