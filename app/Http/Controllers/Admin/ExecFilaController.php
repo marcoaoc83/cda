@@ -129,7 +129,8 @@ class ExecFilaController extends Controller
         ini_set('memory_limit', '-1');
 
         $where=' 1 ';
-        $where2=$where3=$ParcelasFxAtraso=$ParcelasFxValor='';
+        $where2=$where3='';
+        $ParcelasFxAtraso=$ParcelasFxValor=[];
         $limit=100000;
         if($request->limit!=null){
             $limit=$request->limit;
@@ -165,6 +166,7 @@ class ExecFilaController extends Controller
                 ->whereRaw($where.$where2)->get();
 
             foreach ($Parcelas as $values){
+                if($values['PessoaId'])
                 $ParcelasFxAtraso[]=$values['PessoaId'];
             }
 
@@ -185,6 +187,7 @@ class ExecFilaController extends Controller
                 ->whereRaw($where.$where3)->get();
 
             foreach ($Parcelas as $values){
+                if($values['PessoaId'])
                 $ParcelasFxValor[]=$values['PessoaId'];
             }
 
