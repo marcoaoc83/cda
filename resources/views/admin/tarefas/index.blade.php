@@ -64,6 +64,17 @@
 
             swal(""+texto);
         }
+        function execTarefa(tarefa,id) {
+
+            $("#DTstatus"+id).html('<span class="label label-success">Em Execução</span>');
+            $.ajax({
+                type:"GET",
+                url: '{{ url('crontab') }}/'+tarefa,
+                success: function(data){
+                    $("#DTstatus"+id).html('<span class="label label-default">Finalizado</span>');
+                }
+            });
+        }
         $(document).ready(function() {
             var table = $('.datatable').DataTable({
                 "order": [[ 0, "desc" ]],
@@ -81,13 +92,10 @@
                         name: 'tar_status',
                         render: function ( data, type, row ) {
                             if(data=="Finalizado")
-                                return "<span class=\"label label-default\">Finalizado</span>";
+                                return "<span id='DTstatus"+row.tar_id+"'><span class=\"label label-default\">Finalizado</span></span>";
                             if(data=="Aguardando")
-                                return "<span class=\"label label-primary\">Aguardando</span>";
-
-
-
-                            return "<span class=\"label label-success\">Em Execução</span>";
+                                return "<span id='DTstatus"+row.tar_id+"'><span class=\"label label-primary\">Aguardando</span></span>";
+                            return "<span id='DTstatus"+row.tar_id+"'><span class=\"label label-success\">Em Execução</span></span>";
                         }
                     },
                     {

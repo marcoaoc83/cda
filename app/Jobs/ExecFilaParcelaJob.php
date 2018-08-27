@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -140,7 +141,8 @@ class ExecFilaParcelaJob implements ShouldQueue
             "tar_jobs"      => $this->job->getJobId()
         ]);
 
-        echo true;
+        Artisan::call('queue:restart');
+        return false;
     }
 
     function geraModelo2($pessoa){
