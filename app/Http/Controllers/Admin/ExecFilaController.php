@@ -190,6 +190,9 @@ class ExecFilaController extends Controller
             }
         }
         $FxAtraso=$FxValor=[];
+
+
+
         foreach ($Pessoas as $pessoa){
             foreach ($arrayFxAtraso as $key=>$value){
                 if($pessoa['MAX_VENC']>$value['Min']){
@@ -199,6 +202,17 @@ class ExecFilaController extends Controller
                         }
                     }else{
                         $FxAtraso[$pessoa['PessoaId']]=$key;
+                    }
+                }
+            }
+            foreach ($arrayFxValor as $key=>$value){
+                if($pessoa['Total']>$value['Min']){
+                    if($value['Max']){
+                        if($pessoa['Total']<=$value['Max']){
+                            $FxValor[$pessoa['PessoaId']]=$key;
+                        }
+                    }else{
+                        $FxValor[$pessoa['PessoaId']]=$key;
                     }
                 }
             }
