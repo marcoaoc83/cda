@@ -154,7 +154,7 @@ class ExecFilaController extends Controller
 
         $Pessoas = Parcela::select([
             'cda_parcela.*',
-            DB::raw("datediff(NOW(), MAX(VencimentoDt))  as MAX_VENC"),
+            DB::raw("datediff(NOW(), MIN(VencimentoDt))  as MAX_VENC"),
             DB::raw("SUM(TotalVr)  as Total"),
         ])
             ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
