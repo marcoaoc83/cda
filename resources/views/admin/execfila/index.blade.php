@@ -155,6 +155,8 @@
                                     <th>Pl</th>
                                     <th>Vencimento</th>
                                     <th>Valor</th>
+                                    <th>Fx Atraso</th>
+                                    <th>Fx Valor</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -451,6 +453,8 @@
                     {data: 'PlanoQt', name: 'PlanoQt'},
                     {data: 'VencimentoDt', name: 'VencimentoDt'},
                     {data: 'TotalVr', name: 'TotalVr'},
+                    {data: 'FxAtraso', name: 'FxAtraso'},
+                    {data: 'FxValor', name: 'FxValor'},
                     {
                         data: 'ParcelaId',
                         name: 'ParcelaId',

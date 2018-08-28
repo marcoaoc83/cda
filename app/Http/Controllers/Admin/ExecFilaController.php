@@ -129,8 +129,7 @@ class ExecFilaController extends Controller
         ini_set('memory_limit', '-1');
 
         $where=' 1 ';
-        $where2=$where3='';
-        $ParcelasFxAtraso=$ParcelasFxValor=[];
+
         $limit=100000;
         if($request->limit!=null){
             $limit=$request->limit;
@@ -152,60 +151,11 @@ class ExecFilaController extends Controller
             $request->VencimentoFinal=Carbon::createFromFormat('d/m/Y', $request->VencimentoFinal)->format('Y-m-d');
             $where.=" AND cda_parcela.VencimentoDt <='".$request->VencimentoFinal."'";
         }
-        if($request->FxAtrasoId){
-            $arrayFxAtraso=[];
-            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxAtrasoId).')')->get();
-            foreach ($regtab as $value){
-                $arrayFxAtraso[]= " ".$value['REGTABSQL'];
-            }
-            $where2.=" AND (".implode(' OR ',$arrayFxAtraso).")";
-            $Parcelas = Parcela::select('cda_parcela.PessoaId')
-                ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
-                ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
-                ->where('cda_parcela.SitPagId', '61')
-                ->whereRaw($where.$where2)
-                ->get();
 
-            foreach ($Parcelas as $values){
-                if($values['PessoaId'])
-                $ParcelasFxAtraso[]=$values['PessoaId'];
-            }
-
-
-        }
-        if($request->FxValorId){
-            $arrayFxValorId=[];
-            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxValorId).')')->get();
-            foreach ($regtab as $value){
-                $arrayFxValorId[]= " ".$value['REGTABSQL'];
-            }
-            $where3.="  (".implode(' OR ',$arrayFxValorId).")";
-
-            $Parcelas = Parcela::select('cda_parcela.PessoaId')
-                ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
-                ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
-                ->where('cda_parcela.SitPagId', '61')
-                ->whereRaw($where)
-                ->groupBy('cda_parcela.PessoaId')
-                ->havingRaw($where3)
-                ->get();
-
-            foreach ($Parcelas as $values){
-                if($values['PessoaId'])
-                $ParcelasFxValor[]=$values['PessoaId'];
-            }
-
-        }
-
-        if($ParcelasFxAtraso){
-            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$ParcelasFxAtraso).')';
-        }
-        if($ParcelasFxValor){
-            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$ParcelasFxValor).')';
-        }
         $Parcela = Parcela::select([
             'cda_parcela.*',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
+            DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
             'SitPagT.REGTABNM as SitPag',
             'OrigTribT.REGTABNM as OrigTrib',
             DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
@@ -221,6 +171,27 @@ class ExecFilaController extends Controller
             ->limit($limit)
             ->get();
 
+        if($request->FxAtrasoId){
+            $arrayFxAtraso=[];
+            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxAtrasoId).')')->get();
+            foreach ($regtab as $value){
+                $fxa=explode('*',$value['REGTABSQL']);
+                $arrayFxAtraso[$value['REGTABID']]['Min']=$fxa[0] ;
+                $arrayFxAtraso[$value['REGTABID']]['Max']= isset($fxa[1])?$fxa[1]:null;
+                $arrayFxAtraso[$value['REGTABID']]['Desc']= $value['REGTABSG'];
+            }
+
+        }
+        if($request->FxValorId){
+            $arrayFxValor=[];
+            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxAtrasoId).')')->get();
+            foreach ($regtab as $value){
+                $fxa=explode('*',$value['REGTABSQL']);
+                $arrayFxValor[$value['REGTABID']]['Min']=$fxa[0] ;
+                $arrayFxValor[$value['REGTABID']]['Max']=isset($fxa[1])?$fxa[1]:null;
+                $arrayFxValor[$value['REGTABID']]['Desc']= $value['REGTABSG'];
+            }
+        }
 
         return Datatables::of($Parcela)->make(true);
 
