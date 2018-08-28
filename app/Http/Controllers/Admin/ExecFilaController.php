@@ -167,9 +167,9 @@ class ExecFilaController extends Controller
             ->groupBy('cda_parcela.PessoaId')
             ->limit($limit)
             ->get();
-
+        $arrayFxAtraso=[];
         if($request->FxAtrasoId){
-            $arrayFxAtraso=[];
+
             $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxAtrasoId).')')->get();
             foreach ($regtab as $value){
                 $fxa=explode('*',$value['REGTABSQL']);
@@ -179,8 +179,9 @@ class ExecFilaController extends Controller
             }
 
         }
+        $arrayFxValor=[];
         if($request->FxValorId){
-            $arrayFxValor=[];
+
             $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxAtrasoId).')')->get();
             foreach ($regtab as $value){
                 $fxa=explode('*',$value['REGTABSQL']);
