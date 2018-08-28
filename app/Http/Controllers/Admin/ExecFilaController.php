@@ -156,6 +156,7 @@ class ExecFilaController extends Controller
             'cda_parcela.*',
             DB::raw("datediff(NOW(), MIN(VencimentoDt))  as MAX_VENC"),
             DB::raw("SUM(TotalVr)  as Total"),
+            DB::raw("COUNT(cda_parcela.ParcelaId)  as Qtde"),
         ])
             ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
             ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
@@ -190,9 +191,8 @@ class ExecFilaController extends Controller
                 $arrayFxValor[$value['REGTABID']]['Desc']= $value['REGTABSG'];
             }
         }
-        $FxAtraso=$FxValor=[];
 
-
+        $FxAtraso=$FxValor=$Nqtde=[];
 
         foreach ($Pessoas as $pessoa){
             foreach ($arrayFxAtraso as $key=>$value){
@@ -217,6 +217,12 @@ class ExecFilaController extends Controller
                     }
                 }
             }
+            if($request->nmaiores && $pessoa['Qtde']<=$request->nmaiores){
+                $Nqtde[]=$pessoa['PessoaId'];
+            }
+            if($request->nmenores && $pessoa['Qtde']>=$request->nmenores){
+                $Nqtde[]=$pessoa['PessoaId'];
+            }
         }
 
         if($FxAtraso){
@@ -224,6 +230,9 @@ class ExecFilaController extends Controller
         }
         if($FxValor){
             $where.=' AND cda_parcela.PessoaId IN ('.implode(',',array_keys($FxValor)).')';
+        }
+        if($Nqtde){
+            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$Nqtde).')';
         }
 
         $Parcelas = Parcela::select([
