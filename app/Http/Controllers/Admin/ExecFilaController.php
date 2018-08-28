@@ -182,7 +182,7 @@ class ExecFilaController extends Controller
         $arrayFxValor=[];
         if($request->FxValorId){
 
-            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxAtrasoId).')')->get();
+            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxValorId).')')->get();
             foreach ($regtab as $value){
                 $fxa=explode('*',$value['REGTABSQL']);
                 $arrayFxValor[$value['REGTABID']]['Min']=$fxa[0] ;
