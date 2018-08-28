@@ -152,13 +152,10 @@ class ExecFilaController extends Controller
             $where.=" AND cda_parcela.VencimentoDt <='".$request->VencimentoFinal."'";
         }
 
-        $Parcela = Parcela::select([
+        $Pessoas = Parcela::select([
             'cda_parcela.*',
-            DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
-            DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
-            'SitPagT.REGTABNM as SitPag',
-            'OrigTribT.REGTABNM as OrigTrib',
-            DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
+            DB::raw("datediff(NOW(), MAX(VencimentoDt))  as MAX_VENC"),
+            DB::raw("SUM(TotalVr)  as Total"),
         ])
             ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
             ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
@@ -167,7 +164,7 @@ class ExecFilaController extends Controller
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
-            ->groupBy('cda_parcela.ParcelaId')
+            ->groupBy('cda_parcela.PessoaId')
             ->limit($limit)
             ->get();
 
@@ -192,8 +189,67 @@ class ExecFilaController extends Controller
                 $arrayFxValor[$value['REGTABID']]['Desc']= $value['REGTABSG'];
             }
         }
+        $FxAtraso=$FxValor=[];
+        foreach ($Pessoas as $pessoa){
+            foreach ($arrayFxAtraso as $key=>$value){
+                if($pessoa['MAX_VENC']>$value['Min']){
+                    if($value['Max']){
+                        if($pessoa['MAX_VENC']<=$value['Max']){
+                            $FxAtraso[$pessoa['PessoaId']]=$key;
+                        }
+                    }else{
+                        $FxAtraso[$pessoa['PessoaId']]=$key;
+                    }
+                }
+            }
+        }
 
-        return Datatables::of($Parcela)->make(true);
+        if($FxAtraso){
+            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',array_keys($FxAtraso)).')';
+        }
+        if($FxValor){
+            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',array_keys($FxValor)).')';
+        }
+
+        $Parcelas = Parcela::select([
+            'cda_parcela.*',
+            DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
+            DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
+            'SitPagT.REGTABNM as SitPag',
+            'OrigTribT.REGTABNM as OrigTrib',
+            DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
+        ])
+            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->where('cda_parcela.SitPagId', '61')
+            ->whereRaw($where)
+            ->groupBy('cda_parcela.ParcelaId')
+            ->limit($limit)
+            ->get();
+
+
+        $i=0;
+        $collect=[];
+        foreach ($Parcelas as $parcela){
+            $collect[$i]['Nome']=$parcela['Nome'];
+            $collect[$i]['SitPag']=$parcela['SitPag'];
+            $collect[$i]['OrigTrib']=$parcela['OrigTrib'];
+            $collect[$i]['LancamentoNr']=$parcela['LancamentoNr'];
+            $collect[$i]['ParcelaNr']=$parcela['ParcelaNr'];
+            $collect[$i]['PlanoQt']=$parcela['PlanoQt'];
+            $collect[$i]['VencimentoDt']=$parcela['VencimentoDt']->format('d/m/Y');
+            $collect[$i]['TotalVr']=$parcela['TotalVr'];
+            $collect[$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['PessoaId']]]['Desc']:'';
+            $collect[$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['PessoaId']]]['Desc']:'';
+            $collect[$i]['ParcelaId']=$parcela['ParcelaId'];
+            $i++;
+        }
+
+        $collection = collect($collect);
+        return Datatables::of($collection)->make(true);
 
     }
 }
