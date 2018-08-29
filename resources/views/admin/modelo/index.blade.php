@@ -3,6 +3,13 @@
 @section('styles')
     <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" rel="stylesheet">
+    <style>
+        a[href="https://www.froala.com/wysiwyg-editor?k=u"] {
+            display: none !important;
+            position: absolute;
+            top: -99999999px;
+        }
+    </style>
 @endsection
 @section('content')
 
