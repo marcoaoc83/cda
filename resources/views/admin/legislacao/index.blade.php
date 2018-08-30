@@ -96,6 +96,7 @@
                     method: "POST",
                     data: {
                         _token: '{!! csrf_token() !!}',
+                        CSRF: '{!! csrf_token() !!}',
                     },
                     url: '{{ url('admin/legislacao') }}' + '/' + dataId,
                     success: function( msg ) {
