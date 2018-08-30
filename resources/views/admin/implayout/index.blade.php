@@ -95,9 +95,10 @@
             }).then((resultado) => {
                 if (resultado.value) {
                 $.ajax({
-                    dataType : 'json',
-                    type:'delete',
+                    type: 'POST',
+                    dataType: 'json',
                     data: {
+                        _method: 'DELETE',
                         _token: '{!! csrf_token() !!}',
                     },
                     url: '{{ url('admin/implayout') }}' + '/' + dataId,
