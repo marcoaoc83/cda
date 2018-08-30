@@ -92,7 +92,8 @@
                 if (resultado.value) {
                 $.ajax({
                     dataType : 'json',
-                    type:'delete',
+                    type:'DELETE',
+                    method: "POST",
                     data: {
                         _token: '{!! csrf_token() !!}',
                     },
