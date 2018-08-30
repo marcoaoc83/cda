@@ -61,5 +61,6 @@ class Kernel extends HttpKernel
         'master' => \App\Http\Middleware\Master::class,
         'servidor' => \App\Http\Middleware\Servidor::class,
         'cidadao' => \App\Http\Middleware\Cidadao::class,
+        'cors' => \App\Http\Middleware\Cors::class,
     ];
 }
