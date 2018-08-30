@@ -39,7 +39,7 @@
                             <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>Id</th>
                                         <th>Titulo</th>
                                         <th style="width: 55px">Ação</th>
                                     </tr>
@@ -92,7 +92,8 @@
                 if (resultado.value) {
                 $.ajax({
                     dataType : 'json',
-                    method: "DELETE",
+                    type:'DELETE',
+                    method: "POST",
                     data: {
                         _token: '{!! csrf_token() !!}',
                     },
