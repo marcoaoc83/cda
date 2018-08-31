@@ -8,8 +8,8 @@
     border-left-color: #f4505d !important;
 }
 .item input, .item textarea {
-    color: black;
+    color: black !important;
 }
-table.dataTable, table.dataTable th,tbody {
-    color: black;
+table.dataTable, table.dataTable th, table.dataTable td {
+    color: black !important;
 }
