@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
                                     <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TPASID">TpAS <span class="required">*</span></label>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TPASID">Analitico/Sintetico <span class="required">*</span></label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select class="form-control" id="TPASID" name="TPASID" required="required">
                                                 <option value=""></option>
@@ -85,7 +85,7 @@
                                         </div>
                                     </div>
                                     <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="OBJCARTID">ObjCart<span class="required">*</span></label>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="OBJCARTID">Objetivo da Carteira<span class="required">*</span></label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select class="form-control" id="OBJCARTID" name="OBJCARTID" required="required">
                                                 <option value=""></option>
@@ -96,7 +96,7 @@
                                         </div>
                                     </div>
                                     <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ORIGTRIBID">ORIGTRIB<span class="required">*</span></label>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ORIGTRIBID">Origem do Tributo<span class="required">*</span></label>
                                         <div class="col-md-6 col-sm-6 col-xs-12">
                                             <select class="form-control" id="ORIGTRIBID" name="ORIGTRIBID" required="required">
                                                 <option value=""></option>

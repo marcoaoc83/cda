@@ -25,7 +25,7 @@ class CanalController extends Controller
 
     public function getPosts()
     {
-        $cda_canal = Canal::select(['CANALID', 'CANALSG', 'CANALNM']);
+        $cda_canal = Canal::select(['CANALID', 'CANALSG', 'CANALNM'])->orderBy('CANALSG');
 
         return Datatables::of($cda_canal)
             ->addColumn('action', function ($canal) {

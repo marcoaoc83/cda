@@ -190,7 +190,7 @@ class CarteiraController extends Controller
 
     public function getDadosDataTable()
     {
-        $cda_carteira = Carteira::select(['CARTEIRAID','CARTEIRASG', 'CARTEIRANM']);
+        $cda_carteira = Carteira::select(['CARTEIRAORD','CARTEIRASG', 'CARTEIRANM'])->orderBy('CARTEIRAORD');
 
         return Datatables::of($cda_carteira)
             ->addColumn('action', function ($carteira) {

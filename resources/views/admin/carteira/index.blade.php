@@ -39,7 +39,7 @@
                             <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    <th>Ordem</th>
                                     <th>Sigla</th>
                                     <th>Nome</th>
                                     <th style="width: 55px">Ação</th>
@@ -70,7 +70,7 @@
                 responsive: true,
                 ajax: '{{ route('carteira.getdata') }}',
                 columns: [
-                    {data: 'CARTEIRAID', name: 'CARTEIRAID'},
+                    {data: 'CARTEIRAORD', name: 'CARTEIRAORD'},
                     {data: 'CARTEIRASG', name: 'CARTEIRASG'},
                     {data: 'CARTEIRANM', name: 'CARTEIRANM'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}

@@ -39,7 +39,7 @@
                             <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    {{--<th>Id</th>--}}
                                     <th>Sigla</th>
                                     <th>Nome</th>
                                     <th style="width: 55px">Ação</th>
@@ -70,7 +70,7 @@
                 responsive: true,
                 ajax: '{{ route('canal.getdata') }}',
                 columns: [
-                    {data: 'CANALID', name: 'CANALID'},
+
                     {data: 'CANALSG', name: 'CANALSG'},
                     {data: 'CANALNM', name: 'CANALNM'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}

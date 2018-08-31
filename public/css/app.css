@@ -13812,3 +13812,9 @@ ul.notifications {
     border-top-color: #f4505d !important;
     border-left-color: #f4505d !important;
 }
+.item input, .item textarea {
+  color: black;
+}
+table.dataTable, table.dataTable th, table.dataTable td {
+  color: black;
+}
