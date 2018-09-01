@@ -39,11 +39,12 @@
                             <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+
                                     <th>Ordem</th>
                                     <th>Sigla</th>
                                     <th>Nome</th>
                                     <th>Objetivo do Evento</th>
+                                    <th>Transf Ctr </th>
                                     <th style="width: 55px">Ação</th>
                                 </tr>
                                 </thead>
@@ -72,11 +73,11 @@
                 responsive: true,
                 ajax: '{{ route('evento.getdata') }}',
                 columns: [
-                    {data: 'EventoId', name: 'EventoId'},
                     {data: 'EventoOrd', name: 'EventoOrd'},
-                    {data: 'EventoSg', name: 'EventoSg'},
+                    {data: 'EventoSg',  name: 'EventoSg'},
                     {data: 'EventoNm', name: 'EventoNm'},
-                    {data: 'REGTABNM', name: 'REGTABNM'},
+                    {data: 'ObjEventoNM', name: 'ObjEventoNM'},
+                    {data: 'TransfCtrNM', name: 'TransfCtrNM'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 "language": {

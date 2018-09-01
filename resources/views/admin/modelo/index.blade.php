@@ -40,7 +40,6 @@
                             <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
                                     <th>Sigla</th>
                                     <th>Nome</th>
                                     <th>Canal</th>
@@ -72,7 +71,6 @@
                 responsive: true,
                 ajax: '{{ route('modelo.getdata') }}',
                 columns: [
-                    {data: 'ModComID', name: 'ModComID'},
                     {data: 'ModComSG', name: 'ModComSG'},
                     {data: 'ModComNM', name: 'ModComNM'},
                     {data: 'CANALNM', name: 'CANALNM'},
