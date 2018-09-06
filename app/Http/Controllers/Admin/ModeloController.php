@@ -47,7 +47,11 @@ class ModeloController extends Controller
     public function getEditar($id)
     {
         // get the nerd
-        $modelo = ModCom::find($id);
+        $modelo = ModCom::with('modCom_RegraCalc')->find($id);
+
+        $modelo['RegraCalc'] = (empty($modelo->modCom_RegraCalc->RegCalcId)) ? 0 : $modelo->modCom_RegraCalc->RegCalcId ;
+
+        $cda_regcalc = DB::table('cda_regcalc')->get();
         $cda_modcom = DB::table('cda_modcom')->get();
         $tipoModelo = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
@@ -75,7 +79,8 @@ table_schema = '".DB::getDatabaseName()."'");
             ->with('tipoModelo', $tipoModelo)
             ->with('Tabelas', $Tabelas)
             ->with('Campos', $Campos)
-            ->with('canais', $canais);
+            ->with('canais', $canais)
+            ->with('regCalc', $cda_regcalc);
     }
 
     public function postEditar(Request $request, $id)
@@ -89,6 +94,7 @@ table_schema = '".DB::getDatabaseName()."'");
         $modelo->CanalId       = $request->CanalId;
         $modelo->ModComAnxId       = $request->ModComAnxId;
         $modelo->ModTexto       = $request->ModTexto;
+        $modelo->RegCalId       = $request->RegCalId;
         $modelo->save();
         // redirect
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
@@ -105,11 +111,14 @@ table_schema = '".DB::getDatabaseName()."'");
             ->get();
         ;
         $canais = DB::table('cda_canal')->get();
+        $cda_regcalc = DB::table('cda_regcalc')->get();
+
         // show the view and pass the nerd to it
         return view('admin.modelo.insere',[
             'cda_modcom'=>$cda_modcom,
             'tipoModelo'=>$tipoModelo,
-            'canais'=>$canais
+            'canais'=>$canais,
+            'regCalc' => $cda_regcalc,
         ]);
     }
 
@@ -119,6 +128,7 @@ table_schema = '".DB::getDatabaseName()."'");
         $data = $request->all();
 
         ModCom::create($data);
+
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('admin.modelo');
     }
