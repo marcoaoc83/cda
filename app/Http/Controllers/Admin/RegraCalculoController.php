@@ -117,7 +117,10 @@ class RegraCalculoController extends Controller
             ->get();
         ;
 
-        $bank = RegTab::where('TABSYSID', 44)->get();
+        $bank = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','Banco')
+            ->get();
 
         // show the view and pass the nerd to it
         return view('admin.regra.edit',[

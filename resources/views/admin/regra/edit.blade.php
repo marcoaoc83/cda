@@ -111,27 +111,34 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="RegCalcNomGui">Nome da Guia </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="NomeGuia">Nome da Guia </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{$RegraCalculo->RegCalcNomGui}}"  type="text" id="RegCalcNomGui" name="RegCalcNomGui" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{$RegraCalculo->NomeGuia}}"  type="text" id="NomeGuia" name="NomeGuia" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bancoId">Banco</label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="BancoId">Banco</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="bancoId" name="bancoId" >
+                                        <select class="form-control" id="BancoId" name="BancoId" >
                                             <option value=""></option>
                                                         @foreach($banco as $var)
-                                                <option value="{{$var->REGTABID}}" @if ($RegraCalculo->bancoId === $var->REGTABID) selected @endif>{{$var->REGTABNM}}</option>   
+                                                <option value="{{$var->REGTABID}}" @if ($RegraCalculo->BancoId === $var->REGTABID) selected @endif>{{$var->REGTABNM}}</option>   
                                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ageCodCed">Agencia/Código do Cedente</span>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Agencia">Agencia/Código do Cedente</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ $RegraCalculo->ageCodCed}}"  type="text" id="ageCodCed" name="ageCodCed" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{ $RegraCalculo->Agencia}}"  type="text" id="Agencia" name="Agencia" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Cedente">Cedente</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input value="{{ $RegraCalculo->Cedente}}"  type="text" id="Cedente" name="Cedente" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="item form-group">

@@ -106,15 +106,15 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="RegCalcNomGui">Nome da Guia </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="NomeGuia">Nome da Guia </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ old('RegCalcNomGui') }}"  type="text" id="RegCalcNomGui" name="RegCalcNomGui" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{ old('NomeGuia') }}"  type="text" id="NomeGuia" name="NomeGuia" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bancoId">Banco</label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="BancoId">Banco</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="bancoId" name="bancoId" >
+                                        <select class="form-control" id="BancoId" name="BancoId" >
                                             <option value=""></option>
                                                         @foreach($banco as $var)
                                                 <option value="{{$var->REGTABID}}">{{$var->REGTABNM}}</option>             
@@ -123,10 +123,17 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ageCodCed">Agencia/Código do Cedente</span>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Agencia">Agencia</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ old('ageCodCed') }}"  type="text" id="ageCodCed" name="ageCodCed" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{ old('Agencia') }}"  type="text" id="Agencia" name="Agencia" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Cedente">Código do Cedente</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input value="{{ old('Cedente') }}"  type="text" id="Cedente" name="Cedente" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="item form-group">
