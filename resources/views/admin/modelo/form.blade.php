@@ -41,6 +41,9 @@
                             <a class="btn btn-app" href="{{ route('admin.modelo') }}">
                                 <i class="fa fa-arrow-circle-left"></i> Voltar
                             </a>
+                            <a class="btn btn-app"onclick="verPDF()">
+                                <i class="fa fa-file-pdf-o"></i> Ver PDF
+                            </a>
                         </div>
                     </div>
 
@@ -141,6 +144,10 @@
                 </form>
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     @include('admin.modelo.var.index');
+                    <form id="formPDF" action="{{route("modelo.pdf")}}" target="_blank" method="post" />
+                    {{ csrf_field() }}
+                    <input type="hidden" name="html"id="html" />
+                    </form>
                 </div>
 
                 </div>
@@ -459,7 +466,10 @@
             language: 'pt_br',
             imageUploadURL: '{{url("/admin/uploadfroala/")}}'
         });
-
+        function verPDF() {
+            $('#html').val($('#ModTexto').val())
+            $('#formPDF').submit();
+        }
         function reloadCampo(element,tabela)
         {
             var FKCampo = $(element);

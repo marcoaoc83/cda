@@ -80,6 +80,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::get('admin/modelo/editar/{id}', 'ModeloController@getEditar')->name('modelo.editarGet');
         Route::post('admin/modelo/editar/{id}', 'ModeloController@postEditar')->name('modelo.editarPost');
         Route::post('admin/modelo/deletar/{id}', 'ModeloController@postDeletar')->name('modelo.deletar');
+        Route::post('admin/modelo/pdf/', 'ModeloController@verPDF')->name('modelo.pdf');
 
         Route::get('admin/evento/getdata', 'EventoController@getDadosDataTable')->name('evento.getdata');
         Route::resource('admin/evento', 'EventoController');

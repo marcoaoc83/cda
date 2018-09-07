@@ -121,7 +121,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                 $pessoas[$linha->PESSOAID][] = $linha;
             }
         }
-        $html="<style>.page-break { page-break-after: always;} </style>";
+        $html="<style>.page-break { page-break-after: always;} @page { margin:5px; } html {margin:5px;} </style>";
         foreach ($pessoas as $pessoa){
             $html.=self::geraModelo2($pessoa)."<div class='page-break'></div>";
         }
@@ -131,7 +131,7 @@ class ExecFilaParcelaJob implements ShouldQueue
         $file="carta-".date('Ymd')."-".$this->Tarefa.".pdf";
 
         $pdf = App::make('dompdf.wrapper');
-        $pdf->setPaper('a4')->setWarnings(false)->loadHTML($html);
+        $pdf->setPaper('tabloid')->setWarnings(false)->loadHTML($html);
         $pdf->save($dir.$file);
 
         $Tarefa= Tarefas::findOrFail($this->Tarefa);

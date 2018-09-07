@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\ModCom;
 use App\Models\RegTab;
 use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
@@ -141,5 +142,17 @@ table_schema = '".DB::getDatabaseName()."'");
         }else{
             return 'false';
         }
+    }
+
+    public function verPDF(Request $request){
+
+        $html="<style>.page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;}</style>";
+        $html.=$request->html;
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->setPaper('tabloid')
+            ->setWarnings(false)
+            ->loadHTML($html);
+
+        return $pdf->stream();
     }
 }
