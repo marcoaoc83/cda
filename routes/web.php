@@ -2,6 +2,7 @@
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 //PORTAL FRONT
 Route::get('/', 'Portal\PortalController@index')->name('portal.home');

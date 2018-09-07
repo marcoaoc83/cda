@@ -11,6 +11,7 @@
     <!-- App Css -->
     <link href="{{asset('css/app.css')}}" rel="stylesheet">
     @yield('styles')
+    @stack('styles')
     @stack('header-scripts')
 <style>input[type='number'] {
         appearance: textfield;

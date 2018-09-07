@@ -11,5 +11,13 @@ class RegTab extends Model
     ];
     protected $table = 'cda_regtab';
     protected $primaryKey = 'REGTABID';
+
     public $timestamps = false;
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function tabSysRegTab(){
+        return $this->hasOne(RegTab::class, 'TABSYSID', 'TABSYSID');
+    }
 }

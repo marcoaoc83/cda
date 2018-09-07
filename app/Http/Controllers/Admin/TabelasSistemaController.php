@@ -23,21 +23,23 @@ class TabelasSistemaController extends Controller
         return view('admin.tabsys.index',compact('cda_tabsys'));
     }
 
+    /**
+     * @return mixed
+     * @throws \Exception
+     */
     public function getPosts()
     {
-        $cda_tabsys = TabelasSistema::select(['TABSYSID', 'TABSYSSG', 'TABSYSNM', 'TABSYSSQL']);
+        $cda_tabsys = TabelasSistema::with(['tabSysRegTab'])->get();
 
         return Datatables::of($cda_tabsys)
             ->addColumn('action', function ($tabsys) {
-
                 return '
-                <a href="tabsys/editar/'.$tabsys->TABSYSID.'" class="btn btn-xs btn-primary">
-                    <i class="glyphicon glyphicon-edit"></i> Editar
-                </a>
-                <a href="javascript:;" onclick="deleteTabelasSistema('.$tabsys->TABSYSID.')" class="btn btn-xs btn-danger deleteTabelasSistema" >
-                <i class="glyphicon glyphicon-remove-circle"></i> Deletar
-                </a>
-                ';
+                    <a href="tabsys/editar/'.$tabsys->TABSYSID.'" class="btn btn-xs btn-primary">
+                        <i class="glyphicon glyphicon-edit"></i> Editar
+                    </a>
+                    <a href="javascript:;" onclick="deleteTabelasSistema('.$tabsys->TABSYSID.')" class="btn btn-xs btn-danger deleteTabelasSistema" >
+                        <i class="glyphicon glyphicon-remove-circle"></i> Deletar
+                    </a>';
             })
             ->editColumn('TABSYSSQL', function ($tabsys) {
                 if($tabsys->TABSYSSQL=='1'){
@@ -45,7 +47,6 @@ class TabelasSistemaController extends Controller
                 }else{
                     return 'NÃO';
                 }
-
             })
             ->make(true);
     }

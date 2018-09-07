@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
-@section('styles')
-    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
-    <link href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" rel="stylesheet">
-@endsection
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+@endpush
+
 @section('content')
-
-
     <!-- page content -->
     <div class="right_col" role="main">
         <div class="">
@@ -36,7 +34,8 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
+                            {{--class="table table-bordered table-striped"--}}
+                            <table class="table table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>Id</th>
@@ -58,8 +57,8 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+    <script src={{ asset('bower_components/datatables.net/js/jquery.dataTables.js') }}></script>
+    <script src={{ asset('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}></script>
     @include('vendor.sweetalert.cdn')
     @include('vendor.sweetalert.view')
     @include('vendor.sweetalert.validator')

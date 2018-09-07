@@ -20,12 +20,19 @@ class RegTabController extends Controller
         return view('admin.tabsys.index',compact('cda_tabsys'));
     }
 
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Exception
+     */
     public function getPosts(Request $request)
     {
-
-        $cda_regtab = RegTab::select(['REGTABID', 'REGTABSG','REGTABSGUSER', 'REGTABNM', 'REGTABSQL', 'REGTABSQL', 'TABSYSID'])->where('TABSYSID', $request->TABSYSID);
+        $cda_regtab = RegTab::with(['tabSysRegTab'])->get();
 
         return Datatables::of($cda_regtab)
+            ->editColumn('REGTABSG', function($regTab){
+                return $regTab->REGTABSG .'/'. $regTab->tabSysRegTab->REGTABSG;
+            })
             ->make(true);
     }
 
