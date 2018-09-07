@@ -106,14 +106,27 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ModComId">Modelo</label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="RegCalcNomGui">Nome da Guia </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="ModComId" name="ModComId">
+                                        <input value="{{ old('RegCalcNomGui') }}"  type="text" id="RegCalcNomGui" name="RegCalcNomGui" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bancoId">Banco</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="bancoId" name="bancoId" >
                                             <option value=""></option>
-                                                        @foreach($ModCom as $var)
-                                                <option value="{{$var->ModComId}}">{{$var->ModComNm}}</option>             
+                                                        @foreach($banco as $var)
+                                                <option value="{{$var->REGTABID}}">{{$var->REGTABNM}}</option>             
                                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ageCodCed">Agencia/Código do Cedente</span>
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input value="{{ old('ageCodCed') }}"  type="text" id="ageCodCed" name="ageCodCed" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="item form-group">

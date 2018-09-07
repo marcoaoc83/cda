@@ -8,10 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class RegraCalculo extends Model
 {
     protected $fillable = [
-        'RegCalcSg', 'RegCalcNome', 'TpRegCalcId','IndReajId','TpJuroId','InicioDt','TerminoDt','ModComId','JuroTx','MultaTx','DescontoTx','HonorarioTx'
+        'RegCalcSg',
+        'RegCalcNome',
+        'TpRegCalcId',
+        'IndReajId',
+        'TpJuroId',
+        'InicioDt',
+        'TerminoDt',
+        'RegCalcNomGui',
+        'bancoId',
+        'ageCodCed',
+        'JuroTx',
+        'MultaTx',
+        'DescontoTx',
+        'HonorarioTx'
     ];
+
     protected $table = 'cda_regcalc';
+
     protected $primaryKey = 'RegCalcId';
+
     public $timestamps = false;
 
     protected $dateFormat = 'd/m/Y';
