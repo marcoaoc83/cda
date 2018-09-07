@@ -99,8 +99,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="RegCalId">Regra de Cálculo</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select class="form-control" id="RegCalId" name="RegCalId">
+                                        <option value=""></option>
+                                                    @foreach($regCalc as $modelo)
+                                            <option value="{{$modelo->RegCalcId}}">{{$modelo->RegCalcSg}}</option>             
+                                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
+                                <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                         </div>
                     </div>
                 </div>
