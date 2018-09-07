@@ -1,6 +1,6 @@
 <div class="x_panel" id="pnModeloVar">
     <div class="x_title">
-        <h2>Variáveis<small></small></h2>
+        <h2>Variáveis do Texto<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
@@ -24,11 +24,9 @@
         <table id="tbModeloVar" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
             <thead>
                 <tr>
-                    <th>Título</th>
                     <th>Código</th>
-                    <th>Tabela BD</th>
-                    <th>Campo BD</th>
-                    <th>Tipo</th>
+                    <th>Valor</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
         </table>

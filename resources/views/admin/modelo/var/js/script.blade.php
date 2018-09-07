@@ -21,24 +21,12 @@
             columns: [
 
                 {
-                    data: 'var_titulo',
-                    name: 'var_titulo'
-                },
-                {
                     data: 'var_codigo',
                     name: 'var_codigo'
                 },
                 {
-                    data: 'var_tabela',
-                    name: 'var_tabela'
-                },
-                {
-                    data: 'var_campo',
-                    name: 'var_campo'
-                },
-                {
-                    data: 'var_tipo',
-                    name: 'var_tipo'
+                    data: 'var_valor',
+                    name: 'var_valor'
                 },
                 {
                     data: 'var_id',

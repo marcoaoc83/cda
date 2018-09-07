@@ -26,9 +26,7 @@
                 </div>
             </div>
             <div class="clearfix"></div>
-
             <div class="row">
-                <form class="form-horizontal form-label-left"    method="post" action="{{ route('modelo.editarPost',$modelo->ModComId) }}">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_content">
@@ -46,111 +44,123 @@
                             </a>
                         </div>
                     </div>
-
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Dados do Modelo <small></small></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content">
-
-                            {{ csrf_field() }}
-                            <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Sigla <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input value="{{$modelo->ModComSg}}" maxlength="10" id="ModComSG" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="ModComSg"  required="required" type="text">
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ModComNM">Nome <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <input value="{{$modelo->ModComNm}}"  type="text" id="ModComNM" name="ModComNm" required="required" class="form-control col-md-7 col-xs-12">
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpModId">Tipo de Modelo</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" id="TpModId" name="TpModId">
-                                        <option value=""></option>
-                                                    @foreach($tipoModelo as $tmodelo)
-                                            <option value="{{$tmodelo->REGTABID}}" @if ($tmodelo->REGTABID === $modelo->TpModId) selected @endif>{{$tmodelo->REGTABNM}}</option>             
-                                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpModId">Canal</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" id="CanalId" name="CanalId">
-                                        <option value=""></option>
-                                                    @foreach($canais as $canal)
-                                            <option value="{{$canal->CANALID}}" @if ($canal->CANALID === $modelo->CanalId) selected @endif>{{$canal->CANALNM}}</option>             
-                                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpModId">Modelo Anexo</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" id="ModComAnxId" name="ModComAnxId">
-                                        <option value=""></option>
-                                        @foreach($cda_modcom as $modeloc)
-                                            <option value="{{$modeloc->ModComId}}" @if ($modeloc->ModComId === $modelo->ModComAnxId) selected @endif>{{$modeloc->ModComNm}}</option>             
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="RegCalId">Regra de Cálculo</label>
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <select class="form-control" id="RegCalId" name="RegCalId">
-                                        <option value=""></option>
-                                                    @foreach($regCalc as $modeloc)
-                                            <option value="{{$modeloc->RegCalcId}}" @if($modeloc->RegCalcId === $modelo->RegraCalc) selected @endif>{{$modeloc->RegCalcSg}}</option>             
-                                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-
-                            <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
-                        </div>
-                    </div>
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" class="active"><a data-toggle="tab" href="#1a">Dados</a></li>
+                        <li role="presentation"><a data-toggle="tab" href="#2a">Texto</a></li>
+                        <li role="presentation"><a data-toggle="tab" href="#3a">Variáveis</a></li>
+                    </ul>
                 </div>
             </div>
+            <form class="form-horizontal form-label-left"    method="post" action="{{ route('modelo.editarPost',$modelo->ModComId) }}">
+                <div class="tab-content">
+                    <div class="row tab-pane active" id="1a">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
 
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                        <div class="x_panel">
-                            <div class="x_title">
-                                <h2>Texto</h2>
-                                <ul class="nav navbar-right panel_toolbox">
-                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                    </li>
-                                </ul>
-                                <div class="clearfix"></div>
-                            </div>
-                            <div class="x_content">
-                                <textarea name="ModTexto" id="ModTexto" rows="20" class="resizable_textarea form-control">{{$modelo->ModTexto}}</textarea>
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Dados do Modelo <small></small></h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    {{ csrf_field() }}
+
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Sigla <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input value="{{$modelo->ModComSg}}" maxlength="10" id="ModComSG" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="ModComSg"  required="required" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ModComNM">Nome <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input value="{{$modelo->ModComNm}}"  type="text" id="ModComNM" name="ModComNm" required="required" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpModId">Tipo de Modelo</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="form-control" id="TpModId" name="TpModId">
+                                                <option value=""></option>
+                                                            @foreach($tipoModelo as $tmodelo)
+                                                    <option value="{{$tmodelo->REGTABID}}" @if ($tmodelo->REGTABID === $modelo->TpModId) selected @endif>{{$tmodelo->REGTABNM}}</option>             
+                                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpModId">Canal</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="form-control" id="CanalId" name="CanalId">
+                                                <option value=""></option>
+                                                            @foreach($canais as $canal)
+                                                    <option value="{{$canal->CANALID}}" @if ($canal->CANALID === $modelo->CanalId) selected @endif>{{$canal->CANALNM}}</option>             
+                                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpModId">Modelo Anexo</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="form-control" id="ModComAnxId" name="ModComAnxId">
+                                                <option value=""></option>
+                                                @foreach($cda_modcom as $modeloc)
+                                                    <option value="{{$modeloc->ModComId}}" @if ($modeloc->ModComId === $modelo->ModComAnxId) selected @endif>{{$modeloc->ModComNm}}</option>             
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="RegCalId">Regra de Cálculo</label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="form-control" id="RegCalId" name="RegCalId">
+                                                <option value=""></option>
+                                                            @foreach($regCalc as $modeloc)
+                                                    <option value="{{$modeloc->RegCalcId}}" @if($modeloc->RegCalcId === $modelo->RegraCalc) selected @endif>{{$modeloc->RegCalcSg}}</option>             
+                                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </form>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    @include('admin.modelo.var.index');
-                    <form id="formPDF" action="{{route("modelo.pdf")}}" target="_blank" method="post" />
-                    {{ csrf_field() }}
-                    <input type="hidden" name="html"id="html" />
-                    </form>
+                    <div class="row tab-pane" id="2a">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Texto</h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                            </li>
+                                        </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <textarea name="ModTexto" id="ModTexto" rows="20" class="resizable_textarea form-control">{{$modelo->ModTexto}}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row tab-pane" id="3a">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            @include('admin.modelo.var.index');
+                        </div>
+                    </div>
                 </div>
+            </form>
+            <form id="formPDF" action="{{route("modelo.pdf")}}" target="_blank" method="post" />
+            {{ csrf_field() }}
+            <input type="hidden" name="html"id="html" />
+            </form>
 
-                </div>
         </div>
     </div>
 
@@ -160,7 +170,7 @@
 @push('scripts')
 
     <!-- Include external JS libs. -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
 
