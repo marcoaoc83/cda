@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\RegraCalculo;
+use App\Models\RegTab;
+use App\Models\TabelasSistema;
 use Illuminate\Support\Facades\DB;
 use Softon\SweetAlert\Facades\SWAL;
 use App\Http\Controllers\Controller;
@@ -44,13 +46,14 @@ class RegraCalculoController extends Controller
             ->where('TABSYSSG','TpJuro')
             ->get();
         ;
-        $ModCom = DB::table('cda_modcom')->get();
+        $bank = RegTab::where('TABSYSID', 44)->get();
+
         // show the view and pass the nerd to it
         return view('admin.regra.create',[
-            'ModCom'=>$ModCom,
             'TpRegCalc'=>$TpRegCalc,
             'IndReaj'=>$IndReaj,
-            'TpJuro'=>$TpJuro
+            'TpJuro'=>$TpJuro,
+            'banco' => $bank
         ]);
     }
 
@@ -65,7 +68,9 @@ class RegraCalculoController extends Controller
         $data = $request->all();
 
         RegraCalculo::create($data);
+
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+
         return redirect()->route('regcalc.index');
     }
 
@@ -111,11 +116,16 @@ class RegraCalculoController extends Controller
             ->where('TABSYSSG','OpReg')
             ->get();
         ;
-        $ModCom = DB::table('cda_modcom')->get();
+
+        $bank = DB::table('cda_regtab')
+            ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+            ->where('TABSYSSG','Banco')
+            ->get();
+
         // show the view and pass the nerd to it
         return view('admin.regra.edit',[
             'RegraCalculo'=>$regcalc,
-            'ModCom'=>$ModCom,
+            'banco'=>$bank,
             'TpRegCalc'=>$TpRegCalc,
             'IndReaj'=>$IndReaj,
             'OpReg'=>$OpReg,
