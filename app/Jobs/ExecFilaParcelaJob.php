@@ -129,9 +129,9 @@ class ExecFilaParcelaJob implements ShouldQueue
 
         $dir=public_path()."/filas/";
         $file="carta-".date('Ymd')."-".$this->Tarefa.".pdf";
-
+        $html=str_replace("{{BREAK}}","<div class='page-break'></div>",$html);
         $pdf = App::make('dompdf.wrapper');
-        $pdf->setPaper('tabloid')->setWarnings(false)->loadHTML($html);
+        $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
         $pdf->save($dir.$file);
 
         $Tarefa= Tarefas::findOrFail($this->Tarefa);

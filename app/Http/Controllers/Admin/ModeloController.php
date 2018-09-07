@@ -148,8 +148,9 @@ table_schema = '".DB::getDatabaseName()."'");
 
         $html="<style>.page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;}</style>";
         $html.=$request->html;
+        $html=str_replace("{{BREAK}}","<div class='page-break'></div>",$html);
         $pdf = App::make('dompdf.wrapper');
-        $pdf->setPaper('tabloid')
+        $pdf->setPaper('b4')
             ->setWarnings(false)
             ->loadHTML($html);
 
