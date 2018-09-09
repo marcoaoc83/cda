@@ -78,6 +78,7 @@ class ExecFilaParcelaJob implements ShouldQueue
               cda_roteiro.FilaTrabId,
               cda_roteiro.CanalId,
               cda_pessoa.*,
+              cda_carteira.*,
               cda_inscrmun.*
             From
               cda_parcela
@@ -85,6 +86,8 @@ class ExecFilaParcelaJob implements ShouldQueue
               cda_pcrot On cda_parcela.PARCELAID = cda_pcrot.ParcelaId
               INNER Join
               cda_roteiro On cda_pcrot.RoteiroId = cda_roteiro.RoteiroId
+              INNER Join
+              cda_carteira On cda_roteiro.CarteiraId = cda_carteira.CARTEIRAID
               INNER Join
               cda_pessoa On cda_pessoa.PESSOAID = cda_parcela.PessoaId 
               LEFT Join
@@ -119,11 +122,13 @@ class ExecFilaParcelaJob implements ShouldQueue
             }
             if($linha->ModComId>0) {
                 $pessoas[$linha->PESSOAID][] = $linha;
+                $modelo=$linha->ModComId;
             }
         }
-        $html="<style>.page-break { page-break-after: always;} @page { margin:5px; } html {margin:5px;} </style>";
+        $html="<style>table, th, td {border: 1px solid #D0CECE;} .page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;} </style>";
         foreach ($pessoas as $pessoa){
-            $html.=self::geraModelo2($pessoa)."<div class='page-break'></div>";
+            $function_name="geraModelo".$modelo;
+            $html.=self::$function_name($pessoa,$modelo)."<div class='page-break'></div>";
         }
 
 
@@ -147,45 +152,46 @@ class ExecFilaParcelaJob implements ShouldQueue
 
     function geraModelo2($pessoa){
 
-        $Modelo= ModCom::find(2);
-
+        $Modelo= ModCom::with("Variaveis")->find(2);
+        //error_log(print_r($Modelo->Variaveis(),1));
         $html=$Modelo->ModTexto;
-        $ANOLANC1=$TRIB1=$VENC1=$PRINC1=$JMD1=$HONOR1=$TOTAL1='';
+        $ANOLANC1=$TRIB1=$VENC1=$ParcelaVr1=$JMD1=$HONOR1=$TOTAL1='';
         $PRINCT=$JMDT=$HONORT=$TOTALT=0;
         foreach ($pessoa as $linha){
 
-            $html= str_replace("{{CPFCNPJ}}",$linha->CPF_CNPJNR,$html);
-            $html=str_replace("{{INSCRICAO}}",$linha->INSCRMUNNR,$html);
-            $html=str_replace("{{CONTRIBUINTE}}",$linha->PESSOANMRS,$html);
+            $html= str_replace("{{ParcelamentoNm}}",$linha->CARTEIRANM,$html);
+            //$html= str_replace("{{ParcelamentoNr}}",$linha->CARTEIRANM,$html);
+            $html=str_replace("{{IncricaoNr}}",$linha->INSCRMUNNR." - ".$linha->CPF_CNPJNR,$html);
+            $html=str_replace("{{ContribuinteNr}}",$linha->PESSOANMRS,$html);
             if(!empty($linha->LancamentoDt))
                 $ANOLANC1.=Carbon::createFromFormat('Y-m-d', $linha->LancamentoDt)->format('d/m/Y')."<br>";
             $TRIB1.=$linha->TRIBUTONM."<br>";
             if(!empty($linha->VencimentoDt))
                 $VENC1.=Carbon::createFromFormat('Y-m-d', $linha->VencimentoDt)->format('d/m/Y')."<br>";
-            $PRINC1.=$linha->PrincipalVr."<br>";
+            $ParcelaVr1.=$linha->PrincipalVr."<br>";
             $PRINCT+=$linha->PrincipalVr;
-            $JMD1.=(($linha->JurosVr+$linha->MultaVr)-$linha->DescontoVr)."<br>";
-            $JMDT+=(($linha->JurosVr+$linha->MultaVr)-$linha->DescontoVr);
-            $HONOR1.=$linha->Honorarios."<br>";
-            $HONORT+=$linha->Honorarios;
+            $JMD1.=$linha->JurosVr."<br>";
+            $JMDT+=$linha->JurosVr;
+            $HONOR1.=$linha->MultaVr."<br>";
+            $HONORT+=$linha->MultaVr;
             $TOTAL1.=$linha->TotalVr."<br>";
             $TOTALT+=$linha->TotalVr;
         }
+        //error_log(print_r($Modelo->Variaveis,1));
+        foreach ($Modelo->Variaveis as $var) {
+            $html=str_replace($var->var_codigo,$var->var_valor,$html);
+        }
 
-        $html=str_replace("{{ANOLANC1}}",$ANOLANC1,$html);
-        $html=str_replace("{{TRIB1}}",$TRIB1,$html);
-        $html=str_replace("{{VENC1}}",$VENC1,$html);
-        $html=str_replace("{{PRINC1}}",$PRINC1,$html);
-        $html=str_replace("{{JMD1}}",$JMD1,$html);
-        $html=str_replace("{{HONOR1}}",$HONOR1,$html);
-        $html=str_replace("{{TOTAL1}}",$TOTAL1,$html);
-        $html=str_replace("{{PRINCT}}",$PRINCT,$html);
-        $html=str_replace("{{JMDT}}",$JMDT,$html);
-        $html=str_replace("{{HONORT}}",$HONORT,$html);
+        $html=str_replace("{{VectoDt1}}",$VENC1,$html);
+        $html=str_replace("{{ParcelaVr1}}",$ParcelaVr1,$html);
+        $html=str_replace("{{Atualvr1}}",$ParcelaVr1,$html);
+        $html=str_replace("{{Jurosvr1}}",$JMD1,$html);
+        $html=str_replace("{{Multavr1}}",$HONOR1,$html);
+        $html=str_replace("{{TotalVr1}}",$TOTAL1,$html);
         $html=str_replace("{{TOTALT}}",$TOTALT,$html);
 
-        $html=str_replace("{{NOTIFICACAO}}",date('Y').str_pad($this->Tarefa,8,"0",STR_PAD_LEFT),$html);
-        $html=str_replace("{{DIANOTIFICACAO}}",Carbon::parse()->format('d/m/Y'),$html);
+        $html=str_replace("{{NotificacaoNr}}",date('Y').str_pad($this->Tarefa,8,"0",STR_PAD_LEFT),$html);
+        $html=str_replace("{{NotificacaoDt}}",Carbon::parse()->format('d/m/Y'),$html);
 
         return $html;
 

@@ -16,4 +16,8 @@ class ModCom extends Model
     public function modCom_RegraCalc(){
         return $this->hasOne(RegraCalculo::class, 'RegCalcId', 'RegCalId');
     }
+
+    public function Variaveis(){
+        return $this->hasMany(ModeloVar::class, 'ModComId', 'ModComId');
+    }
 }
