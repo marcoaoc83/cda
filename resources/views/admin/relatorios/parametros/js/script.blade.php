@@ -14,7 +14,7 @@
             ajax: {
                 "url": "{{ route('filaconf.getdata') }}",
                 "data": {
-                    "FilaTrabId": '{{$Fila->FilaTrabId}}'
+                    "rel_id": '{{$Relatorio->rel_id}}'
                 }
             },
             columns: [
@@ -144,7 +144,7 @@
 
         $('#pnFilaConf #btEditar').click(function () {
             var linha =table.row('.selected').data();
-            var FilaTrabId = '{{$Fila->FilaTrabId}}';
+            var rel_id = '{{$Relatorio->rel_id}}';
             var FilaConfDs = linha[   'FilaConfDs'];
             var TABSYSID = linha[   'TABSYSID'];
             var FilaConfId = linha[   'FilaConfId'];
@@ -154,7 +154,7 @@
                 type: 'GET',
                 data: {
                     _token: '{!! csrf_token() !!}',
-                    FilaTrabId:FilaTrabId,
+                    rel_id:rel_id,
                     FilaConfDs:FilaConfDs,
                     TABSYSID:TABSYSID,
                     FilaConfId:FilaConfId,

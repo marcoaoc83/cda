@@ -39,15 +39,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="x_panel " >
-                    <div class="x_content">
-                        <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
-                            <input type="text" class="form-control has-feedback-left date-picker" style="padding-right: 1px !important;width:100%"  placeholder="Vencimento do Boleto" id="VencimentoBoleto" name="VencimentoBoleto" aria-describedby="inputSuccess2Status">
-                            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                            <span id="inputSuccess2Status" class="sr-only">(success)</span>
-                        </div>
-                    </div>
-                    </div>
+                    {{--<div class="x_panel " >--}}
+                    {{--<div class="x_content">--}}
+                        {{--<div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">--}}
+                            {{--<input type="text" class="form-control has-feedback-left date-picker" style="padding-right: 1px !important;width:100%"  placeholder="Vencimento do Boleto" id="VencimentoBoleto" name="VencimentoBoleto" aria-describedby="inputSuccess2Status">--}}
+                            {{--<span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>--}}
+                            {{--<span id="inputSuccess2Status" class="sr-only">(success)</span>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--</div>--}}
                     <div class="x_panel " >
                         <div class="x_title">
                             <h2>Filtros<small></small></h2>

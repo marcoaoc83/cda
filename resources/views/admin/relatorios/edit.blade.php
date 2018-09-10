@@ -68,6 +68,9 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    @include('admin.relatorios.parametros.index');
+                </div>
             </div>
         </div>
     </div>
