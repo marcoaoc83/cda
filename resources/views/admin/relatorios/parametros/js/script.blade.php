@@ -7,46 +7,38 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        var table = $('#tbFilaConf').DataTable({
+        var table = $('#tbRelParametro').DataTable({
             processing: true,
             serverSide: true,
             responsive: true,
             ajax: {
-                "url": "{{ route('filaconf.getdata') }}",
+                "url": "{{ route('relparametro.getdata') }}",
                 "data": {
                     "rel_id": '{{$Relatorio->rel_id}}'
                 }
             },
             columns: [
                 {
-                    data: 'TABSYSNM',
-                    name: 'TABSYSNM',
+                    data: 'rep_parametro',
+                    name: 'rep_parametro'
+                },
+                {
+                    data: 'rep_tipo',
+                    name: 'rep_tipo'
+                },
+                {
+                    data: 'rep_descricao',
+                    name: 'rep_descricao'
+                },
+                {
+                    data: 'rep_rel_id',
+                    name: 'rep_rel_id',
                     "visible": false,
                     "searchable": false
                 },
                 {
-                    data: 'REGTABNM',
-                    name: 'REGTABNM'
-                },
-                {
-                    data: 'FilaConfDs',
-                    name: 'FilaConfDs'
-                },
-                {
-                    data: 'FilaConfId',
-                    name: 'FilaConfId',
-                    "visible": false,
-                    "searchable": false
-                },
-                {
-                    data: 'TABSYSID',
-                    name: 'TABSYSID',
-                    "visible": false,
-                    "searchable": false
-                },
-                {
-                    data: 'id',
-                    name: 'id',
+                    data: 'rep_id',
+                    name: 'rep_id',
                     "visible": false,
                     "searchable": false
                 }
@@ -62,27 +54,27 @@
         });
 
         table.on( 'draw', function () {
-            $('#pnFilaConf #btEditar').addClass('disabled');
-            $('#pnFilaConf #btDeletar').addClass('disabled');
+            $('#pnRelParametro #btEditar').addClass('disabled');
+            $('#pnRelParametro #btDeletar').addClass('disabled');
         } );
 
         table.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
-                $('#pnFilaConf #btEditar').removeClass('disabled');
-                $('#pnFilaConf #btDeletar').removeClass('disabled');
+                $('#pnRelParametro #btEditar').removeClass('disabled');
+                $('#pnRelParametro #btDeletar').removeClass('disabled');
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
-                $('#pnFilaConf #btEditar').addClass('disabled');
-                $('#pnFilaConf #btDeletar').addClass('disabled');
+                $('#pnRelParametro #btEditar').addClass('disabled');
+                $('#pnRelParametro #btDeletar').addClass('disabled');
             } );
 
 
-        $('#formFilaConf').on('submit', function (e) {
-            $.post( "{{ route('filaconf.store') }}", $( "#formFilaConf" ).serialize() )
+        $('#formRelParametro').on('submit', function (e) {
+            $.post( "{{ route('relparametro.store') }}", $( "#formRelParametro" ).serialize() )
                 .done(function( data ){
                     if (data){
-                        $('#myModalFilaConf').modal('toggle');
+                        $('#myModalRelParametro').modal('toggle');
                         swal({
                             position: 'top-end',
                             type: 'success',
@@ -91,14 +83,14 @@
                             timer: 1500
                         });
                         table.ajax.reload();
-                        $("#formFilaConf").trigger('reset');
+                        $("#formRelParametro").trigger('reset');
                     }
                 });
             return false;
         });
-        $('#pnFilaConf #btDeletar').click(function () {
+        $('#pnRelParametro #btDeletar').click(function () {
             var linha =table.row('.selected').data();
-            var id = linha[   'id'];
+            var rep_id = linha['rep_id'];
             swal({
                 title             : "Tem certeza?",
                 text              : "Esta registro será deletado!",
@@ -114,10 +106,10 @@
                         type: 'POST',
                         data: {
                             _token: '{!! csrf_token() !!}',
-                            'id': id,
+                            'rep_id': rep_id,
                             _method: 'DELETE'
                         },
-                        url: '{{ url('admin/filaconf/destroy') }}',
+                        url: '{{ url('admin/relparametro/destroy') }}',
                         success: function (msg) {
                             $('.datatable').DataTable().ajax.reload();
                             swal({
@@ -142,30 +134,27 @@
             });
         });
 
-        $('#pnFilaConf #btEditar').click(function () {
+        $('#pnRelParametro #btEditar').click(function () {
+
             var linha =table.row('.selected').data();
-            var rel_id = '{{$Relatorio->rel_id}}';
-            var FilaConfDs = linha[   'FilaConfDs'];
-            var TABSYSID = linha[   'TABSYSID'];
-            var FilaConfId = linha[   'FilaConfId'];
-            var id = linha['id'];
+            var rep_id = linha['rep_id'];
+
             $.ajax({
                 dataType: 'json',
                 type: 'GET',
                 data: {
                     _token: '{!! csrf_token() !!}',
-                    rel_id:rel_id,
-                    FilaConfDs:FilaConfDs,
-                    TABSYSID:TABSYSID,
-                    FilaConfId:FilaConfId,
+                    rep_id:rep_id,
                     _method: 'GET'
                 },
-                url: '{{ url('admin/filaconf/1/edit/') }}',
+                url: '{{ url('admin/relparametro/1/edit/') }}',
                 success: function (retorno) {
-                    $('#pnFilaConf #formEditar #TABSYSID').val(retorno['TABSYSID']);
-                    $('#pnFilaConf #formEditar #FilaConfId').val(retorno['FilaConfId']);
-                    $('#pnFilaConf #formEditar #FilaConfDs').val(retorno['FilaConfDs']);
-                    $('#pnFilaConf #formEditar #id').val(id);
+                    $('#pnRelParametro #formEditar #rep_id').val(rep_id);
+                    $('#pnRelParametro #formEditar #rep_rel_id').val(retorno['rep_rel_id']);
+                    $('#pnRelParametro #formEditar #rep_parametro').val(retorno['rep_parametro']);
+                    $('#pnRelParametro #formEditar #rep_descricao').val(retorno['rep_descricao']);
+                    $('#pnRelParametro #formEditar #rep_tipo').val(retorno['rep_tipo']);
+                    $('#pnRelParametro #formEditar #rep_valor').val(retorno['rep_valor']);
                 },
                 error: function (retorno) {
                     console.log(retorno);
@@ -173,17 +162,17 @@
             });
         });
 
-        $('#pnFilaConf #formEditar').on('submit', function (e) {
-            var formData = $('#pnFilaConf #formEditar').serialize();
+        $('#pnRelParametro #formEditar').on('submit', function (e) {
+            var formData = $('#pnRelParametro #formEditar').serialize();
 
             $.ajax({
                 dataType: 'json',
                 type: 'POST',
                 data:formData,
-                url: '{{ url('admin/filaconf/') }}'+'/' +$('#pnFilaConf #formEditar #id').val(),
+                url: '{{ url('admin/relparametro/') }}'+'/' +$('#pnRelParametro #formEditar #rep_id').val(),
                 success: function (data) {
                     if (data){
-                        $('#myModalFilaConfEdita').modal('toggle');
+                        $('#myModalRelParametroEdita').modal('toggle');
                         swal({
                             position: 'top-end',
                             type: 'success',
@@ -195,7 +184,7 @@
                     }
             },
                 error: function (retorno) {
-                    $('#myModalFilaConfEdita').modal('toggle');
+                    $('#myModalRelParametroEdita').modal('toggle');
                     console.log(retorno.responseJSON.message);
                     swal({
                         position: 'top-end',
@@ -208,12 +197,7 @@
 
                 }
             });
-
             return false;
         });
-
-
     });
-
-
 </script>

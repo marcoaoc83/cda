@@ -194,5 +194,8 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
 
         Route::get('admin/relatorios/getdata', 'RelatoriosController@getDadosDataTable')->name('relatorios.getdata');
         Route::resource('admin/relatorios', 'RelatoriosController');
+
+        Route::get('admin/relparametro/getdata', 'RelatorioParametroController@getDadosDataTable')->name('relparametro.getdata');
+        Route::resource('admin/relparametro', 'RelatorioParametro');
     });
 });
