@@ -157,6 +157,10 @@ class ExecFilaParcelaJob implements ShouldQueue
         $html=$Modelo->ModTexto;
         $ANOLANC1=$TRIB1=$VENC1=$ParcelaVr1=$JMD1=$HONOR1=$TOTAL1='';
         $PRINCT=$JMDT=$HONORT=$TOTALT=0;
+        foreach ($Modelo->Variaveis as $var) {
+            $html=str_replace($var->var_codigo,$var->var_valor,$html);
+        }
+
         foreach ($pessoa as $linha){
 
             $html= str_replace("{{ParcelamentoNm}}",$linha->CARTEIRANM,$html);
@@ -178,9 +182,6 @@ class ExecFilaParcelaJob implements ShouldQueue
             $TOTALT+=$linha->TotalVr;
         }
         //error_log(print_r($Modelo->Variaveis,1));
-        foreach ($Modelo->Variaveis as $var) {
-            $html=str_replace($var->var_codigo,$var->var_valor,$html);
-        }
 
         $html=str_replace("{{VectoDt1}}",$VENC1,$html);
         $html=str_replace("{{ParcelaVr1}}",$ParcelaVr1,$html);
