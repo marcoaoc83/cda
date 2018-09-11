@@ -38,22 +38,24 @@ class EventoController extends Controller
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','TpAS')
             ->get();
-        ;
+
         $ObjEvento = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','ObjEvento')
             ->get();
-        ;
+
         $TrCtr = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','TrCtr')
             ->get();
-        ;
+
+        $Fila = DB::table('cda_filatrab')->get();
         // show the view and pass the nerd to it
         return view('admin.evento.create',[
             'ObjEvento'=>$ObjEvento,
             'TrCtr'=>$TrCtr,
-            'TpAS'=>$TpAS
+            'TpAS'=>$TpAS,
+            'Fila'=>$Fila
         ]);
 
     }
@@ -99,23 +101,25 @@ class EventoController extends Controller
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','TpAS')
             ->get();
-        ;
+
         $ObjEvento = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','ObjEvento')
             ->get();
-        ;
+
         $TrCtr = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','TrCtr')
             ->get();
-        ;
+
+        $Fila = DB::table('cda_filatrab')->get();
         // show the view and pass the nerd to it
         return view('admin.evento.edit',[
             'Evento'=>$evento,
             'ObjEvento'=>$ObjEvento,
             'TrCtr'=>$TrCtr,
-            'TpAS'=>$TpAS
+            'TpAS'=>$TpAS,
+            'Fila'=>$Fila
         ]);
     }
 

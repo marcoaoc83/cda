@@ -87,7 +87,7 @@
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TransfCtrId">Transfere Contribuinte? <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="TransfCtrId" name="TransfCtrId" required="required">
+                                        <select class="form-control" id="TransfCtrId" name="TransfCtrId" required="required" onchange="mostraFila(this.value)">
                                             <option value=""></option>
                                                         @foreach($TrCtr as $var)
                                                 <option value="{{$var->REGTABID}}">{{$var->REGTABNM}}</option>             
@@ -95,7 +95,17 @@
                                         </select>
                                     </div>
                                 </div>
-
+                                <div class="item form-group" id="divFila" style="display: none">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FilaTrabId">Fila </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="FilaTrabId" name="FilaTrabId"  >
+                                            <option value=""></option>
+                                            @foreach($Fila as $var)
+                                                <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabNm}}</option>             
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>
                         </div>
@@ -109,7 +119,14 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
+    <script type="text/javascript">
+        function mostraFila(val) {
+            if(val=='81'){
+                $("#divFila").show();
+            }else{
+                $("#divFila").hide();
+            }
+        }
     </script>
-
 @endpush

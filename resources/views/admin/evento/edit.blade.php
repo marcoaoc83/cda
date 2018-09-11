@@ -93,7 +93,7 @@
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TransfCtrId">Transfere Contribuinte? <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="TransfCtrId" name="TransfCtrId" required="required">
+                                        <select class="form-control" id="TransfCtrId" name="TransfCtrId" required="required" onchange="mostraFila(this.value)">
                                             <option value=""></option>
                                                         @foreach($TrCtr as $var)
                                                 <option value="{{$var->REGTABID}}" @if ($Evento->TransfCtrId === $var->REGTABID) selected @endif>{{$var->REGTABNM}}</option>             
@@ -101,7 +101,17 @@
                                         </select>
                                     </div>
                                 </div>
-
+                                <div class="item form-group"  id="divFila" @if ($Evento->TransfCtrId != 81)style="display: none"  @endif>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FilaTrabId">Fila </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <select class="form-control" id="FilaTrabId" name="FilaTrabId">
+                                            <option value=""></option>
+                                            @foreach($Fila as $var)
+                                                <option value="{{$var->FilaTrabId}}" @if ($Evento->FilaTrabId === $var->FilaTrabId) selected @endif>{{$var->FilaTrabNm}}</option>             
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>
                         </div>
@@ -115,5 +125,13 @@
 @endsection
 
 @push('scripts')
-
+    <script type="text/javascript">
+        function mostraFila(val) {
+            if(val=='81'){
+                $("#divFila").show();
+            }else{
+                $("#divFila").hide();
+            }
+        }
+    </script>
 @endpush
