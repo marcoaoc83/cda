@@ -38,7 +38,10 @@ class RelatorioParametroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        if (RelatorioParametro::create($data))
+            return \response()->json(true);
+        return \response()->json(false);
     }
 
     /**
@@ -58,9 +61,11 @@ class RelatorioParametroController extends Controller
      * @param  \App\Models\RelatorioParametro  $relatorioParametro
      * @return \Illuminate\Http\Response
      */
-    public function edit(RelatorioParametro $relatorioParametro)
+    public function edit(Request $request)
     {
-        //
+        $RelatorioParametro = RelatorioParametro::findOrFail($request->rep_id)->toArray();
+
+        return $RelatorioParametro;
     }
 
     /**
@@ -70,9 +75,13 @@ class RelatorioParametroController extends Controller
      * @param  \App\Models\RelatorioParametro  $relatorioParametro
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RelatorioParametro $relatorioParametro)
+    public function update(Request $request, $id)
     {
-        //
+        $RelatorioParametro = RelatorioParametro::findOrFail($id);
+        $update=$RelatorioParametro->update($request->except(['_token']));
+        if($update)
+            return \response()->json(true);
+        return \response()->json(false);
     }
 
     /**
@@ -81,9 +90,14 @@ class RelatorioParametroController extends Controller
      * @param  \App\Models\RelatorioParametro  $relatorioParametro
      * @return \Illuminate\Http\Response
      */
-    public function destroy(RelatorioParametro $relatorioParametro)
+    public function destroy(Request $request)
     {
-        //
+        $model = RelatorioParametro::findOrFail($request->rep_id);
+        if($model->delete()) {
+            return 'true';
+        }else{
+            return 'false';
+        }
     }
 
     public function getDadosDataTable(Request $request)

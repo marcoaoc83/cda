@@ -193,9 +193,11 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::resource('admin/boleto', 'BoletoController');
 
         Route::get('admin/relatorios/getdata', 'RelatoriosController@getDadosDataTable')->name('relatorios.getdata');
+        Route::get('admin/relatorios/{id}/gerar', 'RelatoriosController@gerar')->name('relatorios.gerar');
+        Route::get('admin/relatorios/{id}/gerar', 'RelatoriosController@gerar')->name('relatorios.gerar.filtrar');
         Route::resource('admin/relatorios', 'RelatoriosController');
 
         Route::get('admin/relparametro/getdata', 'RelatorioParametroController@getDadosDataTable')->name('relparametro.getdata');
-        Route::resource('admin/relparametro', 'RelatorioParametro');
+        Route::resource('admin/relparametro', 'RelatorioParametroController');
     });
 });

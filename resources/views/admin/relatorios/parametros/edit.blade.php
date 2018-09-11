@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div id="myModalFilaConfEdita" class="modal fade" role="dialog">
+<div id="myModalRelParametroEdita" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -11,29 +11,43 @@
                 <form id="formEditar"  class="form-horizontal form-label-left" >
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
-                    <input type="hidden" name="FilaTrabId" value="{{$Fila->FilaTrabId}}">
-                    <input type="hidden" name="id" id="id" value="">
+                    <input type="hidden" name="rep_rel_id" value="{{$Relatorio->rel_id}}">
+                    <input type="hidden" name="rep_id" id="rep_id" value="">
 
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FilaConfId">Variáveis<span class="required">*</span>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rep_parametro">Parametro <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="FilaConfId" name="FilaConfId" required="required">
+                            <input value=""  type="text" id="rep_parametro" name="rep_parametro" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rep_descricao">Descrição <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value=""  type="text" id="rep_descricao" name="rep_descricao" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                    </div>
+
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rep_tipo">Tipo Dados<span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <select class="form-control" id="rep_tipo" name="rep_tipo" required="TipoDados" >
                                 <option value=""></option>
-                                @foreach($RegTab as $var)
-                                    @if($var->TABSYSID != 35) @continue @endif;
-                                    <option value="{{$var->REGTABID}}" data-tabtab="{{$var->TABSYSID}}"  >{{$var->REGTABSG}} - {{$var->REGTABNM}}</option>             
-                                @endforeach
+                                <option value="data">Data</option>
+                                <option value="texto">Texto</option>
+                                <option value="numeral">Numeral</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FilaConfDs">Descrição <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rep_valor">Valor Inicial
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="FilaConfDs" name="FilaConfDs" required="required" class="form-control col-md-7 col-xs-12">
+                            <input value=""  type="text" id="rep_valor" name="rep_valor"  class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 

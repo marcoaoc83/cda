@@ -12,4 +12,9 @@ class Relatorios extends Model
     protected $table = 'cda_relatorios';
     protected $primaryKey = 'rel_id';
     public $timestamps = false;
+
+    public function Parametros(){
+        return $this->hasMany(RelatorioParametro::class, 'rep_rel_id', 'rel_id');
+    }
+
 }

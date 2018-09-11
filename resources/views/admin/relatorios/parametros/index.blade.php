@@ -11,11 +11,11 @@
         <a class="btn btn-default btn-xs" id="btInserir"  data-toggle="modal" data-target="#myModalRelParametro">
             <i class="fa fa-plus-square"> Inserir</i>
         </a>
-
+        @include('admin.relatorios.parametros.create')
         <a class="btn btn-default btn-xs disabled"   data-toggle="modal" data-target="#myModalRelParametroEdita" id="btEditar">
             <i class="fa fa-pencil-square-o"> Editar</i>
         </a>
-
+        @include('admin.relatorios.parametros.edit')
         <a class="btn btn-default btn-xs disabled" id="btDeletar">
             <i class="fa fa-trash"> Deletar</i>
         </a>

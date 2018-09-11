@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\admin;
 
 use App\Models\Relatorios;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -113,6 +115,9 @@ class RelatoriosController extends Controller
             ->addColumn('action', function ($relatorio) {
 
                 return '
+                <a href="relatorios/'.$relatorio->rel_id.'/gerar" class="btn btn-xs btn-success">
+                    <i class="glyphicon glyphicon-list-alt"></i> Gerar
+                </a>
                 <a href="relatorios/'.$relatorio->rel_id.'/edit/" class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i> Editar
                 </a>
@@ -122,5 +127,23 @@ class RelatoriosController extends Controller
                 ';
             })
             ->make(true);
+    }
+
+    public function gerar($id)
+    {
+        $rel=Relatorios::with('Parametros')->where('rel_id',$id)->get();
+
+        $sql=explode("where",strtolower($rel[0]->rel_sql));
+
+        $result=DB::select($sql[0]);
+        $query=array_map(function ($value) {
+            return (array)$value;
+        }, $result);
+        $campos=(array_keys($query[0]));
+
+        return view('admin.relatorios.gerar')
+            ->with('campos',($campos))
+            ->with('rel',$rel[0]);
+
     }
 }
