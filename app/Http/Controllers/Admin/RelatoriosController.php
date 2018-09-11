@@ -146,4 +146,13 @@ class RelatoriosController extends Controller
             ->with('rel',$rel[0]);
 
     }
+
+    public function getdataRegistro(Request $request)
+    {
+        $res = DB::select($request->sql);
+
+        return Datatables::of($res)
+            ->make(true);
+
+    }
 }

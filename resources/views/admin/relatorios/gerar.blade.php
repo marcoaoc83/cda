@@ -48,7 +48,7 @@
                                     <div class="mail_list"></div>
                                 </a>
                                 <div class="x_panel text-center" style="background-color: #BDBDBD">
-                                    <a class="btn btn-app" id="btfiltrar" onclick="filtrarParcelas()" >
+                                    <a class="btn btn-app" id="btfiltrar" onclick="filtrarRegistros()" >
                                         <i class="fa fa-filter"></i> Filtrar
                                     </a>
                                 </div>
@@ -76,7 +76,7 @@
                         </div>
                         <div class="x_content">
 
-                            <table id="tbParcela" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%; font-size: 9px">
+                            <table id="tbRegistro" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%; font-size: 9px">
                                 <thead>
                                 <tr>
                                     @foreach($campos as $campo)
@@ -181,49 +181,26 @@
     <script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript">
 
-        function filtrarParcelas(){
-            var tbParcela = $('#tbParcela').DataTable();
+        function filtrarRegistros(){
+            var tbRegistro = $('#tbRegistro').DataTable();
             var url;
-            tbParcela.ajax.url(url).load();
+            tbRegistro.ajax.url(url).load();
         }
 
 
         $(document).ready(function() {
 
 
-            var tbParcela = $('#tbParcela').DataTable({
+            var tbRegistro = $('#tbRegistro').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                ajax: '{{ route('execfila.getdataParcela') }}'+"/?limit=0",
+                ajax: '{{ route('relatorios.getdataRegistro') }}'+"/?limit=0&sql={!! $rel->rel_sql !!}",
                 "pageLength": 100,
                 columns: [
-                    {
-                        'targets': 0,
-                        'searchable': false,
-                        'orderable': false,
-                        'width': '1%',
-                        'className': 'dt-body-center',
-                        'render': function (data, type, full, meta){
-                            return '<input type="checkbox">';
-                        }
-                    },
-                    {data: 'Nome', name: 'Nome'},
-                    {data: 'SitPag', name: 'SitPag'},
-                    {data: 'OrigTrib', name: 'OrigTrib'},
-                    {data: 'LancamentoNr', name: 'LancamentoNr'},
-                    {data: 'ParcelaNr', name: 'ParcelaNr'},
-                    {data: 'PlanoQt', name: 'PlanoQt'},
-                    {data: 'VencimentoDt', name: 'VencimentoDt'},
-                    {data: 'TotalVr', name: 'TotalVr'},
-                    {data: 'FxAtraso', name: 'FxAtraso'},
-                    {data: 'FxValor', name: 'FxValor'},
-                    {
-                        data: 'ParcelaId',
-                        name: 'ParcelaId',
-                        "visible": false,
-                        "searchable": false
-                    },
+                    @foreach($campos as $campo)
+                        {data:  '{!! $campo !!}', name: '{!! $campo !!}'},
+                    @endforeach
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
