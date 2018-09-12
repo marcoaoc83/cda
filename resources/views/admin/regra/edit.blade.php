@@ -110,6 +110,36 @@
                                         <span id="inputSuccess2Status" class="sr-only">(success)</span>
                                     </div>
                                 </div>
+
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-2 col-xs-2" for="JuroTx">% Juros
+                                    </label>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <input value="{{ $RegraCalculo->JuroTx }}" id="JuroTx" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="JuroTx"  type="number" min="0" max="100">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-2 col-xs-2" for="MultaTx">% Multa
+                                    </label>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <input value="{{ $RegraCalculo->MultaTx }}" id="MultaTx" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="MultaTx"   type="number" min="0" max="100">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-2 col-xs-2" for="DescontoTx">% Desconto
+                                    </label>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <input value="{{$RegraCalculo->DescontoTx }}" id="DescontoTx" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="DescontoTx"    type="number" min="0" max="100">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-2 col-xs-2" for="HonorarioTx">% Honorarios
+                                    </label>
+                                    <div class="col-md-1 col-sm-1 col-xs-1">
+                                        <input value="{{ $RegraCalculo->HonorarioTx }}" id="HonorarioTx" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="HonorarioTx"  type="number" min="0" max="100">
+                                    </div>
+                                </div>
+
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="NomeGuia">Nome da Guia </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
@@ -141,35 +171,6 @@
                                         <input value="{{ $RegraCalculo->Cedente}}"  type="text" id="Cedente" name="Cedente" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-2 col-xs-2" for="JuroTx">% Juros
-                                    </label>
-                                    <div class="col-md-1 col-sm-1 col-xs-1">
-                                        <input value="{{ $RegraCalculo->JuroTx }}" id="JuroTx" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="JuroTx"  type="number" min="0" max="100">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-2 col-xs-2" for="MultaTx">% Multa
-                                    </label>
-                                    <div class="col-md-1 col-sm-1 col-xs-1">
-                                        <input value="{{ $RegraCalculo->MultaTx }}" id="MultaTx" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="MultaTx"   type="number" min="0" max="100">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-2 col-xs-2" for="DescontoTx">% Desconto
-                                    </label>
-                                    <div class="col-md-1 col-sm-1 col-xs-1">
-                                        <input value="{{$RegraCalculo->DescontoTx }}" id="DescontoTx" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="DescontoTx"    type="number" min="0" max="100">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-2 col-xs-2" for="HonorarioTx">% Honorarios
-                                    </label>
-                                    <div class="col-md-1 col-sm-1 col-xs-1">
-                                        <input value="{{ $RegraCalculo->HonorarioTx }}" id="HonorarioTx" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="HonorarioTx"  type="number" min="0" max="100">
-                                    </div>
-                                </div>
-
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>
                         </div>

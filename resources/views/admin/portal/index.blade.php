@@ -300,34 +300,7 @@
                                                 <input value="@if(isset($Var->port_boleto_codigo_cliente)){{ $Var->port_boleto_codigo_cliente }}@endif" name="port_boleto_codigo_cliente"  id="port_boleto_codigo_cliente" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
                                             </div>
                                         </div>
-                                        <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_instrucao1">Instrução 1
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input value="@if(isset($Var->port_boleto_instrucao1)){{ $Var->port_boleto_instrucao1 }}@endif" name="port_boleto_instrucao1"  id="port_boleto_instrucao1" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_instrucao2">Instrução 2
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input value="@if(isset($Var->port_boleto_instrucao2)){{ $Var->port_boleto_instrucao2 }}@endif" name="port_boleto_instrucao2"  id="port_boleto_instrucao2" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_instrucao3">Instrução 3
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input value="@if(isset($Var->port_boleto_instrucao3)){{ $Var->port_boleto_instrucao3 }}@endif" name="port_boleto_instrucao3"  id="port_boleto_instrucao3" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_instrucao4">Instrução 4
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input value="@if(isset($Var->port_boleto_instrucao4)){{ $Var->port_boleto_instrucao4 }}@endif" name="port_boleto_instrucao4"  id="port_boleto_instrucao4" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
