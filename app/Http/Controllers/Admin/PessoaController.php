@@ -185,7 +185,7 @@ class PessoaController extends Controller
             CPF_CNPJNR <> "" and 
             (LOWER(PESSOANMRS) LIKE "%'.trim(strtolower($data)).'%" or CPF_CNPJNR LIKE "%'.trim(strtolower($data)).'%" ) ');
         //dd($cda_pessoa);
-        error_log($cda_pessoa->toSql());
+        // error_log($cda_pessoa->toSql());
         $pessoas=$cda_pessoa->get()->all();
         $x=0;
         $return=[];
@@ -218,7 +218,7 @@ class PessoaController extends Controller
         // If you want to store the generated pdf to the server then you can use the store function
         //$pdf->save(storage_path().'_filename.pdf');
         // Finally, you can download the file using download function
-        $pdf->setOptions(['dpi' => 30, 'defaultFont' => 'sans-serif']);
+        //$pdf->setOptions(['dpi' => 96, 'defaultFont' => 'sans-serif']);
         return $pdf->stream('pessoa.pdf');
     }
 

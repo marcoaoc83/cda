@@ -1,5 +1,12 @@
+<style>
+    table tr td {
+        padding:2px;
+        border-style:solid;
+        border-width:1px;
+    }
+</style>
 <h1>LISTA DE PESSOAS</h1>
-<table style="font-size: 10px !important;">
+<table style="font-size: 10px !important; ">
     <thead>
     <tr>
         <th>ID</th>
