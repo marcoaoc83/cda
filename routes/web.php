@@ -195,6 +195,8 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::get('admin/relatorios/getdata', 'RelatoriosController@getDadosDataTable')->name('relatorios.getdata');
         Route::get('admin/relatorios/{id}/gerar', 'RelatoriosController@gerar')->name('relatorios.gerar');
         Route::get('admin/relatorios/filtrar', 'RelatoriosController@getdataRegistro')->name('relatorios.getdataRegistro');
+        Route::get('admin/relatorios/sql', 'RelatoriosController@getdataRegistroSql')->name('relatorios.getdataRegistroSql');
+        Route::post('admin/relatorios/export', 'RelatoriosController@export')->name('relatorios.export');
         Route::resource('admin/relatorios', 'RelatoriosController');
 
         Route::get('admin/relparametro/getdata', 'RelatorioParametroController@getDadosDataTable')->name('relparametro.getdata');

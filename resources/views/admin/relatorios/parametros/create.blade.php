@@ -41,7 +41,7 @@
                     </div>
 
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rep_valor">Valor Inicial
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rep_valor">SQL( WHERE)
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input value="{{ old('rep_valor') }}"  type="text" id="rep_valor" name="rep_valor"  class="form-control col-md-7 col-xs-12">

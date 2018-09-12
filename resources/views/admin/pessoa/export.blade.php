@@ -1,5 +1,5 @@
 <h1>LISTA DE PESSOAS</h1>
-<table>
+<table style="font-size: 10px !important;">
     <thead>
     <tr>
         <th>ID</th>
@@ -7,7 +7,7 @@
         <th>DOCUMENTO</th>
     </tr>
     </thead>
-    <tbody style="font-size: 11px">
+    <tbody >
     @foreach($data as $customer)
         <tr>
             <td>{{ $customer->ID }}</td>

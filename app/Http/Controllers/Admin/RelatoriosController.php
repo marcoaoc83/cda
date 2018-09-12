@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\RelatorioParametro;
 use App\Models\Relatorios;
+use Barryvdh\DomPDF\PDF;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -146,13 +150,107 @@ class RelatoriosController extends Controller
             ->with('rel',$rel[0]);
 
     }
+    public function getdataRegistroSql(Request $request)
+    {
+        $sql=$request->sql;
 
+        $parametros=RelatorioParametro::where("rep_rel_id",$request->rel_id)->get();
+        $where=" WHERE 1";
+        foreach ($parametros as $p){
+            $c=$p->rep_parametro;
+            if($request->$c){
+                $vl=$request->$c;
+                if($p->rep_tipo=='data'){
+                    $vl=Carbon::createFromFormat('d/m/Y', $vl)->format('Y-m-d');
+                }
+                $sw=str_replace("**","'$vl'",$p->rep_valor);
+
+                $where.=" AND $sw";
+            }
+        }
+        $sql.=$where;
+
+        return  str_replace("\r\n","", $sql);
+    }
     public function getdataRegistro(Request $request)
     {
-        $res = DB::select($request->sql);
+
+        $sql=$request->sql;
+
+        $parametros=RelatorioParametro::where("rep_rel_id",$request->rel_id)->get();
+        $where=" WHERE 1";
+        foreach ($parametros as $p){
+            $c=$p->rep_parametro;
+            if($request->$c){
+                $vl=$request->$c;
+                if($p->rep_tipo=='data'){
+                    $vl=Carbon::createFromFormat('d/m/Y', $vl)->format('Y-m-d');
+                }
+                $sw=str_replace("**","'$vl'",$p->rep_valor);
+
+                $where.=" AND $sw";
+            }
+        }
+        $sql.=$where;
+        if(isset($request->limit))
+            $sql.=' LIMIT '.$request->limit;
+
+        $res = DB::select($sql);
 
         return Datatables::of($res)
             ->make(true);
 
+    }
+
+    public function export(Request $request)
+    {
+
+        if($request->tipo == "csv"){
+            return self::exportCSV($request->sql);
+        }
+        if($request->tipo == "txt"){
+            return self::exportTXT($request->sql);
+        }
+//        if($request->tipo == "pdf"){
+//            return self::exportPDF($request->sql);
+//        }
+    }
+
+    public function exportPDF($sql)
+    {
+        ini_set('max_execution_time', 500);
+        $data = DB::select($sql)->get();
+        // Send data to the view using loadView function of PDF facade
+        $pdf = PDF::loadView('admin.relatorio.export',  compact('data'));
+        // If you want to store the generated pdf to the server then you can use the store function
+        //$pdf->save(storage_path().'_filename.pdf');
+        // Finally, you can download the file using download function
+        $pdf->setOptions(['dpi' => 30, 'defaultFont' => 'sans-serif']);
+        return $pdf->stream('pessoa.pdf');
+    }
+
+    public function exportCSV($sql)
+    {
+        $data = DB::select($sql);
+        return Excel::create('report', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                foreach ($data as &$dt) {
+                    $dt = (array)$dt;
+                }
+                $sheet->fromArray($data);
+            });
+        })->download("csv");
+    }
+
+    public function exportTXT($sql)
+    {
+        $data = DB::select($sql)->get()->toArray();
+        return Excel::create('report', function($excel) use ($data) {
+            $excel->sheet('mySheet', function($sheet) use ($data)
+            {
+                $sheet->fromArray($data);
+            });
+        })->download("txt");
     }
 }

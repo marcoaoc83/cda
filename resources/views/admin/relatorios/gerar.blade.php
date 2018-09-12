@@ -33,7 +33,8 @@
                         <div class="x_content " style="display: none;">
                             <form class="form-horizontal form-label-left" id="formFiltro"    method="post" action="" enctype="multipart/form-data">
                                 {{ csrf_field() }}
-
+                                <input type="hidden" name="sql" value="{{ str_replace("\r\n","", $rel->rel_sql)}}">
+                                <input type="hidden" name="rel_id" value="{{$rel->rel_id}}">
                                 <a href="#">
                                     <div class="mail_list"></div>
                                 </a>
@@ -48,7 +49,7 @@
                                     <div class="mail_list"></div>
                                 </a>
                                 <div class="x_panel text-center" style="background-color: #BDBDBD">
-                                    <a class="btn btn-app" id="btfiltrar" onclick="filtrarRegistros()" >
+                                    <a class="btn btn-app" id="btfiltrar" >
                                         <i class="fa fa-filter"></i> Filtrar
                                     </a>
                                 </div>
@@ -56,7 +57,11 @@
                             </form>
                         </div>
                     </div>
-
+                    <form id="formExport" action="{{route("relatorios.export")}}" target="_blank" method="post" />
+                    {{ csrf_field() }}
+                        <input type="hidden" name="sql" id="sql" />
+                        <input type="hidden" name="tipo" id="tipo">
+                    </form>
 
                     <div class="x_panel" id="pnHoraExec">
                         <div class="x_title">
@@ -66,9 +71,9 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="true"><i class="fa fa-download"></i></a>
                                     <ul class="dropdown-menu" role="menu" style="background-color: #f0f0f0">
-                                        <li><a href="{{route("pessoa.export",["tipo"=>'pdf'])}}" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a></li>
-                                        <li><a href="{{route("pessoa.export",["tipo"=>'csv'])}}" target="_blank"><i class="fa fa-file-excel-o"></i> CSV</a></li>
-                                        <li><a href="{{route("pessoa.export",["tipo"=>'txt'])}}" target="_blank"><i class="fa fa-file-text-o"></i> TXT</a></li>
+                                        <li><a href="javascript:exportar('pdf');" target="_blank"><i class="fa fa-file-pdf-o"></i> PDF</a></li>
+                                        <li><a href="javascript:exportar('csv');" target="_blank"><i class="fa fa-file-excel-o"></i> CSV</a></li>
+                                        <li><a href="javascript:exportar('txt');" target="_blank"><i class="fa fa-file-text-o"></i> TXT</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -181,21 +186,18 @@
     <script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript">
 
-        function filtrarRegistros(){
-            var tbRegistro = $('#tbRegistro').DataTable();
-            var url;
-            tbRegistro.ajax.url(url).load();
+        function exportar(tipo){
+            $("#formExport #tipo").val(tipo);
+            $('#formExport').submit();
         }
 
-
         $(document).ready(function() {
-
 
             var tbRegistro = $('#tbRegistro').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                ajax: '{{ route('relatorios.getdataRegistro') }}'+"/?limit=0&sql={!! $rel->rel_sql !!}",
+                ajax: '{{ route('relatorios.getdataRegistro') }}'+"/?limit=0&sql={!! str_replace("\r\n","", $rel->rel_sql) !!}",
                 "pageLength": 100,
                 columns: [
                     @foreach($campos as $campo)
@@ -207,7 +209,25 @@
                 }
             });
 
+            $('#btfiltrar').click(function () {
+                $.ajax({
+                    type: "get",
+                    url: "{{ route('relatorios.getdataRegistroSql') }}"+"/?"+$('#formFiltro').serialize(),
+                    success: function(data) {
+                        $("#formExport #sql").val(data);
+                    },
+                    error: function() {
+                        alert('error');
+                    }
+                });
+                var tbRegistro = $('#tbRegistro').DataTable();
+                var url = "{{ route('relatorios.getdataRegistro') }}"+"/?"+$('#formFiltro').serialize();
+                tbRegistro.ajax.url(url).load();
+            });
+
 
         });
+
+
     </script>
 @endpush
