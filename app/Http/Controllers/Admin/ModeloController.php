@@ -146,7 +146,13 @@ table_schema = '".DB::getDatabaseName()."'");
 
     public function verPDF(Request $request){
 
-        $html="<style>table, th, td {border: 1px solid #D0CECE;} .page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;} </style>";
+        $html="
+                <style>
+                    table, th, td {border: 1px solid #D0CECE;} 
+                    .page-break { page-break-after: always;}   
+                    @page { margin:10px; } html {margin:10px;} 
+               </style>
+        ";
         $html.=$request->html;
         $html=str_replace("{{BREAK}}","<div class='page-break'></div>",$html);
         $html=str_replace('border="0"','border="1"',$html);
