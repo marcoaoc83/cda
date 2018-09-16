@@ -10,7 +10,7 @@
         $('.sql').addClass('hidden');
         if($("#TABSYSSQL").is(':checked')){
             disp=true;
-            $('.sql').addClass('hidden');
+            $('.sql').removeClass('hidden');
         }
         var table = $('.datatable').DataTable({
             processing: true,

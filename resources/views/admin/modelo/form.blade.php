@@ -47,7 +47,7 @@
                     <ul class="nav nav-tabs">
                         <li role="presentation" class="active"><a data-toggle="tab" href="#1a">Dados</a></li>
                         <li role="presentation"><a data-toggle="tab" href="#2a">Texto</a></li>
-                        <li role="presentation"><a data-toggle="tab" href="#3a">Variáveis</a></li>
+                        {{--<li role="presentation"><a data-toggle="tab" href="#3a">Variáveis</a></li>--}}
                     </ul>
                 </div>
             </div>
@@ -149,11 +149,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row tab-pane" id="3a">
-                        <div class="col-md-12 col-sm-12 col-xs-12">
-                            @include('admin.modelo.var.index');
-                        </div>
-                    </div>
+                    {{--<div class="row tab-pane" id="3a">--}}
+                        {{--<div class="col-md-12 col-sm-12 col-xs-12">--}}
+                            {{--@include('admin.modelo.var.index');--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
                 </div>
             </form>
             <form id="formPDF" action="{{route("modelo.pdf")}}" target="_blank" method="post" />
