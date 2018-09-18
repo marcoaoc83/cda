@@ -147,6 +147,7 @@
 
             $('#pnCredPort #formEditar #CredPortId').val(linha['CredPortId']);
             $('#pnCredPort #formEditar #PessoaIdCP').val(linha['PessoaIdCP']);
+            $('#pnCredPort #formEditar #PessoaIdCPName').val(linha['PESSOANMRS']+' - '+linha['CPF_CNPJNR']);
             $('#pnCredPort #formEditar #InicioDt').val(linha['InicioDt']);
             $('#pnCredPort #formEditar #TerminoDt').val(linha['TerminoDt']);
             $('#pnCredPort #formEditar #Senha').val();

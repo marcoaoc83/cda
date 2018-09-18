@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\CredPort;
 use App\Models\Pessoa;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -56,6 +57,8 @@ class CredPortController extends Controller
                 'name' => $nome[0],
                 'documento' => $Pessoa->CPF_CNPJNR,
                 'pessoa_id' => $data['PessoaId'],
+                'data_inicio' => Carbon::createFromFormat('d/m/Y', $request->InicioDt)->format('Y-m-d') ,
+                'data_final' =>  Carbon::createFromFormat('d/m/Y', $request->TerminoDt)->format('Y-m-d')
             ], ['name','pessoa_id']);
 
             return \response()->json(true);
@@ -108,7 +111,18 @@ class CredPortController extends Controller
         $CredPort->InicioDt     =   $request->InicioDt;
         $CredPort->TerminoDt    =   $request->TerminoDt;
 
-        if($CredPort->save())
+        if($CredPort->save()){
+            $arr=[
+                'data_inicio' => Carbon::createFromFormat('d/m/Y', $request->InicioDt)->format('Y-m-d') ,
+                'data_final' =>  Carbon::createFromFormat('d/m/Y', $request->TerminoDt)->format('Y-m-d')
+            ];
+            if( $request->Senha){
+                $arr=["password" => bcrypt($request->Senha)];
+            }
+            $user = User::where('CredPortId',$id);
+            $user->update($arr);
+
+        }
             return \response()->json(true);
 
         return \response()->json(false);
