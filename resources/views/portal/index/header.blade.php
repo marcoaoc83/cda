@@ -59,7 +59,7 @@
     #PF .pf-border-light { border-color: var(--text-grey-primary); }
     #PF .pf-btn-primary { background-color:var(--text-blue-tertiary);width:120px;height:40px;-webkit-border-radius: 30px;-moz-border-radius: 30px;border-radius: 30px; }
     #PF .pf-btn-primary:hover { background-color:var(--text-blue-primary);-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.45);-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.45);box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.45); }
-    #PF .pf-input-text { height:50px;border-color:var(--text-grey-primary); }
+    #PF .pf-input-text { height:50px;border-color:var(--text-grey-primary);   background-color: #eeeeee; }
     #PF .pf-topo-site { min-height:68px;position:relative; }
     #PF .pf-informacao > img { -webkit-border-top-left-radius: 15px;-webkit-border-bottom-left-radius: 15px;-moz-border-radius-topleft: 15px;-moz-border-radius-bottomleft: 15px;border-top-left-radius: 15px;border-bottom-left-radius: 15px; }
 
