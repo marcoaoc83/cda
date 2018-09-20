@@ -3,13 +3,6 @@
 
 use Illuminate\Support\Facades\Auth;
 
-//PORTAL FRONT
-Route::get('/', 'Portal\PortalController@index')->name('portal.home');
-Route::get('legislacao', 'Portal\PortalController@legislacao')->name('portal.legislacao');
-Route::get('ajuda', 'Portal\PortalController@ajuda')->name('portal.ajuda');
-Route::get('acesso', 'Portal\PortalController@acesso')->name('portal.acesso');
-Route::get('solicitacao', 'Portal\PortalController@solicitacao')->name('portal.solicitacao');
-Route::post('solicitacao', 'Portal\PortalController@solicitacaoSend')->name('portal.solicitacaoSend');
 
 //CRONTAB
 Route::get('distribuicao', 'DistribuicaoController@index')->name('distribuicao');
@@ -25,6 +18,18 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
+
+//PORTAL FRONT
+Route::get('/', 'Portal\PortalController@index')->name('portal.home');
+Route::get('legislacao', 'Portal\PortalController@legislacao')->name('portal.legislacao');
+Route::get('ajuda', 'Portal\PortalController@ajuda')->name('portal.ajuda');
+
+Route::get('acesso', 'Portal\PortalController@acesso')->name('portal.acesso');
+Route::post('acesso-login', 'Portal\PortalController@acesso')->name('portal.acessoLogin');
+
+Route::get('solicitacao', 'Portal\PortalController@solicitacao')->name('portal.solicitacao');
+Route::post('solicitacao', 'Portal\PortalController@solicitacaoSend')->name('portal.solicitacaoSend');
+
 Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
 
     Route::get('admin', 'AdminController@index')->name('admin.home');
@@ -33,9 +38,13 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::get('admin/perfil', 'PerfilController@index')->name('perfil.ver');
 
     Route::group(['middleware'=>['cidadao']],function () {
-        Route::get('admin/debitos', 'AdminController@debitos')->name('admin.debitos');
-        Route::get('admin/debitos/getdata', 'AdminController@getDadosDataTable')->name('debitos.getdata');
-        Route::get('admin/boleto/{id}', 'BoletoController@show');
+        Route::get('debitos', 'Portal\PortalController@debitos')->name('portal.debitos');
+        Route::get('parcelamento', 'Portal\PortalController@parcelamento')->name('portal.parcelamento');
+        Route::get('guias', 'Portal\PortalController@guias')->name('portal.guias');
+        Route::get('dados', 'Portal\PortalController@dados')->name('portal.dados');
+//        Route::get('admin/debitos', 'AdminController@debitos')->name('admin.debitos');
+//        Route::get('admin/debitos/getdata', 'AdminController@getDadosDataTable')->name('debitos.getdata');
+//        Route::get('admin/boleto/{id}', 'BoletoController@show');
     });
 
     Route::group(['middleware'=>['admin']],function () {

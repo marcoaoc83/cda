@@ -57,4 +57,10 @@ class PortalController extends Controller
         $Var = PortalAdm::select(['cda_portal.*'])->get();
         return view('portal.index.acesso')->with('Var',$Var[0]);
     }
+
+    public function acessoLogin()
+    {
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+        return view('portal.index.acesso')->with('Var',$Var[0]);
+    }
 }
