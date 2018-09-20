@@ -112,6 +112,20 @@
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
+
+                var tableParcela = $('#tbParcela').DataTable();
+                var url = "{{ route('parcela.getdata') }}";
+                tableParcela.ajax.url(url).load( );
+                var tablePsCanal = $('#tbPsCanal').DataTable();
+                var url = "{{ route('pscanal.getdata') }}";
+                tablePsCanal.ajax.url(url).load( );
+                var tableSocResp = $('#tbSocResp').DataTable();
+                var url = "{{ route('socresp.getdata') }}";
+                tableSocResp.ajax.url(url).load( );
+                var tableAtiveCom = $('#tbAtiveCom').DataTable();
+                var url = "{{ route('ativecon.getdata') }}";
+                tableAtiveCom.ajax.url(url).load( );
+
                 $('#pnInscrMun #btEditar').addClass('disabled');
                 $('#pnInscrMun #btDeletar').addClass('disabled');
 
