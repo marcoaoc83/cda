@@ -41,6 +41,9 @@
 @endsection
 
 @push('scripts')
+    @include('vendor.sweetalert.cdn')
+    @include('vendor.sweetalert.view')
+    @include('vendor.sweetalert.validator')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js">
     </script>
 

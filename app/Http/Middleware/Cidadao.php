@@ -16,7 +16,8 @@ class Cidadao
      */
     public function handle($request, Closure $next)
     {
-        if ( Auth::check() && Auth::user()->isCidadao() )
+        $ss = $request->session()->get('acesso_cidadao');
+        if ( $ss )
         {
             return $next($request);
         }

@@ -43,30 +43,11 @@ class CredPortController extends Controller
     {
 
         $data = $request->all();
-        $data['Senha'] = bcrypt($data['Senha']);
+        $data['Senha'] = md5($data['Senha']);
 
-        $id=CredPort::create($data)->CredPortId;
-        $Pessoa= Pessoa::find($data['PessoaIdCP']);
-        $nome =explode(" ",$Pessoa->PESSOANMRS);
-        if ($id){
+        CredPort::create($data)->CredPortId;
 
-            User::insertOnDuplicateKey([
-                'password'    => $data['Senha'],
-                'CredPortId'  =>$id,
-                'funcao' => '4',
-                'name' => $nome[0],
-                'documento' => $Pessoa->CPF_CNPJNR,
-                'pessoa_id' => $data['PessoaId'],
-                'data_inicio' => Carbon::createFromFormat('d/m/Y', $request->InicioDt)->format('Y-m-d') ,
-                'data_final' =>  Carbon::createFromFormat('d/m/Y', $request->TerminoDt)->format('Y-m-d')
-            ], ['name','pessoa_id']);
-
-            return \response()->json(true);
-
-        }else{
-            return \response()->json(false);
-        }
-
+        return \response()->json(true);
 
     }
 

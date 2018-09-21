@@ -8,7 +8,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.home') active font-weight-bold @endif" href="{{route('portal.home')}}">Home <span class="sr-only">(current)</span></a></li>
                 <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.legislacao') active font-weight-bold @endif" href="{{route('portal.legislacao')}}">Legislação</a></li>
-                @if (session('acesso_servidor')){
+                @if (session('acesso_cidadao'))
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.debitos') active font-weight-bold @endif" href="{{route('portal.debitos')}}">Débitos</a></li>
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.parcelamento') active font-weight-bold @endif" href="{{route('portal.parcelamento')}}">Parcelamento</a></li>
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.guias') active font-weight-bold @endif" href="{{route('portal.guias')}}">Emissão Guias</a></li>
