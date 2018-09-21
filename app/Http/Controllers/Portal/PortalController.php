@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\CredPort;
 use App\Models\Faq;
 use App\Models\Legislacao;
+use App\Models\Parcela;
 use App\Models\PortalAdm;
 use App\Models\SolicitarAcesso;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Softon\SweetAlert\Facades\SWAL;
+use Yajra\DataTables\Facades\DataTables;
 
 class PortalController extends Controller
 {
@@ -85,4 +88,29 @@ class PortalController extends Controller
         return view('portal.index.debitos')->with('Var',$Var[0]);
     }
 
+    public function getDataTributo(Request $request)
+    {
+        $cda_parcela = Parcela::select([
+            'TributoT.REGTABNM as  Tributo',
+            'IM.INSCRMUNNR as INSCRICAO',
+            'Lograd.logr_nome as  Endereco'
+        ])
+            ->leftjoin('cda_inscrmun as IM', 'IM.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
+            ->leftjoin('cda_pscanal as PSCanal',function($join)
+            {
+                $join->on('PSCanal.InscrMunId', '=', 'IM.INSCRMUNID');
+                $join->on('PSCanal.CanalId','=',DB::raw("1"));
+            })
+            ->leftjoin('cda_logradouro as Lograd', 'PSCanal.LogradouroId', '=', 'Lograd.logr_id')
+            ->where('cda_parcela.PessoaId',4982)
+            ->where("cda_parcela.SitPagId", "61")
+            ->groupBy(['INSCRICAO','Tributo'])
+        ;
+
+        //dd($cda_parcela->toSql());
+        $cda_parcela->get();
+
+        return Datatables::of($cda_parcela)->make(true);
+    }
 }

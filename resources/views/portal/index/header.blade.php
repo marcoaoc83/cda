@@ -85,4 +85,12 @@
     @media (min-width: 1200px) {
         #PF .pf-informacao { right:30px;bottom:56px; }
     }
+
 </style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css" rel="stylesheet">
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/select/1.2.7/css/select.bootstrap4.min.css" rel="stylesheet">
