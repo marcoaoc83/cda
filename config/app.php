@@ -185,6 +185,7 @@ return [
         Softon\SweetAlert\SweetAlertServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        Canducci\Cep\Providers\CepServiceProvider::class
     ],
 
     /*
@@ -239,6 +240,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Zip' => ZanySoft\Zip\ZipFacade::class,
+        'Cep'        => Canducci\Cep\Facades\Cep::class,
+        'Endereco'   => Canducci\Cep\Facades\Endereco::class,
     ],
 
 ];

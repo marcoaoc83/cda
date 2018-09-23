@@ -5,7 +5,7 @@
     <tbody>
     <tr style="height: 18px; background-color: #e1e1e1">
         <td style="  height: 18px; text-align: center;" colspan="2">
-            <a class="pf-logo"  href="#"><img height="80px" src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" /></a>
+            <a class="pf-logo"  href="#"><img height="60px" src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" /></a>
         </td>
         <td style="  height: 18px; text-align: center;" colspan="5">
             <h2>EXTRATO DO CONTRIBUINTE</h2>
