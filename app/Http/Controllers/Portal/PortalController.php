@@ -151,30 +151,46 @@ class PortalController extends Controller
             return view('portal.index.acesso')->with('Var',$Var[0]);
         }
         $Var = PortalAdm::select(['cda_portal.*'])->get();
-
-        $cda_parcela = Parcela::select([
-            'cda_parcela.*',
-            DB::raw("DATE_FORMAT(if(cda_parcela.VencimentoDt='0000-00-00',null,cda_parcela.VencimentoDt),'%d/%m/%Y') as Vencimento"),
-            DB::raw("datediff(NOW(), cda_parcela.VencimentoDt)  as Atraso"),
-            'SitPagT.REGTABNM as  SitPag',
-            'SitCobT.REGTABNM as  SitCob',
-            'OrigTribT.REGTABNM as  OrigTrib',
-            'TributoT.REGTABNM as  Tributo',
-            'cda_inscrmun.INSCRMUNNR as INSCRICAO'
-        ])
-            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
-            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
-            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
-            ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
-            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
-            ->leftjoin('cda_inscrmun', 'cda_parcela.InscrMunId', '=', 'cda_inscrmun.INSCRMUNID')
-            ->where('cda_parcela.PessoaId',$request->PESSOAID);
-
         if($request->INSCRMUNID && $request->INSCRMUNID!='null') {
-            $cda_parcela->where('cda_parcela.INSCRMUNID', $request->INSCRMUNID);
+            $cda_parcela = Parcela::select([
+                'cda_parcela.*',
+                DB::raw("DATE_FORMAT(if(cda_parcela.VencimentoDt='0000-00-00',null,cda_parcela.VencimentoDt),'%d/%m/%Y') as Vencimento"),
+                DB::raw("datediff(NOW(), cda_parcela.VencimentoDt)  as Atraso"),
+                'SitPagT.REGTABNM as  SitPag',
+                'SitCobT.REGTABNM as  SitCob',
+                'OrigTribT.REGTABNM as  OrigTrib',
+                'TributoT.REGTABNM as  Tributo',
+                'cda_inscrmun.INSCRMUNNR as INSCRICAO'
+            ])
+                ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+                ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
+                ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+                ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
+                ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+                ->leftjoin('cda_inscrmun', 'cda_parcela.InscrMunId', '=', 'cda_inscrmun.INSCRMUNID')
+                ->where('cda_parcela.PessoaId', $request->PESSOAID)
+                ->where('cda_parcela.INSCRMUNID', $request->INSCRMUNID)
+                ->get();
+        }else{
+            $cda_parcela = Parcela::select([
+                'cda_parcela.*',
+                DB::raw("DATE_FORMAT(if(cda_parcela.VencimentoDt='0000-00-00',null,cda_parcela.VencimentoDt),'%d/%m/%Y') as Vencimento"),
+                DB::raw("datediff(NOW(), cda_parcela.VencimentoDt)  as Atraso"),
+                'SitPagT.REGTABNM as  SitPag',
+                'SitCobT.REGTABNM as  SitCob',
+                'OrigTribT.REGTABNM as  OrigTrib',
+                'TributoT.REGTABNM as  Tributo',
+                'cda_inscrmun.INSCRMUNNR as INSCRICAO'
+            ])
+                ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+                ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
+                ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+                ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
+                ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+                ->leftjoin('cda_inscrmun', 'cda_parcela.InscrMunId', '=', 'cda_inscrmun.INSCRMUNID')
+                ->where('cda_parcela.PessoaId', $request->PESSOAID)->get();
         }
 
-        $cda_parcela->get();
         return view('portal.pdf.extrato')->with('Var',$Var[0])->with('cda_parcela',$cda_parcela);
         $Var=$Var[0];
 
