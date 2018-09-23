@@ -7,11 +7,14 @@ use App\Models\CredPort;
 use App\Models\Faq;
 use App\Models\Legislacao;
 use App\Models\Parcela;
+use App\Models\Pessoa;
 use App\Models\PortalAdm;
 use App\Models\SolicitarAcesso;
 use Barryvdh\DomPDF\Facade as PDF;
+use Canducci\Cep\Cep;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -20,11 +23,13 @@ use Yajra\DataTables\Facades\DataTables;
 
 class PortalController extends Controller
 {
+
     public function index()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
         return view('portal.index.home')->with('Var',$Var[0]);
     }
+
     public function legislacao()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
@@ -33,12 +38,21 @@ class PortalController extends Controller
             ->with('Var',$Var[0])
             ->with('Legislacao',$Legislacao);
     }
+
     public function solicitacao()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
         return view('portal.index.solicitacao')->with('Var',$Var[0]);
     }
-    public function solicitacaoSend(Request $request)
+
+    public function cep(Request $r)
+    {
+        $cep =  Cep($r->cep);
+        $cepInfo = $cep->toJson();
+        return response()->json( $cepInfo->result());
+    }
+
+    public function solicitacaoSendPF(Request $request)
     {
         $data = $request->all();
 
@@ -48,17 +62,35 @@ class PortalController extends Controller
             $data['soa_data_nasc']=Carbon::createFromFormat('d/m/Y', $data['soa_data_nasc'])->format('Y-m-d');
         }
 
-        SolicitarAcesso::create($data);
-        SWAL::message('Solicitação','Enviada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+        $pessoa=Pessoa::where("CPF_CNPJNR",$data['soa_documento'])
+            ->where("DATA_NASCIMENTO",$data['soa_data_nasc'])
+            ->where("NOME_MAE",$data['soa_nome_mae'])
+            ->where("PESSOANMRS",$data['soa_nome'])
+            ->get()
+        ;
         $Var = PortalAdm::select(['cda_portal.*'])->get();
-        return view('portal.index.solicitacao')->with('Var',$Var[0]);
+        if(count($pessoa)>0){
+
+            return view('portal.index.solicitacaoPF2')
+                ->with('Var',$Var[0])
+                ->with('pessoa',$pessoa[0])
+                ;
+        }else{
+            SWAL::message('Solicitação','Seus dados não conferem, entre em contato com a prefeitura!','error',['timer'=>4000,'showConfirmButton'=>false]);
+            return view('portal.index.solicitacao') ->with('Var',$Var[0]);
+        }
+        //SolicitarAcesso::create($data);
+        //SWAL::message('Solicitação','Enviada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+
     }
+
     public function ajuda()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
         $Faq=Faq::select(['cda_portal_faq.*'])->orderBy('faq_ordem','ASC')->get();
         return view('portal.index.ajuda')->with('Var',$Var[0])->with('Faq',$Faq);
     }
+
     public function acesso()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();

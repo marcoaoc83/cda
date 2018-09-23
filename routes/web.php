@@ -28,7 +28,9 @@ Route::get('acesso', 'Portal\PortalController@acesso')->name('portal.acesso');
 Route::post('acesso-login', 'Portal\PortalController@acessoLogin')->name('portal.acessoLogin');
 
 Route::get('solicitacao', 'Portal\PortalController@solicitacao')->name('portal.solicitacao');
-Route::post('solicitacao', 'Portal\PortalController@solicitacaoSend')->name('portal.solicitacaoSend');
+Route::post('solicitacao-pf', 'Portal\PortalController@solicitacaoSendPF')->name('portal.solicitacaoSendPF');
+Route::post('solicitacao-pJ', 'Portal\PortalController@solicitacaoSendPJ')->name('portal.solicitacaoSendPJ');
+Route::post('cep', 'Portal\PortalController@cep')->name('portal.cep');
 
 Route::group(['middleware'=>['cidadao']],function () {
     Route::get('debitos', 'Portal\PortalController@debitos')->name('portal.debitos');

@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <div class="h6 text-center font-weight-bold pf-text-muted pt-3 pb-3">Formulário de Pessoa Física</div>
 
-                        <form role="form" method="POST" action="{{ route('portal.solicitacaoSend') }}">
+                        <form role="form" method="POST" action="{{ route('portal.solicitacaoSendPF') }}">
                             {{csrf_field()}}
                             {!! Form::hidden('soa_tipo', 'PF') !!}
                             <div class="form-group">
@@ -30,7 +30,7 @@
                                 <input type="text" class="form-control pf-input-text data" name="soa_data_nasc"  required="required"  id="soa_data_nasc" />
                             </div>
                             <div class="text-center mt-4 mb-2">
-                                <button type="submit" class="btn pf-btn-primary text-white">Enviar</button>
+                                <button type="submit" class="btn pf-btn-primary text-white">Validar</button>
                             </div>
                         </form>
                     </div>
@@ -38,7 +38,7 @@
                 <div class="col-12 col-lg-6 ml-lg-4 mt-lg-0 card pf-border-light mt-4 mb-0">
                     <div class="card-body">
                         <div class="h6 text-center font-weight-bold pf-text-muted pt-3 pb-3">Formulário de Pessoa Jurídica</div>
-                        <form role="form" method="POST" action="{{ route('portal.solicitacaoSend') }}">
+                        <form role="form" method="POST" action="{{ route('portal.solicitacaoSendPJ') }}">
                             {{csrf_field()}}
                             {!! Form::hidden('soa_tipo', 'PJ') !!}
                             <div class="form-group">
@@ -49,12 +49,8 @@
                                 <label for="campo_razao_social" class="pf-text-label">Razão Social</label>
                                 <input type="text" class="form-control pf-input-text"  required="required" name="soa_nome" id="soa_nome" />
                             </div>
-                            <div class="form-group">
-                                <label for="campo_senha" class="pf-text-label">I.M.</label>
-                                <input type="text" class="form-control pf-input-text"  required="required" name="soa_im" id="soa_im" />
-                            </div>
                             <div class="text-center mt-4 mb-2">
-                                <button type="submit" class="btn pf-btn-primary text-white">Enviar</button>
+                                <button type="submit" class="btn pf-btn-primary text-white">Validar</button>
                             </div>
                         </form>
                     </div>
