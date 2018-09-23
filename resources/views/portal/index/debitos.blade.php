@@ -107,6 +107,12 @@
                 },
                 columns: [
                     {
+                        data: 'INSCRMUNID',
+                        name: 'INSCRMUNID',
+                        "visible": false,
+                        "searchable": false
+                    },
+                    {
                         data: 'Tributo',
                         name: 'Tributo'
                     },
@@ -117,12 +123,6 @@
                     {
                         data: 'Endereco',
                         name: 'Endereco'
-                    },
-                    {
-                        data: 'INSCRMUNID',
-                        name: 'INSCRMUNID',
-                        "visible": false,
-                        "searchable": false
                     }
                 ],
             });
@@ -133,7 +133,7 @@
 
 
                     var INSCRMUNID = tbTributo.rows(indexes).data().pluck('INSCRMUNID');
-                    $('#inscr').val(INSCRMUNID);
+                    $('#inscr').val(INSCRMUNID[0]);
                     var tableParcela = $('#tbParcela').DataTable();
                     var url = "{{ route('portal.getDataParcela') }}" + "/?INSCRMUNID=" + INSCRMUNID[0];
                     tableParcela.ajax.url(url).load();

@@ -169,8 +169,7 @@ class PortalController extends Controller
                 ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
                 ->leftjoin('cda_inscrmun', 'cda_parcela.InscrMunId', '=', 'cda_inscrmun.INSCRMUNID')
                 ->where('cda_parcela.PessoaId', $request->PESSOAID)
-                ->where('cda_parcela.INSCRMUNID', $request->INSCRMUNID)
-                ->get();
+                ->where('cda_parcela.INSCRMUNID', $request->INSCRMUNID)->get();
         }else{
             $cda_parcela = Parcela::select([
                 'cda_parcela.*',
