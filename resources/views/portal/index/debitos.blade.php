@@ -107,12 +107,6 @@
                 },
                 columns: [
                     {
-                        data: 'INSCRMUNID',
-                        name: 'INSCRMUNID',
-                        "visible": false,
-                        "searchable": false
-                    },
-                    {
                         data: 'Tributo',
                         name: 'Tributo'
                     },
@@ -123,6 +117,12 @@
                     {
                         data: 'Endereco',
                         name: 'Endereco'
+                    },
+                    {
+                        data: 'INSCRMUNID',
+                        name: 'INSCRMUNID',
+                        "visible": false,
+                        "searchable": false
                     }
                 ],
             });
