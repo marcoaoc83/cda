@@ -190,7 +190,7 @@ class PortalController extends Controller
                 ->where('cda_parcela.PessoaId', $request->PESSOAID)->get();
         }
 
-        return view('portal.pdf.extrato')->with('Var',$Var[0])->with('cda_parcela',$cda_parcela);
+        //return view('portal.pdf.extrato')->with('Var',$Var[0])->with('cda_parcela',$cda_parcela);
         $Var=$Var[0];
 
         $pdf = App::make('dompdf.wrapper');
