@@ -29,10 +29,6 @@
                     name: 'CANALSG'
                 },
                 {
-                    data: 'TipPos',
-                    name: 'TipPos'
-                },
-                {
                     data: 'TelefoneNr',
                     name: 'TelefoneNr'
                 },

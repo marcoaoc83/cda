@@ -5,23 +5,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Editar</h4>
+                <h4 class="modal-title">Ativar</h4>
             </div>
             <div class="modal-body">
                 <form id="formEditar"  class="form-horizontal form-label-left" >
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
                     <input type="hidden" name="PessoaId" value="{{$Pessoa->PESSOAID}}">
-                    <input type="hidden" id="InscrMunId" name="InscrMunId" >
                     <input type="hidden" id="CredPortId" name="CredPortId">
-                    <input type="hidden" id="name" name="name">
-                    <input type="hidden" id="PessoaIdCP" name="PessoaIdCP">
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PessoaIdCPName">Nome <span class="required">*</span></label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" name="PessoaIdCPName" id="PessoaIdCPName" class="form-control col-md-10 typeahead"  data-provide="typeahead">
-                        </div>
-                    </div>
+                    <input type="hidden" id="Ativo" name="Ativo" value="1">
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="InicioDt">Inicio</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
@@ -38,21 +30,7 @@
                             <span id="inputSuccess2Status" class="sr-only">(success)</span>
                         </div>
                     </div>
-                    {{--<div class="item form-group">--}}
-                        {{--<label class="control-label col-md-3 col-sm-3 col-xs-12" for="Email">Email <span class="required">*</span>--}}
-                        {{--</label>--}}
-                        {{--<div class="col-md-6 col-sm-6 col-xs-12">--}}
-                            {{--<input value="{{ old('email') }}"  type="email" id="Email" name="Email" required="required" class="form-control col-md-7 col-xs-12">--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
 
-                    <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Senha">Senha
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input value=""  type="text" id="Senha"  data-minlength="6"  name="Senha" class="form-control col-md-7 col-xs-12">
-                        </div>
-                    </div>
 
                     <div class="ln_solid"></div>
                     <div class="form-group">

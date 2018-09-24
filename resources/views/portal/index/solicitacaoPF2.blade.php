@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <div class="h6 text-center font-weight-bold pf-text-muted pt-3 pb-3">Informações de Contato</div>
 
-                        <form role="form" method="POST" action="{{ route('portal.solicitacaoSendPF') }}">
+                        <form role="form" method="POST" action="{{ route('portal.credenciais') }}" data-toggle="validator">
                             {{csrf_field()}}
                             {!! Form::hidden('pessoa_id', $pessoa->PESSOAID) !!}
                             <div class="form-group">
@@ -70,22 +70,22 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label for="cidade" class="pf-text-label">E-mail *</label>
-                                    <input type="text" class="form-control pf-input-text" name="email" id="email" required="required"  />
+                                    <label for="email" class="pf-text-label">E-mail *</label>
+                                    <input type="email" class="form-control pf-input-text" name="email" id="email" required="required"   />
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label for="uf" class="pf-text-label">Confirmação E-mail *</label>
-                                    <input type="text" class="form-control pf-input-text" name="cemail"  id="cemail" required="required"  />
+                                    <label for="cemail" class="pf-text-label">Confirmação E-mail *</label>
+                                    <input type="email" class="form-control pf-input-text" name="cemail"  id="cemail" required="required" data-match="#email" data-match-error="E-mail diferente!"  />
                                 </div>
                             </div>
                             <div class="row form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label for="cidade" class="pf-text-label">Senha *</label>
-                                    <input type="text" class="form-control pf-input-text" name="senha" id="senha" required="required"  />
+                                    <label for="senha" class="pf-text-label">Senha *</label>
+                                    <input type="password" class="form-control pf-input-text" name="senha" id="senha" required="required"  />
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <label for="uf" class="pf-text-label">Confirmação Senha *</label>
-                                    <input type="text" class="form-control pf-input-text" name="csenha"  id="csenha" required="required"  />
+                                    <label for="csenha" class="pf-text-label">Confirmação Senha *</label>
+                                    <input type="password" class="form-control pf-input-text" name="csenha"  id="csenha" required="required" data-match="#senha" />
                                 </div>
                             </div>
                             <div class="row form-group">
@@ -115,6 +115,7 @@
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.js"></script>
     <script>
+
         $(".cep").inputmask({
             mask: ['99999-999'],
             keepStatic: true
@@ -145,5 +146,35 @@
                 $('#uf').val(obj.uf);
             });
         }
+
+
+        var email = document.getElementById("email")
+            , confirm_email = document.getElementById("cemail");
+
+        function validateEmail(){
+            if( email.value != confirm_email.value) {
+                confirm_email.setCustomValidity("E-mail não confere");
+            } else {
+                confirm_email.setCustomValidity('');
+            }
+        }
+
+        email.onchange = validateEmail;
+        confirm_email.onkeyup = validateEmail;
+
+
+        var password = document.getElementById("senha")
+            , confirm_password = document.getElementById("csenha");
+
+        function validatePassword(){
+            if(password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Senha não confere");
+            } else {
+                confirm_password.setCustomValidity('');
+            }
+        }
+
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
     </script>
 @endpush

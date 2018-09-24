@@ -9,6 +9,7 @@ use App\Models\Legislacao;
 use App\Models\Parcela;
 use App\Models\Pessoa;
 use App\Models\PortalAdm;
+use App\Models\PsCanal;
 use App\Models\SolicitarAcesso;
 use Barryvdh\DomPDF\Facade as PDF;
 use Canducci\Cep\Cep;
@@ -20,6 +21,12 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
+
+define("cEndereco", 1);
+define("cEmail", 2);
+define("cTelefone", 5);
+define("cCelular", 6);
+define("cWhatsapp", 8);
 
 class PortalController extends Controller
 {
@@ -100,7 +107,7 @@ class PortalController extends Controller
     public function acessoLogin(Request $request)
     {
         $login = CredPort::join('cda_pessoa as Pessoa', 'Pessoa.PESSOAID', '=', 'cda_credport.PessoaId')
-            ->where('CPF_CNPJNR',$request->documento)
+            ->where('Pessoa.CPF_CNPJNR',$request->documento)
             ->where('Senha',md5($request->password))
             ->get();
         if(count($login)){
@@ -232,5 +239,64 @@ class PortalController extends Controller
         // Finally, you can download the file using download function
         //$pdf->setOptions(['dpi' => 96, 'defaultFont' => 'sans-serif']);
         return $pdf->stream('extrato.pdf');;
+    }
+
+    public function credenciais(Request $request)
+    {
+        $data=$request->all();
+        CredPort::create([
+            'PessoaId' => $data['pessoa_id'],
+            'Senha' => md5($data['senha']),
+        ]);
+        //Canal Endereco
+        PsCanal::create([
+            'PessoaId' => $data['pessoa_id'],
+            'FonteInfoId' =>21,
+            'CanalId' =>cEndereco,
+            'CEP' =>$data['cep'],
+            'EnderecoNr' =>$data['numero'],
+            'Complemento' =>$data['complemento'],
+            'Logradouro' =>$data['logradouro'],
+            'Bairro' =>$data['bairro'],
+            'Cidade' =>$data['cidade'],
+            'UF' =>$data['uf']
+        ]);
+        //Canal Celular
+        PsCanal::create([
+            'PessoaId' => $data['pessoa_id'],
+            'FonteInfoId' =>21,
+            'CanalId' =>cCelular,
+            'TelefoneNr' =>$data['celular']
+        ]);
+        if($data['comercial']) {
+            //Canal Residencia
+            PsCanal::create([
+                'PessoaId' => $data['pessoa_id'],
+                'FonteInfoId' => 21,
+                'CanalId' => cTelefone,
+                'TelefoneNr' => $data['residencial']
+            ]);
+        }
+        if($data['comercial']) {
+            //Canal Comercial
+            PsCanal::create([
+                'PessoaId' => $data['pessoa_id'],
+                'FonteInfoId' => 21,
+                'CanalId' => cTelefone,
+                'TelefoneNr' => $data['comercial']
+            ]);
+        }
+        if($data['email']) {
+            //Canal Comercial
+            PsCanal::create([
+                'PessoaId' => $data['pessoa_id'],
+                'FonteInfoId' => 21,
+                'CanalId' => cTelefone,
+                'Email' => $data['email']
+            ]);
+        }
+        SWAL::message('Solicitação','Enviada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+        return view('portal.index.acesso')->with('Var',$Var[0]);
     }
 }

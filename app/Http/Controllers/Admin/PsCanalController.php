@@ -122,7 +122,7 @@ class PsCanalController extends Controller
             'cda_pscanal.BairroId',
             'cda_pscanal.CidadeId',
             'cda_cidade.cida_uf as UF',
-            'FonteInfoId.REGTABNM as FonteInfo',
+            'FonteInfoId.REGTABSG as FonteInfo',
             'TipPosId.REGTABNM as TipPos',
             'cda_canal.CANALSG',
             'cda_inscrmun.INSCRMUNNR',

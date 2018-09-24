@@ -26,29 +26,12 @@
                     name: 'CPF_CNPJNR'
                 },
                 {
-                    data: 'PESSOANMRS',
-                    name: 'PESSOANMRS'
-                },
-
-                {
                     data: 'InicioDt',
                     name: 'InicioDt'
                 },
                 {
                     data: 'TerminoDt',
                     name: 'TerminoDt'
-                },
-                {
-                    data: 'PessoaIdCP',
-                    name: 'PessoaIdCP',
-                    "visible": false,
-                    "searchable": false
-                },
-                {
-                    data: 'CredPortId',
-                    name: 'CredPortId',
-                    "visible": false,
-                    "searchable": false
                 }
             ],
             select: {
