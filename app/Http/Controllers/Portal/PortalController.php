@@ -90,7 +90,30 @@ class PortalController extends Controller
         //SWAL::message('Solicitação','Enviada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
 
     }
+    public function solicitacaoSendPJ(Request $request)
+    {
+        $data = $request->all();
 
+        $data['soa_documento']=preg_replace('/[^0-9]/','',$data['soa_documento']);
+
+        $pessoa=Pessoa::where("CPF_CNPJNR",$data['soa_documento'])
+            ->where("PESSOANMRS",$data['soa_nome'])
+            ->get();
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+        if(count($pessoa)>0){
+
+                return view('portal.index.solicitacaoPJ2')
+                ->with('Var',$Var[0])
+                ->with('pessoa',$pessoa[0])
+                ;
+        }else{
+            SWAL::message('Solicitação','Seus dados não conferem, entre em contato com a prefeitura!','error',['timer'=>4000,'showConfirmButton'=>false]);
+            return view('portal.index.solicitacao') ->with('Var',$Var[0]);
+        }
+        //SolicitarAcesso::create($data);
+        //SWAL::message('Solicitação','Enviada com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
+
+    }
     public function ajuda()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
@@ -102,6 +125,11 @@ class PortalController extends Controller
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
         return view('portal.index.acesso')->with('Var',$Var[0]);
+    }
+    public function dados()
+    {
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+        return view('portal.index.meusdados')->with('Var',$Var[0]);
     }
 
     public function acessoLogin(Request $request)
