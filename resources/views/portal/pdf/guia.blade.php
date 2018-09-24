@@ -6,11 +6,11 @@
                 <tbody>
                 <tr style="height: 110px;">
                     <td style="width: 13.6913%; text-align: center; height: 110px;">
-                       <img height="60px" src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" />
+                       {{--<img height="60px" src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" />--}}
                     </td>
                     <td style="width: 86.3087%; height: 110px;">
                         <h2 style="text-align: left;">PREFEITURA MUNICIPAL DE CDA</h2>
-                        <h4 style="text-align: center;">&nbsp;DOCUMENTO DE ARRECADA&Ccedil;&Atilde;O</h4>
+                        <h4 style="text-align: left;"> DOCUMENTO DE ARRECADA&Ccedil;&Atilde;O</h4>
                     </td>
                 </tr>
                 </tbody>
@@ -22,7 +22,7 @@
     </tr>
     <tr style="height: 18px;">
         <td style="width: 100%; height: 18px;">
-            <table style="width: 100%; border-collapse: collapse; border-style: solid; height: 36px;font-size: 12px;" border="1">
+            <table style="width: 100%; border-collapse: collapse; border-style: solid; height: 36px;font-size: 12px;" border="1" >
                 <tbody>
                 <tr style="height: 36px;">
                     <td style="width: 25%; border-style: solid; height: 36px;"><strong>GUIA DAM<br /><br /></strong></td>
@@ -73,21 +73,54 @@
     </tr>
     <tr style="height: 18px;">
         <td style="width: 100%; height: 18px;">
-            <table style="height: 54px; width: 100%; border-collapse: collapse; border: none; " border="1">
+            <table style=" border-collapse: collapse; height: 36px; width: 100%; font-size: 10px; border: none; border-color: #666666 " border="1">
                 <tbody>
-                <tr style="font-size: 12px;">
-                    <td style="width: 17.5311%; border-style: solid; text-align: center;  height: 18px;"><strong>IDENTIFICACAO DO D&Eacute;BITO</strong><br />ANO&nbsp;TRIB&nbsp;PAR LAN&Ccedil;AMENTO</td>
+                <tr style="font-size: 8px;">
+                    <td style="width: 19.5311%; border-style: solid; text-align: center;  height: 18px;"><strong>IDENTIFICACAO DO D&Eacute;BITO</strong><br />ANO&nbsp;TRIB&nbsp;PAR LAN&Ccedil;AMENTO</td>
                     <td style="width: 12.0174%; border-style: solid; text-align: center; height: 18px;"><strong>CODIGO SISTEMA ANTERIOR</strong></td>
-                    <td style="width: 9.75158%; border-style: solid; text-align: center; height: 18px;"><strong>SE</strong></td>
+                    <td style="width: 6.75158%; border-style: solid; text-align: center; height: 18px;"><strong>SE</strong></td>
                     <td style="width: 7.63679%; border-style: solid; text-align: center; height: 18px;"><strong>TRIBUTO</strong></td>
                     <td style="width: 10.2803%; border-style: solid; text-align: center; height: 18px;"><strong>VENCIMENTO</strong></td>
                     <td style="width: 13.528%; border-style: solid; text-align: right; height: 18px;"><strong>VALOR LAN&Ccedil;ADO</strong></td>
                     <td style="width: 12.7728%; border-style: solid; text-align: right; height: 18px;"><strong>VALOR ATUALIZADO</strong></td>
                     <td style="width: 6.37092%; border-style: solid; text-align: right; height: 18px;"><strong>MULTA/JUROS /DESC</strong></td>
-                    <td style="width: 10.1111%; border-style: solid; text-align: right; height: 18px;"><strong>VALOR</strong></td>
+                    <td style="width: 9.1111%; border-style: solid; text-align: right; height: 18px;"><strong>VALOR</strong></td>
                 </tr>
                 <tr style="height: 18px;">
-                    <td style="width: 17.5311%; text-align: center; font-size: 12px; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 17.5311%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 12.0174%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 9.75158%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 7.63679%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 10.2803%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 13.528%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 12.7728%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 5.37092%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 11.1111%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                </tr>
+                <tr style="height: 18px;">
+                    <td style="width: 17.5311%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 12.0174%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 9.75158%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 7.63679%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 10.2803%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 13.528%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 12.7728%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 5.37092%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 11.1111%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                </tr>
+                <tr style="height: 18px;">
+                    <td style="width: 17.5311%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 12.0174%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 9.75158%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 7.63679%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 10.2803%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 13.528%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 12.7728%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 5.37092%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                    <td style="width: 11.1111%; text-align: right; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
+                </tr>
+                <tr style="height: 18px;">
+                    <td style="width: 17.5311%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
                     <td style="width: 12.0174%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
                     <td style="width: 9.75158%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
                     <td style="width: 7.63679%; text-align: center; border-style: none; height: 18px;"><strong>&nbsp;</strong></td>
@@ -102,7 +135,10 @@
         </td>
     </tr>
     <tr style="height: 18px;">
-        <td style="width: 100%; height: 18px;"><strong>N&atilde;o receber apos a data de vencimento</strong></td>
+        <td style="width: 100%; height: 18px;">
+
+            <strong>N&atilde;o receber apos a data de vencimento</strong>
+        </td>
     </tr>
     <tr style="height: 18px;">
         <td style="width: 100%; height: 18px;">

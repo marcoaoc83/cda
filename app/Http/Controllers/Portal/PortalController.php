@@ -332,12 +332,12 @@ class PortalController extends Controller
     public function exportGuia(Request $request)
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
-        return view('portal.pdf.guia')->with('Var',$Var[0]);
+        //return view('portal.pdf.guia')->with('Var',$Var[0]);
         $Var=$Var[0];
 
         $pdf = App::make('dompdf.wrapper');
         // Send data to the view using loadView function of PDF facade
-        $pdf->loadView('portal.pdf.extrato',  compact('cda_parcela','Var'));
+        $pdf->loadView('portal.pdf.guia',  compact( 'Var'));
         // If you want to store the generated pdf to the server then you can use the store function
         // Finally, you can download the file using download function
         //$pdf->setOptions(['dpi' => 96, 'defaultFont' => 'sans-serif']);
