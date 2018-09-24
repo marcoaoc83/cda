@@ -6,7 +6,7 @@
                 <tbody>
                 <tr style="height: 110px;">
                     <td style="width: 13.6913%; text-align: center; height: 110px;">
-                       {{--<img height="60px" src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" />--}}
+                       <img height="60px" src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" />
                     </td>
                     <td style="width: 86.3087%; height: 110px;">
                         <h2 style="text-align: left;">PREFEITURA MUNICIPAL DE CDA</h2>
