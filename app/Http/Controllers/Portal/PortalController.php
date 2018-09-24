@@ -327,20 +327,66 @@ class PortalController extends Controller
         $Var = PortalAdm::select(['cda_portal.*'])->get();
         return view('portal.index.acesso')->with('Var',$Var[0]);
     }
-
+    public function guias()
+    {
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+        return view('portal.index.guias')->with('Var',$Var[0]);
+    }
 
     public function exportGuia(Request $request)
     {
+
+//        if($request->PESSOAID != Session::get('acesso_cidadao')['PESSOAID']){
+//            $Var = PortalAdm::select(['cda_portal.*'])->get();
+//            return view('portal.index.acesso')->with('Var',$Var[0]);
+//        }
         $Var = PortalAdm::select(['cda_portal.*'])->get();
-        //return view('portal.pdf.guia')->with('Var',$Var[0]);
+
+        $cda_parcela = Parcela::select([
+            'cda_parcela.*',
+            'cda_pessoa.*',
+            DB::raw("DATE_FORMAT(if(cda_parcela.VencimentoDt='0000-00-00',null,cda_parcela.VencimentoDt),'%d/%m/%Y') as Vencimento"),
+            DB::raw("datediff(NOW(), cda_parcela.VencimentoDt)  as Atraso"),
+            'SitPagT.REGTABNM as  SitPag',
+            'SitCobT.REGTABNM as  SitCob',
+            'OrigTribT.REGTABNM as  OrigTrib',
+            'TributoT.REGTABNM as  Tributo',
+            'cda_inscrmun.INSCRMUNNR as INSCRICAO'
+        ])
+            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
+            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
+            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_parcela.InscrMunId', '=', 'cda_inscrmun.INSCRMUNID')
+            ->whereIn('cda_parcela.ParcelaId',['7114','7115'])
+            ->get();
+
+        $endereco= PsCanal::where("PessoaId",$request->PESSOAID)->where('CanalId',1)->get();
+        if(count($endereco)==0){
+            $endereco->Logradouro='';
+            $endereco->Bairro='';
+            $endereco->Cidade='';
+            $endereco->UF='';
+            $endereco->CEP='';
+        }else{
+            $endereco=$endereco[0];
+        }
+        $info=$cda_parcela[0];
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+//        return view('portal.pdf.guia')
+//            ->with('Var',$Var[0])
+//            ->with('cda_parcela',$cda_parcela)
+//            ->with('endereco',$endereco)
+//            ->with('info',$info);
         $Var=$Var[0];
 
         $pdf = App::make('dompdf.wrapper');
         // Send data to the view using loadView function of PDF facade
-        $pdf->loadView('portal.pdf.guia',  compact( 'Var'));
+        $pdf->loadView('portal.pdf.guia',  compact( 'Var','cda_parcela','endereco','info'));
         // If you want to store the generated pdf to the server then you can use the store function
         // Finally, you can download the file using download function
         //$pdf->setOptions(['dpi' => 96, 'defaultFont' => 'sans-serif']);
-        return $pdf->stream('extrato.pdf');;
+        return $pdf->stream('extrato.pdf');
     }
 }

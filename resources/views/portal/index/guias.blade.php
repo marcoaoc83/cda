@@ -51,11 +51,11 @@
                     </p>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <form action="{{route( 'portal.exportExtrato')}}" target="_blank" method="post">
+                    <form action="{{route( 'portal.exportGuia')}}" target="_blank" method="post" id="formGuia">
                         {{csrf_field()}}
                         <input type="hidden" id="inscr" name="INSCRMUNID">
                         <input type="hidden" id="pess" name="PESSOAID" value="{{Session::get('acesso_cidadao')['PESSOAID'] }}">
-                    <button type="submit" class="btn btn-warning btn-xs "  ><i class="fa fa-print"></i> Imprimir Extrato</button>
+                    <button type="submit" class="btn btn-warning btn-xs "  ><i class="fa fa-print"></i> Imprimir Guia</button>
                     </form>
                 </div>
 
@@ -227,10 +227,36 @@
                     {
                         data: 'SitCob',
                         name: 'SitCob'
+                    },
+                    {
+                        data: 'ParcelaId',
+                        name: 'ParcelaId',
+                        "visible": false,
+                        "searchable": false
                     }
                 ],
             });
 
+
+            tbParcela.on( 'select', function ( e, dt, type, indexes ) {
+                if (type === 'row') {
+                    var ParcelaId = tbParcela.rows(indexes).data().pluck('ParcelaId');
+                    ParcelaId=ParcelaId[0];
+                    $('<input>').attr({
+                        type: 'hidden',
+                        id: 'parcelas'+ParcelaId,
+                        name: 'parcelas[]',
+                        value: ParcelaId
+                    }).appendTo('#formGuia');
+                }
+            });
+            tbParcela.on( 'deselect', function ( e, dt, type, indexes ) {
+                if (type === 'row') {
+                    var ParcelaId = tbParcela.rows(indexes).data().pluck('ParcelaId');
+                    ParcelaId=ParcelaId[0];
+                    $( "#parcelas"+ParcelaId ).remove();
+                }
+            } );
         });
     </script>
 @endpush
