@@ -21,7 +21,8 @@
         "yajra/laravel-datatables-oracle": "^8.4",
         "zanysoft/laravel-zip": "^1.0",
         "zizaco/entrust": "^1.8",
-        "canducci/cep": "2.0.*"
+        "canducci/cep": "2.0.*",
+        "milon/barcode": "^5.3"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

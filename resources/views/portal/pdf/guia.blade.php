@@ -9,7 +9,7 @@
                 <tbody>
                 <tr style="height: 110px;">
                     <td style="width: 13.6913%; text-align: center; height: 110px;">
-                       <img height="60px" src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" />
+                       {{--<img height="60px" src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" />--}}
                     </td>
                     <td style="width: 86.3087%; height: 110px;">
                         <h2 style="text-align: left;">PREFEITURA MUNICIPAL DE CDA</h2>
@@ -28,8 +28,8 @@
             <table style="width: 100%; border-collapse: collapse; border-style: solid; height: 36px;font-size: 12px;" border="1" >
                 <tbody>
                 <tr style="height: 36px;">
-                    <td style="width: 25%; border-style: solid; height: 36px;"><strong>GUIA DAM<br /><br /></strong></td>
-                    <td style="width: 25%; border-style: solid; height: 36px;"><strong>NOSSO NUMERO<br /><br /></strong></td>
+                    <td style="width: 25%; border-style: solid; height: 36px;"><strong>GUIA DAM<br /><br /></strong>{{$info->GuiaNR}}</td>
+                    <td style="width: 25%; border-style: solid; height: 36px;"><strong>NOSSO NUMERO<br /><br /></strong>{{$info->GuiaNR}}</td>
                     <td style="width: 25%; border-style: solid; height: 36px;"><strong>DATA DE EMISS&Atilde;O</strong><br /><br /><?=date('d/m/Y')?></td>
                     <td style="width: 25%; border-style: solid; height: 36px;"><strong>AUTENTICIDADE<br /><br /></strong></td>
                 </tr>
@@ -147,13 +147,13 @@
         <td style="width: 100%; height: 18px;">
             <table style="border-collapse: collapse; width: 100%; height: 18px;font-size: 12px;" border="1">
                 <tbody>
-                <tr style="height: 18px;">
+                <tr style="height: 18px;font-size: 10px">
                     <td style="width: 14.2857%; border-style: solid; text-align: center; height: 18px;"><strong>DATA VALIDADE</strong><br /><br />{{  \Carbon\Carbon::now()->endOfMonth()->format('d/m/Y')}}</td>
                     <td style="width: 14.2857%; border-style: solid; text-align: center; height: 18px;"><strong>VALOR LAN&Ccedil;ADO</strong><br /><br />{{$valorlc}}</td>
-                    <td style="width: 14.2857%; border-style: solid; text-align: center; height: 18px;"><strong>VALOR ATUALIZADO</strong><br /><br /></td>
+                    <td style="width: 14.2857%; border-style: solid; text-align: center; height: 18px;"><strong>VALOR ATUALIZADO</strong><br /><br />{{$valorlc}}</td>
                     <td style="width: 14.2857%; border-style: solid; text-align: center; height: 18px;"><strong>MULTA/JUROS</strong><br /><br />{{$juros}}</td>
                     <td style="width: 14.2857%; border-style: solid; text-align: center; height: 18px;"><strong>DESCONTO</strong><br /><br />{{$descontos}}</td>
-                    <td style="width: 14.2857%; border-style: solid; text-align: center; height: 18px;"><strong>GRT</strong><br /><br /></td>
+                    <td style="width: 14.2857%; border-style: solid; text-align: center; height: 18px;"><strong>GRT</strong><br /><br />-</td>
                     <td style="width: 14.2857%; border-style: solid; text-align: right; height: 18px;"><strong>TOTAL</strong><br /><br />{{$total}}</td>
                 </tr>
                 </tbody>
@@ -167,7 +167,7 @@
         <td style="width: 100%;text-align: right"><strong>AUTENTICAÇÃO MECANICA - VIA BANCO</strong></td>
     </tr>
     <tr>
-        <td style="width: 100%;">&nbsp;</td>
+        <td style="width: 100%; text-align: center"><br><img src="data:image/png;base64,{{DNS1D::getBarcodePNG($info->barcode, 'C128',1.5,50)}}" alt="barcode" /></td>
     </tr>
     </tbody>
 </table>

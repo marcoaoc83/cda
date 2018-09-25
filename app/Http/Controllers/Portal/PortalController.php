@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Portal;
 use App\Http\Controllers\Controller;
 use App\Models\CredPort;
 use App\Models\Faq;
+use App\Models\Guia;
+use App\Models\GuiaParcela;
 use App\Models\Legislacao;
 use App\Models\Parcela;
 use App\Models\Pessoa;
@@ -13,7 +15,10 @@ use App\Models\PsCanal;
 use App\Models\SolicitarAcesso;
 use Barryvdh\DomPDF\Facade as PDF;
 use Canducci\Cep\Cep;
+use Eduardokum\LaravelBoleto\Pessoa as BoletoPessoa;
 use Carbon\Carbon;
+use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
@@ -336,10 +341,10 @@ class PortalController extends Controller
     public function exportGuia(Request $request)
     {
 
-//        if($request->PESSOAID != Session::get('acesso_cidadao')['PESSOAID']){
-//            $Var = PortalAdm::select(['cda_portal.*'])->get();
-//            return view('portal.index.acesso')->with('Var',$Var[0]);
-//        }
+        if($request->PESSOAID != Session::get('acesso_cidadao')['PESSOAID']){
+            $Var = PortalAdm::select(['cda_portal.*'])->get();
+            return view('portal.index.acesso')->with('Var',$Var[0]);
+        }
         $Var = PortalAdm::select(['cda_portal.*'])->get();
 
         $cda_parcela = Parcela::select([
@@ -351,7 +356,9 @@ class PortalController extends Controller
             'SitCobT.REGTABNM as  SitCob',
             'OrigTribT.REGTABNM as  OrigTrib',
             'TributoT.REGTABNM as  Tributo',
-            'cda_inscrmun.INSCRMUNNR as INSCRICAO'
+            'cda_inscrmun.INSCRMUNNR as INSCRICAO',
+            'cda_inscrmun.INSCRMUNID as INSCRMUNID'
+
         ])
             ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
             ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
@@ -359,7 +366,7 @@ class PortalController extends Controller
             ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->leftjoin('cda_inscrmun', 'cda_parcela.InscrMunId', '=', 'cda_inscrmun.INSCRMUNID')
-            ->whereIn('cda_parcela.ParcelaId',['7114','7115'])
+            ->whereIn('cda_parcela.ParcelaId',$request->parcelas)
             ->get();
 
         $endereco= PsCanal::where("PessoaId",$request->PESSOAID)->where('CanalId',1)->get();
@@ -380,6 +387,32 @@ class PortalController extends Controller
 //            ->with('endereco',$endereco)
 //            ->with('info',$info);
         $Var=$Var[0];
+        $total=0;
+        $GuiaNR = Guia::create([
+            'guia_pessoa_id'=>$request->PESSOAID,
+            'guia_im'=>$info->INSCRMUNID
+        ])->guia_id;
+        foreach($cda_parcela as $parcela){
+            $total += $parcela->TotalVr;
+            GuiaParcela::create([
+                'gupa_guia_id'=>$GuiaNR,
+                'gupa_parcela_id'=>$parcela->ParcelaId
+            ]);
+        }
+        $dados= new Collection();
+        $dados->documento=$info->CPF_CNPJNR;
+        $dados->nome=$info->PESSOANMRS;
+        $dados->cep=$endereco->CEP;
+        $dados->endereco=$endereco->Logradouro;
+        $dados->bairro=$endereco->Bairro;
+        $dados->uf=$endereco->UF;
+        $dados->cidade=$endereco->Cidade;
+        $dados->GuiaNR=$GuiaNR;
+        $dados->Total=$total;
+
+        $info->barcode=$this->retornaBarcode($dados);
+        $info->GuiaNR=$GuiaNR;
+
 
         $pdf = App::make('dompdf.wrapper');
         // Send data to the view using loadView function of PDF facade
@@ -389,4 +422,55 @@ class PortalController extends Controller
         //$pdf->setOptions(['dpi' => 96, 'defaultFont' => 'sans-serif']);
         return $pdf->stream('extrato.pdf');
     }
+
+    private function retornaBarcode($dados){
+
+        $cda_portal = PortalAdm::get();
+        $cda_portal=$cda_portal[0];
+        $beneficiario = new BoletoPessoa([
+            'documento' => $cda_portal->port_boleto_nr_documento,
+            'nome'      => $cda_portal->port_titulo,
+            'cep'       => '',
+            'endereco'  => $cda_portal->port_endereco,
+            'bairro'    => '',
+            'uf'        => '',
+            'cidade'    => '',
+        ]);
+        $pagador = new BoletoPessoa([
+            'documento' => $dados->documento,
+            'nome'      => $dados->nome,
+            'cep'       => $dados->cep,
+            'endereco'  => $dados->endereco,
+            'bairro' =>  $dados->bairro,
+            'uf'        => $dados->uf,
+            'cidade'    => $dados->cidade
+        ]);
+
+        $caixa = new Caixa();
+        //$caixa->setLogo(asset('images/portal/'.$cda_portal->port_logo_topo));
+        $caixa->setDataVencimento( Carbon::now()->endOfMonth());
+        $caixa->setValor($dados->Total);
+        $caixa->setNumero($dados->GuiaNR);
+        $caixa->setNumeroDocumento($dados->GuiaNR);
+        $caixa->setPagador($pagador);
+        $caixa->setBeneficiario($beneficiario);
+        $caixa->setCarteira('RG');
+        $caixa->setAgencia($cda_portal->port_boleto_agencia);
+        $caixa->setCodigoCliente($cda_portal->port_boleto_codigo_cliente);
+        //$caixa->setDescricaoDemonstrativo(['Origem:'.$dados->OrigTrib,'Tributo:'.$dados->Tributo]);
+        //$caixa->setInstrucoes([$cda_portal->port_boleto_instrucao1,$cda_portal->port_boleto_instrucao2,$cda_portal->port_boleto_instrucao3,$cda_portal->port_boleto_instrucao4]);
+        //$caixa->addDescricaoDemonstrativo('demonstrativo 4');
+        return $caixa->getCodigoBarras();
+
+
+        $caixa->renderPDF(true);
+
+        $pdf = new Pdf();
+        $pdf->addBoleto($caixa);
+        $pdf->showPrint();
+        $pdf->hideInstrucoes();
+        $pdf->gerarBoleto($dest = Pdf::OUTPUT_STANDARD, $save_path = null);
+    }
 }
+
+

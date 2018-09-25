@@ -185,7 +185,8 @@ return [
         Softon\SweetAlert\SweetAlertServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        Canducci\Cep\Providers\CepServiceProvider::class
+        Canducci\Cep\Providers\CepServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
     ],
 
     /*
@@ -242,6 +243,8 @@ return [
         'Zip' => ZanySoft\Zip\ZipFacade::class,
         'Cep'        => Canducci\Cep\Facades\Cep::class,
         'Endereco'   => Canducci\Cep\Facades\Endereco::class,
+        'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
 
 ];
