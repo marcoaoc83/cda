@@ -369,7 +369,7 @@ class PortalController extends Controller
             ->whereIn('cda_parcela.ParcelaId',$request->parcelas)
             ->get();
 
-        $endereco= PsCanal::where("PessoaId",$request->PESSOAID)->where('CanalId',1)->get();
+        $endereco= PsCanal::where("PessoaId",$request->PESSOAID)->where('CanalId',1)->orderBy('PsCanalId','Desc')->get();
         if(count($endereco)==0){
             $endereco->Logradouro='';
             $endereco->Bairro='';
