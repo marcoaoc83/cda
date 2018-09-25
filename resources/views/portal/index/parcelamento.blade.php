@@ -9,11 +9,11 @@
                     <p class="pf-text-muted mb-4">Selecione a inscrição para consultar débitos em aberto!</p>
                     <table id="tbTributo" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%; font-size: 12px">
                         <thead>
-                            <tr>
-                                <th>Tipo de Tributo</th>
-                                <th>Inscrição Municipal</th>
-                                <th>Endereço</th>
-                            </tr>
+                        <tr>
+                            <th>Tipo de Tributo</th>
+                            <th>Inscrição Municipal</th>
+                            <th>Endereço</th>
+                        </tr>
                         </thead>
                     </table>
                 </div>
@@ -51,18 +51,33 @@
                     </p>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <form action="{{route( 'portal.exportExtrato')}}" target="_blank" method="post">
+                    <form action="{{route( 'portal.exportGuia')}}" target="_blank" method="post" id="formGuia">
                         {{csrf_field()}}
                         <input type="hidden" id="inscr" name="INSCRMUNID">
                         <input type="hidden" id="pess" name="PESSOAID" value="{{Session::get('acesso_cidadao')['PESSOAID'] }}">
-                    <button type="submit" class="btn btn-warning btn-xs "  ><i class="fa fa-print"></i> Imprimir Extrato</button>
+                        <button type="submit" class="btn btn-warning btn-xs "  ><i class="fa fa-print"></i> Simular Parcelamento</button>
                     </form>
                 </div>
-
+            </div>
+            <div class="row justify-content-between pt-lg-4 pb-lg-4 card pf-border-light">
+                <div class="card-body">
+                    <p class="pf-text-muted mb-4">Simulação de parcelamento</p>
+                    <table id="tbSimulacao" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%; font-size: 12px">
+                        <thead>
+                            <tr>
+                                <th>Entrada - R$</th>
+                                <th>Parcela - Qtde</th>
+                                <th>Parcela - R$</th>
+                                <th>Total - R$</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-<!-- /page content -->
+    <!-- /page content -->
 @endsection
 
 @push('scripts')
@@ -227,10 +242,36 @@
                     {
                         data: 'SitCob',
                         name: 'SitCob'
+                    },
+                    {
+                        data: 'ParcelaId',
+                        name: 'ParcelaId',
+                        "visible": false,
+                        "searchable": false
                     }
                 ],
             });
 
+
+            tbParcela.on( 'select', function ( e, dt, type, indexes ) {
+                if (type === 'row') {
+                    var ParcelaId = tbParcela.rows(indexes).data().pluck('ParcelaId');
+                    ParcelaId=ParcelaId[0];
+                    $('<input>').attr({
+                        type: 'hidden',
+                        id: 'parcelas'+ParcelaId,
+                        name: 'parcelas[]',
+                        value: ParcelaId
+                    }).appendTo('#formGuia');
+                }
+            });
+            tbParcela.on( 'deselect', function ( e, dt, type, indexes ) {
+                if (type === 'row') {
+                    var ParcelaId = tbParcela.rows(indexes).data().pluck('ParcelaId');
+                    ParcelaId=ParcelaId[0];
+                    $( "#parcelas"+ParcelaId ).remove();
+                }
+            } );
         });
     </script>
 @endpush

@@ -34,10 +34,12 @@ Route::post('cep', 'Portal\PortalController@cep')->name('portal.cep');
 Route::post('credenciais', 'Portal\PortalController@credenciais')->name('portal.credenciais');
 
 Route::group(['middleware'=>['cidadao']],function () {
+
     Route::get('debitos', 'Portal\PortalController@debitos')->name('portal.debitos');
     Route::get('parcelamento', 'Portal\PortalController@parcelamento')->name('portal.parcelamento');
     Route::get('guias', 'Portal\PortalController@guias')->name('portal.guias');
     Route::get('dados', 'Portal\PortalController@dados')->name('portal.dados');
+
     Route::get('get-tributos', 'Portal\PortalController@getDataTributo')->name('portal.getDataTributo');
     Route::get('get-parcelas', 'Portal\PortalController@getDataParcela')->name('portal.getDataParcela');
     Route::post('get-extrato', 'Portal\PortalController@exportExtrato')->name('portal.exportExtrato');

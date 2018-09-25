@@ -471,6 +471,13 @@ class PortalController extends Controller
         $pdf->hideInstrucoes();
         $pdf->gerarBoleto($dest = Pdf::OUTPUT_STANDARD, $save_path = null);
     }
+
+    public function parcelamento()
+    {
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+        return view('portal.index.parcelamento')->with('Var',$Var[0]);
+    }
+
 }
 
 
