@@ -100,7 +100,7 @@
                         $descontos +=$parcela->DescontoVr;
                     @endphp
                 <tr style="height: 18px;">
-                    <td style="width: 17.5311%; text-align: center; border-style: none; height: 18px;">{{$parcela->LancamentoNr}}{{$parcela->Tributo}}{{$parcela->ParcelaNr}}{{Carbon\Carbon::parse($parcela->LancamentoDt )->format('mY')}} </td>
+                    <td style="width: 17.5311%; text-align: center; border-style: none; height: 18px;">{{Carbon\Carbon::parse($parcela->LancamentoDt )->format('Y')}}{{$parcela->Tributo}}{{$parcela->ParcelaNr}}{{$parcela->LancamentoNr}} </td>
                     <td style="width: 12.0174%; text-align: center; border-style: none; height: 18px;"></td>
                     <td style="width: 9.75158%; text-align: center; border-style: none; height: 18px;"></td>
                     <td style="width: 7.63679%; text-align: center; border-style: none; height: 18px;">{{$parcela->Tributo}}</td>
