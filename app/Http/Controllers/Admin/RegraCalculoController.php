@@ -47,12 +47,13 @@ class RegraCalculoController extends Controller
             ->get();
         ;
         $bank = RegTab::where('TABSYSID', 44)->get();
-
+        $ModCom = DB::table('cda_modcom')->get();
         // show the view and pass the nerd to it
         return view('admin.regra.create',[
             'TpRegCalc'=>$TpRegCalc,
             'IndReaj'=>$IndReaj,
             'TpJuro'=>$TpJuro,
+            'ModCom'=>$ModCom,
             'banco' => $bank
         ]);
     }
@@ -121,7 +122,7 @@ class RegraCalculoController extends Controller
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','Banco')
             ->get();
-
+        $ModCom = DB::table('cda_modcom')->get();
         // show the view and pass the nerd to it
         return view('admin.regra.edit',[
             'RegraCalculo'=>$regcalc,
@@ -129,6 +130,7 @@ class RegraCalculoController extends Controller
             'TpRegCalc'=>$TpRegCalc,
             'IndReaj'=>$IndReaj,
             'OpReg'=>$OpReg,
+            'ModCom'=>$ModCom,
             'TpJuro'=>$TpJuro
         ]);
     }
