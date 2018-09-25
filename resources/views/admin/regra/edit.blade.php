@@ -189,7 +189,9 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         @include('admin.regra.regparc.index');
                     </div>
-
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        @include('admin.regra.regtributo.index');
+                    </div>
                 </div>
             </div>
         </div>

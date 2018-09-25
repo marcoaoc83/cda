@@ -173,6 +173,9 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::get('admin/regparc/getdata', 'RegParcController@getDadosDataTable')->name('regparc.getdata');
         Route::resource('admin/regparc', 'RegParcController');
 
+        Route::get('admin/regtributo/getdata', 'RegraTributoController@getDadosDataTable')->name('regtributo.getdata');
+        Route::resource('admin/regtributo', 'RegraTributoController');
+
         Route::get('admin/implayout/getcampos', 'ImpLayoutController@getCampos')->name('implayout.getcampos');
         Route::get('admin/implayout/getdata', 'ImpLayoutController@getDadosDataTable')->name('implayout.getdata');
         Route::post('admin/implayout/montaarquivo', 'ImpLayoutController@montaArquivo')->name('implayout.montaArquivo');
