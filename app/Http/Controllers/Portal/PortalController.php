@@ -12,6 +12,8 @@ use App\Models\Parcela;
 use App\Models\Pessoa;
 use App\Models\PortalAdm;
 use App\Models\PsCanal;
+use App\Models\RegParc;
+use App\Models\RegraCalculo;
 use App\Models\SolicitarAcesso;
 use Barryvdh\DomPDF\Facade as PDF;
 use Canducci\Cep\Cep;
@@ -167,6 +169,7 @@ class PortalController extends Controller
     {
         $cda_parcela = Parcela::select([
             'TributoT.REGTABNM as  Tributo',
+            'TributoT.REGTABID as  TributoId',
             'IM.INSCRMUNNR as INSCRICAO',
             'IM.INSCRMUNID as INSCRMUNID',
             'Lograd.logr_nome as  Endereco'
@@ -478,6 +481,75 @@ class PortalController extends Controller
         return view('portal.index.parcelamento')->with('Var',$Var[0]);
     }
 
+    public function getDataSimulacao(Request $request)
+    {
+        $simulacao = new Collection;
+        $now = date('Y-m-d');
+        $Regra = RegraCalculo::join('cda_regra_tributo as RgTributo', 'RgTributo.RegCalcId', '=', 'cda_regcalc.RegCalcId')
+            ->where('RgTributo.TributoId', '=', $request->tributo)
+            ->whereRaw("'$now' BETWEEN cda_regcalc.InicioDt AND cda_regcalc.TerminoDt")
+            ->orderBy('cda_regcalc.RegCalcId','DESC')->limit(1)->get();
+
+        if(count($Regra)){
+            $Parcelas=Parcela::whereIn('ParcelaId',$request->parcelas)->get();
+            $total=0;
+
+            foreach ($Parcelas as $parcela){
+                $total+=$parcela->TotalVr;
+            }
+
+            $RegraParcela= RegParc::where("RegCalcId",$Regra[0]->RegCalcId)->get();
+
+            foreach ($RegraParcela as $pc) {
+                if($total>$pc->EntradaMinVr){
+                    $tmpTotal=$total-$pc->EntradaMinVr;
+                    $qtdePC=$pc->ParcelaQt-1;
+                    $EntradaVlr=$pc->EntradaMinVr;
+                    $ParcelaQtde=0;
+                    $ParcelaVlr=0;
+                    for ($i = $qtdePC; $i >= 1; $i--) {
+                        $tmpTotal2=$tmpTotal/$i;
+                        if($tmpTotal2<$pc->ParcelaMinVr){
+                            continue;
+                        }
+                        $ParcelaQtde=$i;
+                        $ParcelaVlr=$tmpTotal2;
+                        break;
+                    }
+                    if($ParcelaQtde==0){
+                        $EntradaVlr=$total;
+                    }
+                    $simulacao->push([
+                        'EntradaVlr'         =>number_format($EntradaVlr,2,',','.'),
+                        'ParcelaQtde'       =>$ParcelaQtde ,
+                        'RegParcId'      => $pc->RegParcId,
+                        'ParcelaVlr'      =>number_format($ParcelaVlr,2,',','.') ,
+                        'Total' =>number_format($total,2,',','.')
+                    ]);
+                }else{
+                    $simulacao->push([
+                        'EntradaVlr'         => number_format($total,2,',','.'),
+                        'ParcelaQtde'       => '',
+                        'ParcelaVlr'      => '',
+                        'RegParcId'      =>$pc->RegParcId,
+                        'Total' => number_format($total,2,',','.')
+                    ]);
+                }
+
+            }
+        }
+
+        return Datatables::of($simulacao)
+            ->addColumn('action', function ($simulacaotmp) {
+
+                return '
+                <a href="javascript:;" onclick="parcelar('.$simulacaotmp['RegParcId'].')" class="btn btn-sm btn-warning" >
+                  Realizar Parcelamento
+                </a>
+                ';
+            })
+            ->make(true);
+    }
 }
 
 

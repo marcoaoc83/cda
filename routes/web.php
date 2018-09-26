@@ -42,6 +42,8 @@ Route::group(['middleware'=>['cidadao']],function () {
 
     Route::get('get-tributos', 'Portal\PortalController@getDataTributo')->name('portal.getDataTributo');
     Route::get('get-parcelas', 'Portal\PortalController@getDataParcela')->name('portal.getDataParcela');
+    Route::get('get-simulacao', 'Portal\PortalController@getDataSimulacao')->name('portal.getDataSimulacao');
+
     Route::post('get-extrato', 'Portal\PortalController@exportExtrato')->name('portal.exportExtrato');
     Route::post('get-guia', 'Portal\PortalController@exportGuia')->name('portal.exportGuia');
 

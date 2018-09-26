@@ -51,15 +51,17 @@
                     </p>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <form action="{{route( 'portal.exportGuia')}}" target="_blank" method="post" id="formGuia">
+                    <form   target="_blank" method="post" id="formParcelamento">
                         {{csrf_field()}}
+                        <input type="hidden" id="tributo" name="tributo">
                         <input type="hidden" id="inscr" name="INSCRMUNID">
                         <input type="hidden" id="pess" name="PESSOAID" value="{{Session::get('acesso_cidadao')['PESSOAID'] }}">
-                        <button type="submit" class="btn btn-warning btn-xs "  ><i class="fa fa-print"></i> Simular Parcelamento</button>
+                        <button type="button" class="btn btn-warning btn-xs " onclick="simular()"><i class="fa fa-print"></i> Simular Parcelamento</button>
                     </form>
                 </div>
             </div>
-            <div class="row justify-content-between pt-lg-4 pb-lg-4 card pf-border-light">
+            <p></p>
+            <div class="row justify-content-between pt-lg-4 pb-lg-4 card pf-border-light" style="display:block " >
                 <div class="card-body">
                     <p class="pf-text-muted mb-4">Simulação de parcelamento</p>
                     <table id="tbSimulacao" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%; font-size: 12px">
@@ -95,6 +97,12 @@
 
 
     <script>
+        function simular(){
+            var tbSimulacao = $('#tbSimulacao').DataTable();
+            var url = "{{ route('portal.getDataSimulacao') }}" + "/?dados=" + $('#formParcelamento').serialize();
+            tbSimulacao.ajax.url(url).load();
+        }
+
         $(document).ready(function() {
             var tbTributo = $('#tbTributo').DataTable({
                 processing: true,
@@ -138,6 +146,12 @@
                         name: 'INSCRMUNID',
                         "visible": false,
                         "searchable": false
+                    },
+                    {
+                        data: 'TributoId',
+                        name: 'TributoId',
+                        "visible": false,
+                        "searchable": false
                     }
                 ],
             });
@@ -149,6 +163,9 @@
 
                     var INSCRMUNID = tbTributo.rows(indexes).data().pluck('INSCRMUNID');
                     $('#inscr').val(INSCRMUNID[0]);
+                    var TributoId = tbTributo.rows(indexes).data().pluck('TributoId');
+                    $('#tributo').val(TributoId[0]);
+
                     var tableParcela = $('#tbParcela').DataTable();
                     var url = "{{ route('portal.getDataParcela') }}" + "/?INSCRMUNID=" + INSCRMUNID[0];
                     tableParcela.ajax.url(url).load();
@@ -262,7 +279,7 @@
                         id: 'parcelas'+ParcelaId,
                         name: 'parcelas[]',
                         value: ParcelaId
-                    }).appendTo('#formGuia');
+                    }).appendTo('#formParcelamento');
                 }
             });
             tbParcela.on( 'deselect', function ( e, dt, type, indexes ) {
@@ -272,6 +289,54 @@
                     $( "#parcelas"+ParcelaId ).remove();
                 }
             } );
+
+            var tbSimulacao = $('#tbSimulacao').DataTable({
+                processing: true,
+                responsive: true,
+                searching: true,
+                info: false,
+                paging: false,
+                "lengthChange": false,
+                select: {
+                    style: 'single',
+                    info: false
+
+                },
+                initComplete: function () {
+                    $('.dataTables_filter').css({ 'float': 'right'});
+                },
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                },
+                ajax: {
+                    "url": "{{ route('portal.getDataSimulacao') }}",
+                    "data": {
+                        "dados": $('#formParcelamento').serialize()
+                    }
+                },
+                columns: [
+                    {
+                        data: 'EntradaVlr',
+                        name: 'EntradaVlr'
+                    },
+                    {
+                        data: 'ParcelaQtde',
+                        name: 'ParcelaQtde'
+                    },
+                    {
+                        data: 'ParcelaVlr',
+                        name: 'ParcelaVlr'
+                    },
+                    {
+                        data: 'Total',
+                        name: 'Total'
+                    },
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ],
+            });
+
+
+
         });
     </script>
 @endpush
