@@ -540,14 +540,6 @@ class PortalController extends Controller
         }
 
         return Datatables::of($simulacao)
-            ->addColumn('action', function ($simulacaotmp) {
-
-                return '
-                <a href="javascript:;" onclick="parcelar('.$simulacaotmp['RegParcId'].')" class="btn btn-sm btn-warning" >
-                  Realizar Parcelamento
-                </a>
-                ';
-            })
             ->make(true);
     }
 }

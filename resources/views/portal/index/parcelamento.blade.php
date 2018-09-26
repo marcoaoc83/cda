@@ -61,9 +61,9 @@
                 </div>
             </div>
             <p></p>
-            <div class="row justify-content-between pt-lg-4 pb-lg-4 card pf-border-light" style="display:block " >
+            <div class="row justify-content-between pt-lg-4 pb-lg-4 card pf-border-light" style="display:none " id="rowSimulacao">
                 <div class="card-body">
-                    <p class="pf-text-muted mb-4">Simulação de parcelamento</p>
+                    <p class="pf-text-muted mb-4">Selecione um parcelamento</p>
                     <table id="tbSimulacao" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%; font-size: 12px">
                         <thead>
                             <tr>
@@ -71,7 +71,6 @@
                                 <th>Parcela - Qtde</th>
                                 <th>Parcela - R$</th>
                                 <th>Total - R$</th>
-                                <th>Ação</th>
                             </tr>
                         </thead>
                     </table>
@@ -159,6 +158,7 @@
             tbTributo.on( 'select', function ( e, dt, type, indexes ) {
                 if (type === 'row') {
                     $('#rowParcelas').show();
+                    $('#rowSimulacao').show();
 
 
                     var INSCRMUNID = tbTributo.rows(indexes).data().pluck('INSCRMUNID');
@@ -178,6 +178,7 @@
             });
             tbTributo.on( 'deselect', function ( e, dt, type, indexes ) {
                 $('#rowParcelas').hide();
+                $('#rowSimulacao').hide();
             } );
 
             var tbParcela = $('#tbParcela').DataTable({
@@ -293,7 +294,7 @@
             var tbSimulacao = $('#tbSimulacao').DataTable({
                 processing: true,
                 responsive: true,
-                searching: true,
+                searching: false,
                 info: false,
                 paging: false,
                 "lengthChange": false,
@@ -331,7 +332,13 @@
                         data: 'Total',
                         name: 'Total'
                     },
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
+
+                    {
+                        data: 'RegParcId',
+                        name: 'RegParcId',
+                        "visible": false,
+                        "searchable": false
+                    }
                 ],
             });
 
