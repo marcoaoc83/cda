@@ -51,7 +51,7 @@
                     </p>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <form   target="_blank" method="post" id="formParcelamento">
+                    <form   target="_blank" method="post" id="formSimulacao">
                         {{csrf_field()}}
                         <input type="hidden" id="tributo" name="tributo">
                         <input type="hidden" id="inscr" name="INSCRMUNID">
@@ -71,9 +71,24 @@
                                 <th>Parcela - Qtde</th>
                                 <th>Parcela - R$</th>
                                 <th>Total - R$</th>
+                                <th>Descrição</th>
                             </tr>
                         </thead>
                     </table>
+                </div>
+                <div class="col-xs-4 text-center">
+                    <form action="{{route( 'portal.exportParcelamento')}}"  target="_blank" method="post" id="formParcelamento">
+                        {{csrf_field()}}
+
+                        <input type="hidden" id="sm_dados"          name="sm_dados">
+                        <input type="hidden" id="sm_entrada"        name="sm_entrada">
+                        <input type="hidden" id="sm_parcela_qtde"   name="sm_parcela_qtde">
+                        <input type="hidden" id="sm_parcela_vlr"    name="sm_parcela_vlr">
+                        <input type="hidden" id="sm_regra_id"       name="sm_regra_id">
+                        <input type="hidden" id="sm_total"          name="sm_total">
+
+                        <button type="button" class="btn btn-warning btn-sm " onclick="parcelar()"><i class="fa fa-usd"></i>Realizar Parcelamento</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -98,10 +113,13 @@
     <script>
         function simular(){
             var tbSimulacao = $('#tbSimulacao').DataTable();
-            var url = "{{ route('portal.getDataSimulacao') }}" + "/?dados=" + $('#formParcelamento').serialize();
+            var url = "{{ route('portal.getDataSimulacao') }}" + "/?dados=" + $('#formSimulacao').serialize();
             tbSimulacao.ajax.url(url).load();
         }
-
+        function parcelar(){
+            $('#sm_dados').val($('#formSimulacao').serialize());
+            $('#formParcelamento').submit();
+        }
         $(document).ready(function() {
             var tbTributo = $('#tbTributo').DataTable({
                 processing: true,
@@ -280,7 +298,7 @@
                         id: 'parcelas'+ParcelaId,
                         name: 'parcelas[]',
                         value: ParcelaId
-                    }).appendTo('#formParcelamento');
+                    }).appendTo('#formSimulacao');
                 }
             });
             tbParcela.on( 'deselect', function ( e, dt, type, indexes ) {
@@ -312,7 +330,7 @@
                 ajax: {
                     "url": "{{ route('portal.getDataSimulacao') }}",
                     "data": {
-                        "dados": $('#formParcelamento').serialize()
+                        "dados": $('#formSimulacao').serialize()
                     }
                 },
                 columns: [
@@ -332,6 +350,10 @@
                         data: 'Total',
                         name: 'Total'
                     },
+                    {
+                        data: 'Descricao',
+                        name: 'Descricao'
+                    },
 
                     {
                         data: 'RegParcId',
@@ -342,7 +364,22 @@
                 ],
             });
 
+            tbSimulacao.on( 'select', function ( e, dt, type, indexes ) {
+                if (type === 'row') {
 
+                    var entrada = tbSimulacao.rows(indexes).data().pluck('EntradaVlr');
+                    var parcela_qtde = tbSimulacao.rows(indexes).data().pluck('ParcelaQtde');
+                    var parcela_vlr = tbSimulacao.rows(indexes).data().pluck('ParcelaVlr');
+                    var regra_id = tbSimulacao.rows(indexes).data().pluck('RegParcId');
+                    var total = tbSimulacao.rows(indexes).data().pluck('Total');
+
+                    $('#sm_entrada').val(entrada[0]);
+                    $('#sm_parcela_qtde').val(parcela_qtde[0]);
+                    $('#sm_parcela_vlr').val(parcela_vlr[0]);
+                    $('#sm_regra_id').val(regra_id[0]);
+                    $('#sm_total').val(total[0]);
+                }
+            });
 
         });
     </script>

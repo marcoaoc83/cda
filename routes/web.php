@@ -46,6 +46,7 @@ Route::group(['middleware'=>['cidadao']],function () {
 
     Route::post('get-extrato', 'Portal\PortalController@exportExtrato')->name('portal.exportExtrato');
     Route::post('get-guia', 'Portal\PortalController@exportGuia')->name('portal.exportGuia');
+    Route::post('get-parcelamento', 'Portal\PortalController@exportParcelamento')->name('portal.exportParcelamento');
 
 //        Route::get('admin/debitos', 'AdminController@debitos')->name('admin.debitos');
 //        Route::get('admin/debitos/getdata', 'AdminController@getDadosDataTable')->name('debitos.getdata');

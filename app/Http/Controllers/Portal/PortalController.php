@@ -521,8 +521,9 @@ class PortalController extends Controller
                     }
                     $simulacao->push([
                         'EntradaVlr'         =>number_format($EntradaVlr,2,',','.'),
-                        'ParcelaQtde'       =>$ParcelaQtde ,
+                        'ParcelaQtde'       =>$ParcelaQtde?$ParcelaQtde:'',
                         'RegParcId'      => $pc->RegParcId,
+                        'Descricao'      => $ParcelaQtde>0?"Entrada de (R$ ".number_format($EntradaVlr,2,',','.').") + (".$ParcelaQtde."X de R$ ".number_format($ParcelaVlr,2,',','.').")":"1 x (R$ ".number_format($EntradaVlr,2,',','.').")",
                         'ParcelaVlr'      =>number_format($ParcelaVlr,2,',','.') ,
                         'Total' =>number_format($total,2,',','.')
                     ]);
@@ -532,6 +533,7 @@ class PortalController extends Controller
                         'ParcelaQtde'       => '',
                         'ParcelaVlr'      => '',
                         'RegParcId'      =>$pc->RegParcId,
+                        'Descricao'      => "1 x (R$ ".number_format($total,2,',','.').")",
                         'Total' => number_format($total,2,',','.')
                     ]);
                 }
@@ -541,6 +543,45 @@ class PortalController extends Controller
 
         return Datatables::of($simulacao)
             ->make(true);
+    }
+
+    public function exportParcelamento(Request $request)
+    {
+        $dados = array();
+
+        parse_str($request->sm_dados, $dados);
+        $qtde=1+$request->sm_parcela_qtde;
+        $valores=[];
+        $valores[]=$request->sm_entrada;
+        for($i=1;$i<=$request->sm_parcela_qtde;$i++){
+            $valores[]=$request->sm_parcela_vlr;
+        }
+        foreach ($dados['parcelas'] as $parcela){
+           $q_parcela=Parcela::findOrFail($parcela);
+           $q_parcela->update([
+                "SitPagId" =>182
+           ]);
+        }
+
+        for($i=1;$i<=$qtde;$i++){
+            $data=Carbon::now()->format('Y-m-d');
+            $venc=Carbon::now()->addMonths($i)->format('Y-m-d');
+            $data=[
+                "PessoaId"=>$dados['PESSOAID'],
+                "InscrMunId"=>$dados['INSCRMUNID'],
+                "SitPagId"=>61,
+                "TributoId"=>$dados['tributo'],
+                "SitCobId"=>55,
+                "LancamentoDt"=>$data,
+                "LancamentoNr"=>$i,
+                "VencimentoDt"=>$venc,
+                "ParcelaNr"=>$i,
+                "PlanoQt"=>$qtde,
+                "PrincipalVr"=>$valores[($i-1)],
+                "TotalVr"=>$valores[($i-1)]
+            ];
+            Parcela::create($data);
+        }
     }
 }
 
