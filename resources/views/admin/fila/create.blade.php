@@ -67,7 +67,69 @@
                                         </select>
                                     </div>
                                 </div>
-
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_carteira">Filtro - Carteira
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="filtro_carteira" name="filtro_carteira" value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_roteiro">Filtro - Roteiro
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="filtro_roteiro" name="filtro_roteiro" value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_contribuinte">Filtro - Contribuinte
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="filtro_contribuinte" name="filtro_contribuinte" value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_parcelas">Filtro - Parcela
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="filtro_parcelas" name="filtro_parcelas"  value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resultado_contribuinte">Resultado - Contribuinte
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="resultado_contribuinte" name="resultado_contribuinte"  value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resultado_im">Resultado - Insc. Municipal
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="resultado_im" name="resultado_im"  value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resultado_parcelas">Resultado - Parcelas
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="resultado_parcelas" name="resultado_parcelas"   value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>
                         </div>

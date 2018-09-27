@@ -54,6 +54,14 @@ class FilaController extends Controller
      */
     public function store(Request $request)
     {
+        $request->filtro_carteira?$request->filtro_carteira=1:$request->filtro_carteira=0;
+        $request->filtro_roteiro?$request->filtro_roteiro=1:$request->filtro_roteiro=0;
+        $request->filtro_contribuinte?$request->filtro_contribuinte=1:$request->filtro_contribuinte=0;
+        $request->filtro_parcelas?$request->filtro_parcelas=1:$request->filtro_parcelas=0;
+        $request->resultado_contribuinte?$request->resultado_contribuinte=1:$request->resultado_contribuinte=0;
+        $request->resultado_im?$request->resultado_im=1:$request->resultado_im=0;
+        $request->resultado_parcelas?$request->resultado_parcelas=1:$request->resultado_parcelas=0;
+
         $data = $request->all();
 
         Fila::create($data);
@@ -121,6 +129,15 @@ class FilaController extends Controller
      */
     public function update(Request $request,$id)
     {
+
+        $request->filtro_carteira?$request->filtro_carteira=1:$request->filtro_carteira=0;
+        $request->filtro_roteiro?$request->filtro_roteiro=1:$request->filtro_roteiro=0;
+        $request->filtro_contribuinte?$request->filtro_contribuinte=1:$request->filtro_contribuinte=0;
+        $request->filtro_parcelas?$request->filtro_parcelas=1:$request->filtro_parcelas=0;
+        $request->resultado_contribuinte?$request->resultado_contribuinte=1:$request->resultado_contribuinte=0;
+        $request->resultado_im?$request->resultado_im=1:$request->resultado_im=0;
+        $request->resultado_parcelas?$request->resultado_parcelas=1:$request->resultado_parcelas=0;
+
         $evento = Fila::findOrFail($id);
         $evento->update($request->except(['_token']));
 
