@@ -8,6 +8,7 @@ use App\Models\Faq;
 use App\Models\Guia;
 use App\Models\GuiaParcela;
 use App\Models\Legislacao;
+use App\Models\ModCom;
 use App\Models\Parcela;
 use App\Models\Pessoa;
 use App\Models\PortalAdm;
@@ -211,6 +212,7 @@ class PortalController extends Controller
             ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->leftjoin('cda_inscrmun', 'cda_parcela.InscrMunId', '=', 'cda_inscrmun.INSCRMUNID')
+            ->where('cda_parcela.SitPagId',61)
             ->where('cda_parcela.PessoaId',$request->PESSOAID);
         if($request->INSCRMUNID && $request->INSCRMUNID!='null')
             $cda_parcela->where('cda_parcela.INSCRMUNID',$request->INSCRMUNID);
@@ -244,6 +246,7 @@ class PortalController extends Controller
                 ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
                 ->leftjoin('cda_inscrmun', 'cda_parcela.InscrMunId', '=', 'cda_inscrmun.INSCRMUNID')
                 ->where('cda_parcela.PessoaId', $request->PESSOAID)
+                ->where('cda_parcela.SitPagId',61)
                 ->where('cda_parcela.INSCRMUNID', $request->INSCRMUNID)->get();
         }else{
             $cda_parcela = Parcela::select([
@@ -262,6 +265,7 @@ class PortalController extends Controller
                 ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
                 ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
                 ->leftjoin('cda_inscrmun', 'cda_parcela.InscrMunId', '=', 'cda_inscrmun.INSCRMUNID')
+                ->where('cda_parcela.SitPagId',61)
                 ->where('cda_parcela.PessoaId', $request->PESSOAID)->get();
         }
 
@@ -552,9 +556,9 @@ class PortalController extends Controller
         parse_str($request->sm_dados, $dados);
         $qtde=1+$request->sm_parcela_qtde;
         $valores=[];
-        $valores[]=$request->sm_entrada;
+        $valores[]=str_replace(",",".",str_replace(".","",$request->sm_entrada));
         for($i=1;$i<=$request->sm_parcela_qtde;$i++){
-            $valores[]=$request->sm_parcela_vlr;
+            $valores[]=str_replace(",",".",str_replace(".","",$request->sm_parcela_vlr)) ;
         }
         foreach ($dados['parcelas'] as $parcela){
            $q_parcela=Parcela::findOrFail($parcela);
@@ -564,8 +568,8 @@ class PortalController extends Controller
         }
 
         for($i=1;$i<=$qtde;$i++){
-            $data=Carbon::now()->format('Y-m-d');
-            $venc=Carbon::now()->addMonths($i)->format('Y-m-d');
+            $data=Carbon::now()->format('d/m/Y');
+            $venc=Carbon::now()->addMonths($i)->format('d/m/Y');
             $data=[
                 "PessoaId"=>$dados['PESSOAID'],
                 "InscrMunId"=>$dados['INSCRMUNID'],
@@ -582,6 +586,17 @@ class PortalController extends Controller
             ];
             Parcela::create($data);
         }
+
+        $Modelo= ModCom::find(8);
+        $html=$Modelo->ModTexto;
+        $pdf = App::make('dompdf.wrapper');
+        $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
+        // Send data to the view using loadView function of PDF facade
+        // If you want to store the generated pdf to the server then you can use the store function
+        // Finally, you can download the file using download function
+        //$pdf->setOptions(['dpi' => 96, 'defaultFont' => 'sans-serif']);
+        return $pdf->stream('parcelamento.pdf');;
+
     }
 }
 

@@ -87,7 +87,7 @@
                         <input type="hidden" id="sm_regra_id"       name="sm_regra_id">
                         <input type="hidden" id="sm_total"          name="sm_total">
 
-                        <button type="button" class="btn btn-warning btn-sm " onclick="parcelar()"><i class="fa fa-usd"></i>Realizar Parcelamento</button>
+                        <button type="button" class="btn btn-warning btn-sm " onclick="parcelar()"><i class="fa fa-dollar-sign"> </i> Realizar Parcelamento</button>
                     </form>
                 </div>
             </div>
@@ -115,10 +115,29 @@
             var tbSimulacao = $('#tbSimulacao').DataTable();
             var url = "{{ route('portal.getDataSimulacao') }}" + "/?dados=" + $('#formSimulacao').serialize();
             tbSimulacao.ajax.url(url).load();
+            var the_id = $("#tbSimulacao");
+
+            $('html, body').animate({
+                scrollTop:$(the_id).offset().top
+            }, 'slow');
         }
         function parcelar(){
-            $('#sm_dados').val($('#formSimulacao').serialize());
-            $('#formParcelamento').submit();
+            swal({
+                title             : "Salvar Parcelamento",
+                text              : "Caso confirme o parcelamento, será gerado o contrato e a primeira guia para o pagamento. " +
+                "Os documentos são de sua responsabiblidade e não há necessidade de entrega na Prefeitura!",
+                type              : "warning",
+                showCancelButton  : true,
+                confirmButtonColor: "#002A5B",
+                confirmButtonText : "Confirmar",
+                cancelButtonText  : "Voltar"
+            }).then((resultado) => {
+                if (resultado.value) {
+                    $('#sm_dados').val($('#formSimulacao').serialize());
+                    $('#formParcelamento').submit();
+                }
+            });
+
         }
         $(document).ready(function() {
             var tbTributo = $('#tbTributo').DataTable({
