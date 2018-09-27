@@ -58,7 +58,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content " style="display: none;">
-                            <form class="form-horizontal form-label-left" id="formFiltro"    method="post" action="" enctype="multipart/form-data">
+                            <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
                                 <a href="#">
@@ -280,7 +280,7 @@
 
         function filtrarParcelas(){
             var tbParcela = $('#tbParcela').DataTable();
-            var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltro').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+            var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
             tbParcela.ajax.url(url).load();
         }
 
@@ -350,7 +350,7 @@
             tbRoteiro.on( 'select', function ( e, dt, type, indexes ) {
                 if ( type === 'row' ) {
                     var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
-                    $('#formFiltro').append('<input type="hidden" id="roteirosId'+RoteiroId[0]+'" name="roteirosId[]" value='+RoteiroId[0]+' />');
+                    $('#formFiltroParcela').append('<input type="hidden" id="roteirosId'+RoteiroId[0]+'" name="roteirosId[]" value='+RoteiroId[0]+' />');
                 }
             })
             .on( 'deselect', function ( e, dt, type, indexes ){
@@ -388,7 +388,7 @@
             tbFxAtraso.on( 'select', function ( e, dt, type, indexes ) {
                 if ( type === 'row' ) {
                     var FxAtrasoId = tbFxAtraso.rows( indexes ).data().pluck( 'REGTABID' );
-                    $('#formFiltro').append('<input type="hidden" id="FxAtrasoId'+FxAtrasoId[0]+'" name="FxAtrasoId[]" value='+FxAtrasoId[0]+' />');
+                    $('#formFiltroParcela').append('<input type="hidden" id="FxAtrasoId'+FxAtrasoId[0]+'" name="FxAtrasoId[]" value='+FxAtrasoId[0]+' />');
                 }
             })
             .on( 'deselect', function ( e, dt, type, indexes ){
@@ -427,7 +427,7 @@
             tbFxValor.on( 'select', function ( e, dt, type, indexes ) {
                 if ( type === 'row' ) {
                     var FxValorId = tbFxValor.rows( indexes ).data().pluck( 'REGTABID' );
-                    $('#formFiltro').append('<input type="hidden" id="FxValorId'+FxValorId[0]+'" name="FxValorId[]" value='+FxValorId[0]+' />');
+                    $('#formFiltroParcela').append('<input type="hidden" id="FxValorId'+FxValorId[0]+'" name="FxValorId[]" value='+FxValorId[0]+' />');
                 }
             })
             .on( 'deselect', function ( e, dt, type, indexes ){
