@@ -39,6 +39,7 @@ Route::group(['middleware'=>['cidadao']],function () {
     Route::get('parcelamento', 'Portal\PortalController@parcelamento')->name('portal.parcelamento');
     Route::get('guias', 'Portal\PortalController@guias')->name('portal.guias');
     Route::get('dados', 'Portal\PortalController@dados')->name('portal.dados');
+    Route::get('sair', 'Portal\PortalController@sair')->name('portal.sair');
 
     Route::get('get-tributos', 'Portal\PortalController@getDataTributo')->name('portal.getDataTributo');
     Route::get('get-parcelas', 'Portal\PortalController@getDataParcela')->name('portal.getDataParcela');

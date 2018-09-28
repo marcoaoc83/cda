@@ -129,6 +129,13 @@ class PortalController extends Controller
         return view('portal.index.ajuda')->with('Var',$Var[0])->with('Faq',$Faq);
     }
 
+    public function sair()
+    {
+        Session::forget('acesso_cidadao');
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+        return view('portal.index.home')->with('Var',$Var[0]);
+    }
+
     public function acesso()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
