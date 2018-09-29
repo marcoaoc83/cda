@@ -67,7 +67,7 @@
         #PF .pf-nav { min-height:115px;border-bottom: 5px solid var(--text-orange-primary) !important;padding:0;position:relative; }
         #PF .pf-nav::after { width: 529px;height: 10px;background-color: var(--text-orange-secundary);content: '';position: absolute;bottom: -5px;right: 0;clip-path: polygon(0 0, 100% 0%, 100% 100%, 6px 100%); }
         #PF .pf-nav.without-after-element::after { content: none; }
-        #PF .pf-logo { margin: 35px 0 0 35px; }
+        #PF .pf-logo { margin: 5px 0 0 3px; }
         #PF .pf-menu { color: var(--menu-text); position: relative;flex-grow: 0 !important;height:115px !important;background-color:var(--text-orange-secundary) !important;padding:0 40px 0 100px;-webkit-clip-path: polygon(0 0, 100% 0%, 100% 100%, 80px 100%);clip-path: polygon(0 0, 100% 0%, 100% 100%, 80px 100%); }
         #PF .pf-menu::before { width:12px;height:115px;background-color: var(--text-orange-primary);content: '';position:absolute;transform: skew(35deg);left: 35px; }
         #PF .pf-menu.without-before-element::before { content: none; }
