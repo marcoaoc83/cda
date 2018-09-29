@@ -86,10 +86,7 @@
         #PF .pf-informacao { right:30px;bottom:56px; }
     }
 
-    table.dataTable tbody tr.selected {
 
-        background-color: var(--text-orange-secundary)  !important;
-    }
 
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css" rel="stylesheet">
