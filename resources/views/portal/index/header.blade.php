@@ -86,6 +86,10 @@
         #PF .pf-informacao { right:30px;bottom:56px; }
     }
 
+    table.dataTable.display tbody>tr.selected:hover>.sorting_1, table.dataTable.order-column.hover tbody>tr.selected:hover>.sorting_1{
+        background-color: var(--text-orange-secundary);
+    }
+
 </style>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css" rel="stylesheet">
 
