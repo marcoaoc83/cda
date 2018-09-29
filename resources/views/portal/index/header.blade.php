@@ -63,9 +63,9 @@
     #PF .pf-informacao > img { -webkit-border-top-left-radius: 15px;-webkit-border-bottom-left-radius: 15px;-moz-border-radius-topleft: 15px;-moz-border-radius-bottomleft: 15px;border-top-left-radius: 15px;border-bottom-left-radius: 15px; }
 
     @media (min-width: 992px) {
-        #PF .pf-topo-site { min-height:115pxs; }
+        #PF .pf-topo-site { min-height:115px; }
         #PF .pf-nav { min-height:115px;border-bottom: 5px solid var(--text-orange-primary) !important;padding:0;position:relative; }
-        #PF .pf-nav::after { width: 529px;height: 10px;background-color: var(--text-orange-secundary);content: '';position: absolute;bottom: -5px;right: 0;clip-path: polygon(0 0, 100% 0%, 100% 100%, 6px 100%); }
+        #PF .pf-nav::after { width: -29px;height: 10px;background-color: var(--text-orange-secundary);content: '';position: absolute;bottom: -5px;right: 0;clip-path: polygon(0 0, 100% 0%, 100% 100%, 6px 100%); }
         #PF .pf-nav.without-after-element::after { content: none; }
         #PF .pf-logo { margin: 10px 0 0 10px; }
         #PF .pf-menu { color: var(--menu-text); position: relative;flex-grow: 0 !important;height:115px !important;background-color:var(--text-orange-secundary) !important;padding:0 40px 0 100px;-webkit-clip-path: polygon(0 0, 100% 0%, 100% 100%, 80px 100%);clip-path: polygon(0 0, 100% 0%, 100% 100%, 80px 100%); }
