@@ -88,7 +88,7 @@
 
     table.dataTable tbody tr.selected {
 
-        background-color: var(--text-orange-secundary);
+        background-color: var(--text-orange-secundary)  !important;
     }
 
 </style>
