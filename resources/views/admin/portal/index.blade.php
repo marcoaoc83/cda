@@ -33,7 +33,7 @@
                         <li role="presentation" class="active"><a data-toggle="tab" href="#1a">Dados</a></li>
                         <li role="presentation"><a data-toggle="tab" href="#2a">Banners</a></li>
                         <li role="presentation"><a data-toggle="tab" href="#3a">Cores</a></li>
-                        <li role="presentation"><a data-toggle="tab" href="#4a">Boleto</a></li>
+
                     </ul>
                     <div class="x_panel">
                         <div class="x_content">
