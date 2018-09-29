@@ -1,5 +1,5 @@
 <header class="pf-topo-site">
-    <a class="pf-logo" href="#"><img src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" /></a>
+    <a class="pf-logo" href="{{route('portal.home')}}"><img src="{{asset('images/portal/'.$Var->port_logo_topo)}}" alt="{{$Var->port_titulo}}" /></a>
     <nav class="navbar navbar-expand-lg navbar-light border-bottom border-warning pf-nav d-flex justify-content-end">
         <button class="navbar-toggler border-white" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
