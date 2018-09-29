@@ -29,8 +29,8 @@
 body { background-color: var(--bg-color)}
 #PF .pf-nav { padding: 1.2rem 1rem; }
 #PF .pf-nav ul { padding-top: 10px; }
-#PF .pf-logo { position:absolute;top: 0;left: 0;z-index: 100;margin: 15px 0 0 15px; }
-#PF .pf-logo > img{ height:50px; }
+#PF .pf-logo { position:absolute;top: 0;left: 0;z-index: 100;margin: 2px 0 0 2px; }
+#PF .pf-logo > img{ height:100px; }
 #PF .pf-prev-icon { height:55px;width:55px;background-image: var(--img-slide-arrow);background-size:54px;margin-top:10px; }
 #PF .pf-cursor-pointer { cursor:pointer; }
 #PF .pf-next-icon { height:55px;width:55px;background-image: var(--img-slide-arrow);background-size:54px;margin-top:10px;-moz-transform: scaleX(-1);-o-transform: scaleX(-1);-webkit-transform: scaleX(-1);transform: scaleX(-1); }
