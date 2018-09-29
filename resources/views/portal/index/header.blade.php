@@ -42,7 +42,7 @@
     #PF .pf-nav { padding: 1.2rem 1rem; }
     #PF .pf-nav ul { padding-top: 10px; }
     #PF .pf-logo { position:absolute;top: 0;left: 0;z-index: 100;margin: 2px 0 0 2px; }
-    #PF .pf-logo > img{ height:100px; }
+    #PF .pf-logo > img{ max-height:100px; }
     #PF .pf-prev-icon { height:55px;width:55px;background-image: var(--img-slide-arrow);background-size:54px;margin-top:10px; }
     #PF .pf-cursor-pointer { cursor:pointer; }
     #PF .pf-next-icon { height:55px;width:55px;background-image: var(--img-slide-arrow);background-size:54px;margin-top:10px;-moz-transform: scaleX(-1);-o-transform: scaleX(-1);-webkit-transform: scaleX(-1);transform: scaleX(-1); }
@@ -63,11 +63,11 @@
     #PF .pf-informacao > img { -webkit-border-top-left-radius: 15px;-webkit-border-bottom-left-radius: 15px;-moz-border-radius-topleft: 15px;-moz-border-radius-bottomleft: 15px;border-top-left-radius: 15px;border-bottom-left-radius: 15px; }
 
     @media (min-width: 992px) {
-        #PF .pf-topo-site { min-height:115px; }
+        #PF .pf-topo-site { min-height:115pxs; }
         #PF .pf-nav { min-height:115px;border-bottom: 5px solid var(--text-orange-primary) !important;padding:0;position:relative; }
         #PF .pf-nav::after { width: 529px;height: 10px;background-color: var(--text-orange-secundary);content: '';position: absolute;bottom: -5px;right: 0;clip-path: polygon(0 0, 100% 0%, 100% 100%, 6px 100%); }
         #PF .pf-nav.without-after-element::after { content: none; }
-        #PF .pf-logo { margin: 5px 0 0 3px; }
+        #PF .pf-logo { margin: 10px 0 0 10px; }
         #PF .pf-menu { color: var(--menu-text); position: relative;flex-grow: 0 !important;height:115px !important;background-color:var(--text-orange-secundary) !important;padding:0 40px 0 100px;-webkit-clip-path: polygon(0 0, 100% 0%, 100% 100%, 80px 100%);clip-path: polygon(0 0, 100% 0%, 100% 100%, 80px 100%); }
         #PF .pf-menu::before { width:12px;height:115px;background-color: var(--text-orange-primary);content: '';position:absolute;transform: skew(35deg);left: 35px; }
         #PF .pf-menu.without-before-element::before { content: none; }
