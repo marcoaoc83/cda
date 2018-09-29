@@ -52,7 +52,7 @@
                                     </div>
 
                                     <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Logo Topo (L:400px - A:100px) </label>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Logo Topo (400 x 100) </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                             <div class="input-group input-file" name="port_logo_topo">
@@ -100,7 +100,7 @@
 
                                 <div class="row tab-pane" id="2a">
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Lateral </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Lateral (500 x 500)</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                             <div class="input-group input-file" name="port_banner_lateral">
@@ -114,7 +114,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 1 (L:1200px - A:400px) </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 1 (1200 X 400) </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file" name="port_banner1">
@@ -129,7 +129,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 2  (L:1200px - A:400px)</label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 2  (1200 X 400)</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"   name="port_banner2">
@@ -144,7 +144,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 3  (L:1200px - A:400px)</label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 3  (1200 X 400)</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"  name="port_banner3">
@@ -159,7 +159,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 4 (L:1200px - A:400px) </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 4 (1200 X 400)</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"  name="port_banner4">
@@ -174,7 +174,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 5 (L:1200px - A:400px) </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 5 (1200 X 400)</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"   name="port_banner5">
