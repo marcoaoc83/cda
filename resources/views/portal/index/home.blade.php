@@ -90,24 +90,24 @@
                 </div>
                 <div class="row justify-content-start">
                     <a href="{{route('portal.acesso')}}" class="col-6 col-lg-3 border-right border-left border-top pf-td-none m-lg-2 lg-border pf-acesso-rapido">
-                        <img src="{{asset('images/portal/ico-consultar-debitos.svg')}}" class="pb-4 pt-4" alt="Consultar Débitos" />
+                        <img src="{{asset('images/portal/'.$Var->port_icone_1)}}" class="pb-4 pt-4" alt="Consultar Débitos" />
                         <h6 class="text-body">Consultar Débitos</h6>
                         <p class="text-secondary">Consulte os débitos de sua inscrição e gere o extrato.</p>
                     </a>
                     <a href="{{route('portal.acesso')}}" class="col-6 col-lg-3 border-right border-top pf-td-none m-lg-2 lg-border pf-acesso-rapido">
-                        <img src="{{asset('images/portal/ico-emitir-guia.svg')}}" class="pb-4 pt-4" alt="Emitir Guia" />
+                        <img src="{{asset('images/portal/'.$Var->port_icone_2)}}" class="pb-4 pt-4" alt="Emitir Guia" />
                         <h6 class="text-body">Emitir Guia</h6>
                         <p class="text-secondary">Emitir guia dos débitos em aberto.</p>
                     </a>
                 </div>
                 <div class="row">
                     <a href="{{route('portal.acesso')}}" class="col-6 col-lg-3 border-right border-left border-top border-bottom pf-td-none m-lg-2 lg-border pf-acesso-rapido">
-                        <img src="{{asset('images/portal/ico-parcelamento.svg')}}" class="pb-4 pt-4" alt="Parcelamento" />
+                        <img src="{{asset('images/portal/'.$Var->port_icone_3)}}" class="pb-4 pt-4" alt="Parcelamento" />
                         <h6 class="text-body">Parcelamento</h6>
                         <p class="text-secondary">Simule e realiza o parcelamentos em aberto.</p>
                     </a>
                     <a href="{{route('portal.ajuda')}}" class="col-6 col-lg-3 border-right border-top border-bottom pf-td-none m-lg-2 lg-border pf-acesso-rapido">
-                        <img src="{{asset('images/portal/ico-duvidas-frequentes.svg')}}" class="pb-4 pt-4" alt="Dúvidas Frequentes" />
+                        <img src="{{asset('images/portal/'.$Var->port_icone_4)}}" class="pb-4 pt-4" alt="Dúvidas Frequentes" />
                         <h6 class="text-body">Dúvidas Frequentes</h6>
                         <p class="text-secondary">Obtenha respostas para as perguntas mais frequentes.</p>
                     </a>

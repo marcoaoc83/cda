@@ -171,7 +171,86 @@ class PortalAdmController extends Controller
         if(!$data['port_banner5Tmp']){
             $data['port_banner5'] = '';
         }
+        if ($request->hasFile('port_icone_top') && $request->port_icone_top->isValid()) {
 
+            //Define um aleatório para o arquivo baseado no timestamps atual
+            $name = uniqid(date('HisYmd'));
+            // Recupera a extensão do arquivo
+            $ext = $request->port_icone_top->getClientOriginalExtension();
+            // Define finalmente o nome
+            $nameFile = "{$name}.{$ext}";
+
+            $port_icone_top= $request->file('port_icone_top');
+            $port_icone_top->move(public_path($path), $nameFile);
+            $data['port_icone_top'] = $nameFile;
+        }
+        if(!$data['port_icone_topTmp']){
+            $data['port_icone_top'] = '';
+        }
+        if ($request->hasFile('port_icone_1') && $request->port_icone_1->isValid()) {
+
+            //Define um aleatório para o arquivo baseado no timestamps atual
+            $name = uniqid(date('HisYmd'));
+            // Recupera a extensão do arquivo
+            $ext = $request->port_icone_1->getClientOriginalExtension();
+            // Define finalmente o nome
+            $nameFile = "{$name}.{$ext}";
+
+            $port_icone_1= $request->file('port_icone_1');
+            $port_icone_1->move(public_path($path), $nameFile);
+            $data['port_icone_1'] = $nameFile;
+        }
+        if(!$data['port_icone_1Tmp']){
+            $data['port_icone_1'] = '';
+        }
+        if ($request->hasFile('port_icone_2') && $request->port_icone_2->isValid()) {
+
+            //Define um aleatório para o arquivo baseado no timestamps atual
+            $name = uniqid(date('HisYmd'));
+            // Recupera a extensão do arquivo
+            $ext = $request->port_icone_2->getClientOriginalExtension();
+            // Define finalmente o nome
+            $nameFile = "{$name}.{$ext}";
+
+            $port_icone_2= $request->file('port_icone_2');
+            $port_icone_2->move(public_path($path), $nameFile);
+            $data['port_icone_2'] = $nameFile;
+        }
+        if(!$data['port_icone_2Tmp']){
+            $data['port_icone_2'] = '';
+        }
+        if ($request->hasFile('port_icone_3') && $request->port_icone_3->isValid()) {
+
+            //Define um aleatório para o arquivo baseado no timestamps atual
+            $name = uniqid(date('HisYmd'));
+            // Recupera a extensão do arquivo
+            $ext = $request->port_icone_3->getClientOriginalExtension();
+            // Define finalmente o nome
+            $nameFile = "{$name}.{$ext}";
+
+            $port_icone_3= $request->file('port_icone_3');
+            $port_icone_3->move(public_path($path), $nameFile);
+            $data['port_icone_3'] = $nameFile;
+        }
+        if(!$data['port_icone_3Tmp']){
+            $data['port_icone_3'] = '';
+        }
+        if ($request->hasFile('port_icone_4') && $request->port_icone_4->isValid()) {
+
+            //Define um aleatório para o arquivo baseado no timestamps atual
+            $name = uniqid(date('HisYmd'));
+            // Recupera a extensão do arquivo
+            $ext = $request->port_icone_4->getClientOriginalExtension();
+            // Define finalmente o nome
+            $nameFile = "{$name}.{$ext}";
+
+            $port_icone_4= $request->file('port_icone_4');
+            $port_icone_4->move(public_path($path), $nameFile);
+            $data['port_icone_4'] = $nameFile;
+        }
+        if(!$data['port_icone_4Tmp']){
+            $data['port_icone_4'] = '';
+        }
         unset($data['_token']);
         unset($data['port_logo_topoTmp']);
         unset($data['port_logo_rodapeTmp']);
@@ -181,6 +260,11 @@ class PortalAdmController extends Controller
         unset($data['port_banner3Tmp']);
         unset($data['port_banner4Tmp']);
         unset($data['port_banner5Tmp']);
+        unset($data['port_icone_1Tmp']);
+        unset($data['port_icone_2Tmp']);
+        unset($data['port_icone_3Tmp']);
+        unset($data['port_icone_4Tmp']);
+        unset($data['port_icone_topTmp']);
 
         DB::table('cda_portal')->update($data);
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
