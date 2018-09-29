@@ -52,7 +52,7 @@
                                     </div>
 
                                     <div class="item form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Logo Topo </label>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Logo Topo (L:400px - A:100px) </label>
                                         <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                             <div class="input-group input-file" name="port_logo_topo">
@@ -114,7 +114,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 1  </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 1 (L:1200px - A:400px) </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file" name="port_banner1">
@@ -129,7 +129,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 2  </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 2  (L:1200px - A:400px)</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"   name="port_banner2">
@@ -144,7 +144,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 3  </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 3  (L:1200px - A:400px)</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"  name="port_banner3">
@@ -159,7 +159,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 4  </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 4 (L:1200px - A:400px) </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"  name="port_banner4">
@@ -174,7 +174,7 @@
                                 </div>
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 5  </label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId">Banner Principal 5 (L:1200px - A:400px) </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                         <div class="input-group input-file"   name="port_banner5">
@@ -278,30 +278,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div class="row tab-pane" id="4a">
-                                        <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_nr_documento">CNPJ
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input value="@if(isset($Var->port_boleto_nr_documento)){{ $Var->port_boleto_nr_documento }}@endif" name="port_boleto_nr_documento"  id="port_boleto_nr_documento" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_agencia">Agencia
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input value="@if(isset($Var->port_boleto_agencia)){{ $Var->port_boleto_agencia }}@endif" name="port_boleto_agencia"  id="port_boleto_agencia" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
-                                            </div>
-                                        </div>
-                                        <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_boleto_codigo_cliente">Código Cliente
-                                            </label>
-                                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <input value="@if(isset($Var->port_boleto_codigo_cliente)){{ $Var->port_boleto_codigo_cliente }}@endif" name="port_boleto_codigo_cliente"  id="port_boleto_codigo_cliente" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
-                                            </div>
-                                        </div>
-
-                                    </div>
                                 </div>
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>
