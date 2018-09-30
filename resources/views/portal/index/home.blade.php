@@ -120,7 +120,7 @@
     <div class="container-fluid pf-bg-como-funciona ">
         <div class="container">
             <div class="h4 pt-5 pb-4 text-center">Como Funciona</div>
-            {!!$Var->port_como_funciona!!}
+            {!! nl2br($Var->port_como_funciona)!!}
         </div>
     </div>
 
