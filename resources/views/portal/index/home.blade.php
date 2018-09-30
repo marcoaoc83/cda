@@ -120,22 +120,7 @@
     <div class="container-fluid pf-bg-como-funciona ">
         <div class="container">
             <div class="h4 pt-5 pb-4 text-center">Como Funciona</div>
-            <div class="row p-0 m-0 p-2 ml-0 mr-0">
-                <div class="col-12 col-lg-6">
-                    <p class="h5">1. Solicite acesso ao sistema</p>
-                    <p>Para acessar o sistema de regularização, basta informar o número do seu CPF, seu nome completo, data de nascimento e nome da mãe.</p>
-                    <p class="h5">2. Visualize seus débitos</p>
-                    <p>Após identificar-se, você poderá visualizar todos os seus débitos. Aqueles que estiverem em atraso, e de acordo com as condições legais, poderão ser renegociados.</p>
-                    <p class="h5">3. Regularize suas dívidas</p>
-                    <p>Escolha as condições e data de pagamento do primeiro boleto, bem como a quantidade parcelas.</p>
-                </div>
-                <div class="col-12 col-lg-6 p-0 m-0 p-2">
-                    <p class="h5">Mais opções de parcelamento</p>
-                    <p>Você não precisa mais sair de casa para regularizar suas dívidas e ainda pode parcelar sua dívida de acordo com sua disponibilidade.​</p>
-                    <p class="h5">Prático e fácil</p>
-                    <p>A guia para pagamento dos débitos em aberto é gerada na hora.</p>
-                </div>
-            </div>
+            {{$Var->port_como_funciona}}
         </div>
     </div>
 
