@@ -120,7 +120,7 @@
     <div class="container-fluid pf-bg-como-funciona ">
         <div class="container">
             <div class="h4 pt-5 pb-4 text-center">Como Funciona</div>
-            {{$Var->port_como_funciona}}
+            {!!$Var->port_como_funciona!!}
         </div>
     </div>
 
@@ -129,7 +129,7 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js">
-    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js">
+</script>
 
 @endpush
