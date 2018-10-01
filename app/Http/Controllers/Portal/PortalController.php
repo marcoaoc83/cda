@@ -152,6 +152,7 @@ class PortalController extends Controller
         $login = CredPort::join('cda_pessoa as Pessoa', 'Pessoa.PESSOAID', '=', 'cda_credport.PessoaId')
             ->where('Pessoa.CPF_CNPJNR',$request->documento)
             ->where('Senha',md5($request->password))
+            ->where('Ativo',1)
             ->get();
         if(count($login)){
             SWAL::message('Bem vindo',$login[0]->PESSOANMRS,'success',['timer'=>4000,'showConfirmButton'=>false]);
