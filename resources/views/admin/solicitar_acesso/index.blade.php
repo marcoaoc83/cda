@@ -12,7 +12,7 @@
         <div class="">
             <div class="page-title">
                 <div class="title_left">
-                    <h3>Solicitações de Acesso</h3>
+                    <h3>Credenciamentos</h3>
                 </div>
             </div>
 
@@ -23,7 +23,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Listagem de Solicitações</h2>
+                            <h2>Listagem de Credenciamentos</h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -34,13 +34,8 @@
                             <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Tipo</th>
-                                    <th>Nome</th>
                                     <th>Doc</th>
-                                    <th>Nascimento</th>
-                                    <th>Nome da Mãe</th>
-                                    <th>Data</th>
+                                    <th>Nome</th>
                                     <th style="width: 55px">Ação</th>
                                 </tr>
                                 </thead>
@@ -58,24 +53,24 @@
 @push('scripts')
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
     @include('vendor.sweetalert.cdn')
     @include('vendor.sweetalert.view')
     @include('vendor.sweetalert.validator')
-    <script type="text/javascript">
+    <script  type="text/javascript">
         $(document).ready(function() {
             var table = $('.datatable').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                ajax: '{{ route('solicitar_acesso.getdata') }}',
+                ajax: {
+                    "url": "{{ route('credport.getdata2') }}"
+                },
                 columns: [
-                    {data: 'soa_id', name: 'soa_id'},
-                    {data: 'soa_tipo', name: 'soa_tipo'},
-                    {data: 'soa_nome', name: 'soa_nome'},
-                    {data: 'soa_documento', name: 'soa_documento'},
-                    {data: 'soa_data_nasc', name: 'soa_data_nasc'},
-                    {data: 'soa_nome_mae', name: 'soa_nome_mae'},
-                    {data: 'soa_datetime', name: 'soa_datetime'},
+                    {data: 'CPF_CNPJNR', name: 'CPF_CNPJNR'},
+                    {data: 'PESSOANMRS', name: 'PESSOANMRS'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 "language": {
@@ -87,7 +82,7 @@
         function deleteSolicitarAcesso(dataId) {
             swal({
                 title             : "Tem certeza?",
-                text              : "Esta Solicitação será deletado!",
+                text              : "Este Credenciamento será deletado!",
                 type              : "warning",
                 showCancelButton  : true,
                 confirmButtonColor: "#DD6B55",
@@ -102,7 +97,7 @@
                         _method: 'DELETE',
                         _token: '{!! csrf_token() !!}',
                     },
-                    url: '{{ url('admin/solicitar_acesso') }}' + '/' + dataId,
+                    url: '{{ url('admin/credport') }}' + '/' + dataId,
                     success: function( msg ) {
                         $('.datatable').DataTable().ajax.reload();
                         swal({
@@ -126,5 +121,55 @@
             }
         });
     };
+
+        function ativar(id) {
+            swal({
+                title             : "Confirma",
+                text              : "Deseja ativar?",
+                type              : "warning",
+                showCancelButton  : true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText : "Sim",
+                cancelButtonText  : "Não"
+            }).then((resultado) => {
+                if (resultado.value) {
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'POST',
+                        data: {
+                            _token: '{!! csrf_token() !!}',
+                            _method: 'PUT'
+                        },
+                        url: '{{ url('admin/credport/') }}' + '/' + id,
+                        success: function (data) {
+                            if (data) {
+                                swal({
+                                    position: 'top-end',
+                                    type: 'success',
+                                    title: 'Ativado com sucesso!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                $('.datatable').DataTable().ajax.reload();
+                            }
+                        },
+                        error: function (retorno) {
+                            $('#myModalCredPortEdita').modal('toggle');
+                            console.log(retorno.responseJSON.message);
+                            swal({
+                                position: 'top-end',
+                                type: 'error',
+                                title: 'Erro!',
+                                text: retorno.responseJSON.message,
+                                showConfirmButton: false,
+                                timer: 7500
+                            });
+
+                        }
+                    });
+                }
+            });
+        }
     </script>
+
 @endpush

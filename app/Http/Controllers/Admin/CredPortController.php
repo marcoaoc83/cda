@@ -85,7 +85,8 @@ class CredPortController extends Controller
 
         $CredPort = CredPort::findOrFail($id);
 
-        $CredPort->InicioDt     =   $request->InicioDt;
+        $inicio=$request->InicioDt?$request->InicioDt:date('d/m/Y');
+        $CredPort->InicioDt     =  $inicio ;
         $CredPort->TerminoDt    =   $request->TerminoDt;
         $CredPort->Ativo    =   1;
 
@@ -123,5 +124,23 @@ class CredPortController extends Controller
             ->get();
 
         return Datatables::of($cda_credport)->make(true);
+    }
+
+    public function getDadosDataTable2(Request $request)
+    {
+        $cda_credport = CredPort::select(['cda_credport.*','cda_pessoa.PESSOANMRS','cda_pessoa.CPF_CNPJNR'])
+            ->leftjoin('cda_pessoa', 'cda_pessoa.PESSOAID', '=', 'cda_credport.PessoaId')
+            ->where('cda_credport.Ativo',0)
+            ->get();
+
+        return Datatables::of($cda_credport)
+            ->addColumn('action', function ($credport) {
+
+                return '
+                <a href="javascript:ativar('.$credport->CredPortId.')" class="btn btn-xs btn-primary">
+                    <i class="glyphicon glyphicon-edit"></i> Ativar
+                </a>
+                ';
+            })->make(true);
     }
 }

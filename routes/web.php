@@ -165,6 +165,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::resource('admin/ativecon', 'AtiveComController');
 
         Route::get('admin/credport/getdata', 'CredPortController@getDadosDataTable')->name('credport.getdata');
+        Route::get('admin/credport/getdata2', 'CredPortController@getDadosDataTable2')->name('credport.getdata2');
         Route::resource('admin/credport', 'CredPortController');
 
         Route::get('admin/parcela/getdata', 'ParcelaController@getDadosDataTable')->name('parcela.getdata');
