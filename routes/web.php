@@ -115,6 +115,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
 
         Route::get('admin/carteira/getdata', 'CarteiraController@getDadosDataTable')->name('carteira.getdata');
         Route::get('admin/carteira/getdataRoteiro', 'CarteiraController@getDadosDataTableRoteiro')->name('carteira.getdataRoteiro');
+        Route::get('admin/carteira/getdataCarteira', 'CarteiraController@getDadosDataTableCarteira')->name('carteira.getdataCarteira');
         Route::resource('admin/carteira', 'CarteiraController');
 
         Route::get('admin/pessoa/getdata', 'PessoaController@getDadosDataTable')->name('pessoa.getdata');

@@ -39,138 +39,23 @@
                             </div>
                         </div>
                     </div>
-                    {{--<div class="x_panel " >--}}
-                    {{--<div class="x_content">--}}
-                        {{--<div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">--}}
-                            {{--<input type="text" class="form-control has-feedback-left date-picker" style="padding-right: 1px !important;width:100%"  placeholder="Vencimento do Boleto" id="VencimentoBoleto" name="VencimentoBoleto" aria-describedby="inputSuccess2Status">--}}
-                            {{--<span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>--}}
-                            {{--<span id="inputSuccess2Status" class="sr-only">(success)</span>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--</div>--}}
-                    <div class="x_panel " >
-                        <div class="x_title">
-                            <h2>Filtros<small></small></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content " style="display: none;">
-                            <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
-                                {{ csrf_field() }}
 
-                                <a href="#">
-                                    <div class="mail_list"></div>
-                                </a>
-                                <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left date-picker" style="padding-right: 1px !important;" placeholder="Vc Inicio" id="VencimentoInicio" name="VencimentoInicio" aria-describedby="inputSuccess2Status">
-                                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                    <span id="inputSuccess2Status" class="sr-only">(success)</span>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left date-picker"  style="padding-right: 1px !important;" placeholder="Vc Final" id="VencimentoFinal" name="VencimentoFinal" aria-describedby="inputSuccess2Status">
-                                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                    <span id="inputSuccess2Status" class="sr-only">(success)</span>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left date-picker"  style="padding-right: 1px !important;" placeholder="Cpt Inicio" id="CompetenciaInicio" name="CompetenciaInicio" aria-describedby="inputSuccess2Status">
-                                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                    <span id="inputSuccess2Status" class="sr-only">(success)</span>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input type="text" class="form-control has-feedback-left date-picker"  style="padding-right: 1px !important;" placeholder="Cpt Final" id="CompetenciaFinal" name="CompetenciaFinal" aria-describedby="inputSuccess2Status">
-                                    <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-                                    <span id="inputSuccess2Status" class="sr-only">(success)</span>
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="nmaiores" placeholder="N Maiores">
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
-                                    <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="nmenores" placeholder="N Menores">
-                                </div>
-                                <a href="#">
-                                    <div class="mail_list"></div>
-                                </a>
-                                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                                    <h2>Carteira e Roteiro</h2>
-                                    <table id="tbRoteiro" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
-                                        <thead>
-                                        <tr>
-                                            <th>Carteira</th>
-                                            <th>Fase Cart</th>
-                                            <th>Evento</th>
-                                            <th>Modelo</th>
-                                            <th>Canal</th>
-                                        </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <a href="#">
-                                    <div class="mail_list"></div>
-                                </a>
-                                <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
-                                    <h2>Faixa Atraso</h2>
-                                    <table id="tbFxAtraso" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Faixa</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
-                                    <h2>Faixa Valor</h2>
-                                    <table id="tbFxValor" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
-                                        <thead>
-                                        <tr>
-                                            <th>Faixa</th>
-                                        </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                                <div class="x_panel text-center" style="background-color: #BDBDBD">
-                                    <a class="btn btn-app" id="btfiltrar" onclick="filtrarParcelas()" >
-                                        <i class="fa fa-filter"></i> Filtrar
-                                    </a>
-                                </div>
-                                <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
-                            </form>
-                        </div>
-                    </div>
+                    <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        @include('admin.execfila.filtro-carteira')
+                        @include('admin.execfila.filtro-roteiro')
+                        @include('admin.execfila.filtro-parcela')
 
-
-                    <div class="x_panel" id="pnHoraExec">
-                        <div class="x_title">
-                            <h2>Parcelas<small></small></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
+                        <div class="x_panel text-center hidden" style="background-color: #BDBDBD" id="divBotaoFiltrar">
+                            <a class="btn btn-app" id="btfiltrar" onclick="filtrarParcelas()" >
+                                <i class="fa fa-filter"></i> Filtrar
+                            </a>
                         </div>
-                        <div class="x_content">
+                        <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
+                    </form>
 
-                            <table id="tbParcela" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
-                                <thead>
-                                <tr>
-                                    <th><input name="select_all" value="1" type="checkbox"></th>
-                                    <th>Nome</th>
-                                    <th>Sit Pag</th>
-                                    <th>Orig Trib</th>
-                                    <th>Lcto</th>
-                                    <th>Pc</th>
-                                    <th>Pl</th>
-                                    <th>Vencimento</th>
-                                    <th>Valor</th>
-                                    <th>Fx Atraso</th>
-                                    <th>Fx Valor</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
+                    @include('admin.execfila.result-parcela')
+
                     <form  id="formParcelas" method="post" action="{{ route('execfila.store') }}" >
                         {{ csrf_field() }}
                         <input type="hidden" id="filaId" name="filaId">
@@ -286,9 +171,9 @@
 
 
         function filtrarCarteira(fila){
-            var tbRoteiro = $('#tbRoteiro').DataTable();
-            var url = "{{ route('carteira.getdataRoteiro') }}"+"/?fila="+fila;
-            tbRoteiro.ajax.url(url).load();
+            var tbCarteira = $('#tbCarteira').DataTable({});
+            var url = "{{ route('carteira.getdataCarteira') }}"+"/?fila="+fila;
+            tbCarteira.ajax.url(url).load();
         }
         function updateDataTableSelectAllCtrl(tbParcela){
             var $table             = tbParcela.table().node();
@@ -321,7 +206,7 @@
 
         $(document).ready(function() {
             var rows_selected = [];
-            var tbRoteiro = $('#tbRoteiro').DataTable({
+            var tbCarteira = $('#tbCarteira').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
@@ -347,15 +232,15 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
                 }
             });
-            tbRoteiro.on( 'select', function ( e, dt, type, indexes ) {
+            tbCarteira.on( 'select', function ( e, dt, type, indexes ) {
                 if ( type === 'row' ) {
-                    var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
+                    var RoteiroId = tbCarteira.rows( indexes ).data().pluck( 'RoteiroId' );
                     $('#formFiltroParcela').append('<input type="hidden" id="roteirosId'+RoteiroId[0]+'" name="roteirosId[]" value='+RoteiroId[0]+' />');
                 }
             })
             .on( 'deselect', function ( e, dt, type, indexes ){
                 if ( type === 'row' ) {
-                    var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
+                    var RoteiroId = tbCarteira.rows( indexes ).data().pluck( 'RoteiroId' );
                     $( "#roteirosId"+RoteiroId[0] ).remove();
                 }
             });
