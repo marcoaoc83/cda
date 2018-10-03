@@ -124,6 +124,24 @@ class ExecFilaController extends Controller
         return Datatables::of($FxValor)->make(true);
     }
 
+    public function getDadosDataTableSitPag()
+    {
+        $Var = DB::select("Select cda_regtab.REGTABID, cda_regtab.REGTABSG, cda_regtab.REGTABNM From cda_regtab Where cda_regtab.TABSYSID = 22 order by REGTABNM");
+        return Datatables::of($Var)->make(true);
+    }
+
+    public function getDadosDataTableSitCob()
+    {
+        $Var = DB::select("Select cda_regtab.REGTABID, cda_regtab.REGTABSG, cda_regtab.REGTABNM From cda_regtab Where cda_regtab.TABSYSID = 20 order by REGTABNM");
+        return Datatables::of($Var)->make(true);
+    }
+
+    public function getDadosDataTableOrigTrib()
+    {
+        $Var = DB::select("Select cda_regtab.REGTABID, cda_regtab.REGTABSG, cda_regtab.REGTABNM From cda_regtab Where cda_regtab.TABSYSID = 16 order by REGTABNM");
+        return Datatables::of($Var)->make(true);
+    }
+
     public function getDadosDataTableParcela(Request $request)
     {
         ini_set('memory_limit', '-1');
