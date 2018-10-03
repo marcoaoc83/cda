@@ -30,7 +30,7 @@
                         </div>
                         <div class="x_content">
                             <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
-                                <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="filtrarCarteira(this.value)" >
+                                <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="selectFila(this.value)" >
                                     <option value="" hidden selected disabled>Selecionar Fila</option>
                                     @foreach($FilaTrab as $var)
                                         <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             
@@ -165,18 +165,59 @@
     <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
     <script type="text/javascript">
 
+
         function filtrarParcelas(){
             var tbParcela = $('#tbParcela').DataTable();
             var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
             tbParcela.ajax.url(url).load();
         }
 
+        function selectFila(fila) {
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                data: {
+                    _token: '{!! csrf_token() !!}',
+                    fila: fila
+                },
+                url: '{{ url('admin/execfila/getDadosFila') }}',
+                success: function( result ) {
+                    if(result.filtro_carteira==1){
+                        $('#divFiltroCarteira').show();
+                    }else{
+                        $('#divFiltroCarteira').hide();
+                    }
+                    if(result.filtro_roteiro==1){
+                        $('#divFiltroRoteiro').show();
+                    }else{
+                        $('#divFiltroRoteiro').hide();
+                    }
+                    if(result.filtro_roteiro==1){
+                        $('#divFiltroContribuinte').show();
+                    }else{
+                        $('#divFiltroContribuinte').hide();
+                    }
+                    if(result.filtro_contribuinte==1){
+                        $('#divFiltroContribuinte').show();
+                    }else{
+                        $('#divFiltroContribuinte').hide();
+                    }
+                    if(result.filtro_parcelas==1){
+                        $('#divFiltroParcela').show();
+                    }else{
+                        $('#divFiltroParcela').hide();
+                    }
+                }
+            });
+            filtrarCarteira(fila);
+            filtrarRoteiro(fila);
+        }
 
         function filtrarCarteira(fila){
             var tbCarteira = $('#tbCarteira').DataTable();
             var url = "{{ route('carteira.getdataCarteira') }}"+"/?fila="+fila;
             tbCarteira.ajax.url(url).load();
-            filtrarRoteiro(fila);
+
         }
         function filtrarRoteiro(fila){
             var tbRoteiro = $('#tbRoteiro').DataTable( );

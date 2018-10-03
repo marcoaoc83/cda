@@ -205,6 +205,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::get('admin/execfila/getdataFxAtraso', 'ExecFilaController@getDadosDataTableFxAtraso')->name('execfila.getdataFxAtraso');
         Route::get('admin/execfila/getdataFxValor', 'ExecFilaController@getDadosDataTableFxValor')->name('execfila.getdataFxValor');
         Route::get('admin/execfila/getdataParcela', 'ExecFilaController@getDadosDataTableParcela')->name('execfila.getdataParcela');
+        Route::get('admin/execfila/getDadosFila', 'ExecFilaController@getDadosFila')->name('execfila.getDadosFila');
         Route::resource('admin/execfila', 'ExecFilaController');
 
         Route::get('admin/tarefas/getdata', 'TarefasController@getDadosDataTable')->name('tarefas.getdata');

@@ -282,4 +282,12 @@ class ExecFilaController extends Controller
         return Datatables::of($collection)->make(true);
 
     }
+
+    public function getDadosFila(Request $request)
+    {
+        $fila = Fila::where('FilaTrabId',$request->fila)->first()->toArray();
+
+        return response()->json($fila);
+    }
+
 }
