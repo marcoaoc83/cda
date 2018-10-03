@@ -15,7 +15,9 @@
                 <th><input name="select_all" value="1" type="checkbox"></th>
                 <th>Nome</th>
                 <th>Sit Pag</th>
+                <th>Sit Cob</th>
                 <th>Orig Trib</th>
+                <th>Trib</th>
                 <th>Lcto</th>
                 <th>Pc</th>
                 <th>Pl</th>

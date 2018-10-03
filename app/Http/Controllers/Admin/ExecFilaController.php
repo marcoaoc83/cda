@@ -240,11 +240,15 @@ class ExecFilaController extends Controller
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
             DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
             'SitPagT.REGTABNM as SitPag',
+            'SitCobT.REGTABNM as SitCob',
             'OrigTribT.REGTABNM as OrigTrib',
+            'TribT.REGTABNM as Trib',
             DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
         ])
             ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
             ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->leftjoin('cda_regtab as  TribT', 'TribT.REGTABID', '=', 'cda_parcela.TributoId')
             ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
@@ -260,7 +264,9 @@ class ExecFilaController extends Controller
         foreach ($Parcelas as $parcela){
             $collect[$i]['Nome']=$parcela['Nome'];
             $collect[$i]['SitPag']=$parcela['SitPag'];
+            $collect[$i]['SitCob']=$parcela['SitCob'];
             $collect[$i]['OrigTrib']=$parcela['OrigTrib'];
+            $collect[$i]['Trib']=$parcela['Trib'];
             $collect[$i]['LancamentoNr']=$parcela['LancamentoNr'];
             $collect[$i]['ParcelaNr']=$parcela['ParcelaNr'];
             $collect[$i]['PlanoQt']=$parcela['PlanoQt'];

@@ -42,23 +42,6 @@
             <a href="#">
                 <div class="mail_list"></div>
             </a>
-            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                <h2>Carteira e Roteiro</h2>
-                <table id="tbRoteiro" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
-                    <thead>
-                    <tr>
-                        <th>Carteira</th>
-                        <th>Fase Cart</th>
-                        <th>Evento</th>
-                        <th>Modelo</th>
-                        <th>Canal</th>
-                    </tr>
-                    </thead>
-                </table>
-            </div>
-            <a href="#">
-                <div class="mail_list"></div>
-            </a>
             <div class="col-md-6 col-sm-6 col-xs-6 form-group has-feedback">
                 <h2>Faixa Atraso</h2>
                 <table id="tbFxAtraso" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
