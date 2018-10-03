@@ -243,4 +243,11 @@ class PessoaController extends Controller
             });
         })->download("txt");
     }
+
+    public function getDadosDataTableIM()
+    {
+        $cda_pessoa = Pessoa::select(['cda_pessoa.PESSOAID','PESSOANMRS','CPF_CNPJNR','INSCRMUNNR'])->leftJoin("cda_inscrmun","cda_inscrmun.PESSOAID","=","cda_pessoa.PESSOAID");
+
+        return Datatables::of($cda_pessoa)->make(true);
+    }
 }

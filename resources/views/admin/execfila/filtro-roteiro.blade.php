@@ -10,9 +10,7 @@
             <div class="clearfix"></div>
         </div>
         <div class="x_content " style="display: none;">
-            <a href="#">
-                <div class="mail_list"></div>
-            </a>
+
             <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                 <table id="tbRoteiro" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                     <thead>

@@ -19,7 +19,7 @@
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel" id="pnHoraExec">
+                    <div class="x_panel" id="filaDiv">
                         <div class="x_title">
                             <h2>Fila<small></small></h2>
                             <ul class="nav navbar-right panel_toolbox">
@@ -39,22 +39,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class="x_panel" id="divFiltros">
+                        <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            @include('admin.execfila.filtro-carteira')
+                            @include('admin.execfila.filtro-roteiro')
+                            @include('admin.execfila.filtro-contribuinte')
+                            @include('admin.execfila.filtro-parcela')
 
-                    <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
-                        {{ csrf_field() }}
-                        @include('admin.execfila.filtro-carteira')
-                        @include('admin.execfila.filtro-roteiro')
-                        @include('admin.execfila.filtro-parcela')
+                            <div class="x_panel text-center " style="background-color: #BDBDBD" id="divBotaoFiltrar">
+                                <a class="btn btn-app" id="btfiltrar" onclick="filtrarParcelas()" >
+                                    <i class="fa fa-filter"></i> Filtrar
+                                </a>
+                            </div>
+                            <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
+                        </form>
+                    </div>
+                        @include('admin.execfila.result-parcela')
 
-                        <div class="x_panel text-center hidden" style="background-color: #BDBDBD" id="divBotaoFiltrar">
-                            <a class="btn btn-app" id="btfiltrar" onclick="filtrarParcelas()" >
-                                <i class="fa fa-filter"></i> Filtrar
-                            </a>
-                        </div>
-                        <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
-                    </form>
-
-                    @include('admin.execfila.result-parcela')
 
                     <form  id="formParcelas" method="post" action="{{ route('execfila.store') }}" >
                         {{ csrf_field() }}
@@ -171,9 +173,15 @@
 
 
         function filtrarCarteira(fila){
-            var tbCarteira = $('#tbCarteira').DataTable({});
+            var tbCarteira = $('#tbCarteira').DataTable();
             var url = "{{ route('carteira.getdataCarteira') }}"+"/?fila="+fila;
             tbCarteira.ajax.url(url).load();
+            filtrarRoteiro(fila);
+        }
+        function filtrarRoteiro(fila){
+            var tbRoteiro = $('#tbRoteiro').DataTable( );
+            var url = "{{ route('carteira.getdataRoteiro') }}"+"/?fila="+fila;
+            tbRoteiro.ajax.url(url).load();
         }
         function updateDataTableSelectAllCtrl(tbParcela){
             var $table             = tbParcela.table().node();
@@ -206,20 +214,27 @@
 
         $(document).ready(function() {
             var rows_selected = [];
-            var tbCarteira = $('#tbCarteira').DataTable({
+
+
+            var tbRoteiro = $('#tbRoteiro').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
+                "searching": false,
+                "paging":   false,
+                "ordering": false,
+                "info":     false,
                 ajax: '{{ route('carteira.getdataRoteiro') }}',
                 select: {
                     style: 'multi',
                     info:false
                 },
                 columns: [
-                    {data: 'CARTEIRASG', name: 'CARTEIRASG'},
+                    {data: 'RoteiroOrd', name: 'RoteiroOrd'},
                     {data: 'FaseCartNM', name: 'FaseCartNM'},
                     {data: 'EventoNM', name: 'EventoNM'},
                     {data: 'ModComNM', name: 'ModComNM'},
+                    {data: 'FilaTrabNM', name: 'FilaTrabNM'},
                     {data: 'CanalNM', name: 'CanalNM'},
                     {
                         data: 'RoteiroId',
@@ -232,20 +247,58 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
                 }
             });
-            tbCarteira.on( 'select', function ( e, dt, type, indexes ) {
+            tbRoteiro.on( 'select', function ( e, dt, type, indexes ) {
                 if ( type === 'row' ) {
-                    var RoteiroId = tbCarteira.rows( indexes ).data().pluck( 'RoteiroId' );
+                    var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
                     $('#formFiltroParcela').append('<input type="hidden" id="roteirosId'+RoteiroId[0]+'" name="roteirosId[]" value='+RoteiroId[0]+' />');
                 }
             })
             .on( 'deselect', function ( e, dt, type, indexes ){
                 if ( type === 'row' ) {
-                    var RoteiroId = tbCarteira.rows( indexes ).data().pluck( 'RoteiroId' );
+                    var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
                     $( "#roteirosId"+RoteiroId[0] ).remove();
                 }
             });
 
-
+            var tbCarteira = $('#tbCarteira').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                "searching": false,
+                "paging":   false,
+                "ordering": false,
+                "info":     false,
+                ajax: '{{ route('carteira.getdataCarteira') }}',
+                select: {
+                    style: 'multi',
+                    info:false
+                },
+                columns: [
+                    {data: 'CARTEIRAORD', name: 'CARTEIRAORD'},
+                    {data: 'CARTEIRASG', name: 'CARTEIRASG'},
+                    {
+                        data: 'CARTEIRAID',
+                        name: 'CARTEIRAID',
+                        "visible": false,
+                        "searchable": false
+                    },
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                }
+            });
+            tbCarteira.on( 'select', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
+                    $('#formFiltroParcela').append('<input type="hidden" id="CARTEIRAID'+CARTEIRAID[0]+'" name="CARTEIRAID[]" value='+CARTEIRAID[0]+' />');
+                }
+            })
+                .on( 'deselect', function ( e, dt, type, indexes ){
+                    if ( type === 'row' ) {
+                        var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
+                        $( "#CARTEIRAID"+CARTEIRAID[0] ).remove();
+                    }
+                });
 
             var tbFxAtraso = $('#tbFxAtraso').DataTable({
                 processing: true,
@@ -371,20 +424,6 @@
                 }
             });
 
-            // tbParcela.on( 'select', function ( e, dt, type, indexes ) {
-            //     if ( type === 'row' ) {
-            //         var ParcelaId = tbParcela.rows( indexes ).data().pluck( 'ParcelaId' );
-            //         $('#formParcelas').append('<input type="hidden" id="parcelasId'+ParcelaId[0]+'" name="parcelasId[]" value='+ParcelaId[0]+' />');
-            //     }
-            // })
-            // .on( 'deselect', function ( e, dt, type, indexes ){
-            //     if ( type === 'row' ) {
-            //         var ParcelaId = tbParcela.rows( indexes ).data().pluck( 'ParcelaId' );
-            //         $( "#parcelasId"+ParcelaId[0] ).remove();
-            //     }
-            // });
-
-
             // Handle click on checkbox
             $('#tbParcela tbody').on('click', 'input[type="checkbox"]', function(e){
                 var $row = $(this).closest('tr');
@@ -470,7 +509,30 @@
                 }
             });
 
-
+            var tbContribuinte = $('#tbContribuinte').DataTable({
+                responsive: true,
+                stateSave: true,
+                serverSide: true,
+                ajax: '{{ route('pessoa.getdataIM') }}',
+                select: {
+                    style: 'multi',
+                    info:false
+                },
+                columns: [
+                    {data: 'PESSOANMRS', name: 'PESSOANMRS'},
+                    {data: 'CPF_CNPJNR', name: 'CPF_CNPJNR'},
+                    {data: 'INSCRMUNNR', name: 'INSCRMUNNR'},
+                    {
+                        data: 'PESSOAID',
+                        name: 'PESSOAID',
+                        "visible": false,
+                        "searchable": false
+                    },
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                }
+            });
         });
     </script>
 @endpush
