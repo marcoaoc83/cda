@@ -513,8 +513,6 @@
 
             var tbContribuinte = $('#tbContribuinte').DataTable({
                 responsive: true,
-                stateSave: true,
-                serverSide: true,
                 ajax: '{{ route('pessoa.getdataIM') }}',
                 select: {
                     style: 'multi',
