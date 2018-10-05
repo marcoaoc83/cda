@@ -14,11 +14,13 @@
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.guias') active font-weight-bold @endif" href="{{route('portal.guias')}}">Emissão Guias</a></li>
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.dados') active font-weight-bold @endif" href="{{route('portal.dados')}}">Meus Dados</a></li>
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.ajuda') active font-weight-bold @endif" href="{{route('portal.ajuda')}}">Ajuda</a></li>
+                    <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.chat') active font-weight-bold @endif" href="{{route('portal.chat')}}">Chat</a></li>
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.sair') active font-weight-bold @endif" href="{{route('portal.sair')}}">Sair</a></li>
                 @else
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.solicitacao') active font-weight-bold @endif" href="{{route('portal.solicitacao')}}">Solicitar Acesso</a></li>
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.acesso') active font-weight-bold @endif" href="{{route('portal.acesso')}}">Área de Acesso</a></li>
                     <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.ajuda') active font-weight-bold @endif" href="{{route('portal.ajuda')}}">Ajuda</a></li>
+                    <li class="nav-item"><a class="nav-link @if(Route::current()->getName() == 'portal.chat') active font-weight-bold @endif" href="{{route('portal.chat')}}">Chat</a></li>
                 @endif
 
             </ul>
