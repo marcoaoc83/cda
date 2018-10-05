@@ -6,7 +6,7 @@
         }
 
         main {
-            background-color: #fafafa;
+            background-color: #eeeeee;
             display: flex;
             flex-direction: column;
             height: 50vh;
@@ -119,19 +119,11 @@
                 <main>
                     <div class="conversation-wrapper">
                         <div class="conversation-content" id="conversation">
-                            <div class="chat chat-user">
-                                <div class="bubble">
-                                    <span>Hi.</span>
-                                </div>
-                            </div>
-                            <div class="chat chat-bot">
-                                <div class="bubble">Howdy.</div>
-                            </div>
                         </div>
                     </div>
                     <footer>
+                        <p></p>
                         <textarea id="message" placeholder="Mensagem..." aria-label="Your message"></textarea>
-                        <button type="button" id="btnSend" class="btn btn-lg fa fa-lg fa-paper-plane"></button>
                     </footer>
                 </main>
             </div>
@@ -141,7 +133,30 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
+    <script>
+        $('#message').keypress(function (e) {
+            if (e.which == 13) {
+                $('#conversation').append("<div class=\"chat chat-user\"><div class=\"bubble\">"+ $('#message').val()+"</div></div>");
 
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        msg: $('#message').val(),
+                    },
+                    url: '{{ url('chatMsg') }}' ,
+                    success: function( msg ) {
+                        $('#conversation').append("<div class=\"chat chat-bot\"><div class=\"bubble\">"+msg+"</div></div>");
+                        console.log(data);
+                        $('#message').val('').blur();
+                    },
+                    error: function( data ) {
+                        console.log(data);
+                    }
+                });
+                $('#message').val('').blur();
+            }
+        });
+    </script>
 @endpush

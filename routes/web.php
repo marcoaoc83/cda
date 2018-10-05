@@ -23,6 +23,8 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/', 'Portal\PortalController@index')->name('portal.home');
 Route::get('legislacao', 'Portal\PortalController@legislacao')->name('portal.legislacao');
 Route::get('ajuda', 'Portal\PortalController@ajuda')->name('portal.ajuda');
+Route::get('chatMsg', 'Portal\PortalController@chatMsg')->name('portal.chatMsg');
+Route::get('chat', 'Portal\PortalController@chat')->name('portal.chat');
 
 Route::get('acesso', 'Portal\PortalController@acesso')->name('portal.acesso');
 Route::post('acesso-login', 'Portal\PortalController@acessoLogin')->name('portal.acessoLogin');

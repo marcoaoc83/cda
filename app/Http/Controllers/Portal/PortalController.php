@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
+use RecastAI\Client;
 
 define("cEndereco", 1);
 define("cEmail", 2);
@@ -45,6 +46,64 @@ class PortalController extends Controller
         return view('portal.index.home')->with('Var',$Var[0]);
     }
 
+    public function chat()
+    {
+        $Var = PortalAdm::select(['cda_portal.*'])->get();
+        return view('portal.index.chat')->with('Var',$Var[0]);
+    }
+    public function chatMsg(Request $request)
+    {
+        $msg=$request->msg;
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, "https://api.recast.ai/v2/request");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"text\":\"$msg\", \"language\":\"pt\"}");
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+        $headers = array();
+        $headers[] = "Authorization: Token eb59fe93d776ae163bff913d98e46855";
+        $headers[] = "Content-Type: application/json";
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close ($ch);
+        $result=json_decode($result);
+        $intencao='';
+        if (count($result->results->intents)>0){
+            $intencao=$result->results->intents[0]->slug;
+        }
+
+        switch ($intencao) {
+            case "saudacao":
+                $resp= "Olá, em que posso ajudar?";
+                break;
+            case "despedida":
+                $resp= "Tchau, obrigado!";
+                break;
+            case "parcelamento":
+                $resp= "Basta acessar o Portal de Negociação, menu Parcelamento, selecionar os débitos a serem parcelados, informar o valor da entrada e a quantidade de parcelas. ";
+                break;
+            case "descontos":
+                $resp= "Os descontos para pagamento à vista ou para negociação de dívidas só serão concedidos quando houver um novo Programa de Recuperação Fiscal vigente, o que não há no momento.";
+                break;
+            case "atualizacao":
+                $resp= "Os débitos não tributários são corrigidos de acordo com o INPC e os tributários pela SELIC";
+                break;
+            case "inscricaodivida":
+                $resp= "A inscrição do crédito em Dívida Ativa ocorre quando o contribuinte não quitar os tributos, multas e demais débitos devidos ao Município.";
+                break;
+            case "parcelamentoparte":
+                $resp= "O parcelamento é feito por contribuinte, ou seja, deve ser parcelado o total de dívidas em um CPF/CNPJ.";
+                break;
+            default:
+                $resp= "Não entendi!";
+        }
+        return  \response()->json($resp);
+    }
     public function legislacao()
     {
         $Var = PortalAdm::select(['cda_portal.*'])->get();
