@@ -177,6 +177,10 @@ class ExecFilaController extends Controller
             $where.=" AND cda_parcela.VencimentoDt <='".$request->VencimentoFinal."'";
         }
 
+        if($request->ContribuinteId){
+            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$request->ContribuinteId).')';
+        }
+
         $Pessoas = Parcela::select([
             'cda_parcela.*',
             DB::raw("datediff(NOW(), MIN(VencimentoDt))  as MAX_VENC"),
