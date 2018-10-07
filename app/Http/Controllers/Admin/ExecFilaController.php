@@ -181,6 +181,17 @@ class ExecFilaController extends Controller
             $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$request->ContribuinteId).')';
         }
 
+        if($request->SitPagId){
+            $where.=' AND cda_parcela.SitPagId IN ('.implode(',',$request->SitPagId).')';
+        }
+
+        if($request->SitCobId){
+            $where.=' AND cda_parcela.SitCobId IN ('.implode(',',$request->SitCobId).')';
+        }
+
+        if($request->OrigTribId){
+            $where.=' AND cda_parcela.OrigTribId IN ('.implode(',',$request->OrigTribId).')';
+        }
         $Pessoas = Parcela::select([
             'cda_parcela.*',
             DB::raw("datediff(NOW(), MIN(VencimentoDt))  as MAX_VENC"),
