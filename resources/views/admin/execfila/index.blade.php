@@ -558,28 +558,40 @@
                 }
             });
 
-            {{--var tbContribuinte = $('#tbContribuinte').DataTable({--}}
-                {{--responsive: true,--}}
-                {{--ajax: '{{ route('pessoa.getdataIM') }}',--}}
-                {{--select: {--}}
-                    {{--style: 'multi',--}}
-                    {{--info:false--}}
-                {{--},--}}
-                {{--columns: [--}}
-                    {{--{data: 'PESSOANMRS', name: 'PESSOANMRS'},--}}
-                    {{--{data: 'CPF_CNPJNR', name: 'CPF_CNPJNR'},--}}
-                    {{--{data: 'INSCRMUNNR', name: 'INSCRMUNNR'},--}}
-                    {{--{--}}
-                        {{--data: 'PESSOAID',--}}
-                        {{--name: 'PESSOAID',--}}
-                        {{--"visible": false,--}}
-                        {{--"searchable": false--}}
-                    {{--},--}}
-                {{--],--}}
-                {{--"language": {--}}
-                    {{--"url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"--}}
-                {{--}--}}
-            {{--});--}}
+            var tbContribuinte = $('#tbContribuinte').DataTable({
+                responsive: true,
+                ajax: '{{ route('pessoa.getdataIM') }}',
+                select: {
+                    style: 'multi',
+                    info:false
+                },
+                columns: [
+                    {data: 'PESSOANMRS', name: 'PESSOANMRS'},
+                    {data: 'CPF_CNPJNR', name: 'CPF_CNPJNR'},
+                    {data: 'INSCRMUNNR', name: 'INSCRMUNNR'},
+                    {
+                        data: 'PESSOAID',
+                        name: 'PESSOAID',
+                        "visible": false,
+                        "searchable": false
+                    },
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                }
+            });
+
+            tbContribuinte.on( 'select', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    var ContribuinteId = tbContribuinte.rows( indexes ).data().pluck( 'PESSOAID' );
+                    $('#formFiltroParcela').append('<input type="hidden" id="ContribuinteId'+ContribuinteId[0]+'" name="ContribuinteId[]" value='+ContribuinteId[0]+' />');
+                }
+            }).on( 'deselect', function ( e, dt, type, indexes ){
+                if ( type === 'row' ) {
+                    var ContribuinteId = tbContribuinte.rows( indexes ).data().pluck( 'PESSOAID' );
+                    $( "#ContribuinteId"+ContribuinteId[0] ).remove();
+                }
+            });
 
             var tbSitPag = $('#tbSitPag').DataTable({
                 processing: true,

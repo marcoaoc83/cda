@@ -161,6 +161,13 @@ class ExecFilaController extends Controller
             $where.=' AND cda_roteiro.RoteiroId IN ('.implode(',',$request->roteirosId).')';
         }
 
+        if($request->CARTEIRAID){
+            $where.=' AND cda_roteiro.CarteiraId IN ('.implode(',',$request->CARTEIRAID).')';
+        }
+
+        if($request->CARTEIRAID){
+            $where.=' AND cda_roteiro.CarteiraId IN ('.implode(',',$request->CARTEIRAID).')';
+        }
         if($request->VencimentoInicio){
             $request->VencimentoInicio=Carbon::createFromFormat('d/m/Y', $request->VencimentoInicio)->format('Y-m-d');
             $where.=" AND cda_parcela.VencimentoDt >='".$request->VencimentoInicio."'";
