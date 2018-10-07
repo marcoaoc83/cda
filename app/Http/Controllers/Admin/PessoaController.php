@@ -246,12 +246,7 @@ class PessoaController extends Controller
 
     public function getDadosDataTableIM()
     {
-        $cda_pessoa = Pessoa::select(['cda_pessoa.PESSOAID','PESSOANMRS','CPF_CNPJNR','INSCRMUNNR'])
-            ->leftJoin("cda_inscrmun","cda_inscrmun.PESSOAID","=","cda_pessoa.PESSOAID")
-            ->join('cda_parcela', function ($join) {
-                $join->on('cda_parcela.PessoaId', '=', 'cda_pessoa.PESSOAID')
-                    ->where('cda_parcela.SitPagId', '=', 61);
-            })->groupBy('cda_pessoa.PESSOAID');
+        $cda_pessoa = Pessoa::select(['cda_pessoa.PESSOAID','PESSOANMRS','CPF_CNPJNR','INSCRMUNNR'])->leftJoin("cda_inscrmun","cda_inscrmun.PESSOAID","=","cda_pessoa.PESSOAID");
 
         return Datatables::of($cda_pessoa)->make(true);
     }
