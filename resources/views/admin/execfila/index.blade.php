@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="x_panel" id="divFiltros">
+                    <div class="x_panel" id="divFiltros" style="display: none">
                         <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             @include('admin.execfila.filtro-carteira')
@@ -173,6 +173,7 @@
         }
 
         function selectFila(fila) {
+            $('#divFiltros').show();
             $.ajax({
                 type: 'GET',
                 dataType: 'json',
