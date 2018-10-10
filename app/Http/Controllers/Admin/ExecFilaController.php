@@ -180,6 +180,9 @@ class ExecFilaController extends Controller
         if($request->ContribuinteId){
             $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$request->ContribuinteId).')';
         }
+        if($request->ContribuinteResId){
+            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$request->ContribuinteResId).')';
+        }
 
         if($request->SitPagId){
             $where.=' AND cda_parcela.SitPagId IN ('.implode(',',$request->SitPagId).')';
@@ -274,9 +277,17 @@ class ExecFilaController extends Controller
         if($Nqtde){
             $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$Nqtde).')';
         }
+        $group='cda_parcela.ParcelaId';
+        if($request->group=='Pes'){
+            $group='cda_parcela.PessoaId';
+        }
+        if($request->group=='IM'){
+            $group='cda_parcela.InscrMunId';
+        }
 
         $Parcelas = Parcela::select([
             'cda_parcela.*',
+            'cda_pessoa.CPF_CNPJNR',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
             DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
             'SitPagT.REGTABNM as SitPag',
@@ -294,7 +305,7 @@ class ExecFilaController extends Controller
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
-            ->groupBy('cda_parcela.ParcelaId')
+            ->groupBy($group)
             ->limit($limit)
             ->get();
 
@@ -304,6 +315,8 @@ class ExecFilaController extends Controller
         foreach ($Parcelas as $parcela){
             $collect[$i]['Nome']=$parcela['Nome'];
             $collect[$i]['SitPag']=$parcela['SitPag'];
+            $collect[$i]['PessoaId']=$parcela['PessoaId'];
+            $collect[$i]['CPFCNPJ']=$parcela['CPF_CNPJNR'];
             $collect[$i]['SitCob']=$parcela['SitCob'];
             $collect[$i]['OrigTrib']=$parcela['OrigTrib'];
             $collect[$i]['Trib']=$parcela['Trib'];

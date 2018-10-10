@@ -55,6 +55,8 @@
                             <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                         </form>
                     </div>
+                        @include('admin.execfila.result-contribuinte')
+                        @include('admin.execfila.result-im')
                         @include('admin.execfila.result-parcela')
 
 
@@ -167,6 +169,14 @@
 
 
         function filtrarParcelas(){
+            var tbContribuinteRes = $('#tbContribuinteRes').DataTable();
+            var url = "{{ route('execfila.getdataParcela') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+            tbContribuinteRes.ajax.url(url).load();
+
+            {{--var tbIM = $('#tbIMRes').DataTable();--}}
+            {{--var url = "{{ route('execfila.getdataParcela') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();--}}
+            {{--tbIM.ajax.url(url).load();--}}
+
             var tbParcela = $('#tbParcela').DataTable();
             var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
             tbParcela.ajax.url(url).load();
@@ -203,10 +213,29 @@
                     }else{
                         $('#divFiltroContribuinte').hide();
                     }
+
                     if(result.filtro_parcelas==1){
                         $('#divFiltroParcela').show();
                     }else{
                         $('#divFiltroParcela').hide();
+                    }
+
+                    if(result.resultado_contribuinte==1){
+                        $('#divResultContribuinteRes').show();
+                    }else{
+                        $('#divResultContribuinteRes').hide();
+                    }
+
+                    if(result.resultado_im==1){
+                        $('#divResultIM').hide();
+                    }else{
+                        $('#divResultIM').hide();
+                    }
+
+                    if(result.resultado_parcelas==1){
+                        $('#divResultParcela').show();
+                    }else{
+                        $('#divResultParcela').hide();
                     }
                 }
             });
@@ -559,40 +588,6 @@
                 }
             });
 
-            var tbContribuinte = $('#tbContribuinte').DataTable({
-                responsive: true,
-                ajax: '{{ route('pessoa.getdataIM') }}',
-                select: {
-                    style: 'multi',
-                    info:false
-                },
-                columns: [
-                    {data: 'PESSOANMRS', name: 'PESSOANMRS'},
-                    {data: 'CPF_CNPJNR', name: 'CPF_CNPJNR'},
-                    {data: 'INSCRMUNNR', name: 'INSCRMUNNR'},
-                    {
-                        data: 'PESSOAID',
-                        name: 'PESSOAID',
-                        "visible": false,
-                        "searchable": false
-                    },
-                ],
-                "language": {
-                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
-                }
-            });
-
-            tbContribuinte.on( 'select', function ( e, dt, type, indexes ) {
-                if ( type === 'row' ) {
-                    var ContribuinteId = tbContribuinte.rows( indexes ).data().pluck( 'PESSOAID' );
-                    $('#formFiltroParcela').append('<input type="hidden" id="ContribuinteId'+ContribuinteId[0]+'" name="ContribuinteId[]" value='+ContribuinteId[0]+' />');
-                }
-            }).on( 'deselect', function ( e, dt, type, indexes ){
-                if ( type === 'row' ) {
-                    var ContribuinteId = tbContribuinte.rows( indexes ).data().pluck( 'PESSOAID' );
-                    $( "#ContribuinteId"+ContribuinteId[0] ).remove();
-                }
-            });
 
             var tbSitPag = $('#tbSitPag').DataTable({
                 processing: true,
@@ -710,6 +705,89 @@
                     $( "#OrigTribId"+OrigTribId[0] ).remove();
                 }
             });
+
+            var tbContribuinteRes = $('#tbContribuinteRes').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                ajax: '{{ route('execfila.getdataParcela') }}'+"/?limit=0",
+                select: {
+                    style: 'multi',
+                    info:false
+                },
+                columns: [
+                    {data: 'Nome', name: 'Nome'},
+                    {data: 'CPFCNPJ', name: 'CPFCNPJ'},
+                    {data: 'VencimentoDt', name: 'VencimentoDt'},
+                    {data: 'TotalVr', name: 'TotalVr'},
+                    {data: 'FxAtraso', name: 'FxAtraso'},
+                    {data: 'FxValor', name: 'FxValor'},
+                    {
+                        data: 'PessoaId',
+                        name: 'PessoaId',
+                        "visible": false,
+                        "searchable": false
+                    },
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                }
+            });
+
+            tbContribuinteRes.on( 'select', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    var ContribuinteResId = tbContribuinteRes.rows( indexes ).data().pluck( 'PessoaId' );
+                    $('#formFiltroParcela').append('<input type="hidden" id="ContribuinteResId'+ContribuinteResId[0]+'" name="ContribuinteResId[]" value='+ContribuinteResId[0]+' />');
+                    var tbParcela = $('#tbParcela').DataTable();
+                    var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+                    tbParcela.ajax.url(url).load();
+                }
+            }).on( 'deselect', function ( e, dt, type, indexes ){
+                if ( type === 'row' ) {
+                    var ContribuinteResId = tbContribuinteRes.rows( indexes ).data().pluck( 'PessoaId' );
+                    $( "#ContribuinteResId"+ContribuinteResId[0] ).remove();
+                    var tbParcela = $('#tbParcela').DataTable();
+                    var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+                    tbParcela.ajax.url(url).load();
+                }
+            });
+
+
+            var tbContribuinte = $('#tbContribuinte').DataTable({
+                responsive: true,
+                ajax: '{{ route('pessoa.getdataIM') }}',
+                select: {
+                    style: 'multi',
+                    info:false
+                },
+                columns: [
+                    {data: 'PESSOANMRS', name: 'PESSOANMRS'},
+                    {data: 'CPF_CNPJNR', name: 'CPF_CNPJNR'},
+                    {data: 'INSCRMUNNR', name: 'INSCRMUNNR'},
+                    {
+                        data: 'PESSOAID',
+                        name: 'PESSOAID',
+                        "visible": false,
+                        "searchable": false
+                    },
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                }
+            });
+
+            tbContribuinte.on( 'select', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    var ContribuinteId = tbContribuinte.rows( indexes ).data().pluck( 'PESSOAID' );
+                    $('#formFiltroParcela').append('<input type="hidden" id="ContribuinteId'+ContribuinteId[0]+'" name="ContribuinteId[]" value='+ContribuinteId[0]+' />');
+                }
+            }).on( 'deselect', function ( e, dt, type, indexes ){
+                if ( type === 'row' ) {
+                    var ContribuinteId = tbContribuinte.rows( indexes ).data().pluck( 'PESSOAID' );
+                    $( "#ContribuinteId"+ContribuinteId[0] ).remove();
+                }
+            });
+
         });
     </script>
 @endpush
