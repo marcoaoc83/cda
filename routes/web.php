@@ -5,12 +5,16 @@ use Illuminate\Support\Facades\Auth;
 
 
 //CRONTAB
-Route::get('distribuicao', 'DistribuicaoController@index')->name('distribuicao');
+Route::get('criarjobdistribuicao', 'DistribuicaoController@index')->name('criarjobdistribuicao');
 Route::get('distribuicao/truncate', 'DistribuicaoController@truncate')->name('truncate');
 Route::get('crontab/importacao', 'CronController@importacao');
-Route::get('crontab/distribuicao', 'CronController@distribuicao');
+Route::get('crontab/distribuicao/{x}', 'CronController@distribuicao');
+Route::get('crontab/teste', 'CronController@teste');
 Route::get('crontab/execfilaparcela', 'CronController@execfilaparcela');
 Route::get('crontab/execfila', 'CronController@execfila');
+Route::get('teste-execfila', 'Admin\ExecFilaController@teste');
+
+//Froala
 Route::post('admin/uploadfroala', 'Admin\FroalaController@store');
 Route::get('admin/uploadfroala', 'Admin\FroalaController@store');
 // Authentication Routes...

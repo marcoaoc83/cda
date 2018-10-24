@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Models\Carteira;
 use App\Models\Fila;
 use Illuminate\Support\Facades\DB;
 use Softon\SweetAlert\Facades\SWAL;
@@ -176,6 +177,25 @@ class FilaController extends Controller
                 </a>
                 <a href="javascript:;" onclick="deleteFila('.$fila->FilaTrabId.')" class="btn btn-xs btn-danger deleteFila" >
                 <i class="glyphicon glyphicon-remove-circle"></i> Deletar
+                </a>
+                ';
+            })
+            ->make(true);
+    }
+
+    public function getDadosCarteira()
+    {
+        $cda_carteira = Carteira::select(['CARTEIRAID','CARTEIRAORD','CARTEIRASG', 'CARTEIRANM'])->orderBy('CARTEIRAORD');
+
+        return Datatables::of($cda_carteira)
+            ->addColumn('action', function ($carteira) {
+
+                return '
+                <a href="carteira/'.$carteira->CARTEIRAID.'/edit/" class="btn btn-xs btn-primary">
+                    <i class="glyphicon glyphicon-edit"></i> Editar
+                </a>
+                <a href="javascript:;" onclick="deleteCarteira('.$carteira->CARTEIRAID.')" class="btn btn-xs btn-danger deleteCarteira" >
+                    <i class="glyphicon glyphicon-remove-circle"></i> Deletar
                 </a>
                 ';
             })

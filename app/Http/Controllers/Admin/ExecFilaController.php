@@ -6,6 +6,7 @@ use App\Jobs\ExecFilaJob;
 use App\Jobs\ExecFilaParcelaJob;
 use App\Models\ExecFila;
 use App\Models\Fila;
+use App\Models\ModCom;
 use App\Models\Parcela;
 use App\Models\RegTab;
 use App\Models\Tarefas;
@@ -13,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Softon\SweetAlert\Facades\SWAL;
@@ -342,5 +344,6 @@ class ExecFilaController extends Controller
 
         return response()->json($fila);
     }
+
 
 }

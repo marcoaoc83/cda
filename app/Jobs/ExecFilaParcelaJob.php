@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Http\Controllers\Admin\ModeloController;
 use App\Models\ModCom;
+use App\Models\RegTab;
 use App\Models\Tarefas;
 use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
@@ -121,20 +122,29 @@ class ExecFilaParcelaJob implements ShouldQueue
                 DB::rollback();
             }
             if($linha->ModComId>0) {
-                $pessoas[$linha->PESSOAID][] = $linha;
+
                 $modelo=$linha->ModComId;
+                $filas[$modelo][$linha->PESSOAID][] = $linha;
             }
         }
         $html="<style>table, th, td {border: 1px solid #D0CECE;} .page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;} </style>";
-        foreach ($pessoas as $pessoa){
-            $function_name="geraModelo".$modelo;
-            $html.=self::$function_name($pessoa,$modelo)."<div class='page-break'></div>";
+        foreach ($filas as $modelo=> $fila){
+            foreach ($fila as $pessoa){
+                //$function_name="geraModelo".$modelo;
+                $html.=self::geraModelo($pessoa,$modelo)."<div class='page-break'></div>";
+            }
         }
 
-
+        $Variaveis=RegTab::where('TABSYSID',46)->get();
+        foreach ($Variaveis as $var){
+            $html=str_replace("{{".$var->REGTABSG."}}","",$html);
+        }
         $dir=public_path()."/filas/";
         $file="carta-".date('Ymd')."-".$this->Tarefa.".pdf";
         $html=str_replace("{{BREAK}}","<div class='page-break'></div>",$html);
+
+
+
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
         $pdf->save($dir.$file);
@@ -146,56 +156,103 @@ class ExecFilaParcelaJob implements ShouldQueue
             "tar_jobs"      => $this->job->getJobId()
         ]);
 
-        Artisan::call('queue:restart');
+       // Artisan::call('queue:restart');
         return false;
     }
 
-    function geraModelo2($pessoa){
+    function geraModelo($pessoa,$modeloid){
 
-        $Modelo= ModCom::with("Variaveis")->find(2);
-        //error_log(print_r($Modelo->Variaveis(),1));
+        $Modelo= ModCom::find($modeloid);
+
         $html=$Modelo->ModTexto;
+
         $ANOLANC1=$TRIB1=$VENC1=$ParcelaVr1=$JMD1=$HONOR1=$TOTAL1='';
         $PRINCT=$JMDT=$HONORT=$TOTALT=0;
-        foreach ($Modelo->Variaveis as $var) {
-            $html=str_replace($var->var_codigo,$var->var_valor,$html);
+
+        $Variaveis=RegTab::where('TABSYSID',46)->get();
+
+        $x=0;
+        foreach ($Variaveis as $var){
+
+            $vs=explode("*=",$var->REGTABSQL);
+            $key=$vs[0];
+            if(!$key) continue;
+            $replace[$key][$x]['sg']=$var['REGTABSG'];
+            $replace[$key][$x]['campo']=$vs[1]??null;
+            $x++;
         }
+        $result=[];
+        $i=1;
+        foreach ($pessoa as $linha) {
+            //foreach ($linhas as $linha) {
+            //$linha=$linha[0];
+            foreach ($replace as $tipo => $campo) {
+                foreach ($campo as  $campos) {
+                    $sg = $campos['sg'];
+                    $campo = $campos['campo'];
+                    switch ($tipo) {
+                        case "fixo":
+                            $result[$i][$sg] = $campo;
+                            break;
+                        case "data":
+                            if (isset($linha->$campo)) {
+                                $valor = Carbon::createFromFormat('Y-m-d', $linha->$campo)->format('d/m/Y');
+                                $result[$i][$sg] = $valor;
+                            }
+                            break;
+                        case "numero":
+                            if (isset($linha->$campo)) {
+                                $valor = number_format($linha->$campo, 2, ',', '.');
+                                $result[$i][$sg] = $valor;
+                            }
+                            break;
+                        case "texto":
+                            if (isset($linha->$campo)) {
+                                $valor = $linha->$campo;
+                                $result[$i][$sg] = $valor;
+                            }
+                            break;
+                        case "array":
+                            if (isset($linha->$campo)) {
+                                $valor = $linha->$campo;
+                                if (strpos($valor, '-') !== false) {
+                                    $valor = Carbon::createFromFormat('Y-m-d', $linha->$campo)->format('d/m/Y');
+                                }else{
+                                    $valor =number_format($linha->$campo, 2, ',', '.');
+                                }
+                                $result[$i][self::soLetra($sg) . $i] = $valor;
+                            }
+                            break;
+                        case "soma":
+                            if (isset($linha->$campo)) {
+                                if (isset($result[$i - 1][$sg])) {
+                                    $valor = $result[$i - 1][$sg] + $linha->$campo;
+                                } else {
+                                    $valor = $linha->$campo;
+                                }
 
-        foreach ($pessoa as $linha){
-
-            $html= str_replace("{{ParcelamentoNm}}",$linha->CARTEIRANM,$html);
-            //$html= str_replace("{{ParcelamentoNr}}",$linha->CARTEIRANM,$html);
-            $html=str_replace("{{IncricaoNr}}",$linha->INSCRMUNNR." - ".$linha->CPF_CNPJNR,$html);
-            $html=str_replace("{{ContribuinteNr}}",$linha->PESSOANMRS,$html);
-            if(!empty($linha->LancamentoDt))
-                $ANOLANC1.=Carbon::createFromFormat('Y-m-d', $linha->LancamentoDt)->format('d/m/Y')."<br>";
-            $TRIB1.=$linha->TRIBUTONM."<br>";
-            if(!empty($linha->VencimentoDt))
-                $VENC1.=Carbon::createFromFormat('Y-m-d', $linha->VencimentoDt)->format('d/m/Y')."<br>";
-            $ParcelaVr1.=$linha->PrincipalVr."<br>";
-            $PRINCT+=$linha->PrincipalVr;
-            $JMD1.=$linha->JurosVr."<br>";
-            $JMDT+=$linha->JurosVr;
-            $HONOR1.=$linha->MultaVr."<br>";
-            $HONORT+=$linha->MultaVr;
-            $TOTAL1.=$linha->TotalVr."<br>";
-            $TOTALT+=$linha->TotalVr;
+                                $result[$i][$sg] = $valor;
+                            }
+                            break;
+                    }
+                }
+                // }
+            }
+            $i++;
         }
-        //error_log(print_r($Modelo->Variaveis,1));
-
-        $html=str_replace("{{VectoDt1}}",$VENC1,$html);
-        $html=str_replace("{{ParcelaVr1}}",$ParcelaVr1,$html);
-        $html=str_replace("{{Atualvr1}}",$ParcelaVr1,$html);
-        $html=str_replace("{{Jurosvr1}}",$JMD1,$html);
-        $html=str_replace("{{Multavr1}}",$HONOR1,$html);
-        $html=str_replace("{{TotalVr1}}",$TOTAL1,$html);
-        $html=str_replace("{{TOTALT}}",$TOTALT,$html);
-
-        $html=str_replace("{{NotificacaoNr}}",date('Y').str_pad($this->Tarefa,8,"0",STR_PAD_LEFT),$html);
-        $html=str_replace("{{NotificacaoDt}}",Carbon::parse()->format('d/m/Y'),$html);
+        foreach ($result as $campos) {
+            foreach ($campos as $key=>$val) {
+                $sg = "{{" . $key . "}}";
+                $value = $val;
+                $html = str_replace($sg,$value, $html);
+            }
+        }
 
         return $html;
 
+    }
 
+    private function soLetra($str) {
+        return preg_replace("/[^A-Za-z]/", "", $str);
     }
 }

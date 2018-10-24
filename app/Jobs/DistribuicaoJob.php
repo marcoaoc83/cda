@@ -7,21 +7,24 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use PDO;
 
 class DistribuicaoJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+    protected $page;
+    protected $x;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($page=0,$x)
     {
-        //
+        $this->page=$page;
+        $this->x=$x;
     }
 
     /**
@@ -60,7 +63,7 @@ class DistribuicaoJob implements ShouldQueue
                 Where
                   distribuicao_parcelas.parcela_id IS NULL AND
                   (cda_parcela.VENCIMENTODT Is Not Null) And
-                  (cda_parcela.SitPagId = 61) LIMIT 2000";
+                  (cda_parcela.SitPagId = 61) LIMIT $this->page,50";
         $consulta= DB::select($sql_prime);
 
         $where="";
@@ -176,7 +179,7 @@ class DistribuicaoJob implements ShouldQueue
                         }
                     }
                 }
-                DB::insert("INSERT INTO distribuicao_parcelas SET  parcela_id='".$parcelas->ParcelaId."' ");
+                DB::insert("INSERT INTO distribuicao_parcelas SET  parcela_id='".$parcelas->ParcelaId."' ON DUPLICATE KEY UPDATE  parcela_id='".$parcelas->ParcelaId."' ");
                 DB::commit();
             } catch (\Exception $e) {
                 echo $e->getMessage();
@@ -185,8 +188,9 @@ class DistribuicaoJob implements ShouldQueue
         }
         $consulta= DB::select($sql_prime);
         if(count($consulta)>0){
-            DistribuicaoJob::dispatch()->onQueue("distribuicao");
+            DistribuicaoJob::dispatch($this->page,$this->x)->onQueue("distribuicao".$this->x);
         }
+        //Artisan::call('queue:restart');
         echo true;
     }
 }
