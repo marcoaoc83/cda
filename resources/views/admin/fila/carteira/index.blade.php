@@ -11,10 +11,10 @@
 
         <table id="tbCarteira" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
             <thead>
-            <tr>
-                <th>Ordem</th>
-                <th>Sigla</th>
-            </tr>
+                <tr>
+                    <th>Ordem</th>
+                    <th>Sigla</th>
+                </tr>
             </thead>
         </table>
     </div>

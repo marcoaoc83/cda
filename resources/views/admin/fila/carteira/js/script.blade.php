@@ -37,7 +37,7 @@
         tbCarteira.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
                 var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
-                $('#formFiltroParcela').append('<input type="hidden" id="CARTEIRAID'+CARTEIRAID[0]+'" name="CARTEIRAID[]" value='+CARTEIRAID[0]+' />');
+                $('#formFila').append('<input type="hidden" id="CARTEIRAID'+CARTEIRAID[0]+'" name="CARTEIRAID[]" value='+CARTEIRAID[0]+' />');
             }
         })
             .on( 'deselect', function ( e, dt, type, indexes ){

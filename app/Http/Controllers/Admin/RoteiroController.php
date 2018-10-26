@@ -126,12 +126,12 @@ class RoteiroController extends Controller
             ->leftJoin('cda_modcom  as ModCom', 'ModCom.ModComId', '=', 'cda_roteiro.ModComId')
             ->leftJoin('cda_filatrab  as FilaTrab', 'FilaTrab.FilaTrabId', '=', 'cda_roteiro.FilaTrabId')
             ->leftJoin('cda_canal  as CANAL', 'CANAL.CANALID', '=', 'cda_roteiro.CanalId')
-            ->leftJoin('cda_roteiro  as PROX', 'PROX.RoteiroId', '=', 'cda_roteiro.RoteiroProxId')
+            ->leftJoin('cda_roteiro  as PROX', 'PROX.RoteiroId', '=', 'cda_roteiro.RoteiroProxId');
 
-            ->where('cda_roteiro.CarteiraId',$request->CarteiraId)
-            ->get();
-        ;
-
+        if($request->CarteiraId){
+            $roteiro->whereIn('cda_roteiro.CarteiraId', [$request->CarteiraId]);
+        }
+        $roteiro->get();
         return Datatables::of($roteiro)->make(true);
     }
 }

@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="x_content">
 
-                                    <form class="form-horizontal form-label-left"    method="post" action="{{ route('fila.update',$Fila->FilaTrabId) }}">
+                                    <form class="form-horizontal form-label-left"  id="formFila"  method="post" action="{{ route('fila.update',$Fila->FilaTrabId) }}">
                                         {{ csrf_field() }}
                                         {{ method_field('PUT') }}
                                         <div class="item form-group">
@@ -153,6 +153,7 @@
                         </div>
                         <div class="row tab-pane" id="3a">
                             @include('admin.fila.carteira.index')
+                            @include('admin.fila.roteiro.index')
                         </div>
                     </div>
 
