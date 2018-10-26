@@ -166,5 +166,10 @@
 @endsection
 
 @push('scripts')
-
+    <script type="text/javascript">
+        $(document).ready(function() {
+    var table = $('#tbRoteiro').DataTable();
+    table.row(':eq(0)', { page: 'current' }).select();
+        });
+    </script>
 @endpush
