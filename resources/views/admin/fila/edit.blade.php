@@ -4,6 +4,15 @@
     <link href="https://cdn.datatables.net/select/1.1.2/css/select.dataTables.min.css" rel="stylesheet">
 @endsection
 @section('content')
+    {{$fcarteiras[]=$froteiros[]=0}}
+    @foreach($FilaCarteira as $var)
+            {{ $fcarteiras[]= $var->fixca_carteira }}
+    @endforeach
+    {{ $fcarteiras=implode(',', $fcarteiras) }}
+    @foreach($FilaRoteiro as $var)
+        {{ $froteiros[]= $var->fixro_roteiro }}
+    @endforeach
+    {{ $froteiros=implode(',', $froteiros) }}
     <!-- page content -->
     @include('vendor.sweetalert.cdn')
     @include('vendor.sweetalert.view')
@@ -164,12 +173,3 @@
 
     <!-- /page content -->
 @endsection
-
-@push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-    var table = $('#tbRoteiro').DataTable();
-    table.row(':eq(0)', { page: 'current' }).select();
-        });
-    </script>
-@endpush

@@ -111,6 +111,8 @@ class FilaController extends Controller
         $RegTab = DB::table('cda_regtab')->get();
 
         $TabTab = DB::table('cda_tabsys')->get();
+        $FilaCarteira = FilaCarteira::select('fixca_carteira')->where('fixca_fila',$id)->get();
+        $FilaRoteiro = FilaRoteiro::select('fixro_roteiro')->where('fixro_fila',$id)->get();
 
         // show the view and pass the nerd to it
         return view('admin.fila.edit',[
@@ -119,6 +121,8 @@ class FilaController extends Controller
             'DiaSem'=>$DiaSem,
             'RegTab'=>$RegTab,
             'TabTab'=>$TabTab,
+            'FilaCarteira'=>$FilaCarteira,
+            'FilaRoteiro'=>$FilaRoteiro,
             'Fila'=>$fila
         ]);
     }

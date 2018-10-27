@@ -32,6 +32,16 @@
             ],
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+            },
+            "initComplete": function( settings, json ) {
+                var table = $('#tbCarteira').DataTable();
+                var arr = [{!! $fcarteiras !!}];
+                table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+                    var data = this.data();
+                    if($.inArray(parseInt(data.CARTEIRAID),arr) !== -1){
+                        this.select();
+                    }
+                });
             }
         });
         tbCarteira.on( 'select', function ( e, dt, type, indexes ) {

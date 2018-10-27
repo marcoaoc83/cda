@@ -101,6 +101,16 @@
             ],
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+            },
+            "initComplete": function( settings, json ) {
+                var table = $('#tbRoteiro').DataTable();
+                var arr = [{!! $froteiros !!}];
+                table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+                    var data = this.data();
+                    if($.inArray(parseInt(data.RoteiroId),arr) !== -1){
+                        this.select();
+                    }
+                });
             }
         });
         tbRoteiro.on( 'select', function ( e, dt, type, indexes ) {
