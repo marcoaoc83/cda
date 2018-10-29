@@ -44,7 +44,6 @@
                             {{ csrf_field() }}
                             @include('admin.execfila.filtro-carteira')
                             @include('admin.execfila.filtro-roteiro')
-                            @include('admin.execfila.filtro-contribuinte')
                             @include('admin.execfila.filtro-parcela')
 
                             <div class="x_panel text-center " style="background-color: #BDBDBD" id="divBotaoFiltrar">
@@ -245,13 +244,13 @@
 
         function filtrarCarteira(fila){
             var tbCarteira = $('#tbCarteira').DataTable();
-            var url = "{{ route('carteira.getdataCarteira') }}"+"/?fila="+fila;
+            var url = "{{ route('execfila.getDadosCarteira') }}"+"/?fila="+fila;
             tbCarteira.ajax.url(url).load();
 
         }
         function filtrarRoteiro(fila){
             var tbRoteiro = $('#tbRoteiro').DataTable( );
-            var url = "{{ route('carteira.getdataRoteiro') }}"+"/?fila="+fila;
+            var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?fila="+fila;
             tbRoteiro.ajax.url(url).load();
         }
         function updateDataTableSelectAllCtrl(tbParcela){
@@ -749,42 +748,6 @@
                     var tbParcela = $('#tbParcela').DataTable();
                     var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
                     tbParcela.ajax.url(url).load();
-                }
-            });
-
-
-            var tbContribuinte = $('#tbContribuinte').DataTable({
-                responsive: true,
-                ajax: '{{ route('pessoa.getdataIM') }}',
-                select: {
-                    style: 'multi',
-                    info:false
-                },
-                columns: [
-                    {data: 'PESSOANMRS', name: 'PESSOANMRS'},
-                    {data: 'CPF_CNPJNR', name: 'CPF_CNPJNR'},
-                    {data: 'INSCRMUNNR', name: 'INSCRMUNNR'},
-                    {
-                        data: 'PESSOAID',
-                        name: 'PESSOAID',
-                        "visible": false,
-                        "searchable": false
-                    },
-                ],
-                "language": {
-                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
-                }
-            });
-
-            tbContribuinte.on( 'select', function ( e, dt, type, indexes ) {
-                if ( type === 'row' ) {
-                    var ContribuinteId = tbContribuinte.rows( indexes ).data().pluck( 'PESSOAID' );
-                    $('#formFiltroParcela').append('<input type="hidden" id="ContribuinteId'+ContribuinteId[0]+'" name="ContribuinteId[]" value='+ContribuinteId[0]+' />');
-                }
-            }).on( 'deselect', function ( e, dt, type, indexes ){
-                if ( type === 'row' ) {
-                    var ContribuinteId = tbContribuinte.rows( indexes ).data().pluck( 'PESSOAID' );
-                    $( "#ContribuinteId"+ContribuinteId[0] ).remove();
                 }
             });
 

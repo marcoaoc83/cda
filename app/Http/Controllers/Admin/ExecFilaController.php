@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Jobs\ExecFilaJob;
 use App\Jobs\ExecFilaParcelaJob;
+use App\Models\Carteira;
 use App\Models\ExecFila;
 use App\Models\Fila;
 use App\Models\ModCom;
 use App\Models\Parcela;
 use App\Models\RegTab;
+use App\Models\Roteiro;
 use App\Models\Tarefas;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -345,5 +347,54 @@ class ExecFilaController extends Controller
         return response()->json($fila);
     }
 
+    public function getDadosDataTableCarteira(Request $request)
+    {
 
+        $var = Carteira::leftJoin('cda_roteiro', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+            ->join("cda_fila_x_carteira",function($join){
+                $join->on("fixca_fila","=","cda_roteiro.FilaTrabId")
+                    ->on("fixca_carteira","=","cda_roteiro.CarteiraId");
+            })
+            ->whereRaw(" cda_roteiro.FilaTrabId = '$request->fila'")
+            ->orderBy('cda_carteira.CARTEIRAORD','asc')
+            ->groupBy('cda_carteira.CARTEIRAID')
+            ->get();
+
+        return Datatables::of($var)->make(true);
+    }
+
+    public function getDadosDataTableRoteiro(Request $request)
+    {
+        $where=1;
+        if($request->fila){
+            $where.=" AND cda_roteiro.FilaTrabId = '$request->fila'";
+        }
+
+        $roteiro = Roteiro::select([
+            'cda_roteiro.*',
+            'Carteira.CARTEIRASG',
+            'Fase.REGTABSG as FaseCartNM',
+            'Evento.EventoSg as EventoNM',
+            'ModCom.ModComSg as ModComNM',
+            'FilaTrab.FilaTrabSg as FilaTrabNM',
+            'CANAL.CANALSG as CanalNM',
+            'PROX.RoteiroOrd as RoteiroProxNM',
+        ])
+            ->leftJoin('cda_regtab  as Fase', 'Fase.REGTABID', '=', 'cda_roteiro.FaseCartId')
+            ->leftJoin('cda_evento as  Evento', 'Evento.EventoId', '=', 'cda_roteiro.EventoId')
+            ->leftJoin('cda_modcom  as ModCom', 'ModCom.ModComId', '=', 'cda_roteiro.ModComId')
+            ->leftJoin('cda_filatrab  as FilaTrab', 'FilaTrab.FilaTrabId', '=', 'cda_roteiro.FilaTrabId')
+            ->leftJoin('cda_canal  as CANAL', 'CANAL.CANALID', '=', 'cda_roteiro.CanalId')
+            ->leftJoin('cda_carteira  as Carteira', 'Carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+            ->leftJoin('cda_roteiro  as PROX', 'PROX.RoteiroId', '=', 'cda_roteiro.RoteiroProxId')
+            ->join("cda_fila_x_roteiro",function($join){
+                $join->on("fixro_fila","=","cda_roteiro.FilaTrabId")
+                    ->on("fixro_roteiro","=","cda_roteiro.RoteiroId");
+            })
+            ->whereRaw($where)
+            ->orderBy('cda_roteiro.RoteiroOrd','asc')
+            ->get();
+
+        return Datatables::of($roteiro)->make(true);
+    }
 }
