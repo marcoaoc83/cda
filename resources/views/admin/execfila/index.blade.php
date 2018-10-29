@@ -23,7 +23,7 @@
                         <div class="x_title">
                             <h2>Fila<small></small></h2>
                             <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                <li><a class="collapse-divFiltroContribuintelink"><i class="fa fa-chevron-up"></i></a>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>
@@ -44,6 +44,7 @@
                             {{ csrf_field() }}
                             @include('admin.execfila.filtro-carteira')
                             @include('admin.execfila.filtro-roteiro')
+                            @include('admin.execfila.filtro-contribuinte')
                             @include('admin.execfila.filtro-parcela')
 
                             <div class="x_panel text-center " style="background-color: #BDBDBD" id="divBotaoFiltrar">
@@ -201,11 +202,6 @@
                         $('#divFiltroRoteiro').show();
                     }else{
                         $('#divFiltroRoteiro').hide();
-                    }
-                    if(result.filtro_roteiro==1){
-                        $('#divFiltroContribuinte').show();
-                    }else{
-                        $('#divFiltroContribuinte').hide();
                     }
                     if(result.filtro_contribuinte==1){
                         $('#divFiltroContribuinte').show();

@@ -9,17 +9,43 @@
             </ul>
             <div class="clearfix"></div>
         </div>
-        <div class="x_content " style="display: none;">
-            <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                <table id="tbContribuinte" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
-                    <thead>
-                    <tr>
-                        <th width="50%">Nome</th>
-                        <th>CNPJ/CPF</th>
-                        <th>Inscrição Municipal</th>
-                    </tr>
-                    </thead>
-                </table>
+        <div class="x_content ">
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback" style="background-color: #eeeeee">
+                <div class="item form-group">
+                    <label for="filtro_parcelas">CPF/CNPJ</label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                    <div class="item form-group">
+                        <label for="filtro_parcelas">Com</label>
+                        <label><input type="checkbox" id="filtro_contribuinte" name="filtro_contribuinte"  value="1" class="js-switch" ></label>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                    <div class="item form-group">
+                        <label for="filtro_parcelas">Sem</label>
+                        <label><input type="checkbox" id="filtro_contribuinte" name="filtro_contribuinte"  value="1" class="js-switch" ></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback" >
+                <div class="item form-group"><label></label></div>
+            </div>
+            <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback" style="background-color: #eeeeee">
+                <div class="item form-group">
+                    <label for="filtro_parcelas">Insc. Munic.</label>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                    <div class="item form-group">
+                        <label for="filtro_parcelas">Com</label>
+                        <label><input type="checkbox" id="filtro_contribuinte" name="filtro_contribuinte"  value="1" class="js-switch" ></label>
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                    <div class="item form-group">
+                        <label for="filtro_parcelas">Sem</label>
+                        <label><input type="checkbox" id="filtro_contribuinte" name="filtro_contribuinte"  value="1" class="js-switch" ></label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
