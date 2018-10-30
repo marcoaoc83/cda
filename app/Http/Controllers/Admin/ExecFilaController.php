@@ -281,6 +281,27 @@ class ExecFilaController extends Controller
         if($Nqtde){
             $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$Nqtde).')';
         }
+
+        if($request->filtro_contribuinteC && empty($request->filtro_contribuinteS)){
+            $where.=' AND cda_pessoa.CPF_CNPJNR >1';
+        }
+        if($request->filtro_contribuinteS && empty($request->filtro_contribuinteC)){
+            $where.=' AND cda_pessoa.CPF_CNPJNR < 1';
+        }
+        if($request->filtro_contribuinteN){
+            $where.=' AND cda_pessoa.CPF_CNPJNR ='.$request->filtro_contribuinteN;
+        }
+
+        if($request->filtro_contribuinteC2 && empty($request->filtro_contribuinteS)){
+            $where.=' AND cda_inscrmun.INSCRMUNNR >1';
+        }
+        if($request->filtro_contribuinteS2 && empty($request->filtro_contribuinteC2)){
+            $where.=' AND cda_inscrmun.INSCRMUNNR < 1';
+        }
+        if($request->filtro_contribuinteN2){
+            $where.=' AND cda_inscrmun.INSCRMUNNR ='.$request->filtro_contribuinteN;
+        }
+
         $group='cda_parcela.ParcelaId';
         if($request->group=='Pes'){
             $group='cda_parcela.PessoaId';
@@ -294,10 +315,11 @@ class ExecFilaController extends Controller
             'cda_pessoa.CPF_CNPJNR',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
             DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
-            'SitPagT.REGTABNM as SitPag',
-            'SitCobT.REGTABNM as SitCob',
-            'OrigTribT.REGTABNM as OrigTrib',
-            'TribT.REGTABNM as Trib',
+            'SitPagT.REGTABSG as SitPag',
+            'SitCobT.REGTABSG as SitCob',
+            'OrigTribT.REGTABSG as OrigTrib',
+            'TribT.REGTABSG as Trib',
+            DB::raw("sum(cda_parcela.TotalVr)  as TotalVr2"),
             DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
         ])
             ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
@@ -307,6 +329,7 @@ class ExecFilaController extends Controller
             ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
             ->groupBy($group)
@@ -328,7 +351,7 @@ class ExecFilaController extends Controller
             $collect[$i]['ParcelaNr']=$parcela['ParcelaNr'];
             $collect[$i]['PlanoQt']=$parcela['PlanoQt'];
             $collect[$i]['VencimentoDt']=$parcela['VencimentoDt']->format('d/m/Y');
-            $collect[$i]['TotalVr']=$parcela['TotalVr'];
+            $collect[$i]['TotalVr']="R$ ".number_format($parcela['TotalVr2'],2,',','.');
             $collect[$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['PessoaId']]]['Desc']:'';
             $collect[$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['PessoaId']]]['Desc']:'';
             $collect[$i]['ParcelaId']=$parcela['ParcelaId'];

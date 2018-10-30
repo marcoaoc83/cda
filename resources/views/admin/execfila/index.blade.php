@@ -380,7 +380,7 @@
                     info:false
                 },
                 columns: [
-                    {data: 'REGTABNM', name: 'REGTABNM'},
+                    {data: 'REGTABSG', name: 'REGTABSG'},
                     {
                         data: 'REGTABID',
                         name: 'REGTABID',
@@ -421,7 +421,7 @@
                     info:false
                 },
                 columns: [
-                    {data: 'REGTABNM', name: 'REGTABNM'},
+                    {data: 'REGTABSG', name: 'REGTABSG'},
                     {
                         data: 'REGTABID',
                         name: 'REGTABID',
@@ -474,8 +474,8 @@
                     {data: 'PlanoQt', name: 'PlanoQt'},
                     {data: 'VencimentoDt', name: 'VencimentoDt'},
                     {data: 'TotalVr', name: 'TotalVr'},
-                    {data: 'FxAtraso', name: 'FxAtraso'},
-                    {data: 'FxValor', name: 'FxValor'},
+                    // {data: 'FxAtraso', name: 'FxAtraso'},
+                    // {data: 'FxValor', name: 'FxValor'},
                     {
                         data: 'ParcelaId',
                         name: 'ParcelaId',

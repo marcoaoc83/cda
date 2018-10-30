@@ -13,30 +13,30 @@
             <a href="#">
                 <div class="mail_list"></div>
             </a>
-            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+            <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
                 <input type="text" class="form-control has-feedback-left date-picker" style="padding-right: 1px !important;" placeholder="Vc Inicio" id="VencimentoInicio" name="VencimentoInicio" aria-describedby="inputSuccess2Status">
                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                 <span id="inputSuccess2Status" class="sr-only">(success)</span>
             </div>
-            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+            <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
                 <input type="text" class="form-control has-feedback-left date-picker"  style="padding-right: 1px !important;" placeholder="Vc Final" id="VencimentoFinal" name="VencimentoFinal" aria-describedby="inputSuccess2Status">
                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                 <span id="inputSuccess2Status" class="sr-only">(success)</span>
             </div>
-            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+            <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
                 <input type="text" class="form-control has-feedback-left date-picker"  style="padding-right: 1px !important;" placeholder="Cpt Inicio" id="CompetenciaInicio" name="CompetenciaInicio" aria-describedby="inputSuccess2Status">
                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                 <span id="inputSuccess2Status" class="sr-only">(success)</span>
             </div>
-            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+            <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
                 <input type="text" class="form-control has-feedback-left date-picker"  style="padding-right: 1px !important;" placeholder="Cpt Final" id="CompetenciaFinal" name="CompetenciaFinal" aria-describedby="inputSuccess2Status">
                 <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
                 <span id="inputSuccess2Status" class="sr-only">(success)</span>
             </div>
-            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+            <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
                 <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="nmaiores" placeholder="N Maiores">
             </div>
-            <div class="col-md-2 col-sm-2 col-xs-12 form-group has-feedback">
+            <div class="col-md-2 col-sm-6 col-xs-12 form-group has-feedback">
                 <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="nmenores" placeholder="N Menores">
             </div>
             <a href="#">

@@ -23,8 +23,8 @@
                 <th>Pl</th>
                 <th>Vencimento</th>
                 <th>Valor</th>
-                <th>Fx Atraso</th>
-                <th>Fx Valor</th>
+                {{--<th>Fx Atraso</th>--}}
+                {{--<th>Fx Valor</th>--}}
             </tr>
             </thead>
         </table>
