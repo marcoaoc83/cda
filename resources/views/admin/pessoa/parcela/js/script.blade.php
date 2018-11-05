@@ -138,6 +138,10 @@
                 var tablePcRot = $('#tbPcRot').DataTable();
                 var url = "{{ route('pcrot.getdata') }}"+"/?ParcelaId="+ParcelaId[0];
                 tablePcRot.ajax.url(url).load( );
+
+                var tbPcEvento = $('#tbPcEvento').DataTable();
+                var url = "{{ route('pcevento.getdata') }}"+"/?ParcelaId="+ParcelaId[0];
+                tbPcEvento.ajax.url(url).load( );
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {

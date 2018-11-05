@@ -64,11 +64,21 @@
                         {{ csrf_field() }}
                         <input type="hidden" id="filaId" name="filaId">
                         <input type="hidden" id="parcelas" name="parcelas">
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback text-center">
+                            <div class="item form-group">
+                                <label for="filtro_parcelas">Gravar</label>
+                                <label><input type="checkbox" id="gravar"   name="gravar"  value="1" class="js-switch" ></label>
+                            </div>
+                        </div>
                     </form>
+
                     <div class="x_panel text-center">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                         <a class="btn btn-app "    id="execFila">
                             <i class="fa fa-save"></i> Executar Fila
                         </a>
+                        </div>
                     </div>
 
                 </div>

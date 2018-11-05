@@ -9,7 +9,7 @@
             </ul>
             <div class="clearfix"></div>
         </div>
-        <div class="x_content ">
+        <div class="x_content "  style="display: none;">
             <div class="col-md-5 col-sm-5 col-xs-12 form-group has-feedback" style="background-color: #eeeeee">
                 <div class="item form-group">
                     <label for="filtro_parcelas"><br>CPF/CNPJ</label>
@@ -29,9 +29,9 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                     <div class="item form-group">
                         <label for="filtro_parcelas">Número</label>
-                        <label>
+
                             <input  id="filtro_contribuinteN"  name="filtro_contribuinteN"     class="form-control col-md-7 col-xs-12"  type="text">
-                        </label>
+
                     </div>
                 </div>
             </div>
@@ -57,9 +57,9 @@
                 <div class="col-md-6 col-sm-6 col-xs-12 form-group has-feedback">
                     <div class="item form-group">
                         <label for="filtro_parcelas">Número</label>
-                        <label>
+
                             <input  id="filtro_contribuinteN2"  name="filtro_contribuinteN2"     class="form-control col-md-7 col-xs-12"  type="text">
-                        </label>
+
                     </div>
                 </div>
             </div>

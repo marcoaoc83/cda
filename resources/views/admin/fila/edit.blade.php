@@ -41,12 +41,12 @@
                             </a>
                         </div>
                     </div>
-                    <ul class="nav nav-tabs">
-                        <li role="presentation" class="active"><a data-toggle="tab" href="#1a">Dados</a></li>
-                        <li role="presentation"><a data-toggle="tab" href="#2a">Configurações</a></li>
-                        <li role="presentation"><a data-toggle="tab" href="#3a">Filtros</a></li>
-                    </ul>
-                    <div class="tab-content">
+                    {{--<ul class="nav nav-tabs">--}}
+                        {{--<li role="presentation" class="active"><a data-toggle="tab" href="#1a">Dados</a></li>--}}
+                        {{--<li role="presentation"><a data-toggle="tab" href="#2a">Configurações</a></li>--}}
+                        {{--<li role="presentation"><a data-toggle="tab" href="#3a">Filtros</a></li>--}}
+                    {{--</ul>--}}
+                    <div  >
                         <div class="row tab-pane active" id="1a">
                             <div class="x_panel">
                                 <div class="x_title">

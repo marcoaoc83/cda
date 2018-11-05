@@ -48,6 +48,16 @@
             if ( type === 'row' ) {
                 var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
                 $('#formFila').append('<input type="hidden" id="CARTEIRAID'+CARTEIRAID[0]+'" name="CARTEIRAID[]" value='+CARTEIRAID[0]+' />');
+
+                var carteiras=[];
+                var x =0;
+                $('input[name^="CARTEIRAID"]').each(function() {
+                    carteiras[x]=$(this).val();
+                    x++;
+                });
+                var tableRoteiro = $('#tbRoteiro').DataTable();
+                var url = "{{ route('roteiro.getdata') }}"+"/?CARTEIRAID="+carteiras;
+                tableRoteiro.ajax.url(url).load();
             }
         })
             .on( 'deselect', function ( e, dt, type, indexes ){
@@ -55,6 +65,16 @@
                     var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
                     $( "#CARTEIRAID"+CARTEIRAID[0] ).remove();
                 }
+
+                var carteiras=[];
+                var x =0;
+                $('input[name^="CARTEIRAID"]').each(function() {
+                    carteiras[x]=$(this).val();
+                    x++;
+                });
+                var tableRoteiro = $('#tbRoteiro').DataTable();
+                var url = "{{ route('roteiro.getdata') }}"+"/?CARTEIRAID="+carteiras;
+                tableRoteiro.ajax.url(url).load();
             });
 
 

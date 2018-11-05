@@ -28,16 +28,18 @@ class ExecFilaParcelaJob implements ShouldQueue
 
     protected $parcelas;
     protected $Tarefa;
+    protected $Gravar;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($parcelas,$Tarefa)
+    public function __construct($parcelas,$Tarefa,$Gravar)
     {
         $this->parcelas=$parcelas;
         $this->Tarefa=$Tarefa;
+        $this->Gravar=$Gravar;
     }
 
     /**
@@ -102,24 +104,25 @@ class ExecFilaParcelaJob implements ShouldQueue
         $parcelas= DB::select($sql." GROUP BY cda_parcela.ParcelaId");
 
         foreach ($parcelas as $linha){
-
-            $sql="INSERT INTO cda_pcevento SET ";
-            $sql.="PESSOAID='".$linha->PESSOAID."',";
-            $sql.="INSCRMUNID='".$linha->INSCRMUNID."',";
-            $sql.="PARCELAID='".$linha->PARCELAID."',";
-            $sql.="EVENTOID='".$linha->EventoId."',";
-            $sql.="EVENTODT='".date('Y-m-d')."',";
-            $sql.="CARTEIRAID='".$linha->CarteiraId."',";
-            $sql.="FILATRABID='".$linha->FilaTrabId."',";
-            $sql.="PSCANALID='".$linha->CanalId."',";
-            $sql.="MODCOMID='".$linha->ModComId."'";
-            DB::beginTransaction();
-            try {
-                DB::insert($sql);
-                DB::commit();
-            } catch (\Exception $e) {
-                echo $e->getMessage();
-                DB::rollback();
+            if($this->Gravar){
+                $sql="INSERT INTO cda_pcevento SET ";
+                $sql.="PESSOAID='".$linha->PESSOAID."',";
+                $sql.="INSCRMUNID='".$linha->INSCRMUNID."',";
+                $sql.="PARCELAID='".$linha->PARCELAID."',";
+                $sql.="EVENTOID='".$linha->EventoId."',";
+                $sql.="EVENTODT='".date('Y-m-d')."',";
+                $sql.="CARTEIRAID='".$linha->CarteiraId."',";
+                $sql.="FILATRABID='".$linha->FilaTrabId."',";
+                $sql.="PSCANALID='".$linha->CanalId."',";
+                $sql.="MODCOMID='".$linha->ModComId."'";
+                DB::beginTransaction();
+                try {
+                    DB::insert($sql);
+                    DB::commit();
+                } catch (\Exception $e) {
+                    echo $e->getMessage();
+                    DB::rollback();
+                }
             }
             if($linha->ModComId>0) {
 

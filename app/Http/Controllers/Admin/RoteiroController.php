@@ -131,6 +131,9 @@ class RoteiroController extends Controller
         if($request->CarteiraId){
             $roteiro->whereIn('cda_roteiro.CarteiraId', [$request->CarteiraId]);
         }
+        if($request->CARTEIRAID){
+            $roteiro->whereIn('cda_roteiro.CarteiraId', [$request->CARTEIRAID]);
+        }
         $roteiro->get();
         return Datatables::of($roteiro)->make(true);
     }

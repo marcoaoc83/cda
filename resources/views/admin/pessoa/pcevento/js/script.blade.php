@@ -8,7 +8,43 @@
     $(document).ready(function() {
 
         var tablePcEvento = $('#tbPcEvento').DataTable({
-
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            destroy: true,
+            ajax: {
+                "url": "{{ route('pcrot.getdata') }}"
+            },
+            columns: [
+                {
+                    data: 'EVENTODT',
+                    name: 'EVENTODT'
+                },
+                {
+                    data: 'Objetivo',
+                    name: 'Objetivo'
+                },
+                {
+                    data: 'Evento',
+                    name: 'Evento'
+                },
+                {
+                    data: 'Fila',
+                    name: 'Fila'
+                },
+                {
+                    data: 'Fonte',
+                    name: 'Fonte'
+                },
+                {
+                    data: 'Canal',
+                    name: 'Canal'
+                },
+                {
+                    data: 'Tipo',
+                    name: 'Tipo'
+                }
+            ],
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
             }
