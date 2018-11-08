@@ -250,9 +250,20 @@
 
         function filtrarCarteira(fila){
             var tbCarteira = $('#tbCarteira').DataTable();
-            var url = "{{ route('execfila.getDadosCarteira') }}"+"/?fila="+fila;
+            var url = "{{ route('carteira.getdataCarteira') }}"+"/?fila="+fila;
             tbCarteira.ajax.url(url).load();
-
+            tbCarteira.on( 'select', function ( e, dt, type, indexes ) {
+                if ( type === 'row' ) {
+                    var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
+                    var tableRoteiro = $('#tbRoteiro').DataTable();
+                    var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID="+CARTEIRAID[0]+"&fila="+fila;
+                    tableRoteiro.ajax.url(url).load();
+                }
+            }).on( 'deselect', function ( e, dt, type, indexes ){
+                var tableRoteiro = $('#tbRoteiro').DataTable();
+                var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID=0";
+                tableRoteiro.ajax.url(url).load();
+            });
         }
         function filtrarRoteiro(fila){
             var tbRoteiro = $('#tbRoteiro').DataTable( );
@@ -302,7 +313,7 @@
                 "info":     false,
                 ajax: '{{ route('carteira.getdataRoteiro') }}',
                 select: {
-                    style: 'multi',
+                    style: 'single',
                     info:false
                 },
                 columns: [
@@ -346,7 +357,7 @@
                 "info":     false,
                 ajax: '{{ route('carteira.getdataCarteira') }}',
                 select: {
-                    style: 'multi',
+                    style: 'single',
                     info:false
                 },
                 columns: [

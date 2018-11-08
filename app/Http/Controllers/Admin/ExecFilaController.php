@@ -392,7 +392,9 @@ class ExecFilaController extends Controller
         if($request->fila){
             $where.=" AND cda_roteiro.FilaTrabId = '$request->fila'";
         }
-
+        if($request->CARTEIRAID){
+            $where.=" AND cda_roteiro.CarteiraId = '$request->CARTEIRAID'";
+        }
         $roteiro = Roteiro::select([
             'cda_roteiro.*',
             'Carteira.CARTEIRASG',

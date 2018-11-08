@@ -1,3 +1,4 @@
+<div class="col-md-4 col-sm-4 col-xs-12 "  >
 <div class="x_panel" id="pnCarteira">
     <div class="x_title">
         <h2>Carteira<small></small></h2>
@@ -18,6 +19,7 @@
             </thead>
         </table>
     </div>
+</div>
 </div>
 @push('scripts')
     @include('admin.fila.carteira.js.script');

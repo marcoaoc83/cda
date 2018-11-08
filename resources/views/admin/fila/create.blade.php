@@ -57,9 +57,9 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpModId">Tipo Modelo <span class="required">*</span></label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TpModId">Tipo Modelo  </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="TpModId" name="TpModId" required="required">
+                                        <select class="form-control" id="TpModId" name="TpModId"  >
                                             <option value=""></option>
                                                         @foreach($TpMod as $var)
                                                 <option value="{{$var->REGTABID}}">{{$var->REGTABNM}}</option>             

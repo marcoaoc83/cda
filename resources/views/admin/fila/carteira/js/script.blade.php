@@ -15,9 +15,9 @@
             "paging":   false,
             "ordering": false,
             "info":     false,
-            ajax: '{{ route('carteira.getdataCarteira') }}',
+            ajax: '{{ route('carteira.getdataCarteira') }}'+'?fila={!! $Fila->FilaTrabId !!}',
             select: {
-                style: 'multi',
+                style: 'single',
                 info:false
             },
             columns: [
@@ -32,48 +32,20 @@
             ],
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
-            },
-            "initComplete": function( settings, json ) {
-                var table = $('#tbCarteira').DataTable();
-                var arr = [{!! $fcarteiras !!}];
-                table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-                    var data = this.data();
-                    if($.inArray(parseInt(data.CARTEIRAID),arr) !== -1){
-                        this.select();
-                    }
-                });
             }
         });
         tbCarteira.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
                 var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
-                $('#formFila').append('<input type="hidden" id="CARTEIRAID'+CARTEIRAID[0]+'" name="CARTEIRAID[]" value='+CARTEIRAID[0]+' />');
-
-                var carteiras=[];
-                var x =0;
-                $('input[name^="CARTEIRAID"]').each(function() {
-                    carteiras[x]=$(this).val();
-                    x++;
-                });
                 var tableRoteiro = $('#tbRoteiro').DataTable();
-                var url = "{{ route('roteiro.getdata') }}"+"/?CARTEIRAID="+carteiras;
+                var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID="+CARTEIRAID[0]+"&fila={!! $Fila->FilaTrabId !!}";
                 tableRoteiro.ajax.url(url).load();
             }
         })
             .on( 'deselect', function ( e, dt, type, indexes ){
-                if ( type === 'row' ) {
-                    var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
-                    $( "#CARTEIRAID"+CARTEIRAID[0] ).remove();
-                }
 
-                var carteiras=[];
-                var x =0;
-                $('input[name^="CARTEIRAID"]').each(function() {
-                    carteiras[x]=$(this).val();
-                    x++;
-                });
                 var tableRoteiro = $('#tbRoteiro').DataTable();
-                var url = "{{ route('roteiro.getdata') }}"+"/?CARTEIRAID="+carteiras;
+                var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID=0";
                 tableRoteiro.ajax.url(url).load();
             });
 

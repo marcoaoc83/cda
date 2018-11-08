@@ -1,3 +1,4 @@
+<div class="col-md-8 col-sm-8 col-xs-12 " >
 <div class="x_panel" id="pnFilaConf">
     <div class="x_title">
         <h2>Configurações de Fila <small></small></h2>
@@ -32,6 +33,7 @@
             </thead>
         </table>
     </div>
+</div>
 </div>
 @push('scripts')
     @include('admin.fila.filaconf.js.script');

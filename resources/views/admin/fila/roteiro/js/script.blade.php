@@ -15,9 +15,9 @@
             "paging":   false,
             "ordering": false,
             "info":     false,
-            ajax: '{{ route('roteiro.getdata') }}',
+            ajax: '{{ route('execfila.getDadosRoteiro') }}'+'?CARTEIRAID=a&fila={!! $Fila->FilaTrabId !!}',
             select: {
-                style: 'multi',
+                style: 'single',
                 info:false
             },
             columns: [
@@ -101,30 +101,9 @@
             ],
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
-            },
-            "initComplete": function( settings, json ) {
-                var table = $('#tbRoteiro').DataTable();
-                var arr = [{!! $froteiros !!}];
-                table.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
-                    var data = this.data();
-                    if($.inArray(parseInt(data.RoteiroId),arr) !== -1){
-                        this.select();
-                    }
-                });
             }
         });
-        tbRoteiro.on( 'select', function ( e, dt, type, indexes ) {
-            if ( type === 'row' ) {
-                var RoteiroID = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
-                $('#formFila').append('<input type="hidden" id="RoteiroID'+RoteiroID[0]+'" name="RoteiroID[]" value='+RoteiroID[0]+' />');
-            }
-        })
-            .on( 'deselect', function ( e, dt, type, indexes ){
-                if ( type === 'row' ) {
-                    var RoteiroID = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
-                    $( "#RoteiroID"+RoteiroID[0] ).remove();
-                }
-            });
+
 
     });
 </script>

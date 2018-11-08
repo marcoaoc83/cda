@@ -36,6 +36,7 @@ class FilaController extends Controller
         $TpMod = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','TpMod')
+            ->orderBy('cda_regtab.REGTABSG','asc')
             ->get();
         ;
         $Evento = DB::table('cda_evento')
@@ -97,16 +98,17 @@ class FilaController extends Controller
         $TpMod = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','TpMod')
+            ->orderBy('cda_regtab.REGTABSG','asc')
             ->get();
-        ;
+
         $Evento = DB::table('cda_evento')->get();
-        ;
+
 
         $DiaSem = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','DiaSem')
             ->get();
-        ;
+
 
         $RegTab = DB::table('cda_regtab')->get();
 

@@ -156,6 +156,7 @@
                             timer: 1500
                         });
                         tableRoteiro.ajax.reload();
+                        $('#formRoteiro').trigger("reset");
                     }
                 });
             return false;

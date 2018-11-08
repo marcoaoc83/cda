@@ -128,7 +128,7 @@ class CarteiraController extends Controller
 
         $Evento = DB::table('cda_evento')->get();
 
-        $ModCom = DB::table('cda_modcom')->get();
+        $ModCom = DB::table('cda_modcom')->orderBy('cda_modcom.ModComSg','asc')->get();
 
         $FilaTrab = DB::table('cda_filatrab')->get();
 

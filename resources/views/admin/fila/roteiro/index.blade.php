@@ -1,3 +1,4 @@
+<div class="col-md-8 col-sm-8 col-xs-12 "   >
 <div class="x_panel" id="pnRoteiro">
     <div class="x_title">
         <h2>Roteiro<small></small></h2>
@@ -23,6 +24,7 @@
             </thead>
         </table>
     </div>
+</div>
 </div>
 @push('scripts')
     @include('admin.fila.roteiro.js.script');
