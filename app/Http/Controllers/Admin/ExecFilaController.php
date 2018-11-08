@@ -374,10 +374,7 @@ class ExecFilaController extends Controller
     {
 
         $var = Carteira::leftJoin('cda_roteiro', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
-            ->join("cda_fila_x_carteira",function($join){
-                $join->on("fixca_fila","=","cda_roteiro.FilaTrabId")
-                    ->on("fixca_carteira","=","cda_roteiro.CarteiraId");
-            })
+
             ->whereRaw(" cda_roteiro.FilaTrabId = '$request->fila'")
             ->orderBy('cda_carteira.CARTEIRAORD','asc')
             ->groupBy('cda_carteira.CARTEIRAID')
@@ -412,10 +409,7 @@ class ExecFilaController extends Controller
             ->leftJoin('cda_canal  as CANAL', 'CANAL.CANALID', '=', 'cda_roteiro.CanalId')
             ->leftJoin('cda_carteira  as Carteira', 'Carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
             ->leftJoin('cda_roteiro  as PROX', 'PROX.RoteiroId', '=', 'cda_roteiro.RoteiroProxId')
-            ->join("cda_fila_x_roteiro",function($join){
-                $join->on("fixro_fila","=","cda_roteiro.FilaTrabId")
-                    ->on("fixro_roteiro","=","cda_roteiro.RoteiroId");
-            })
+
             ->whereRaw($where)
             ->orderBy('cda_roteiro.RoteiroOrd','asc')
             ->get();

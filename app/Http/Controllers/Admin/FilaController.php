@@ -150,14 +150,6 @@ class FilaController extends Controller
         $evento = Fila::findOrFail($id);
         $evento->update($request->except(['_token']));
 
-        FilaCarteira::where('fixca_fila',$id)->delete();
-        foreach ($request->CARTEIRAID as $carteira){
-            FilaCarteira::create(['fixca_fila'=>$id,'fixca_carteira'=>$carteira]);
-        }
-        FilaRoteiro::where('fixro_fila',$id)->delete();
-        foreach ($request->RoteiroID as $roteiro){
-            FilaRoteiro::create(['fixro_fila'=>$id,'fixro_roteiro'=>$roteiro]);
-        }
         // redirect
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('fila.index');
