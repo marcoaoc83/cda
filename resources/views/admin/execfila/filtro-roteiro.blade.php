@@ -15,12 +15,13 @@
                 <table id="tbRoteiro" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Ord</th>
-                        <th>FaseCart</th>
-                        <th>Evento</th>
-                        <th>Modelo</th>
-                        <th>Fila</th>
-                        <th>Canal</th>
+                        <td></td>
+                        <td>Ord</td>
+                        <td>FaseCart</td>
+                        <td>Evento</td>
+                        <td>Modelo</td>
+                        <td>Fila</td>
+                        <td>Canal</td>
                     </tr>
                     </thead>
                 </table>

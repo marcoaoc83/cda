@@ -312,11 +312,22 @@
                 "ordering": false,
                 "info":     false,
                 ajax: '{{ route('carteira.getdataRoteiro') }}',
-                select: {
-                    style: 'single',
-                    info:false
-                },
+
                 columns: [
+                    {
+                        data:null,
+                        name:"check",
+                        searchable: false,
+                        orderable: false,
+                        width: '1%',
+                        className: 'col-lg-1 col-centered',
+                        render: function (data, type, full, meta) {
+                            return '<input type="checkbox" name="roteiros[]" value="'+data.RoteiroId+'">';
+                        },
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).prop("scope", "row");
+                        }
+                    },
                     {data: 'RoteiroOrd', name: 'RoteiroOrd'},
                     {data: 'FaseCartNM', name: 'FaseCartNM'},
                     {data: 'EventoNM', name: 'EventoNM'},
