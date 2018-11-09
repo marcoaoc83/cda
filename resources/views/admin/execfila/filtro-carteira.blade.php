@@ -14,8 +14,9 @@
                 <table id="tbCarteira" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                     <thead>
                     <tr>
-                        <th>Ordem</th>
-                        <th>Sigla</th>
+                        <td></td>
+                        <td>Ordem</td>
+                        <td>Sigla</td>
                     </tr>
                     </thead>
                 </table>

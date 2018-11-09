@@ -261,13 +261,13 @@
                 }
             }).on( 'deselect', function ( e, dt, type, indexes ){
                 var tableRoteiro = $('#tbRoteiro').DataTable();
-                var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID=0";
+                var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID=a";
                 tableRoteiro.ajax.url(url).load();
             });
         }
         function filtrarRoteiro(fila){
             var tbRoteiro = $('#tbRoteiro').DataTable( );
-            var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?fila="+fila;
+            var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID=a&fila="+fila;
             tbRoteiro.ajax.url(url).load();
         }
         function updateDataTableSelectAllCtrl(tbParcela){
@@ -355,12 +355,28 @@
                 "paging":   false,
                 "ordering": false,
                 "info":     false,
+
                 ajax: '{{ route('carteira.getdataCarteira') }}',
                 select: {
                     style: 'single',
                     info:false
                 },
                 columns: [
+                    {
+                        data:null,
+                        name:"check",
+                        searchable: false,
+                        orderable: false,
+                        width: '1%',
+                        className: 'col-lg-1 col-centered',
+                        render: function (data, type, full, meta) {
+                            console.log(data);
+                            return '<input type="checkbox" name="carteiras[]" value="'+data.CARTEIRAID+'">';
+                        },
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).prop("scope", "row");
+                        }
+                    },
                     {data: 'CARTEIRAORD', name: 'CARTEIRAORD'},
                     {data: 'CARTEIRASG', name: 'CARTEIRASG'},
                     {
@@ -374,18 +390,6 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
                 }
             });
-            tbCarteira.on( 'select', function ( e, dt, type, indexes ) {
-                if ( type === 'row' ) {
-                    var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
-                    $('#formFiltroParcela').append('<input type="hidden" id="CARTEIRAID'+CARTEIRAID[0]+'" name="CARTEIRAID[]" value='+CARTEIRAID[0]+' />');
-                }
-            })
-                .on( 'deselect', function ( e, dt, type, indexes ){
-                    if ( type === 'row' ) {
-                        var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
-                        $( "#CARTEIRAID"+CARTEIRAID[0] ).remove();
-                    }
-                });
 
             var tbFxAtraso = $('#tbFxAtraso').DataTable({
                 processing: true,
