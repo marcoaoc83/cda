@@ -14,8 +14,9 @@
             <tr>
                 <th>Nome</th>
                 <th>CNPJ/CPF</th>
+                <th>IM</th>
                 <th>Vencimento</th>
-                <th>Valor</th>
+                <th style="text-align: right">Valor</th>
                 <th>Fx Atraso</th>
                 <th>Fx Valor</th>
             </tr>

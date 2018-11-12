@@ -169,9 +169,6 @@ class ExecFilaController extends Controller
             $where.=' AND cda_roteiro.CarteiraId IN ('.implode(',',$request->CARTEIRAID).')';
         }
 
-        if($request->CARTEIRAID){
-            $where.=' AND cda_roteiro.CarteiraId IN ('.implode(',',$request->CARTEIRAID).')';
-        }
         if($request->VencimentoInicio){
             $request->VencimentoInicio=Carbon::createFromFormat('d/m/Y', $request->VencimentoInicio)->format('Y-m-d');
             $where.=" AND cda_parcela.VencimentoDt >='".$request->VencimentoInicio."'";
@@ -274,9 +271,14 @@ class ExecFilaController extends Controller
 
         if($FxAtraso){
             $where.=' AND cda_parcela.PessoaId IN ('.implode(',',array_keys($FxAtraso)).')';
+        }elseif($request->FxAtrasoId){
+            $where.=' AND cda_parcela.PessoaId IN (0)';
         }
+
         if($FxValor){
             $where.=' AND cda_parcela.PessoaId IN ('.implode(',',array_keys($FxValor)).')';
+        }elseif($request->FxValorId){
+            $where.=' AND cda_parcela.PessoaId IN (0)';
         }
         if($Nqtde){
             $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$Nqtde).')';
@@ -312,6 +314,7 @@ class ExecFilaController extends Controller
 
         $Parcelas = Parcela::select([
             'cda_parcela.*',
+            'cda_inscrmun.INSCRMUNNR',
             'cda_pessoa.CPF_CNPJNR',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
             DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
@@ -333,6 +336,7 @@ class ExecFilaController extends Controller
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
             ->groupBy($group)
+            ->orderBy('cda_parcela.ParcelaId')
             ->limit($limit)
             ->get();
 
@@ -340,10 +344,18 @@ class ExecFilaController extends Controller
         $i=0;
         $collect=[];
         foreach ($Parcelas as $parcela){
+            $doc='';
+            if(strlen($parcela['CPF_CNPJNR'])==11){
+                $doc= self::maskString($parcela['CPF_CNPJNR'],'###.###.###-##');
+            }
+            if(strlen($parcela['CPF_CNPJNR'])==14){
+                $doc= self::maskString($parcela['CPF_CNPJNR'],'##.###.###/####-##');
+            }
             $collect[$i]['Nome']=$parcela['Nome'];
             $collect[$i]['SitPag']=$parcela['SitPag'];
             $collect[$i]['PessoaId']=$parcela['PessoaId'];
-            $collect[$i]['CPFCNPJ']=$parcela['CPF_CNPJNR'];
+            $collect[$i]['INSCRMUNNR']=$parcela['INSCRMUNNR'];
+            $collect[$i]['CPFCNPJ']=$doc;
             $collect[$i]['SitCob']=$parcela['SitCob'];
             $collect[$i]['OrigTrib']=$parcela['OrigTrib'];
             $collect[$i]['Trib']=$parcela['Trib'];
@@ -415,5 +427,38 @@ class ExecFilaController extends Controller
             ->get();
 
         return Datatables::of($roteiro)->make(true);
+    }
+
+    /**
+     * Função para mascarar uma string, mascara tipo ##-##-##
+     *
+     * @param string $val
+     * @param string $mask
+     *
+     * @return string
+     */
+    public static function maskString($val, $mask)
+    {
+        if (empty($val)) {
+            return $val;
+        }
+        $maskared = '';
+        $k = 0;
+        if (is_numeric($val)) {
+            $val = sprintf('%0' . mb_strlen(preg_replace('/[^#]/', '', $mask)) . 's', $val);
+        }
+        for ($i = 0; $i <= mb_strlen($mask) - 1; $i++) {
+            if ($mask[$i] == '#') {
+                if (isset($val[$k])) {
+                    $maskared .= $val[$k++];
+                }
+            } else {
+                if (isset($mask[$i])) {
+                    $maskared .= $mask[$i];
+                }
+            }
+        }
+
+        return $maskared;
     }
 }

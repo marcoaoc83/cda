@@ -119,7 +119,15 @@
     </script>
 
     <script type="text/javascript">
+        function addRoteiro(obj) {
+            console.log(obj);
+            if ( $( "#roteirosId"+obj.value ).length ) {
+                $( "#roteirosId"+obj.value ).remove();
+            }else{
+                $('#formFiltroParcela').append('<input type="hidden" id="roteirosId'+obj.value+'" name="roteirosId[]" value='+obj.value+' />');
+            }
 
+        }
         $(function() {
             $('.date-picker').daterangepicker({
                 singleDatePicker: true,
@@ -322,7 +330,11 @@
                         width: '1%',
                         className: 'col-lg-1 col-centered',
                         render: function (data, type, full, meta) {
-                            return '<input type="checkbox" name="roteiros[]" value="'+data.RoteiroId+'">';
+                            if ( $( "#roteirosId"+data.RoteiroId ).length ) {
+                                return '<input type="checkbox" name="roteiros[]" checked value="' + data.RoteiroId + '" onchange="addRoteiro(this)">';
+                            }else{
+                                return '<input type="checkbox" name="roteiros[]" value="' + data.RoteiroId + '" onchange="addRoteiro(this)">';
+                            }
                         },
                         createdCell: function (td, cellData, rowData, row, col) {
                             $(td).prop("scope", "row");
@@ -345,18 +357,18 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
                 }
             });
-            tbRoteiro.on( 'select', function ( e, dt, type, indexes ) {
-                if ( type === 'row' ) {
-                    var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
-                    $('#formFiltroParcela').append('<input type="hidden" id="roteirosId'+RoteiroId[0]+'" name="roteirosId[]" value='+RoteiroId[0]+' />');
-                }
-            })
-            .on( 'deselect', function ( e, dt, type, indexes ){
-                if ( type === 'row' ) {
-                    var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
-                    $( "#roteirosId"+RoteiroId[0] ).remove();
-                }
-            });
+            // tbRoteiro.on( 'select', function ( e, dt, type, indexes ) {
+            //     if ( type === 'row' ) {
+            //         var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
+            //         $('#formFiltroParcela').append('<input type="hidden" id="roteirosId'+RoteiroId[0]+'" name="roteirosId[]" value='+RoteiroId[0]+' />');
+            //     }
+            // })
+            // .on( 'deselect', function ( e, dt, type, indexes ){
+            //     if ( type === 'row' ) {
+            //         var RoteiroId = tbRoteiro.rows( indexes ).data().pluck( 'RoteiroId' );
+            //         $( "#roteirosId"+RoteiroId[0] ).remove();
+            //     }
+            // });
 
             var tbCarteira = $('#tbCarteira').DataTable({
                 processing: true,
@@ -381,8 +393,8 @@
                         width: '1%',
                         className: 'col-lg-1 col-centered',
                         render: function (data, type, full, meta) {
-                            console.log(data);
-                            return '<input type="checkbox" name="carteiras[]" value="'+data.CARTEIRAID+'">';
+
+                            return '<input type="checkbox" name="CARTEIRAID[]" value="'+data.CARTEIRAID+'">';
                         },
                         createdCell: function (td, cellData, rowData, row, col) {
                             $(td).prop("scope", "row");
@@ -749,6 +761,7 @@
                 columns: [
                     {data: 'Nome', name: 'Nome'},
                     {data: 'CPFCNPJ', name: 'CPFCNPJ'},
+                    {data: 'INSCRMUNNR', name: 'INSCRMUNNR'},
                     {data: 'VencimentoDt', name: 'VencimentoDt'},
                     {data: 'TotalVr', name: 'TotalVr'},
                     {data: 'FxAtraso', name: 'FxAtraso'},
@@ -759,6 +772,12 @@
                         "visible": false,
                         "searchable": false
                     },
+                ],
+                columnDefs: [
+                    {
+                        targets: 3,
+                        className: 'text-right'
+                    }
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
