@@ -13,7 +13,7 @@
             responsive: true,
             destroy: true,
             ajax: {
-                "url": "{{ route('pcrot.getdata') }}"
+                "url": "{{ route('pcevento.getdata') }}"
             },
             columns: [
                 {

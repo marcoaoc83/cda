@@ -94,7 +94,7 @@ class PcEventoController extends Controller
                                       cda_filatrab.FilaTrabSg As Fila,
                                       cda_evento.EventoSg As Evento,
                                       '' as Tipo,
-                                      '' as Objetivo,
+                                      objetivo.REGTABSG as Objetivo,
                                       FonteTB.REGTABSG as Fonte
                                     From
                                       cda_pcevento
@@ -102,6 +102,8 @@ class PcEventoController extends Controller
                                       cda_carteira On cda_pcevento.CarteiraId = cda_carteira.CARTEIRAID
                                       Inner Join
                                       cda_evento On cda_pcevento.EventoId = cda_evento.EventoId
+                                       Inner Join
+                                      cda_regtab AS objetivo On cda_evento.ObjEventoId = objetivo.REGTABID
                                       LEFT Join
                                       cda_pscanal On cda_pcevento.PSCANALID = cda_pscanal.PsCanalId
                                       LEFT Join

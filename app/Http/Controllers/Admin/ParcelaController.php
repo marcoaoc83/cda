@@ -106,10 +106,10 @@ class ParcelaController extends Controller
         $cda_parcela = Parcela::select([
             'cda_parcela.*',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
-            'SitPagT.REGTABNM as  SitPag',
-            'SitCobT.REGTABNM as  SitCob',
-            'OrigTribT.REGTABNM as  OrigTrib',
-            'TributoT.REGTABNM as  Tributo',
+            'SitPagT.REGTABSG as  SitPag',
+            'SitCobT.REGTABSG as  SitCob',
+            'OrigTribT.REGTABSG as  OrigTrib',
+            'TributoT.REGTABSG as  Tributo',
             ])
             ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
             ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
