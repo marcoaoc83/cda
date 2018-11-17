@@ -37,6 +37,9 @@
                                     <th>Id</th>
                                     <th>Categoria</th>
                                     <th>Titulo</th>
+                                    <th>Inicio</th>
+                                    <th>Final</th>
+                                    <th>Usuário</th>
                                     <th>Status</th>
                                     <th style="width: 55px">Ação</th>
                                 </tr>
@@ -69,7 +72,7 @@
             $("#DTstatus"+id).html('<span class="label label-success">Em Execução</span>');
             $.ajax({
                 type:"GET",
-                url: '{{ url('crontab') }}/'+tarefa,
+                url: '{{ url('crontab') }}/'+tarefa+'?id='+id,
                 success: function(data){
                     $("#DTstatus"+id).html('<span class="label label-default">Finalizado</span>');
                 }
@@ -87,6 +90,9 @@
                     {data: 'tar_id', name: 'tar_id'},
                     {data: 'tar_categoria', name: 'tar_categoria'},
                     {data: 'tar_titulo', name: 'tar_titulo'},
+                    {data: 'inicio', name: 'inicio'},
+                    {data: 'final', name: 'final'},
+                    {data: 'name', name: 'name'},
                     {
                         data: 'tar_status',
                         name: 'tar_status',

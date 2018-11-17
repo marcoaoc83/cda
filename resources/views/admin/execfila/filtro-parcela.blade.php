@@ -62,7 +62,7 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                 <h2>Sit. Pgto</h2>
                 <table id="tbSitPag" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                     <thead>
@@ -72,7 +72,7 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                 <h2>Sit. Cobrança</h2>
                 <table id="tbSitCob" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                     <thead>
@@ -82,9 +82,19 @@
                     </thead>
                 </table>
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-12 form-group has-feedback">
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
                 <h2>Orig Trib</h2>
                 <table id="tbOrigTrib" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>Descrição</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="col-md-3 col-sm-3 col-xs-12 form-group has-feedback">
+                <h2>Tributo</h2>
+                <table id="tbTributo" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                     <thead>
                     <tr>
                         <th>Descrição</th>

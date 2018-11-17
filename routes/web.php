@@ -213,6 +213,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::get('admin/execfila/getdataSitPag', 'ExecFilaController@getDadosDataTableSitPag')->name('execfila.getdataSitPag');
         Route::get('admin/execfila/getdataSitCob', 'ExecFilaController@getDadosDataTableSitCob')->name('execfila.getdataSitCob');
         Route::get('admin/execfila/getdataOrigTrib', 'ExecFilaController@getDadosDataTableOrigTrib')->name('execfila.getdataOrigTrib');
+        Route::get('admin/execfila/getdataTributo', 'ExecFilaController@getDadosDataTableTributo')->name('execfila.getdataTributo');
         Route::get('admin/execfila/getdataParcela', 'ExecFilaController@getDadosDataTableParcela')->name('execfila.getdataParcela');
         Route::get('admin/execfila/getDadosFila', 'ExecFilaController@getDadosFila')->name('execfila.getDadosFila');
         Route::get('admin/execfila/getDadosCarteira', 'ExecFilaController@getDadosDataTableCarteira')->name('execfila.getDadosCarteira');

@@ -15,6 +15,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -49,6 +50,10 @@ class ExecFilaParcelaJob implements ShouldQueue
      */
     public function handle()
     {
+        $Tarefa= Tarefas::findOrFail($this->Tarefa);
+        $Tarefa->update([
+            "tar_inicio"    => date("Y-m-d H:i:s")
+        ]);
 
         $dir="filas/tarefa".$this->Tarefa;
         if(!Storage::exists($dir)) {
@@ -155,11 +160,12 @@ class ExecFilaParcelaJob implements ShouldQueue
         $Tarefa= Tarefas::findOrFail($this->Tarefa);
         $Tarefa->update([
             "tar_status"    => "Finalizado",
-            'tar_descricao' =>  "<a href='".URL::to('/')."/filas/".$file."' target='_blank'>LINK DO ARQUIVO</a>",
+            "tar_final"    => date("Y-m-d H:i:s"),
+            'tar_descricao' =>  "<a href='".URL::to('/')."/filas/".$file."' target='_blank'>".URL::to('/')."/filas/".$file."</a>",
             "tar_jobs"      => $this->job->getJobId()
         ]);
 
-       // Artisan::call('queue:restart');
+        Artisan::call('queue:restart');
         return false;
     }
 

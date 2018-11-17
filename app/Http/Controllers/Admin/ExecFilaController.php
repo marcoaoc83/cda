@@ -146,6 +146,12 @@ class ExecFilaController extends Controller
         return Datatables::of($Var)->make(true);
     }
 
+    public function getDadosDataTableTributo()
+    {
+        $Var = DB::select("Select cda_regtab.REGTABID, cda_regtab.REGTABSG, cda_regtab.REGTABNM From cda_regtab Where cda_regtab.TABSYSID = 43 order by REGTABSG");
+        return Datatables::of($Var)->make(true);
+    }
+
     public function getDadosDataTableParcela(Request $request)
     {
         ini_set('memory_limit', '-1');
@@ -191,6 +197,10 @@ class ExecFilaController extends Controller
 
         if($request->SitCobId){
             $where.=' AND cda_parcela.SitCobId IN ('.implode(',',$request->SitCobId).')';
+        }
+
+        if($request->TributoId){
+            $where.=' AND cda_parcela.TributoId IN ('.implode(',',$request->TributoId).')';
         }
 
         if($request->OrigTribId){

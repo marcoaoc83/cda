@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Tarefas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class TarefasController extends Controller
@@ -88,8 +89,9 @@ class TarefasController extends Controller
 
     public function getDadosDataTable(Request $request)
     {
-        $table = Tarefas::select(['*'])
+        $table = Tarefas::select(['*',DB::raw("DATE_FORMAT(tar_inicio,'%d/%m/%y %H:%i:%s') as inicio"),DB::raw("DATE_FORMAT(tar_final,'%d/%m/%y %H:%i:%s') as final")])
             ->leftjoin('jobs', 'jobs.id', '=', 'cda_tarefas.tar_id')
+            ->leftjoin('users', 'users.id', '=', 'cda_tarefas.tar_user')
             ->orderBy('tar_id','DESC')
         ->get();
 

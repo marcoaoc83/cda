@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tarefas extends Model
 {
     protected $fillable = [
-        'tar_categoria','tar_titulo','tar_descricao','tar_status','tar_jobs','tar_inicio','tar_final'
+        'tar_categoria','tar_titulo','tar_descricao','tar_status','tar_jobs','tar_inicio','tar_final','tar_user'
     ];
     protected $table = 'cda_tarefas';
     public $timestamps = false;
