@@ -12,6 +12,7 @@ use App\Models\Parcela;
 use App\Models\RegTab;
 use App\Models\Roteiro;
 use App\Models\Tarefas;
+use App\Models\ValEnv;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -405,6 +406,16 @@ class ExecFilaController extends Controller
         return Datatables::of($var)->make(true);
     }
 
+    public function getDadosDataTableValidacao(Request $request){
+
+        $valenv = ValEnv::select(['cda_valenv.id','REGTABSG', 'REGTABNM', 'EventoSg','cda_valenv.EventoId','cda_valenv.ValEnvId'])
+            ->join('cda_canal', 'cda_canal.CANALID', '=', 'cda_valenv.CanalId')
+            ->join('cda_regtab', 'cda_regtab.REGTABID', '=', 'cda_valenv.ValEnvId')
+            ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_valenv.EventoId')
+            ->get();
+
+        return Datatables::of($valenv)->make(true);
+    }
     public function getDadosDataTableRoteiro(Request $request)
     {
         $where=1;

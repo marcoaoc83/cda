@@ -107,7 +107,6 @@ class ValEnvController extends Controller
             ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_valenv.EventoId')
             ->where('cda_valenv.CanalId',$request->CANALID)
             ->get();
-        ;
 
         return Datatables::of($valenv)->make(true);
     }
