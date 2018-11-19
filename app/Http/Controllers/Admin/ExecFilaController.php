@@ -313,8 +313,8 @@ class ExecFilaController extends Controller
         if($request->filtro_contribuinteN2){
             $where.=' AND cda_inscrmun.INSCRMUNNR ='.$request->filtro_contribuinteN;
         }
-
-        $group='cda_parcela.ParcelaId';
+        $where.=' AND cda_pcrot.SaidaDt is null ';
+        $group=['cda_parcela.ParcelaId','cda_roteiro.CarteiraId'];
         if($request->group=='Pes'){
             $group='cda_parcela.PessoaId';
         }

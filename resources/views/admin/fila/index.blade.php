@@ -39,7 +39,7 @@
                             <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                 <tr>
-                                    <th>Id</th>
+                                    {{--<th>Id</th>--}}
                                     <th>Sigla</th>
                                     <th>Nome</th>
                                     <th style="width: 55px">Ação</th>
@@ -70,7 +70,7 @@
                 responsive: true,
                 ajax: '{{ route('fila.getdata') }}',
                 columns: [
-                    {data: 'FilaTrabId', name: 'FilaTrabId'},
+                    // {data: 'FilaTrabId', name: 'FilaTrabId'},
                     {data: 'FilaTrabSg', name: 'FilaTrabSg'},
                     {data: 'FilaTrabNm', name: 'FilaTrabNm'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}

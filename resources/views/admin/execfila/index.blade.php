@@ -76,7 +76,7 @@
 
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                         <a class="btn btn-app "    id="execFila">
-                            <i class="fa fa-save"></i> Executar Fila
+                            <i class="fa fa-save"></i> Executar
                         </a>
                         </div>
                     </div>

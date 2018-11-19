@@ -3,7 +3,13 @@
 namespace App\Jobs;
 
 use App\Http\Controllers\Admin\ModeloController;
+use App\Models\Bairro;
+use App\Models\Cidade;
+use App\Models\Logradouro;
 use App\Models\ModCom;
+use App\Models\PcRot;
+use App\Models\PrRotCanal;
+use App\Models\PsCanal;
 use App\Models\RegTab;
 use App\Models\Tarefas;
 use Barryvdh\DomPDF\PDF;
@@ -109,6 +115,21 @@ class ExecFilaParcelaJob implements ShouldQueue
         $parcelas= DB::select($sql." GROUP BY cda_parcela.ParcelaId");
 
         foreach ($parcelas as $linha){
+            $tppos=PrRotCanal::where('CarteiraId',$linha->CarteiraId)
+                ->where('RoteiroId',$linha->RoteiroId)
+                ->orderBy('PrioridadeNr')->get();
+            $pscanal=null;
+            foreach ($tppos as $tp){
+                $pscanal=PsCanal::where("PessoaId",$linha->PESSOAID)
+                    ->where('TipPosId',$tp->TpPosId)
+                    ->where('Ativo',1)
+                    ->first();
+                if($pscanal->PsCanalId){
+                    break;
+                }
+            }
+            if(!isset($pscanal->PsCanalId)) continue;
+
             if($this->Gravar){
                 $sql="INSERT INTO cda_pcevento SET ";
                 $sql.="PESSOAID='".$linha->PESSOAID."',";
@@ -118,7 +139,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                 $sql.="EVENTODT='".date('Y-m-d')."',";
                 $sql.="CARTEIRAID='".$linha->CarteiraId."',";
                 $sql.="FILATRABID='".$linha->FilaTrabId."',";
-                $sql.="PSCANALID='".$linha->CanalId."',";
+                $sql.="PSCANALID='".$pscanal->PsCanalId."',";
                 $sql.="MODCOMID='".$linha->ModComId."'";
                 DB::beginTransaction();
                 try {
@@ -132,6 +153,16 @@ class ExecFilaParcelaJob implements ShouldQueue
             if($linha->ModComId>0) {
 
                 $modelo=$linha->ModComId;
+
+                $bairro=Bairro::find($pscanal->BairroId);
+                if($bairro) $bairro= $bairro->bair_nome;
+
+                $cidade=Cidade::find($pscanal->CidadeId);
+                if($cidade) $cidade= $cidade->cida_nome.'/'.$cidade->cida_uf;
+
+                $logradouro=Logradouro::find($pscanal->LogradouroId);
+                if($logradouro) $linha->logradouro= $logradouro->logr_tipo.' '.$logradouro->logr_nome.','.$pscanal->EnderecoNr.'<br>'.$bairro.'<br>'.$cidade;
+
                 $filas[$modelo][$linha->PESSOAID][] = $linha;
             }
         }

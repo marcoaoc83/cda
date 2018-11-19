@@ -93,7 +93,7 @@ class PcEventoController extends Controller
                                       cda_canal.CANALSG As Canal,
                                       cda_filatrab.FilaTrabSg As Fila,
                                       cda_evento.EventoSg As Evento,
-                                      '' as Tipo,
+                                      TpPos.REGTABSG as Tipo,
                                       objetivo.REGTABSG as Objetivo,
                                       FonteTB.REGTABSG as Fonte
                                     From
@@ -108,6 +108,8 @@ class PcEventoController extends Controller
                                       cda_pscanal On cda_pcevento.PSCANALID = cda_pscanal.PsCanalId
                                       LEFT Join
                                       cda_regtab as FonteTB On cda_pscanal.FonteInfoId = FonteTB.REGTABID
+                                      LEFT Join
+                                      cda_regtab as TpPos On cda_pscanal.TipPosId = TpPos.REGTABID
                                       LEFT Join
                                       cda_canal On cda_pscanal.CANALID = cda_canal.CANALID
                                       Inner Join
