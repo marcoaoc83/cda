@@ -60,6 +60,7 @@ class FilaController extends Controller
     {
         $request->filtro_carteira?$request->filtro_carteira=1:$request->filtro_carteira=0;
         $request->filtro_roteiro?$request->filtro_roteiro=1:$request->filtro_roteiro=0;
+        $request->filtro_validacao?$request->filtro_validacao=1:$request->filtro_validacao=0;
         $request->filtro_contribuinte?$request->filtro_contribuinte=1:$request->filtro_contribuinte=0;
         $request->filtro_parcelas?$request->filtro_parcelas=1:$request->filtro_parcelas=0;
         $request->resultado_contribuinte?$request->resultado_contribuinte=1:$request->resultado_contribuinte=0;

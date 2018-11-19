@@ -99,6 +99,15 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_validacao">Filtro - Validação de Envio
+                                            </label>
+                                            <div class="col-md-7" style="margin-top: 5px">
+                                                <label style="">
+                                                    <input type="checkbox" id="filtro_validacao" name="filtro_validacao" @if ($Fila->filtro_validacao ==1) checked @endif value="1" class="js-switch" >
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_contribuinte">Filtro - Contribuinte
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">

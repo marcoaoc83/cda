@@ -14,6 +14,7 @@ class Fila extends Model
         'PerfilId',
         'filtro_carteira',
         'filtro_roteiro',
+        'filtro_validacao',
         'filtro_contribuinte',
         'filtro_parcelas',
         'resultado_contribuinte',
