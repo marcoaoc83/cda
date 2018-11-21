@@ -223,31 +223,36 @@ class ExecFilaController extends Controller
             ->groupBy('cda_parcela.PessoaId')
             ->limit($limit)
             ->get();
+
+
         $arrayFxAtraso=[];
         if($request->FxAtrasoId){
-
             $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxAtrasoId).')')->get();
-            foreach ($regtab as $value){
-                $fxa=explode('*',$value['REGTABSQL']);
-                $arrayFxAtraso[$value['REGTABID']]['Min']=$fxa[0] ;
-                $arrayFxAtraso[$value['REGTABID']]['Max']= isset($fxa[1])?$fxa[1]:null;
-                $arrayFxAtraso[$value['REGTABID']]['Desc']= $value['REGTABSG'];
-            }
-
+        }else{
+            $regtab= RegTab::where('TABSYSID',32)->get();
         }
+        foreach ($regtab as $value){
+            $fxa=explode('*',$value['REGTABSQL']);
+            $arrayFxAtraso[$value['REGTABID']]['Min']=$fxa[0] ;
+            $arrayFxAtraso[$value['REGTABID']]['Max']= isset($fxa[1])?$fxa[1]:null;
+            $arrayFxAtraso[$value['REGTABID']]['Desc']= $value['REGTABSG'];
+        }
+
         $arrayFxValor=[];
-        if($request->FxValorId){
-
-            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxValorId).')')->get();
-            foreach ($regtab as $value){
-                $fxa=explode('*',$value['REGTABSQL']);
-                $arrayFxValor[$value['REGTABID']]['Min']=$fxa[0] ;
-                $arrayFxValor[$value['REGTABID']]['Max']=isset($fxa[1])?$fxa[1]:null;
-                $arrayFxValor[$value['REGTABID']]['Desc']= $value['REGTABSG'];
-            }
+        if($request->FxValorId) {
+            $regtab = RegTab::whereRaw(' REGTABID IN (' . implode(',', $request->FxValorId) . ')')->get();
+        }else{
+            $regtab= RegTab::where('TABSYSID',33)->get();
+        }
+        foreach ($regtab as $value){
+            $fxa=explode('*',$value['REGTABSQL']);
+            $arrayFxValor[$value['REGTABID']]['Min']=$fxa[0] ;
+            $arrayFxValor[$value['REGTABID']]['Max']=isset($fxa[1])?$fxa[1]:null;
+            $arrayFxValor[$value['REGTABID']]['Desc']= $value['REGTABSG'];
         }
 
-        $FxAtraso=$FxValor=$Nqtde=[];
+
+        $FxAtraso=$FxValor=$seqValor=$Nqtde=[];
 
         foreach ($Pessoas as $pessoa){
             foreach ($arrayFxAtraso as $key=>$value){
@@ -272,11 +277,30 @@ class ExecFilaController extends Controller
                     }
                 }
             }
-            if($request->nmaiores && $pessoa['Qtde']<=$request->nmaiores){
-                $Nqtde[]=$pessoa['PessoaId'];
+            $seqValor[$pessoa['Total']]=$pessoa['PessoaId'];
+//            if($request->nmaiores && $pessoa['Qtde']<=$request->nmaiores){
+//                $Nqtde[]=$pessoa['PessoaId'];
+//            }
+//            if($request->nmenores && $pessoa['Qtde']>=$request->nmenores){
+//                $Nqtde[]=$pessoa['PessoaId'];
+//            }
+        }
+        if($request->nmaiores){
+            krsort($seqValor);
+            foreach ($seqValor as $pess){
+                $seqValor2[]=$pess;
             }
-            if($request->nmenores && $pessoa['Qtde']>=$request->nmenores){
-                $Nqtde[]=$pessoa['PessoaId'];
+            for($x=0;$x<$request->nmaiores;$x++){
+                $Nqtde[]=$seqValor2[$x];
+            }
+        }
+        if($request->nmenores){
+            ksort($seqValor);
+            foreach ($seqValor as $pess){
+                $seqValor3[]=$pess;
+            }
+            for($x=0;$x<$request->nmenores;$x++){
+                $Nqtde[]=$seqValor3[$x];
             }
         }
 

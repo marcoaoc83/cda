@@ -47,7 +47,16 @@
                             @include('admin.execfila.filtro-validacao')
                             @include('admin.execfila.filtro-contribuinte')
                             @include('admin.execfila.filtro-parcela')
-
+                            <div class="item form-group  text-center ">
+                                <div class="col-md-12 col-sm-12 col-xs-12"  data-toggle="buttons">
+                                    <label class="btn btn-default  ">
+                                        <input type="radio" name="tipoexec" id="tipoexecV" value="v" > Validação de Envio
+                                    </label>
+                                    <label class="btn btn-default active">
+                                        <input type="radio" name="tipoexec" id="tipoexecF" value="f" checked="checked"> Execução de Fila
+                                    </label>
+                                </div>
+                            </div>
                             <div class="x_panel text-center " style="background-color: #BDBDBD" id="divBotaoFiltrar">
                                 <a class="btn btn-app" id="btfiltrar" onclick="filtrarParcelas()" >
                                     <i class="fa fa-filter"></i> Filtrar
@@ -583,6 +592,12 @@
                         "visible": false,
                         "searchable": false
                     },
+                ],
+                columnDefs: [
+                    {
+                        targets: 10,
+                        className: 'text-right'
+                    }
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"

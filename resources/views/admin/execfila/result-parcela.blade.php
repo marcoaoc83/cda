@@ -22,7 +22,7 @@
                 <th>Pc</th>
                 <th>Pl</th>
                 <th>Vencimento</th>
-                <th>Valor</th>
+                <th class="text-right">Valor</th>
                 {{--<th>Fx Atraso</th>--}}
                 {{--<th>Fx Valor</th>--}}
             </tr>
