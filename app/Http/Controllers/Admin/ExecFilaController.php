@@ -14,12 +14,14 @@ use App\Models\Roteiro;
 use App\Models\Tarefas;
 use App\Models\ValEnv;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -65,6 +67,51 @@ class ExecFilaController extends Controller
         ]);
         $gravar=$request->gravar?true:false;
         ExecFilaParcelaJob::dispatch($request->parcelas,$tarefa->tar_id,$gravar)->onQueue("execfilaparcela");
+
+        $data = Parcela::select([
+            'cda_parcela.*',
+            'cda_inscrmun.INSCRMUNNR',
+            'cda_pessoa.CPF_CNPJNR',
+            DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
+            DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
+            'SitPagT.REGTABSG as SitPag',
+            'SitCobT.REGTABSG as SitCob',
+            'OrigTribT.REGTABSG as OrigTrib',
+            'TribT.REGTABSG as Trib',
+            'cda_parcela.TotalVr',
+            DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
+        ])
+            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
+            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->leftjoin('cda_regtab as  TribT', 'TribT.REGTABID', '=', 'cda_parcela.TributoId')
+            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->whereIn('cda_parcela.ParcelaId',explode(',',$request->parcelas))
+            ->groupBy('cda_parcela.ParcelaId')
+            ->orderBy('cda_parcela.ParcelaId')
+            ->get();
+
+        if($request->gCSV) {
+            $file="fila-".date('Ymd')."-".$tarefa->tar_id;
+            Excel::create($file, function ($excel) use ($data) {
+                $excel->sheet('mySheet', function ($sheet) use ($data) {
+                    foreach ($data as &$dt) {
+                        $dt = (array)$dt;
+                    }
+                    $sheet->fromArray($data);
+                });
+            })->store("csv");
+            $Tarefa= Tarefas::findOrFail($this->Tarefa);
+            $Tarefa->update([
+                "tar_status"    => "Finalizado",
+                "tar_final"    => date("Y-m-d H:i:s"),
+                'tar_descricao' =>  $Tarefa->tar_descricao."<a href='".URL::to('/')."/filas/".$file."' target='_blank'>".URL::to('/')."/filas/".$file."</a><br>",
+                "tar_jobs"      => $this->job->getJobId()
+            ]);
+        }
         SWAL::message('Salvo','Execução de Fila enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('execfila.index');
 
@@ -223,31 +270,36 @@ class ExecFilaController extends Controller
             ->groupBy('cda_parcela.PessoaId')
             ->limit($limit)
             ->get();
+
+
         $arrayFxAtraso=[];
         if($request->FxAtrasoId){
-
             $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxAtrasoId).')')->get();
-            foreach ($regtab as $value){
-                $fxa=explode('*',$value['REGTABSQL']);
-                $arrayFxAtraso[$value['REGTABID']]['Min']=$fxa[0] ;
-                $arrayFxAtraso[$value['REGTABID']]['Max']= isset($fxa[1])?$fxa[1]:null;
-                $arrayFxAtraso[$value['REGTABID']]['Desc']= $value['REGTABSG'];
-            }
-
+        }else{
+            $regtab= RegTab::where('TABSYSID',32)->get();
         }
+        foreach ($regtab as $value){
+            $fxa=explode('*',$value['REGTABSQL']);
+            $arrayFxAtraso[$value['REGTABID']]['Min']=$fxa[0] ;
+            $arrayFxAtraso[$value['REGTABID']]['Max']= isset($fxa[1])?$fxa[1]:null;
+            $arrayFxAtraso[$value['REGTABID']]['Desc']= $value['REGTABSG'];
+        }
+
         $arrayFxValor=[];
-        if($request->FxValorId){
-
-            $regtab=RegTab::whereRaw(' REGTABID IN ('.implode(',',$request->FxValorId).')')->get();
-            foreach ($regtab as $value){
-                $fxa=explode('*',$value['REGTABSQL']);
-                $arrayFxValor[$value['REGTABID']]['Min']=$fxa[0] ;
-                $arrayFxValor[$value['REGTABID']]['Max']=isset($fxa[1])?$fxa[1]:null;
-                $arrayFxValor[$value['REGTABID']]['Desc']= $value['REGTABSG'];
-            }
+        if($request->FxValorId) {
+            $regtab = RegTab::whereRaw(' REGTABID IN (' . implode(',', $request->FxValorId) . ')')->get();
+        }else{
+            $regtab= RegTab::where('TABSYSID',33)->get();
+        }
+        foreach ($regtab as $value){
+            $fxa=explode('*',$value['REGTABSQL']);
+            $arrayFxValor[$value['REGTABID']]['Min']=$fxa[0] ;
+            $arrayFxValor[$value['REGTABID']]['Max']=isset($fxa[1])?$fxa[1]:null;
+            $arrayFxValor[$value['REGTABID']]['Desc']= $value['REGTABSG'];
         }
 
-        $FxAtraso=$FxValor=$Nqtde=[];
+
+        $FxAtraso=$FxValor=$seqValor=$Nqtde=[];
 
         foreach ($Pessoas as $pessoa){
             foreach ($arrayFxAtraso as $key=>$value){
@@ -272,11 +324,30 @@ class ExecFilaController extends Controller
                     }
                 }
             }
-            if($request->nmaiores && $pessoa['Qtde']<=$request->nmaiores){
-                $Nqtde[]=$pessoa['PessoaId'];
+            $seqValor[$pessoa['Total']]=$pessoa['PessoaId'];
+//            if($request->nmaiores && $pessoa['Qtde']<=$request->nmaiores){
+//                $Nqtde[]=$pessoa['PessoaId'];
+//            }
+//            if($request->nmenores && $pessoa['Qtde']>=$request->nmenores){
+//                $Nqtde[]=$pessoa['PessoaId'];
+//            }
+        }
+        if($request->nmaiores){
+            krsort($seqValor);
+            foreach ($seqValor as $pess){
+                $seqValor2[]=$pess;
             }
-            if($request->nmenores && $pessoa['Qtde']>=$request->nmenores){
-                $Nqtde[]=$pessoa['PessoaId'];
+            for($x=0;$x<$request->nmaiores;$x++){
+                $Nqtde[]=$seqValor2[$x];
+            }
+        }
+        if($request->nmenores){
+            ksort($seqValor);
+            foreach ($seqValor as $pess){
+                $seqValor3[]=$pess;
+            }
+            for($x=0;$x<$request->nmenores;$x++){
+                $Nqtde[]=$seqValor3[$x];
             }
         }
 

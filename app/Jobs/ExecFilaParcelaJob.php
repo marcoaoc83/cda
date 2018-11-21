@@ -192,7 +192,7 @@ class ExecFilaParcelaJob implements ShouldQueue
         $Tarefa->update([
             "tar_status"    => "Finalizado",
             "tar_final"    => date("Y-m-d H:i:s"),
-            'tar_descricao' =>  "<a href='".URL::to('/')."/filas/".$file."' target='_blank'>".URL::to('/')."/filas/".$file."</a>",
+            'tar_descricao' =>  $Tarefa->tar_descricao."<a href='".URL::to('/')."/filas/".$file."' target='_blank'>".URL::to('/')."/filas/".$file."</a>",
             "tar_jobs"      => $this->job->getJobId()
         ]);
 
