@@ -95,6 +95,7 @@ class ExecFilaController extends Controller
             ->get();
 
         if($request->gCSV) {
+            $targetpath=storage_path("app/public/export");
             $file="fila-".date('Ymd')."-".$tarefa->tar_id;
             Excel::create($file, function ($excel) use ($data) {
                 $excel->sheet('mySheet', function ($sheet) use ($data) {
@@ -103,13 +104,26 @@ class ExecFilaController extends Controller
                     }
                     $sheet->fromArray($data);
                 });
-            })->store("csv");
+            })->store("csv",$targetpath);
             $Tarefa= Tarefas::findOrFail($this->Tarefa);
             $Tarefa->update([
-                "tar_status"    => "Finalizado",
-                "tar_final"    => date("Y-m-d H:i:s"),
-                'tar_descricao' =>  $Tarefa->tar_descricao."<a href='".URL::to('/')."/filas/".$file."' target='_blank'>".URL::to('/')."/filas/".$file."</a><br>",
-                "tar_jobs"      => $this->job->getJobId()
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file."' target='_blank'>CSV</a></h6><br>"
+            ]);
+        }
+        if($request->gTXT) {
+            $targetpath=storage_path("app/public/export");
+            $file="fila-".date('Ymd')."-".$tarefa->tar_id;
+            Excel::create($file, function ($excel) use ($data) {
+                $excel->sheet('mySheet', function ($sheet) use ($data) {
+                    foreach ($data as &$dt) {
+                        $dt = (array)$dt;
+                    }
+                    $sheet->fromArray($data);
+                });
+            })->store("txt",$targetpath);
+            $Tarefa= Tarefas::findOrFail($this->Tarefa);
+            $Tarefa->update([
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file."' target='_blank'>TXT</a></h6><br>"
             ]);
         }
         SWAL::message('Salvo','Execução de Fila enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
