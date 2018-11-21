@@ -95,7 +95,7 @@ class ExecFilaController extends Controller
             ->get();
 
         if($request->gCSV) {
-            $targetpath=storage_path("app/public/export");
+            $targetpath=storage_path("../public/export");
             $file="fila-".date('Ymd')."-".$tarefa->tar_id;
             Excel::create($file, function ($excel) use ($data) {
                 $excel->sheet('mySheet', function ($sheet) use ($data) {
@@ -105,13 +105,13 @@ class ExecFilaController extends Controller
                     $sheet->fromArray($data);
                 });
             })->store("csv",$targetpath);
-            $Tarefa= Tarefas::findOrFail($this->Tarefa);
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
             $Tarefa->update([
                 'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file."' target='_blank'>CSV</a></h6><br>"
             ]);
         }
         if($request->gTXT) {
-            $targetpath=storage_path("app/public/export");
+            $targetpath=storage_path("../public/export");
             $file="fila-".date('Ymd')."-".$tarefa->tar_id;
             Excel::create($file, function ($excel) use ($data) {
                 $excel->sheet('mySheet', function ($sheet) use ($data) {
@@ -121,7 +121,7 @@ class ExecFilaController extends Controller
                     $sheet->fromArray($data);
                 });
             })->store("txt",$targetpath);
-            $Tarefa= Tarefas::findOrFail($this->Tarefa);
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
             $Tarefa->update([
                 'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file."' target='_blank'>TXT</a></h6><br>"
             ]);
