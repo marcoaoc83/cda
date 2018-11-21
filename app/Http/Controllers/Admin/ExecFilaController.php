@@ -14,12 +14,14 @@ use App\Models\Roteiro;
 use App\Models\Tarefas;
 use App\Models\ValEnv;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -65,6 +67,65 @@ class ExecFilaController extends Controller
         ]);
         $gravar=$request->gravar?true:false;
         ExecFilaParcelaJob::dispatch($request->parcelas,$tarefa->tar_id,$gravar)->onQueue("execfilaparcela");
+
+        $data = Parcela::select([
+            'cda_parcela.*',
+            'cda_inscrmun.INSCRMUNNR',
+            'cda_pessoa.CPF_CNPJNR',
+            DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
+            DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
+            'SitPagT.REGTABSG as SitPag',
+            'SitCobT.REGTABSG as SitCob',
+            'OrigTribT.REGTABSG as OrigTrib',
+            'TribT.REGTABSG as Trib',
+            'cda_parcela.TotalVr',
+            DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
+        ])
+            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
+            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->leftjoin('cda_regtab as  TribT', 'TribT.REGTABID', '=', 'cda_parcela.TributoId')
+            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->whereIn('cda_parcela.ParcelaId',explode(',',$request->parcelas))
+            ->groupBy('cda_parcela.ParcelaId')
+            ->orderBy('cda_parcela.ParcelaId')
+            ->get();
+
+        if($request->gCSV) {
+            $targetpath=storage_path("../public/export");
+            $file="fila-".date('Ymd')."-".$tarefa->tar_id;
+            Excel::create($file, function ($excel) use ($data) {
+                $excel->sheet('mySheet', function ($sheet) use ($data) {
+                    foreach ($data as &$dt) {
+                        $dt = (array)$dt;
+                    }
+                    $sheet->fromArray($data);
+                });
+            })->store("csv",$targetpath);
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
+            $Tarefa->update([
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file."' target='_blank'>CSV</a></h6><br>"
+            ]);
+        }
+        if($request->gTXT) {
+            $targetpath=storage_path("../public/export");
+            $file="fila-".date('Ymd')."-".$tarefa->tar_id;
+            Excel::create($file, function ($excel) use ($data) {
+                $excel->sheet('mySheet', function ($sheet) use ($data) {
+                    foreach ($data as &$dt) {
+                        $dt = (array)$dt;
+                    }
+                    $sheet->fromArray($data);
+                });
+            })->store("txt",$targetpath);
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
+            $Tarefa->update([
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file."' target='_blank'>TXT</a></h6><br>"
+            ]);
+        }
         SWAL::message('Salvo','Execução de Fila enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('execfila.index');
 
