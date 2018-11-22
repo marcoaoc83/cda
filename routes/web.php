@@ -246,5 +246,8 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
 
         Route::get('admin/relparametro/getdata', 'RelatorioParametroController@getDadosDataTable')->name('relparametro.getdata');
         Route::resource('admin/relparametro', 'RelatorioParametroController');
+
+        Route::get('admin/chat/getdata', 'ChatController@getDadosDataTable')->name('chat.getdata');
+        Route::resource('admin/chat', 'ChatController');
     });
 });
