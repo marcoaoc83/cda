@@ -107,7 +107,7 @@ class ExecFilaController extends Controller
             })->store("csv",$targetpath);
             $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
             $Tarefa->update([
-                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file."' target='_blank'>CSV</a></h6><br>"
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".csv' target='_blank'>Arquivo - CSV</a></h6>"
             ]);
         }
         if($request->gTXT) {
@@ -123,7 +123,7 @@ class ExecFilaController extends Controller
             })->store("txt",$targetpath);
             $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
             $Tarefa->update([
-                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file."' target='_blank'>TXT</a></h6><br>"
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".txt' target='_blank'>Arquivo - TXT</a></h6>"
             ]);
         }
         SWAL::message('Salvo','Execução de Fila enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
@@ -418,6 +418,7 @@ class ExecFilaController extends Controller
             'SitCobT.REGTABSG as SitCob',
             'OrigTribT.REGTABSG as OrigTrib',
             'TribT.REGTABSG as Trib',
+            'cda_carteira.CARTEIRASG as Carteira',
             DB::raw("sum(cda_parcela.TotalVr)  as TotalVr2"),
             DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
         ])
@@ -429,6 +430,7 @@ class ExecFilaController extends Controller
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
             ->groupBy($group)
@@ -448,6 +450,7 @@ class ExecFilaController extends Controller
                 $doc= self::maskString($parcela['CPF_CNPJNR'],'##.###.###/####-##');
             }
             $collect[$i]['Nome']=$parcela['Nome'];
+            $collect[$i]['Carteira']=$parcela['Carteira'];
             $collect[$i]['SitPag']=$parcela['SitPag'];
             $collect[$i]['PessoaId']=$parcela['PessoaId'];
             $collect[$i]['INSCRMUNNR']=$parcela['INSCRMUNNR'];

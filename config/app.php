@@ -187,6 +187,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Canducci\Cep\Providers\CepServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        Kanian\RecastAILaravel\RecastAIServiceProvider::class,
     ],
 
     /*
@@ -245,6 +246,7 @@ return [
         'Endereco'   => Canducci\Cep\Facades\Endereco::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+        'RecastAI' => Kanian\RecastAILaravel\RecastAIFacade::class,
     ],
 
 ];

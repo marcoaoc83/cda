@@ -588,6 +588,7 @@
                             return '<input type="checkbox">';
                         }
                     },
+                    {data: 'Carteira', name: 'Carteira'},
                     {data: 'Nome', name: 'Nome'},
                     {data: 'SitPag', name: 'SitPag'},
                     {data: 'SitCob', name: 'SitCob'},

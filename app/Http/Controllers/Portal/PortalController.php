@@ -29,7 +29,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
-use RecastAI\Client;
 
 define("cEndereco", 1);
 define("cEmail", 2);
@@ -54,28 +53,9 @@ class PortalController extends Controller
     public function chatMsg(Request $request)
     {
         $msg=$request->msg;
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, "https://api.recast.ai/v2/request");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, "{\"text\":\"$msg\", \"language\":\"pt\"}");
-        curl_setopt($ch, CURLOPT_POST, 1);
-
-        $headers = array();
-        $headers[] = "Authorization: Token eb59fe93d776ae163bff913d98e46855";
-        $headers[] = "Content-Type: application/json";
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-        $result = curl_exec($ch);
-        if (curl_errno($ch)) {
-            echo 'Error:' . curl_error($ch);
-        }
-        curl_close ($ch);
-        $result=json_decode($result);
-        $intencao='';
-        if (count($result->results->intents)>0){
-            $intencao=$result->results->intents[0]->slug;
-        }
+        $client = \RecastAI::get();
+        $res = $client->request->analyseText($msg);
+        $intencao= $res->intent()->slug;
 
         switch ($intencao) {
             case "saudacao":
