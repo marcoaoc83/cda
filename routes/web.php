@@ -249,5 +249,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
 
         Route::get('admin/chat/getdata', 'ChatController@getDadosDataTable')->name('chat.getdata');
         Route::resource('admin/chat', 'ChatController');
+        Route::get('admin/chatperguntas/getdata', 'ChatPerguntasController@getDadosDataTable')->name('chatperguntas.getdata');
+        Route::resource('admin/chatperguntas', 'ChatPerguntasController');
     });
 });

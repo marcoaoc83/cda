@@ -66,7 +66,9 @@
                             </form>
                         </div>
                     </div>
-
+                </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    @include('admin.chat.perguntas.index');
                 </div>
             </div>
         </div>
@@ -77,45 +79,4 @@
 
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
-    <script src="{{url('tinymce/jquery.tinymce.min.js')}}"></script>
-    <script src="{{ url('tinymce/tinymce.min.js') }}"></script>
-    <script>tinymce.init({
-            selector: 'textarea',
-            theme: 'modern',
-            plugins: 'print preview fullpage searchreplace autolink directionality  visualblocks visualchars fullscreen image link media template codesample code table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount   imagetools    contextmenu colorpicker textpattern help',
-            toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat code',
-            image_advtab: true,
-            language_url : "{{ url('tinymce/pt_BR.js') }}",
-            content_css: [
-                '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-                '//www.tinymce.com/css/codepen.min.css'
-            ],
-            image_title: true,
-            automatic_uploads: true,
-            images_upload_url: '{{url("/admin/uploadtinymce/")}}',
-            file_picker_types: 'image',
-            file_picker_callback: function(cb, value, meta) {
-
-                var input = document.createElement('input');
-                input.setAttribute('type', 'file');
-                input.setAttribute('accept', 'image/*');
-
-                input.onchange = function() {
-                    var file = this.files[0];
-
-                    var reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = function () {
-                        var id = 'blobid' + (new Date()).getTime();
-                        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-                        var base64 = reader.result.split(',')[1];
-                        var blobInfo = blobCache.create(id, file, base64);
-                        blobCache.add(blobInfo);
-                        cb(blobInfo.blobUri(), { title: file.name });
-                    };
-                };
-                input.click();
-            }
-        });
-    </script>
 @endpush

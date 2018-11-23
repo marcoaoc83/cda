@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
 
-class ChatController extends Controller
+class ChatPerguntasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class ChatController extends Controller
     public function index()
     {
 
-        return view('admin.chat.index');
+        return view('admin.perguntas.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class ChatController extends Controller
      */
     public function create()
     {
-        return view('admin.chat.create');
+        return view('admin.perguntas.create');
     }
 
     /**
@@ -39,25 +39,23 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents";
+        //https://api.recast.ai/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions
+        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$request->intent/expressions";
         $body=[
-            "name"=>$request->name,
-            "description"=>$request->description
+            "source"=>$request->source
         ];
         $return=self::requestRecast($endpoint,'POST',$body);
 
-        // redirect
-        SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-        return redirect()->route('chat.index');
+        return \response()->json(true);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\ChatPerguntas  $chat
      * @return \Illuminate\Http\Response
      */
-    public function show(Chat $chat)
+    public function show( $chat)
     {
         //
     }
@@ -65,7 +63,7 @@ class ChatController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\ChatPerguntas  $chat
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -73,8 +71,8 @@ class ChatController extends Controller
         // show the view and pass the nerd to it
         $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$id";
         $intents=self::requestRecast($endpoint);
-        return view('admin.chat.edit',[
-            'Chat'=>$intents
+        return view('admin.perguntas.edit',[
+            'ChatPerguntas'=>$intents
         ]);
     }
 
@@ -82,58 +80,38 @@ class ChatController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\ChatPerguntas  $chat
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request,$id)
     {
-
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$id";
+        //https://api.recast.ai/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions/${EXPRESSION_ID}
+        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$request->intent/expressions/$request->id";
         $body=[
-        "name"=>$request->name,
-            "description"=>$request->description
+            "source"=>$request->source
         ];
         $return=self::requestRecast($endpoint,'PUT',$body);
 
-        // redirect
-        SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
-        return redirect()->route('chat.index');
+        return \response()->json(true);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Chat  $chat
+     * @param  \App\Models\ChatPerguntas  $chat
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$id";
+        //https://api.recast.ai/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions/${EXPRESSION_ID}
+        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$request->intent/expressions/$request->id";
         $return=self::requestRecast($endpoint,'DELETE');
 
         return 'true';
     }
 
 
-    public function getDadosDataTable()
-    {
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents";
-        $intents=self::requestRecast($endpoint);
-        return Datatables::of($intents)
-            ->addColumn('action', function ($intents) {
-                return '
-                <a href="chat/'.$intents->id.'/edit/" class="btn btn-xs btn-primary">
-                    <i class="glyphicon glyphicon-edit"></i> Editar
-                </a>
-                <a href="javascript:;" onclick="deleteChat(\''.$intents->id.'\')" class="btn btn-xs btn-danger deleteChat" >
-                    <i class="glyphicon glyphicon-remove-circle"></i> Deletar
-                </a>
-                ';
-            })
-            ->make(true);
-    }
-
-    public function getPerguntas(Request $request)
+    public function getDadosDataTable(Request $request)
     {
         $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$request->id/expressions";
         $intents=self::requestRecast($endpoint);
