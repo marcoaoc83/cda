@@ -28,7 +28,6 @@ class ChatController extends Controller
      */
     public function create()
     {
-        // show the view and pass the nerd to it
         return view('admin.chat.create');
     }
 
@@ -40,9 +39,14 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
+        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents";
+        $body=[
+            "name"=>$request->name,
+            "description"=>$request->description
+        ];
+        $return=self::requestRecast($endpoint,'POST',$body);
 
-        Chat::create($data);
+        // redirect
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('chat.index');
     }
@@ -67,9 +71,10 @@ class ChatController extends Controller
     public function edit($id)
     {
         // show the view and pass the nerd to it
-        $Chat = Chat::find($id);
+        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$id";
+        $intents=self::requestRecast($endpoint);
         return view('admin.chat.edit',[
-            'Chat'=>$Chat
+            'Chat'=>$intents
         ]);
     }
 
@@ -82,8 +87,13 @@ class ChatController extends Controller
      */
     public function update(Request $request,$id)
     {
-        $Chat = Chat::findOrFail($id);
-        $Chat->update($request->except(['_token']));
+
+        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$id";
+        $body=[
+        "name"=>$request->name,
+            "description"=>$request->description
+        ];
+        $return=self::requestRecast($endpoint,'PUT',$body);
 
         // redirect
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
@@ -96,20 +106,36 @@ class ChatController extends Controller
      * @param  \App\Models\Chat  $chat
      * @return \Illuminate\Http\Response
      */
-    public function destroy($chat)
+    public function destroy($id)
     {
-        $var = Chat::find($chat);
-        if($var->delete()) {
-            return 'true';
-        }else{
-            return 'false';
-        }
+        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$id";
+        $return=self::requestRecast($endpoint,'DELETE');
+
+        return 'true';
     }
 
 
     public function getDadosDataTable()
     {
         $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents";
+        $intents=self::requestRecast($endpoint);
+        return Datatables::of($intents)
+            ->addColumn('action', function ($intents) {
+                return '
+                <a href="chat/'.$intents->id.'/edit/" class="btn btn-xs btn-primary">
+                    <i class="glyphicon glyphicon-edit"></i> Editar
+                </a>
+                <a href="javascript:;" onclick="deleteChat(\''.$intents->id.'\')" class="btn btn-xs btn-danger deleteChat" >
+                <i class="glyphicon glyphicon-remove-circle"></i> Deletar
+                </a>
+                ';
+            })
+            ->make(true);
+    }
+
+    public function getPerguntas(Request $request)
+    {
+        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$request->id/expressions";
         $intents=self::requestRecast($endpoint);
         return Datatables::of($intents)
             ->addColumn('action', function ($intents) {
@@ -125,10 +151,9 @@ class ChatController extends Controller
             ->make(true);
     }
 
-
     public function requestRecast($endpoint,$type='GET',$file=null) {
 
-        $token ="eb59fe93d776ae163bff913d98e46855";
+        $token ="32af5b8eacd51b2fbe0a9526eee4a9d5";
 
         if (!$token) {
             throw new \Exception('Error: Parameter token is missing');
@@ -137,11 +162,11 @@ class ChatController extends Controller
         $headers = ['Authorization' => "Token " . $token];
 
         $client = new \GuzzleHttp\Client();
-
+        $body = json_encode($file);
         try {
             $response = $client->request($type, $endpoint, [
                 'headers' => $headers,
-                'body' => $file
+                'form_params' => $file
             ]);
         } catch (\Exception $e) {
             throw new \Exception('Error: API is not accessible: ' . $e->getMessage());

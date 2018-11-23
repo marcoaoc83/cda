@@ -12,7 +12,7 @@
         <div class="">
             <div class="page-title">
                 <div class="title_left">
-                    <h3>FAQ</h3>
+                    <h3>Intenção</h3>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -27,7 +27,7 @@
                             <a class="btn btn-app" href="{{Request::url()}}">
                                 <i class="fa fa-repeat"></i> Atualizar
                             </a>
-                            <a class="btn btn-app" href="{{ route('faq.index') }}">
+                            <a class="btn btn-app" href="{{ route('chat.index') }}">
                                 <i class="fa fa-arrow-circle-left"></i> Voltar
                             </a>
                         </div>
@@ -35,7 +35,7 @@
 
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Dados da Regra de Calculo <small></small></h2>
+                            <h2>Dados<small></small></h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -44,31 +44,23 @@
                         </div>
                         <div class="x_content">
 
-                            <form class="form-horizontal form-label-left"    method="post" action="{{ route('faq.update',$Faq->faq_id) }}">
+                            <form class="form-horizontal form-label-left"    method="post" action="{{ route('chat.update',$Chat->slug) }}">
                                 {{ csrf_field() }}
                                 {{ method_field('PUT') }}
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="faq_titulo">Titulo <span class="required">*</span>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="chat_titulo">Slug  <span class="required">*</span><br> (Letra minúscula e sem espaço)
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{$Faq->faq_titulo }}" id="faq_titulo" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="faq_titulo"  required="required" type="text">
+                                        <input value="{{$Chat->name }}" id="name" class="form-control col-md-7 col-xs-12 text-lowercase" data-validate-length-range="6" data-validate-words="2" name="name"  required="required" type="text">
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="faq_ordem">Ordem
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="chat_titulo">Descrição
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{$Faq->faq_ordem }}"  type="number" :maxlength="3" id="faq_ordem" name="faq_ordem" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{$Chat->description }}" id="description" class="form-control col-md-7 col-xs-12 " data-validate-length-range="6" data-validate-words="2" name="description"  required="required" type="text">
                                     </div>
                                 </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="faq_texto">Texto <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <textarea name="faq_texto" id="faq_texto" rows="20" class="resizable_textarea form-control">{{$Faq->faq_texto }}</textarea>
-                                    </div>
-                                </div>
-
 
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>

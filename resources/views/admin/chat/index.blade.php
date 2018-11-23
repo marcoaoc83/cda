@@ -81,10 +81,10 @@
             });
         });
 
-        function deleteFaq(dataId) {
+        function deleteChat(dataId) {
             swal({
                 title             : "Tem certeza?",
-                text              : "Esta FAQ será deletada!",
+                text              : "Esta Intenção será deletada!",
                 type              : "warning",
                 showCancelButton  : true,
                 confirmButtonColor: "#DD6B55",
