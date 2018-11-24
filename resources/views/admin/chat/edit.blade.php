@@ -70,6 +70,9 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     @include('admin.chat.perguntas.index');
                 </div>
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    @include('admin.chat.respostas.index');
+                </div>
             </div>
         </div>
     </div>

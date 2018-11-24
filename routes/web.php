@@ -251,5 +251,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::resource('admin/chat', 'ChatController');
         Route::get('admin/chatperguntas/getdata', 'ChatPerguntasController@getDadosDataTable')->name('chatperguntas.getdata');
         Route::resource('admin/chatperguntas', 'ChatPerguntasController');
+        Route::get('admin/chatrespostas/getdata', 'ChatRespostasController@getDadosDataTable')->name('chatrespostas.getdata');
+        Route::resource('admin/chatrespostas', 'ChatRespostasController');
     });
 });

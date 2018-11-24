@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Portal;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChatRespostas;
 use App\Models\CredPort;
 use App\Models\Faq;
 use App\Models\Guia;
@@ -57,30 +58,11 @@ class PortalController extends Controller
         $res = $client->request->analyseText($msg);
         $intencao= $res->intent()->slug;
 
-        switch ($intencao) {
-            case "saudacao":
-                $resp= "Olá, em que posso ajudar?";
-                break;
-            case "despedida":
-                $resp= "Tchau, obrigado!";
-                break;
-            case "parcelamento":
-                $resp= "Basta acessar o Portal de Negociação, menu Parcelamento, selecionar os débitos a serem parcelados, informar o valor da entrada e a quantidade de parcelas. ";
-                break;
-            case "descontos":
-                $resp= "Os descontos para pagamento à vista ou para negociação de dívidas só serão concedidos quando houver um novo Programa de Recuperação Fiscal vigente, o que não há no momento.";
-                break;
-            case "atualizacao":
-                $resp= "Os débitos não tributários são corrigidos de acordo com o INPC e os tributários pela SELIC";
-                break;
-            case "inscricaodivida":
-                $resp= "A inscrição do crédito em Dívida Ativa ocorre quando o contribuinte não quitar os tributos, multas e demais débitos devidos ao Município.";
-                break;
-            case "parcelamentoparte":
-                $resp= "O parcelamento é feito por contribuinte, ou seja, deve ser parcelado o total de dívidas em um CPF/CNPJ.";
-                break;
-            default:
-                $resp= "Não entendi!";
+        $resp=ChatRespostas::where('resp_intents_slug', $intencao)->inRandomOrder()->limit(1)->first();
+        if($resp){
+            $resp=$resp->resp_texto;
+        }else{
+            $resp= "Não entendi!";
         }
         return  \response()->json($resp);
     }
