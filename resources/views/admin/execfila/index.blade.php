@@ -50,7 +50,7 @@
                             <div class="item form-group  text-center ">
                                 <div class="col-md-12 col-sm-12 col-xs-12"  data-toggle="buttons">
                                     <label class="btn btn-default  ">
-                                        <input type="radio" name="tipoexec" id="tipoexecV" value="v" > Validação de Envio
+                                        <input type="radio" name="tipoexec" id="tipoexecV" value="v" onc > Validação de Envio
                                     </label>
                                     <label class="btn btn-default active">
                                         <input type="radio" name="tipoexec" id="tipoexecF" value="f" checked="checked"> Execução de Fila
@@ -62,10 +62,16 @@
                                     <i class="fa fa-filter"></i> Filtrar
                                 </a>
                             </div>
+                            <div class="x_panel text-center " style="background-color: #BDBDBD; display: none" id="divBotaoFiltrarVal">
+                                <a class="btn btn-app" id="btfiltrar" onclick="filtrarValidacao()" >
+                                    <i class="fa fa-filter"></i> Filtrar
+                                </a>
+                            </div>
                             <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                         </form>
                     </div>
                         @include('admin.execfila.result-contribuinte')
+                        @include('admin.execfila.result-validacao')
                         @include('admin.execfila.result-im')
                         @include('admin.execfila.result-parcela')
 
@@ -211,6 +217,10 @@
 
 
         function filtrarParcelas(){
+            $("#divResultValidacaoRes").hide();
+            $("#divResultContribuinteRes").show();
+            $("#divResultIM").hide();
+            $("#divResultParcela").show();
             var tbContribuinteRes = $('#tbContribuinteRes').DataTable();
             var url = "{{ route('execfila.getdataParcela') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
             tbContribuinteRes.ajax.url(url).load();
@@ -223,7 +233,16 @@
             var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
             tbParcela.ajax.url(url).load();
         }
+        function filtrarValidacao() {
+            $("#divResultValidacaoRes").show();
+            $("#divResultContribuinteRes").hide();
+            $("#divResultIM").hide();
+            $("#divResultParcela").hide();
+            var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
+            var url = "{{ route('execfila.getDadosValidar') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+            tbValidacaoRes.ajax.url(url).load();
 
+        }
         function selectFila(fila) {
             $('#divFiltros').show();
             $.ajax({
@@ -925,6 +944,61 @@
                 }
             });
 
-        });
+            $('input:radio[name="tipoexec"]').change(
+                function(){
+                    if (this.checked && this.value == 'v') {
+                        $("#divBotaoFiltrar").hide();
+                        $("#divBotaoFiltrarVal").show();
+                    }
+                    if (this.checked && this.value == 'f') {
+                        $("#divBotaoFiltrarVal").hide();
+                        $("#divBotaoFiltrar").show();
+                    }
+                });
+
+            var tbValidacaoRes = $('#tbValidacaoRes').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                "searching": false,
+                "paging":   false,
+                "ordering": false,
+                "info":     false,
+                ajax: '{{ route('execfila.getDadosValidar') }}?none=true',
+                select: {
+                    style: 'multiple',
+                    info:false
+                },
+                columns: [
+                    {
+                        data: 'Nome',
+                        name: 'Nome'
+                    },
+                    {
+                        data: 'Canal',
+                        name: 'Canal'
+                    },
+                    {
+                        data: 'Dados',
+                        name: 'Dados'
+                    },
+                    {
+                        data: 'Evento',
+                        name: 'Evento'
+                    },
+                    {
+                        data: 'PsCanalId',
+                        name: 'PsCanalId',
+                        "visible": false,
+                        "searchable": false
+                    }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+                }
+            });
+        }); // document ready
+
+
     </script>
 @endpush

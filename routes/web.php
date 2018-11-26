@@ -219,6 +219,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::get('admin/execfila/getDadosCarteira', 'ExecFilaController@getDadosDataTableCarteira')->name('execfila.getDadosCarteira');
         Route::get('admin/execfila/getDadosRoteiro', 'ExecFilaController@getDadosDataTableRoteiro')->name('execfila.getDadosRoteiro');
         Route::get('admin/execfila/getDadosValidacao', 'ExecFilaController@getDadosDataTableValidacao')->name('execfila.getDadosValidacao');
+        Route::get('admin/execfila/getDadosValidar', 'ExecFilaController@getDadosDataTableValidar')->name('execfila.getDadosValidar');
         Route::resource('admin/execfila', 'ExecFilaController');
 
         Route::get('admin/tarefas/getdata', 'TarefasController@getDadosDataTable')->name('tarefas.getdata');
