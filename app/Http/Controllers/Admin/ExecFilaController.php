@@ -842,9 +842,15 @@ class ExecFilaController extends Controller
 
             foreach ($pscanais as $dado){
                 $dado=array_change_key_case($dado,CASE_LOWER);
-                $ValEnv = RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','ValEnv')
-                    ->join('cda_evento','cda_evento.EventoSg','=','cda_regtab.REGTABSG')
-                    //->where('cda_evento.FilaTrabId','=',$fila)
+
+//                $ValEnv = RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
+//                    ->where('TABSYSSG','ValEnv')
+//                    ->join('cda_vento','cda_evento.EventoSg','=','cda_regtab.REGTABSG')
+//                    //->where('cda_evento.FilaTrabId','=',$fila)
+//                    ->get();
+                $ValEnv= ValEnv::join('cda_evento','cda_evento.EventoId','=','cda_valenv.EventoId')
+                    ->join('cda_regtab','cda_regtab.REGTABID','=','cda_valenv.ValEnvId')
+                    ->where('cda_valenv.CanalId',$dado['canalid'])
                     ->get();
 
                 foreach ($ValEnv as $val){

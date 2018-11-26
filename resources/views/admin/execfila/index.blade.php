@@ -949,10 +949,19 @@
                     if (this.checked && this.value == 'v') {
                         $("#divBotaoFiltrar").hide();
                         $("#divBotaoFiltrarVal").show();
+
+                        $("#divResultValidacaoRes").show();
+                        $("#divResultContribuinteRes").hide();
+                        $("#divResultIM").hide();
+                        $("#divResultParcela").hide();
                     }
                     if (this.checked && this.value == 'f') {
                         $("#divBotaoFiltrarVal").hide();
                         $("#divBotaoFiltrar").show();
+                        $("#divResultValidacaoRes").hide();
+                        $("#divResultContribuinteRes").show();
+                        $("#divResultIM").hide();
+                        $("#divResultParcela").show();
                     }
                 });
 
