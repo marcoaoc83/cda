@@ -1,4 +1,4 @@
-<div class="x_panel" id="divResultValidacaoRes">
+<div class="x_panel" id="divResultValidacaoRes" style="display: none">
     <div class="x_title">
         <h2>Validação<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">

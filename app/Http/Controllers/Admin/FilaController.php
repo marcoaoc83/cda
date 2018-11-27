@@ -58,16 +58,17 @@ class FilaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->filtro_carteira?$request->filtro_carteira=1:$request->filtro_carteira=0;
-        $request->filtro_roteiro?$request->filtro_roteiro=1:$request->filtro_roteiro=0;
-        $request->filtro_validacao?$request->filtro_validacao=1:$request->filtro_validacao=0;
-        $request->filtro_contribuinte?$request->filtro_contribuinte=1:$request->filtro_contribuinte=0;
-        $request->filtro_parcelas?$request->filtro_parcelas=1:$request->filtro_parcelas=0;
-        $request->resultado_contribuinte?$request->resultado_contribuinte=1:$request->resultado_contribuinte=0;
-        $request->resultado_im?$request->resultado_im=1:$request->resultado_im=0;
-        $request->resultado_parcelas?$request->resultado_parcelas=1:$request->resultado_parcelas=0;
-
         $data = $request->all();
+        $data['filtro_carteira']?$data['filtro_carteira']=1:$data['filtro_carteira']=0;
+        $data['filtro_roteiro']?$data['filtro_roteiro']=1:$data['filtro_roteiro']=0;
+        $data['filtro_contribuinte']?$data['filtro_contribuinte']=1:$data['filtro_contribuinte']=0;
+        $data['filtro_parcelas']?$data['filtro_parcelas']=1:$data['filtro_parcelas']=0;
+        $data['filtro_validacao']?$data['filtro_validacao']=1:$data['filtro_validacao']=0;
+
+        $data['resultado_contribuinte']?$data['resultado_contribuinte']=1:$data['resultado_contribuinte']=0;
+        $data['resultado_im']?$data['resultado_im']=1:$data['resultado_im']=0;
+        $data['resultado_parcelas']?$data['resultado_parcelas']=1:$data['resultado_parcelas']=0;
+        $data['resultado_canais']?$data['resultado_canais']=1:$data['resultado_canais']=0;
 
         Fila::create($data);
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
@@ -137,16 +138,21 @@ class FilaController extends Controller
     public function update(Request $request,$id)
     {
 
-        $request->filtro_carteira?$request->filtro_carteira=1:$request->filtro_carteira=0;
-        $request->filtro_roteiro?$request->filtro_roteiro=1:$request->filtro_roteiro=0;
-        $request->filtro_contribuinte?$request->filtro_contribuinte=1:$request->filtro_contribuinte=0;
-        $request->filtro_parcelas?$request->filtro_parcelas=1:$request->filtro_parcelas=0;
-        $request->resultado_contribuinte?$request->resultado_contribuinte=1:$request->resultado_contribuinte=0;
-        $request->resultado_im?$request->resultado_im=1:$request->resultado_im=0;
-        $request->resultado_parcelas?$request->resultado_parcelas=1:$request->resultado_parcelas=0;
 
+
+        $data = $request->all();
+        $data['filtro_carteira']?$data['filtro_carteira']=1:$data['filtro_carteira']=0;
+        $data['filtro_roteiro']?$data['filtro_roteiro']=1:$data['filtro_roteiro']=0;
+        $data['filtro_contribuinte']?$data['filtro_contribuinte']=1:$data['filtro_contribuinte']=0;
+        $data['filtro_parcelas']?$data['filtro_parcelas']=1:$data['filtro_parcelas']=0;
+        $data['filtro_validacao']?$data['filtro_validacao']=1:$data['filtro_validacao']=0;
+
+        $data['resultado_contribuinte']?$data['resultado_contribuinte']=1:$data['resultado_contribuinte']=0;
+        $data['resultado_im']?$data['resultado_im']=1:$data['resultado_im']=0;
+        $data['resultado_parcelas']?$data['resultado_parcelas']=1:$data['resultado_parcelas']=0;
+        $data['resultado_canais']?$data['resultado_canais']=1:$data['resultado_canais']=0;
         $evento = Fila::findOrFail($id);
-        $evento->update($request->except(['_token']));
+        $evento->update($data);
 
         // redirect
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);

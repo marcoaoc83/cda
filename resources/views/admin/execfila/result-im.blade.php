@@ -1,4 +1,4 @@
-<div class="x_panel " id="divResultIM">
+<div class="x_panel " id="divResultIM" style="display: none">
     <div class="x_title">
         <h2>Inscrição Municipal <small></small></h2>
         <ul class="nav navbar-right panel_toolbox">

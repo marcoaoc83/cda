@@ -296,6 +296,21 @@
                     }else{
                         $('#divResultParcela').hide();
                     }
+
+                    if(result.resultado_canais==1){
+                        $('#divResultValidacaoRes').show();
+                        $('#tipoexecV').parent( "label" ).show();
+
+                    }else{
+                        $('#divResultValidacaoRes').hide();
+                        $('#tipoexecV').parent( "label" ).hide();
+                    }
+                    if(result.filtro_validacao==1){
+                        $('#divFiltroValidacao').show();
+
+                    }else{
+                        $('#divFiltroValidacao').hide();
+                    }
                 }
             });
             filtrarCarteira(fila);

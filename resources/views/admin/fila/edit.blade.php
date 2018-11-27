@@ -152,6 +152,15 @@
                                                 </label>
                                             </div>
                                         </div>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resultado_canais">Resultado - Canais
+                                            </label>
+                                            <div class="col-md-7" style="margin-top: 5px">
+                                                <label style="">
+                                                    <input type="checkbox" id="resultado_canais" name="resultado_canais" @if($Fila->resultado_canais ==1)checked @endif value="1" class="js-switch" >
+                                                </label>
+                                            </div>
+                                        </div>
                                         <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                                     </form>
                                 </div>

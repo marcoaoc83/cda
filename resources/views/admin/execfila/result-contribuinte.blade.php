@@ -1,4 +1,4 @@
-<div class="x_panel" id="divResultContribuinteRes">
+<div class="x_panel" id="divResultContribuinteRes" style="display: none">
     <div class="x_title">
         <h2>Contribuinte<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">

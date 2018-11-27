@@ -1,4 +1,4 @@
-<div class="x_panel" id="divResultParcela">
+<div class="x_panel" id="divResultParcela" style="display: none">
     <div class="x_title">
         <h2>Parcelas<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">
