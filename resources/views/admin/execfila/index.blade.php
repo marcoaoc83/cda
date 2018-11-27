@@ -50,7 +50,7 @@
                             <div class="item form-group  text-center ">
                                 <div class="col-md-12 col-sm-12 col-xs-12"  data-toggle="buttons">
                                     <label class="btn btn-default  ">
-                                        <input type="radio" name="tipoexec" id="tipoexecV" value="v" onc > Validação de Envio
+                                        <input type="radio" name="tipoexec" id="tipoexecV" value="v" > Validação de Envio
                                     </label>
                                     <label class="btn btn-default active">
                                         <input type="radio" name="tipoexec" id="tipoexecF" value="f" checked="checked"> Execução de Fila
@@ -108,6 +108,9 @@
                         <a class="btn btn-app "    id="execFila">
                             <i class="fa fa-save"></i> Executar
                         </a>
+                            <a class="btn btn-app "    id="execValida" style="display: none">
+                                <i class="fa fa-save"></i> Executar
+                            </a>
                         </div>
                     </div>
 
@@ -954,6 +957,9 @@
                         $("#divResultContribuinteRes").hide();
                         $("#divResultIM").hide();
                         $("#divResultParcela").hide();
+                        $("#execFila").hide();
+                        $("#execValida").show();
+
                     }
                     if (this.checked && this.value == 'f') {
                         $("#divBotaoFiltrarVal").hide();
@@ -962,6 +968,9 @@
                         $("#divResultContribuinteRes").show();
                         $("#divResultIM").hide();
                         $("#divResultParcela").show();
+
+                        $("#execFila").show();
+                        $("#execValida").hide();
                     }
                 });
 
@@ -974,10 +983,10 @@
                 "ordering": false,
                 "info":     false,
                 ajax: '{{ route('execfila.getDadosValidar') }}?none=true',
-                select: {
-                    style: 'multiple',
-                    info:false
-                },
+                // select: {
+                //     style: 'multiple',
+                //     info:false
+                // },
                 columns: [
                     {
                         data: 'Nome',
@@ -1006,6 +1015,57 @@
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
                 }
             });
+
+            $('#execValida').on('click', function(e){
+                var table = $('#tbValidacaoRes').DataTable();
+                var data = table.rows().data().toArray();
+                var csv =  $('#gCSV').is(':checked');
+                var txt =  $('#gTXT').is(':checked');
+                var gravar =  $('#gravar').is(':checked');
+                if(data.length>0) {
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'POST',
+                        data: {
+                            _token: '{!! csrf_token() !!}',
+                            dados:JSON.stringify(data),
+                            csv:csv,
+                            gravar:gravar,
+                            txt:txt
+                        },
+                        url: '{{ route('execfila.validar') }}',
+                        success: function (retorno) {
+                            swal({
+                                position: 'top-end',
+                                type: 'success',
+                                title: 'Execução de Validação enviada para lista de tarefas!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            window.location = "{{route('execfila.index')}}";
+                        },
+                        error: function (retorno) {
+                            swal({
+                                position: 'top-end',
+                                type: 'error',
+                                title: 'Error'+retorno,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    });
+                }else{
+                    swal({
+                        position: 'top-end',
+                        type: 'error',
+                        title: 'Nenhum dado para validar!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                }
+            });
+
+
         }); // document ready
 
 

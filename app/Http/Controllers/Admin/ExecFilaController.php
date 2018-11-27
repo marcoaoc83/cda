@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Jobs\ExecFilaJob;
 use App\Jobs\ExecFilaParcelaJob;
+use App\Models\CanalFila;
 use App\Models\Carteira;
 use App\Models\Evento;
 use App\Models\ExecFila;
@@ -836,6 +837,7 @@ class ExecFilaController extends Controller
                 ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId')
                 ->where('cda_pscanal.PessoaId',$pessoa)
                 ->where('cda_pscanal.CanalId',$canal)
+                ->where('cda_pscanal.Ativo',1)
                 ->get()->toArray();
 
             //error_log(print_r($pscanais,1));
@@ -901,4 +903,63 @@ class ExecFilaController extends Controller
         return Datatables::of($collection)->make(true);
 
     }
-}
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function validar(Request $request)
+    {
+        $dados=(json_decode($request->dados, true));
+        $tarefa=Tarefas::create([
+            'tar_categoria' => 'execValidacao',
+            'tar_titulo' => 'Execução de Validação',
+            'tar_status' => 'Finalizado'
+        ]);
+        if($request->csv){
+            $targetpath=storage_path("../public/export");
+            $file=md5(uniqid(rand(), true));
+            $csv= Excel::create($file, function($excel) use ($dados) {
+                $excel->sheet('mySheet', function($sheet) use ($dados)
+                {
+                    $sheet->fromArray($dados);
+                });
+            })->store("csv",$targetpath);
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
+            $Tarefa->update([
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".csv' target='_blank'>Arquivo - CSV</a></h6>"
+            ]);
+        }
+        if($request->txt){
+            $targetpath=storage_path("../public/export");
+            $file=md5(uniqid(rand(), true));
+            $csv= Excel::create($file, function($excel) use ($dados) {
+                $excel->sheet('mySheet', function($sheet) use ($dados)
+                {
+                    $sheet->fromArray($dados);
+                });
+            })->store("txt",$targetpath);
+
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
+            $Tarefa->update([
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".txt' target='_blank'>Arquivo - TXT</a></h6>"
+            ]);
+        }
+        if($request->gravar){
+            foreach ($dados as $dado){
+                PsCanal::findOrFail($dado['PsCanalId'])->update(['Ativo'=>0]);
+                CanalFila::create([
+                    'cafi_fila' => $dado['FilaTrabId'],
+                    'cafi_pscanal' => $dado['PsCanalId'],
+                    'cafi_evento' => $dado['EventoId'],
+                    'cafi_entrada' => Carbon::now()->format('Y-m-d')
+                ]);
+            }
+        }
+        return \response()->json(true);
+    }
+
+
+    }
