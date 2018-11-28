@@ -6,5 +6,5 @@
 
 return [
     'token' => env('RECASTAI_TOKEN'),
-    'language' =>env('LANGUAGE','en')
+    'language' =>env('LANGUAGE','pt')
 ];

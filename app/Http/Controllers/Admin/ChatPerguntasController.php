@@ -42,7 +42,8 @@ class ChatPerguntasController extends Controller
         //https://api.recast.ai/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions
         $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$request->intent/expressions";
         $body=[
-            "source"=>$request->source
+            "source"=>$request->source,
+            "language"=>["isocode"=>"pt"]
         ];
         $return=self::requestRecast($endpoint,'POST',$body);
 
