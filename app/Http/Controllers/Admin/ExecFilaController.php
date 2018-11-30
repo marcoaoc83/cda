@@ -222,7 +222,7 @@ class ExecFilaController extends Controller
     {
         ini_set('memory_limit', '-1');
 
-        $where=' 1 ';
+        $where=' `cda_pcrot`.`SaidaDt` IS NULL ';
 
         $limit=100000;
         if($request->limit!=null){
