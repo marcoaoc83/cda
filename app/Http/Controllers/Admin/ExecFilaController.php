@@ -76,6 +76,7 @@ class ExecFilaController extends Controller
             'cda_inscrmun.INSCRMUNNR',
             'cda_pessoa.CPF_CNPJNR',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
+            DB::raw("if(PagamentoDt='0000-00-00',null,PagamentoDt) as PagamentoDt"),
             DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
             'SitPagT.REGTABSG as SitPag',
             'SitCobT.REGTABSG as SitCob',
@@ -524,6 +525,7 @@ class ExecFilaController extends Controller
             'ModCom.ModComSg as ModComNM',
             'FilaTrab.FilaTrabSg as FilaTrabNM',
             'CANAL.CANALSG as CanalNM',
+            'CANAL.CANALID as CANALID',
             'PROX.RoteiroOrd as RoteiroProxNM',
         ])
             ->leftJoin('cda_regtab  as Fase', 'Fase.REGTABID', '=', 'cda_roteiro.FaseCartId')
@@ -961,5 +963,42 @@ class ExecFilaController extends Controller
         return \response()->json(true);
     }
 
+    public function getDadosDataTableValidacoes(Request $request)
+    {
+        $where=1;
+        if($request->fila){
+            $where.=" AND cda_roteiro.FilaTrabId = '$request->fila'";
+        }
 
+        $canal = Roteiro::select([
+            'CANAL.CANALID as CANALID'
+        ])
+            ->leftJoin('cda_regtab  as Fase', 'Fase.REGTABID', '=', 'cda_roteiro.FaseCartId')
+            ->leftJoin('cda_evento as  Evento', 'Evento.EventoId', '=', 'cda_roteiro.EventoId')
+            ->leftJoin('cda_modcom  as ModCom', 'ModCom.ModComId', '=', 'cda_roteiro.ModComId')
+            ->leftJoin('cda_filatrab  as FilaTrab', 'FilaTrab.FilaTrabId', '=', 'cda_roteiro.FilaTrabId')
+            ->leftJoin('cda_canal  as CANAL', 'CANAL.CANALID', '=', 'cda_roteiro.CanalId')
+            ->leftJoin('cda_carteira  as Carteira', 'Carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+            ->leftJoin('cda_roteiro  as PROX', 'PROX.RoteiroId', '=', 'cda_roteiro.RoteiroProxId')
+
+            ->whereRaw($where)
+            ->orderBy('cda_roteiro.RoteiroOrd','asc')
+            ->get();
+
+        $canais=[];
+        foreach ($canal as $cn){
+            $canais[]=$cn->CANALID;
+        }
+
+        $valenv = ValEnv::select(['cda_valenv.id','REGTABSG', 'REGTABNM', 'EventoSg','cda_valenv.EventoId','cda_valenv.ValEnvId'])
+            ->join('cda_canal', 'cda_canal.CANALID', '=', 'cda_valenv.CanalId')
+            ->join('cda_regtab', 'cda_regtab.REGTABID', '=', 'cda_valenv.ValEnvId')
+            ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_valenv.EventoId')
+            ->whereIn('cda_canal.CANALID',$canais)
+            ->get();
+
+        return Datatables::of($valenv)->make(true);
     }
+
+
+}

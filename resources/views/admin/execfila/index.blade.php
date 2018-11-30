@@ -315,6 +315,7 @@
             });
             filtrarCarteira(fila);
             filtrarRoteiro(fila);
+            filtrarValidacoes(fila);
         }
 
         function filtrarCarteira(fila){
@@ -337,6 +338,11 @@
         function filtrarRoteiro(fila){
             var tbRoteiro = $('#tbRoteiro').DataTable( );
             var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID=a&fila="+fila;
+            tbRoteiro.ajax.url(url).load();
+        }
+        function filtrarValidacoes(fila){
+            var tbRoteiro = $('#tbValidacao').DataTable( );
+            var url = "{{ route('execfila.getDadosDataTableValidacoes') }}"+"/?fila="+fila;
             tbRoteiro.ajax.url(url).load();
         }
         function updateDataTableSelectAllCtrl(tbParcela){
