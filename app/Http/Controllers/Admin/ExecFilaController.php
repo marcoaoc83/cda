@@ -69,7 +69,7 @@ class ExecFilaController extends Controller
             'tar_status' => 'Aguardando'
         ]);
         $gravar=$request->gravar?true:false;
-        ExecFilaParcelaJob::dispatch($request->parcelas,$tarefa->tar_id,$gravar)->onQueue("execfilaparcela");
+        ExecFilaParcelaJob::dispatch($request->parcelas,$tarefa->tar_id,$gravar,$request->filaId)->onQueue("execfilaparcela");
 
         $data = Parcela::select([
             'cda_parcela.*',
@@ -129,6 +129,7 @@ class ExecFilaController extends Controller
             $Tarefa->update([
                 'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".txt' target='_blank'>Arquivo - TXT</a></h6>"
             ]);
+
         }
         SWAL::message('Salvo','Execução de Fila enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('execfila.index');

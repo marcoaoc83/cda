@@ -5,6 +5,8 @@ namespace App\Jobs;
 use App\Http\Controllers\Admin\ModeloController;
 use App\Models\Bairro;
 use App\Models\Cidade;
+use App\Models\ExecFila;
+use App\Models\ExecFilaPsCanal;
 use App\Models\Logradouro;
 use App\Models\ModCom;
 use App\Models\PcRot;
@@ -36,17 +38,19 @@ class ExecFilaParcelaJob implements ShouldQueue
     protected $parcelas;
     protected $Tarefa;
     protected $Gravar;
+    protected $Fila;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($parcelas,$Tarefa,$Gravar)
+    public function __construct($parcelas,$Tarefa,$Gravar,$Fila)
     {
         $this->parcelas=$parcelas;
         $this->Tarefa=$Tarefa;
         $this->Gravar=$Gravar;
+        $this->Fila=$Fila;
     }
 
     /**
@@ -65,6 +69,12 @@ class ExecFilaParcelaJob implements ShouldQueue
         if(!Storage::exists($dir)) {
             Storage::makeDirectory($dir);
         }
+        $ExecFila=ExecFila::create([
+            'exfi_fila'     =>  $this->Fila,
+            'exfi_tarefa'   =>  $this->Tarefa,
+        ]);
+
+        $Lote=$ExecFila->exfi_lote;
 
         $sql="Select
               cda_parcela.PARCELAID,
@@ -162,15 +172,22 @@ class ExecFilaParcelaJob implements ShouldQueue
 
                 $logradouro=Logradouro::find($pscanal->LogradouroId);
                 if($logradouro) $linha->logradouro= $logradouro->logr_tipo.' '.$logradouro->logr_nome.','.$pscanal->EnderecoNr.'<br>'.$bairro.'<br>'.$cidade;
-
+                $linha->PsCanalId=$pscanal->PsCanalId;
                 $filas[$modelo][$linha->PESSOAID][] = $linha;
+
             }
         }
         $html="<style>table, th, td {border: 1px solid #D0CECE;} .page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;} </style>";
         foreach ($filas as $modelo=> $fila){
             foreach ($fila as $pessoa){
                 //$function_name="geraModelo".$modelo;
-                $html.=self::geraModelo($pessoa,$modelo)."<div class='page-break'></div>";
+                $Notificacao=ExecFilaPsCanal::create([
+                    "Lote"=>$Lote,
+                    "PsCanalId"=>$pessoa[0]->PsCanalId,
+                ]);
+                //error_log(print_r($pessoa,1));
+
+                $html.=self::geraModelo($pessoa,$modelo,$Notificacao)."<div class='page-break'></div>";
             }
         }
 
@@ -200,11 +217,13 @@ class ExecFilaParcelaJob implements ShouldQueue
         return false;
     }
 
-    function geraModelo($pessoa,$modeloid){
+    function geraModelo($pessoa,$modeloid,$Notificacao){
 
         $Modelo= ModCom::find($modeloid);
 
         $html=$Modelo->ModTexto;
+        $NotificacaoNR=$Notificacao->Lote.".".$Notificacao->efpa_id;
+        $NotificacaoNR=str_pad($NotificacaoNR,10,"0",STR_PAD_LEFT);
 
         $ANOLANC1=$TRIB1=$VENC1=$ParcelaVr1=$JMD1=$HONOR1=$TOTAL1='';
         $PRINCT=$JMDT=$HONORT=$TOTALT=0;
@@ -226,6 +245,7 @@ class ExecFilaParcelaJob implements ShouldQueue
         foreach ($pessoa as $linha) {
             //foreach ($linhas as $linha) {
             //$linha=$linha[0];
+            $linha->NotificacaoNR=$NotificacaoNR;
             foreach ($replace as $tipo => $campo) {
                 foreach ($campo as  $campos) {
                     $sg = $campos['sg'];
