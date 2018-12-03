@@ -224,6 +224,7 @@ class ExecFilaParcelaJob implements ShouldQueue
         $html=$Modelo->ModTexto;
         $NotificacaoNR=$Notificacao->Lote.".".$Notificacao->efpa_id;
         $NotificacaoNR=str_pad($NotificacaoNR,10,"0",STR_PAD_LEFT);
+        $ExecFila=ExecFila::find($Notificacao->Lote);
 
         $ANOLANC1=$TRIB1=$VENC1=$ParcelaVr1=$JMD1=$HONOR1=$TOTAL1='';
         $PRINCT=$JMDT=$HONORT=$TOTALT=0;
@@ -246,6 +247,7 @@ class ExecFilaParcelaJob implements ShouldQueue
             //foreach ($linhas as $linha) {
             //$linha=$linha[0];
             $linha->NotificacaoNR=$NotificacaoNR;
+            $linha->NotificacaoData=$ExecFila->exfi_data;
             foreach ($replace as $tipo => $campo) {
                 foreach ($campo as  $campos) {
                     $sg = $campos['sg'];
