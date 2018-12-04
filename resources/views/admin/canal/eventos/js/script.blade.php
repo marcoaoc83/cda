@@ -19,14 +19,18 @@
             },
             columns: [
                 {
-                    data: 'EventoSg',
-                    name: 'EventoSg',
-                    "visible": false,
-                    "searchable": false
+                    data: 'EventoNm',
+                    name: 'EventoNm'
                 },
                 {
                     data: 'EventoId',
                     name: 'EventoId',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'id',
+                    name: 'id',
                     "visible": false,
                     "searchable": false
                 }
@@ -74,7 +78,7 @@
         });
         $('#pnEvento #btDeletar').click(function () {
             var linha =table.row('.selected').data();
-            var EventoId = linha['EventoId'];
+            var id = linha['id'];
             swal({
                 title             : "Tem certeza?",
                 text              : "Esta registro será deletado!",
@@ -90,8 +94,7 @@
                         type: 'POST',
                         data: {
                             _token: '{!! csrf_token() !!}',
-                            'CanalId': '{{$canal->CANALID}}',
-                            'EventoId': EventoId,
+                            'id': id,
                             _method: 'DELETE'
                         },
                         url: '{{ url('admin/canalevento/destroy') }}',

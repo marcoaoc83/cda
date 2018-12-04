@@ -101,9 +101,7 @@ class CanalEventoController extends Controller
      */
     public function destroy(Request $request)
     {
-        $model =CanalEvento::where('CanalId',$request->CanalId)->
-        where('CanalEventoId',$request->CanalEventoId)->
-        where('EventoId',$request->EventoId);
+        $model =CanalEvento::find($request->id);
         if($model->delete()) {
             return 'true';
         }else{
@@ -117,7 +115,6 @@ class CanalEventoController extends Controller
             ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_canal_eventos.EventoId')
             ->where('cda_canal_eventos.CanalId',$request->CANALID)
             ->get();
-        ;
 
         return Datatables::of($tratret)->make(true);
     }

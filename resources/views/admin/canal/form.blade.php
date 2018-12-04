@@ -65,11 +65,13 @@
                         </div>
                     </div>
 
-                    @include('admin.canal.valenv.index');
+                    @include('admin.canal.valenv.index')
 
-                    @include('admin.canal.tratret.index');
+                    @include('admin.canal.eventos.index')
 
-                    @include('admin.canal.tippos.index');
+                    @include('admin.canal.tratret.index')
+
+                    @include('admin.canal.tippos.index')
                 </div>
             </div>
         </div>

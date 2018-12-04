@@ -50,25 +50,30 @@ class CanalController extends Controller
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','ValEnv')
             ->get();
-        ;
+
         $Evento = DB::table('cda_evento')
-            ->orderBy('EventoOrd')
+        ->orderBy('EventoOrd')
+        ->get();
+
+        $Eventos = DB::table('cda_evento')
+            ->orderBy('EventoSg')
             ->get();
-        ;
+
         $TratRet = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','TratRet')
             ->get();
-        ;
+
         $TipPos = DB::table('cda_regtab')
             ->join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
             ->where('TABSYSSG','TpPos')
             ->get();
-        ;
+
         // show the view and pass the nerd to it
         return View::make('admin.canal.form')
             ->with('canal', $canal)
             ->with('Evento', $Evento)
+            ->with('Eventos', $Eventos)
             ->with('ValEnv', $ValEnv)
             ->with('TipPos', $TipPos)
             ->with('TratRet', $TratRet);

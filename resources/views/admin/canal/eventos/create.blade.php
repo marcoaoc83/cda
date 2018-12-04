@@ -16,8 +16,7 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <select class="form-control" id="EventoId" name="EventoId" required="required">
                                 <option value=""></option>
-                                    @foreach($Evento as $var)
-                                        @if($var->ObjEventoId != 30) @continue @endif;
+                                    @foreach($Eventos as $var)
                                         <option value="{{$var->EventoId}}" >({{$var->EventoSg}}) - {{$var->EventoNm}}</option>             
                                     @endforeach
                             </select>

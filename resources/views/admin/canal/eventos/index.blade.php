@@ -1,6 +1,6 @@
 <div class="x_panel" id="pnEvento">
     <div class="x_title">
-        <h2>Tratamento de Retorno<small></small></h2>
+        <h2>Eventos Possíveis<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
@@ -29,5 +29,5 @@
 </div>
 
 @push('scripts')
-    @include('admin.canal.eventos.js.script');
+    @include('admin.canal.eventos.js.script')
 @endpush
