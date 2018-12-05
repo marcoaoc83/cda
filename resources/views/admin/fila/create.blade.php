@@ -113,6 +113,33 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_eventos">Filtro - Eventos Possíveis
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="filtro_eventos" name="filtro_eventos"  value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_tratamento">Filtro - Tratamento de Retorno
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="filtro_tratamento" name="filtro_tratamento"  value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_notificacao">Filtro - Notificação
+                                    </label>
+                                    <div class="col-md-7" style="margin-top: 5px">
+                                        <label style="">
+                                            <input type="checkbox" id="filtro_notificacao" name="filtro_notificacao"  value="1" class="js-switch" >
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resultado_contribuinte">Resultado - Contribuinte
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">

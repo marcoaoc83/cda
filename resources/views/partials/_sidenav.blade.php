@@ -42,7 +42,7 @@
                         <ul class="nav child_menu">
                             <li><a href="{{ route('admin.users') }}">Usuários</a></li>
                             <li><a href="{{ route('tarefas.index') }}">Tarefas</a></li>
-                            <li><a href="{{ route('chat.index') }}">Chat</a></li>
+
                             <li class="active"><a>Importar / Exportar<span class="fa fa-chevron-down"></span></a>
                                 <ul class="nav child_menu" style="display: block;">
                                     <li class="sub_menu"><a href="{{ route('implayout.index') }}">Layout Importação</a></li>
@@ -62,6 +62,7 @@
                             <li><a href="{{ route('portal.index') }}">Configurações</a></li>
                             <li><a href="{{ route('legislacao.index') }}">Legislação</a></li>
                             <li><a href="{{ route('faq.index') }}">FAQ</a></li>
+                            <li><a href="{{ route('chat.index') }}">Chat</a></li>
                             <li><a href="{{ route('solicitar_acesso.index') }}">Solicitaçoes de Acesso</a></li>
                         </ul>
                     </li>
