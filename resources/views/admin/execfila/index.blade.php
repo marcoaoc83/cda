@@ -126,9 +126,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    @include('admin.execfila.datepicker')
-    @include('admin.execfila.geral')
-
     @include('vendor.sweetalert.cdn')
     @include('vendor.sweetalert.view')
     @include('vendor.sweetalert.validator')
@@ -137,6 +134,9 @@
     <script src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.1.2/js/dataTables.select.min.js"></script>
     <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
+
+    @include('admin.execfila.datepicker')
+    @include('admin.execfila.geral')
 
     @include('admin.execfila.tbParcela')
     @include('admin.execfila.tbRoteiro')
@@ -150,6 +150,7 @@
     @include('admin.execfila.tbTributo')
     @include('admin.execfila.tbContribuinteRes')
     @include('admin.execfila.tbValidacaoRes')
+
     @include('admin.execfila.execFila')
     @include('admin.execfila.execValida')
 @endpush
