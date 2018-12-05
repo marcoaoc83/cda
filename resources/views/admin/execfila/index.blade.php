@@ -45,6 +45,9 @@
                             @include('admin.execfila.filtro-carteira')
                             @include('admin.execfila.filtro-roteiro')
                             @include('admin.execfila.filtro-validacao')
+
+                            @include('admin.execfila.filtro-eventos')
+
                             @include('admin.execfila.filtro-contribuinte')
                             @include('admin.execfila.filtro-parcela')
                             <div class="item form-group  text-center ">
