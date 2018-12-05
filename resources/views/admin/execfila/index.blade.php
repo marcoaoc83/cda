@@ -138,16 +138,18 @@
     @include('admin.execfila.datepicker')
     @include('admin.execfila.geral')
 
-    @include('admin.execfila.tbParcela')
-    @include('admin.execfila.tbRoteiro')
     @include('admin.execfila.tbCarteira')
+    @include('admin.execfila.tbRoteiro')
     @include('admin.execfila.tbValidacao')
+
     @include('admin.execfila.tbFxAtraso')
     @include('admin.execfila.tbFxValor')
     @include('admin.execfila.tbSitPag')
     @include('admin.execfila.tbSitCob')
     @include('admin.execfila.tbOrigTrib')
     @include('admin.execfila.tbTributo')
+
+    @include('admin.execfila.tbParcela')
     @include('admin.execfila.tbContribuinteRes')
     @include('admin.execfila.tbValidacaoRes')
 
