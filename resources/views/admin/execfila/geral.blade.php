@@ -36,9 +36,9 @@ function filtrarValidacao() {
 }
 function filtrarTratamento() {
     $("#divResultValidacaoRes").show();
-    $("#divResultParcela").show();
+    $("#divResultParcela").hide();
     var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
-    var url = "{{ route('execfila.getDadosValidar') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+    var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
     tbValidacaoRes.ajax.url(url).load();
 
 }
@@ -107,11 +107,23 @@ function selectFila(fila) {
         }else{
             $('#divFiltroValidacao').hide();
         }
-        if(result.filtro_validacao==1){
-            $('#divFiltroValidacao').show();
+        if(result.filtro_eventos==1){
+            $('#divFiltroEventos').show();
 
         }else{
-            $('#divFiltroValidacao').hide();
+            $('#divFiltroEventos').hide();
+        }
+        if(result.filtro_tratamento==1){
+            $('#divFiltroTratRet').show();
+
+        }else{
+            $('#divFiltroTratRet').hide();
+        }
+        if(result.filtro_notificacao==1){
+            $('#divFiltroNotificacao').show();
+
+        }else{
+            $('#divFiltroNotificacao').hide();
         }
     }
 });
@@ -208,6 +220,7 @@ $(document).ready(function() {
             if (this.checked && this.value == 'v') {
                 $("#divBotaoFiltrar").hide();
                 $("#divBotaoFiltrarVal").show();
+                $("#divBotaoFiltrarTrat").hide();
 
                 $("#divResultValidacaoRes").show();
                 $("#divResultContribuinteRes").hide();
@@ -221,6 +234,8 @@ $(document).ready(function() {
             if (this.checked && this.value == 'f') {
                 $("#divBotaoFiltrarVal").hide();
                 $("#divBotaoFiltrar").show();
+                $("#divBotaoFiltrarTrat").hide();
+
                 $("#divResultValidacaoRes").hide();
                 $("#divResultContribuinteRes").show();
                 $("#divResultIM").hide();
@@ -232,11 +247,13 @@ $(document).ready(function() {
             }
             if (this.checked && this.value == 't') {
                 $("#divBotaoFiltrarVal").hide();
-                $("#divBotaoFiltrar").show();
+                $("#divBotaoFiltrar").hide();
+                $("#divBotaoFiltrarTrat").show();
+
                 $("#divResultValidacaoRes").show();
                 $("#divResultContribuinteRes").hide();
                 $("#divResultIM").hide();
-                $("#divResultParcela").show();
+                $("#divResultParcela").hide();
 
                 $("#execFila").hide();
                 $("#execValida").hide();

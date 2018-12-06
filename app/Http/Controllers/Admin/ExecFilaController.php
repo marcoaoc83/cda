@@ -1024,5 +1024,79 @@ class ExecFilaController extends Controller
         return Datatables::of($valenv)->make(true);
     }
 
+    public function getDadosDataTableTratRetorno(Request $request){
 
+        $Retorno=ExecFila::select(['cda_execfila_pscanal.PsCanalId'])
+            ->join("cda_execfila_pscanal","cda_execfila.exfi_lote","=","cda_execfila_pscanal.Lote");
+
+        if($request->notLote){
+            $Retorno->where("cda_execfila.exfi_lote",$request->notLote);
+        }
+        if($request->notNotificacao){
+            $Retorno->where("cda_execfila_pscanal.efpa_id",$request->notNotificacao);
+        }
+        if($request->notInicio){
+            $notInicio=Carbon::createFromFormat('d/m/Y', $request->notInicio)->format('Y-m-d');
+            $Retorno->where("cda_execfila.exfi_data",">=",$notInicio);
+        }
+        if($request->notFinal){
+            $notFinal=Carbon::createFromFormat('d/m/Y', $request->notFinal)->format('Y-m-d');
+            $Retorno->where("cda_execfila.exfi_data","<=",$notFinal);
+        }
+        $resultado=$Retorno->get();
+        $x=0;
+        $Validacao=[];
+        foreach ($resultado as $linha){
+            $pscanais = PsCanal::select([
+                'cda_pscanal.PsCanalId',
+                'cda_pscanal.PessoaId',
+                'cda_pscanal.InscrMunId',
+                'cda_pscanal.FonteInfoId',
+                'cda_pscanal.CanalId',
+                'cda_pscanal.TipPosId',
+                'cda_pscanal.CEP',
+                'cda_pscanal.LogradouroId',
+                'cda_pscanal.EnderecoNr',
+                'cda_pscanal.Complemento',
+                'cda_pscanal.TelefoneNr',
+                'cda_pscanal.Email',
+                'cda_pscanal.BairroId',
+                'cda_pscanal.CidadeId',
+                'cda_cidade.cida_uf as UF',
+                'FonteInfoId.REGTABSG as FonteInfo',
+                'TipPosId.REGTABNM as TipPos',
+                'cda_canal.CANALSG',
+                'cda_inscrmun.INSCRMUNNR',
+                'cda_pessoa.PESSOANMRS as Nome',
+                DB::raw('IF(cda_pscanal.LogradouroId IS NOT NULL , CONCAT_WS(" ",cda_logradouro.logr_tipo,cda_logradouro.logr_nome),cda_pscanal.Logradouro) AS Logradouro'),
+                DB::raw('IF(cda_pscanal.BairroId IS NOT NULL ,cda_bairro.bair_nome,cda_pscanal.Bairro) AS Bairro'),
+                DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade')
+            ])
+                ->leftjoin('cda_regtab as FonteInfoId', 'FonteInfoId.REGTABID', '=', 'cda_pscanal.FonteInfoId')
+                ->leftjoin('cda_regtab as TipPosId', 'TipPosId.REGTABID', '=', 'cda_pscanal.TipPosId')
+                ->leftjoin('cda_canal', 'cda_canal.CANALID', '=', 'cda_pscanal.CanalId')
+                ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_pscanal.InscrMunId')
+                ->leftjoin('cda_logradouro', 'cda_logradouro.logr_id', '=', 'cda_pscanal.LogradouroId')
+                ->leftjoin('cda_bairro', 'cda_bairro.bair_id', '=', 'cda_pscanal.BairroId')
+                ->leftjoin('cda_cidade', 'cda_cidade.cida_id', '=', 'cda_pscanal.CidadeId')
+                ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId')
+                ->where('cda_pscanal.PsCanalId',$linha->PsCanalId)
+                ->first()->toArray();
+
+            $dado=array_change_key_case($pscanais,CASE_LOWER);
+            $Dados=$dado['logradouro'].' '.$dado['endereconr'].' '.$dado['bairro'].' '.$dado['cidade'].' '.$dado['uf'].' '.$dado['cep'].' '.$dado['email'].' '.$dado['telefonenr'];
+            $Validacao[$x]['PessoaId']=$dado['pessoaid'];
+            $Validacao[$x]['PsCanalId']=$dado['pscanalid'];
+            $Validacao[$x]['EventoId']="";
+            $Validacao[$x]['FilaTrabId']=2;
+            $Validacao[$x]['Nome']=$dado['nome'];
+            $Validacao[$x]['Canal']=$dado['canalsg'];
+            $Validacao[$x]['Evento']="";
+            $Validacao[$x]['Dados']=trim($Dados);
+            $x++;
+        }
+
+        $collection = collect($Validacao);
+        return Datatables::of($collection)->make(true);
+    }
 }

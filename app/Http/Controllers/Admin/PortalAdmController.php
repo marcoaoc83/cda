@@ -47,10 +47,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_logo_topo->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_logo_topo->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_logo_topo = $request->file('port_logo_topo');
             $port_logo_topo->move(public_path($path), $nameFile);
@@ -63,10 +64,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_logo_rodape->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_logo_rodape->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_logo_rodape= $request->file('port_logo_rodape');
             $port_logo_rodape->move(public_path($path), $nameFile);
@@ -79,10 +81,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_banner_lateral->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_banner_lateral->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_banner_lateral= $request->file('port_banner_lateral');
             $port_banner_lateral->move(public_path($path), $nameFile);
@@ -95,10 +98,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_banner1->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_banner1->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_banner1= $request->file('port_banner1');
             $port_banner1->move(public_path($path), $nameFile);
@@ -111,10 +115,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_banner2->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_banner2->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_banner2= $request->file('port_banner2');
             $port_banner2->move(public_path($path), $nameFile);
@@ -127,10 +132,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_banner3->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_banner3->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_banner3= $request->file('port_banner3');
             $port_banner3->move(public_path($path), $nameFile);
@@ -143,10 +149,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_banner4->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_banner4->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_banner4= $request->file('port_banner4');
             $port_banner4->move(public_path($path), $nameFile);
@@ -159,10 +166,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_banner5->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_banner5->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_banner5= $request->file('port_banner5');
             $port_banner5->move(public_path($path), $nameFile);
@@ -175,10 +183,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_icone_top->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_icone_top->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_icone_top= $request->file('port_icone_top');
             $port_icone_top->move(public_path($path), $nameFile);
@@ -191,10 +200,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_icone_1->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_icone_1->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_icone_1= $request->file('port_icone_1');
             $port_icone_1->move(public_path($path), $nameFile);
@@ -207,10 +217,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_icone_2->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_icone_2->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_icone_2= $request->file('port_icone_2');
             $port_icone_2->move(public_path($path), $nameFile);
@@ -223,10 +234,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_icone_3->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_icone_3->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_icone_3= $request->file('port_icone_3');
             $port_icone_3->move(public_path($path), $nameFile);
@@ -239,10 +251,11 @@ class PortalAdmController extends Controller
 
             //Define um aleatório para o arquivo baseado no timestamps atual
             $name = uniqid(date('HisYmd'));
+            $name = $request->port_icone_4->getClientOriginalName();
             // Recupera a extensão do arquivo
             $ext = $request->port_icone_4->getClientOriginalExtension();
             // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
+            $nameFile = "{$name}";
 
             $port_icone_4= $request->file('port_icone_4');
             $port_icone_4->move(public_path($path), $nameFile);

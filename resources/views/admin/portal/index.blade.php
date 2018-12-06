@@ -302,7 +302,7 @@
                                             <i class="fa fa-close" onclick="$('#port_icone_topTmp').val('')" style="cursor: pointer"></i>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_icone_1">Icone - Debitos </label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_icone_1">Icone - Debitos (56 x 56)</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                                 <div class="input-group input-file" name="port_icone_1">
@@ -316,7 +316,7 @@
                                             <i class="fa fa-close" onclick="$('#port_icone_1Tmp').val('')" style="cursor: pointer"></i>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_icone_2">Icone - Guia </label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_icone_2">Icone - Guia (56 x 56)</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                                 <div class="input-group input-file" name="port_icone_2">
@@ -330,7 +330,7 @@
                                             <i class="fa fa-close" onclick="$('#port_icone_2Tmp').val('')" style="cursor: pointer"></i>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_icone_3">Icone - Parcelamento </label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_icone_3">Icone - Parcelamento (56 x 56)</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                                 <div class="input-group input-file" name="port_icone_3">
@@ -344,14 +344,14 @@
                                             <i class="fa fa-close" onclick="$('#port_icone_3Tmp').val('')" style="cursor: pointer"></i>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_icone_4">Icone - Dúvidas </label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="port_icone_4">Icone - Dúvidas (56 x 56)</label>
                                             <div class="col-md-6 col-sm-6 col-xs-12" style="height: 35px;">
 
                                                 <div class="input-group input-file" name="port_icone_4">
                                                     <input type="text" value="@if(isset($Var->port_icone_4)){{ $Var->port_icone_4 }}@endif" name="port_icone_4Tmp" id="port_icone_4Tmp" class="form-control" />
                                                     <span class="input-group-btn">
-                                                    <button class="btn btn-default btn-choose" type="button">...</button>
-                                                </span>
+                                                        <button class="btn btn-default btn-choose" type="button">...</button>
+                                                    </span>
                                                 </div>
 
                                             </div>
