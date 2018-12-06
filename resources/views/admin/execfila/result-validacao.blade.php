@@ -1,6 +1,6 @@
 <div class="x_panel" id="divResultValidacaoRes" style="display: none">
     <div class="x_title">
-        <h2>Validação<small></small></h2>
+        <h2>Canal<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
         </ul>

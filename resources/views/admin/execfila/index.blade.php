@@ -47,6 +47,8 @@
                             @include('admin.execfila.filtro-validacao')
 
                             @include('admin.execfila.filtro-eventos')
+                            @include('admin.execfila.filtro-tratamento')
+                            @include('admin.execfila.filtro-notificacao')
 
                             @include('admin.execfila.filtro-contribuinte')
                             @include('admin.execfila.filtro-parcela')
@@ -58,6 +60,9 @@
                                     <label class="btn btn-default active">
                                         <input type="radio" name="tipoexec" id="tipoexecF" value="f" checked="checked"> Execução de Fila
                                     </label>
+                                    <label class="btn btn-default">
+                                        <input type="radio" name="tipoexec" id="tipoexecT" value="t">  Tratamento de Retorno
+                                    </label>
                                 </div>
                             </div>
                             <div class="x_panel text-center " style="background-color: #BDBDBD" id="divBotaoFiltrar">
@@ -67,6 +72,11 @@
                             </div>
                             <div class="x_panel text-center " style="background-color: #BDBDBD; display: none" id="divBotaoFiltrarVal">
                                 <a class="btn btn-app" id="btfiltrar" onclick="filtrarValidacao()" >
+                                    <i class="fa fa-filter"></i> Filtrar
+                                </a>
+                            </div>
+                            <div class="x_panel text-center " style="background-color: #BDBDBD; display: none" id="divBotaoFiltrarTrat">
+                                <a class="btn btn-app" id="btfiltrar" onclick="filtrarTratamento()" >
                                     <i class="fa fa-filter"></i> Filtrar
                                 </a>
                             </div>
@@ -108,10 +118,13 @@
                     <div class="x_panel text-center">
 
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                        <a class="btn btn-app "    id="execFila">
-                            <i class="fa fa-save"></i> Executar
-                        </a>
+                            <a class="btn btn-app "    id="execFila">
+                                <i class="fa fa-save"></i> Executar
+                            </a>
                             <a class="btn btn-app "    id="execValida" style="display: none">
+                                <i class="fa fa-save"></i> Executar
+                            </a>
+                            <a class="btn btn-app "    id="execTratamento" style="display: none">
                                 <i class="fa fa-save"></i> Executar
                             </a>
                         </div>
@@ -144,6 +157,8 @@
     @include('admin.execfila.tbCarteira')
     @include('admin.execfila.tbRoteiro')
     @include('admin.execfila.tbValidacao')
+    @include('admin.execfila.tbEventos')
+    @include('admin.execfila.tbTratRet')
 
     @include('admin.execfila.tbFxAtraso')
     @include('admin.execfila.tbFxValor')

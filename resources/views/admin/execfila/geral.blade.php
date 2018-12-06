@@ -34,6 +34,14 @@ function filtrarValidacao() {
     tbValidacaoRes.ajax.url(url).load();
 
 }
+function filtrarTratamento() {
+    $("#divResultValidacaoRes").show();
+    $("#divResultParcela").show();
+    var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
+    var url = "{{ route('execfila.getDadosValidar') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+    tbValidacaoRes.ajax.url(url).load();
+
+}
 function selectFila(fila) {
     $('#divFiltros').show();
     $.ajax({
@@ -99,11 +107,19 @@ function selectFila(fila) {
         }else{
             $('#divFiltroValidacao').hide();
         }
+        if(result.filtro_validacao==1){
+            $('#divFiltroValidacao').show();
+
+        }else{
+            $('#divFiltroValidacao').hide();
+        }
     }
 });
     filtrarCarteira(fila);
     filtrarRoteiro(fila);
     filtrarValidacoes(fila);
+    filtrarEventos(fila);
+    filtrarTratRet(fila);
 }
 
 function filtrarCarteira(fila){
@@ -133,8 +149,60 @@ function filtrarValidacoes(fila){
     var url = "{{ route('execfila.getDadosDataTableValidacoes') }}"+"/?fila="+fila;
     tbRoteiro.ajax.url(url).load();
 }
+function filtrarEventos(fila){
+    var tbEventos = $('#tbEventos').DataTable( );
+    var url = "{{ route('execfila.getDadosEventos') }}"+"/?fila="+fila;
+    tbEventos.ajax.url(url).load();
+}
+function filtrarTratRet(fila){
+    var tbTratRet = $('#tbTratRet').DataTable( );
+    var url = "{{ route('execfila.getDadosTratRet') }}"+"/?fila="+fila;
+    tbTratRet.ajax.url(url).load();
+}
 $(document).ready(function() {
-
+    $('.date-picker').daterangepicker({
+        singleDatePicker: true,
+        autoUpdateInput: false,
+        "locale": {
+            "format": "DD/MM/YYYY",
+            "separator": " - ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "fromLabel": "De",
+            "toLabel": "Até",
+            "customRangeLabel": "Custom",
+            "daysOfWeek": [
+                "Dom",
+                "Seg",
+                "Ter",
+                "Qua",
+                "Qui",
+                "Sex",
+                "Sáb"
+            ],
+            "monthNames": [
+                "Janeiro",
+                "Fevereiro",
+                "Março",
+                "Abril",
+                "Maio",
+                "Junho",
+                "Julho",
+                "Agosto",
+                "Setembro",
+                "Outubro",
+                "Novembro",
+                "Dezembro"
+            ],
+            "firstDay": 0
+        }
+    }, function(chosen_date) {
+        if(this.element.attr('id')=='CompetenciaInicio' || this.element.attr('id')=='CompetenciaFinal'){
+            this.element.val(chosen_date.format('MM/YYYY'));
+        }else{
+            this.element.val(chosen_date.format('DD/MM/YYYY'));
+        }
+    });
     $('input:radio[name="tipoexec"]').change(
         function () {
             if (this.checked && this.value == 'v') {
@@ -147,6 +215,7 @@ $(document).ready(function() {
                 $("#divResultParcela").hide();
                 $("#execFila").hide();
                 $("#execValida").show();
+                $("#execTratamento").hide();
 
             }
             if (this.checked && this.value == 'f') {
@@ -159,6 +228,19 @@ $(document).ready(function() {
 
                 $("#execFila").show();
                 $("#execValida").hide();
+                $("#execTratamento").hide();
+            }
+            if (this.checked && this.value == 't') {
+                $("#divBotaoFiltrarVal").hide();
+                $("#divBotaoFiltrar").show();
+                $("#divResultValidacaoRes").show();
+                $("#divResultContribuinteRes").hide();
+                $("#divResultIM").hide();
+                $("#divResultParcela").show();
+
+                $("#execFila").hide();
+                $("#execValida").hide();
+                $("#execTratamento").show();
             }
         });
 });

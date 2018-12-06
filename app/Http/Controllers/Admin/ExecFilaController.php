@@ -15,6 +15,7 @@ use App\Models\PsCanal;
 use App\Models\RegTab;
 use App\Models\Roteiro;
 use App\Models\Tarefas;
+use App\Models\TratRet;
 use App\Models\ValEnv;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
@@ -205,6 +206,28 @@ class ExecFilaController extends Controller
     {
         $Var = DB::select("Select cda_regtab.REGTABID, cda_regtab.REGTABSG, cda_regtab.REGTABNM From cda_regtab Where cda_regtab.TABSYSID = 20 order by REGTABNM");
         return Datatables::of($Var)->make(true);
+    }
+
+    public function getDadosEventos(Request $r)
+    {
+        $Var =Evento::join('cda_canal_eventos', 'cda_canal_eventos.EventoId', '=', 'cda_evento.EventoId')
+            ->join("cda_roteiro","cda_roteiro.CanalId","cda_canal_eventos.CanalId")
+            ->where("cda_roteiro.FilaTrabId",$r->fila)
+            ->groupBy("cda_evento.EventoId")
+            ->get();
+        return Datatables::of($Var)->make(true);
+    }
+
+    public function getDadosTratRet(Request $r)
+    {
+        $tratret = TratRet::select(['RetornoCd', 'RetornoCdNr', 'EventoSg','cda_tratret.EventoId','TratRetId'])
+            ->join('cda_canal', 'cda_canal.CANALID', '=', 'cda_tratret.CanalId')
+            ->join("cda_roteiro","cda_roteiro.CanalId","cda_canal.CanalId")
+            ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_tratret.EventoId')
+            ->where('cda_roteiro.FilaTrabId',$r->fila)
+            ->groupBy("TratRetId")
+            ->get();
+        return Datatables::of($tratret)->make(true);
     }
 
     public function getDadosDataTableOrigTrib()
