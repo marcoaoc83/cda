@@ -1025,8 +1025,11 @@ class ExecFilaController extends Controller
     }
 
     public function getDadosDataTableTratRetorno(Request $request){
-
-        $Retorno=ExecFila::select(['cda_execfila_pscanal.PsCanalId'])
+        if($request->none){
+            $collection = collect([]);
+            return Datatables::of($collection)->make(true);
+        }
+        $Retorno=ExecFila::select(['*'])
             ->join("cda_execfila_pscanal","cda_execfila.exfi_lote","=","cda_execfila_pscanal.Lote");
 
         if($request->notLote){
@@ -1093,10 +1096,80 @@ class ExecFilaController extends Controller
             $Validacao[$x]['Canal']=$dado['canalsg'];
             $Validacao[$x]['Evento']="";
             $Validacao[$x]['Dados']=trim($Dados);
+            $Validacao[$x]['Lote']=trim($linha->Lote);
+            $Validacao[$x]['Notificacao']=trim($linha->efpa_id);
             $x++;
         }
 
         $collection = collect($Validacao);
+        return Datatables::of($collection)->make(true);
+    }
+
+    function getDadosDataTableParcelasExec(Request $request){
+        if($request->none){
+            $collection = collect([]);
+            return Datatables::of($collection)->make(true);
+        }
+        $Parcelas = Parcela::select([
+            'cda_parcela.*',
+            'cda_inscrmun.INSCRMUNNR',
+            'cda_pessoa.CPF_CNPJNR',
+            DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
+            DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
+            'SitPagT.REGTABSG as SitPag',
+            'SitCobT.REGTABSG as SitCob',
+            'OrigTribT.REGTABSG as OrigTrib',
+            'TribT.REGTABSG as Trib',
+            'cda_carteira.CARTEIRASG as Carteira',
+            DB::raw("sum(cda_parcela.TotalVr)  as TotalVr2"),
+            DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
+        ])
+            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
+            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->leftjoin('cda_regtab as  TribT', 'TribT.REGTABID', '=', 'cda_parcela.TributoId')
+            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->join('cda_execfila_pscanal_parcela', 'cda_execfila_pscanal_parcela.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+            ->where("cda_execfila_pscanal_parcela.Lote",$request->lote)
+            ->where("cda_execfila_pscanal_parcela.Notificacao",$request->notificacao)
+            ->groupBy("cda_parcela.ParcelaId")
+            ->orderBy('cda_parcela.ParcelaId')
+            ->get();
+
+
+        $i=0;
+        $collect=[];
+        foreach ($Parcelas as $parcela){
+            $doc='';
+            if(strlen($parcela['CPF_CNPJNR'])==11){
+                $doc= self::maskString($parcela['CPF_CNPJNR'],'###.###.###-##');
+            }
+            if(strlen($parcela['CPF_CNPJNR'])==14){
+                $doc= self::maskString($parcela['CPF_CNPJNR'],'##.###.###/####-##');
+            }
+            $collect[$i]['Nome']=$parcela['Nome'];
+            $collect[$i]['Carteira']=$parcela['Carteira'];
+            $collect[$i]['SitPag']=$parcela['SitPag'];
+            $collect[$i]['PessoaId']=$parcela['PessoaId'];
+            $collect[$i]['INSCRMUNNR']=$parcela['INSCRMUNNR'];
+            $collect[$i]['CPFCNPJ']=$doc;
+            $collect[$i]['SitCob']=$parcela['SitCob'];
+            $collect[$i]['OrigTrib']=$parcela['OrigTrib'];
+            $collect[$i]['Trib']=$parcela['Trib'];
+            $collect[$i]['LancamentoNr']=$parcela['LancamentoNr'];
+            $collect[$i]['ParcelaNr']=$parcela['ParcelaNr'];
+            $collect[$i]['PlanoQt']=$parcela['PlanoQt'];
+            $collect[$i]['VencimentoDt']=$parcela['VencimentoDt']->format('d/m/Y');
+            $collect[$i]['TotalVr']="R$ ".number_format($parcela['TotalVr2'],2,',','.');
+            $collect[$i]['ParcelaId']=$parcela['ParcelaId'];
+            $i++;
+        }
+
+        $collection = collect($collect);
         return Datatables::of($collection)->make(true);
     }
 }

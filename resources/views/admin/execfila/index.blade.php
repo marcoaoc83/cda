@@ -86,7 +86,9 @@
                         @include('admin.execfila.result-contribuinte')
                         @include('admin.execfila.result-validacao')
                         @include('admin.execfila.result-im')
+                    @include('admin.execfila.result-canalexec')
                         @include('admin.execfila.result-parcela')
+
 
 
                     <form  id="formParcelas" method="post" action="{{ route('execfila.store') }}" >
@@ -170,6 +172,7 @@
     @include('admin.execfila.tbParcela')
     @include('admin.execfila.tbContribuinteRes')
     @include('admin.execfila.tbValidacaoRes')
+    @include('admin.execfila.tbCanalExec')
 
     @include('admin.execfila.execFila')
     @include('admin.execfila.execValida')

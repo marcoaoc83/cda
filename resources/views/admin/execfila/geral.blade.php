@@ -23,6 +23,10 @@ function filtrarParcelas(){
     var tbParcela = $('#tbParcela').DataTable();
     var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
     tbParcela.ajax.url(url).load();
+    // Get the column API object
+    var column = tbParcela.column( 0 );
+    // Toggle the visibility
+    column.visible(true );
 }
 function filtrarValidacao() {
     $("#divResultValidacaoRes").show();
@@ -35,11 +39,12 @@ function filtrarValidacao() {
 
 }
 function filtrarTratamento() {
-    $("#divResultValidacaoRes").show();
-    $("#divResultParcela").hide();
-    var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
-    var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
-    tbValidacaoRes.ajax.url(url).load();
+    $("#divResultCanalExec").show();
+    $("#divResultParcela").show();
+
+    var tbCanalExec = $('#tbCanalExec').DataTable();
+    var url = "{{ route('execfila.getDadosTratRetorno') }}" + "/?group=Pes&" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();
+    tbCanalExec.ajax.url(url).load();
 
 }
 function selectFila(fila) {
@@ -222,6 +227,7 @@ $(document).ready(function() {
                 $("#divBotaoFiltrarTrat").hide();
 
                 $("#divResultValidacaoRes").show();
+                $("#divResultCanalExec").hide();
                 $("#divResultContribuinteRes").hide();
                 $("#divResultIM").hide();
                 $("#divResultParcela").hide();
@@ -236,6 +242,7 @@ $(document).ready(function() {
                 $("#divBotaoFiltrarTrat").hide();
 
                 $("#divResultValidacaoRes").hide();
+                $("#divResultCanalExec").hide();
                 $("#divResultContribuinteRes").show();
                 $("#divResultIM").hide();
                 $("#divResultParcela").show();
@@ -249,7 +256,8 @@ $(document).ready(function() {
                 $("#divBotaoFiltrar").hide();
                 $("#divBotaoFiltrarTrat").show();
 
-                $("#divResultValidacaoRes").show();
+                $("#divResultValidacaoRes").hide();
+                $("#divResultCanalExec").show();
                 $("#divResultContribuinteRes").hide();
                 $("#divResultIM").hide();
                 $("#divResultParcela").hide();
