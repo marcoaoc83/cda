@@ -7,6 +7,7 @@ use App\Models\Bairro;
 use App\Models\Cidade;
 use App\Models\ExecFila;
 use App\Models\ExecFilaPsCanal;
+use App\Models\ExecFilaPsCanalParcela;
 use App\Models\Logradouro;
 use App\Models\ModCom;
 use App\Models\PcRot;
@@ -244,6 +245,14 @@ class ExecFilaParcelaJob implements ShouldQueue
         $result=[];
         $i=1;
         foreach ($pessoa as $linha) {
+
+            if(isset($linha->PARCELAID)){
+                ExecFilaPsCanalParcela::create([
+                    "Lote"          =>$Notificacao->Lote,
+                    "Notificacao"   =>$Notificacao->efpa_id,
+                    "ParcelaId"     =>$linha->PARCELAID
+                ]);
+            }
             //foreach ($linhas as $linha) {
             //$linha=$linha[0];
             $linha->NotificacaoNR=$NotificacaoNR;

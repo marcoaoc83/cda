@@ -96,32 +96,31 @@ function selectFila(fila) {
         if(result.resultado_canais==1){
             $('#divResultValidacaoRes').show();
             $('#tipoexecV').parent( "label" ).show();
-
         }else{
             $('#divResultValidacaoRes').hide();
             $('#tipoexecV').parent( "label" ).hide();
         }
+
         if(result.filtro_validacao==1){
             $('#divFiltroValidacao').show();
-
         }else{
             $('#divFiltroValidacao').hide();
         }
+
         if(result.filtro_eventos==1){
             $('#divFiltroEventos').show();
-
         }else{
             $('#divFiltroEventos').hide();
         }
+
         if(result.filtro_tratamento==1){
             $('#divFiltroTratRet').show();
-
         }else{
             $('#divFiltroTratRet').hide();
         }
+
         if(result.filtro_notificacao==1){
             $('#divFiltroNotificacao').show();
-
         }else{
             $('#divFiltroNotificacao').hide();
         }
