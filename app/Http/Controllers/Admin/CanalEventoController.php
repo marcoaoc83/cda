@@ -111,7 +111,7 @@ class CanalEventoController extends Controller
 
     public function getDadosDataTable(Request $request)
     {
-        $tratret = CanalEvento::select(['cda_canal_eventos.*','cda_evento.EventoNm','cda_evento.EventoNm'])
+        $tratret = CanalEvento::select(['*'])
             ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_canal_eventos.EventoId')
             ->where('cda_canal_eventos.CanalId',$request->CANALID)
             ->get();

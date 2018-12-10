@@ -128,6 +128,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         Route::get('admin/pessoa/getdata', 'PessoaController@getDadosDataTable')->name('pessoa.getdata');
         Route::get('admin/pessoa/findpessoa', 'PessoaController@findPessoa')->name('pessoa.findpessoa');
         Route::get('admin/pessoa/export', 'PessoaController@export')->name('pessoa.export');
+        Route::get('admin/pessoa/canal', 'PessoaController@getDadosDataTableCanal')->name('pessoa.canal');
         Route::resource('admin/pessoa', 'PessoaController');
 
         Route::get('admin/regcalc/getdata', 'RegraCalculoController@getDadosDataTable')->name('regcalc.getdata');

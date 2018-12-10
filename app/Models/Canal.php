@@ -7,7 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Canal extends Model
 {
     protected $fillable = [
-        'CANALSG', 'CANALNM'
+        'CANALSG',
+        'CANALNM',
+        'oEMAIL',
+        'oTELEFONE',
+        'oCEP',
+        'oNUMERO',
+        'oLOGRADOURO',
+        'oCOMPLEMENTO',
+        'oBAIRRO',
+        'oCIDADE',
+        'oUF'
     ];
     protected $table = 'cda_canal';
     protected $primaryKey = 'CANALID';

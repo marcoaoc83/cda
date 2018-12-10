@@ -5,6 +5,64 @@
 <script src="https://cdn.datatables.net/select/1.1.2/js/dataTables.select.min.js"></script>
 <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
 <script type="text/javascript">
+    function selectCanal(canal,form){
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                _token: '{!! csrf_token() !!}',
+                canal: canal
+            },
+            url: "{!! url('admin/pessoa/canal') !!}",
+            success: function( result ) {
+                if(result.oEMAIL==1){
+                    $('#'+form+' #Email').attr('required','required');
+                }else{
+                    $('#'+form+' #Email').removeAttr('required');
+                }
+                if(result.oTELEFONE==1){
+                    $('#'+form+' #TelefoneNr').attr('required','required');
+                }else{
+                    $('#'+form+' #TelefoneNr').removeAttr('required');
+                }
+                if(result.oCEP==1){
+                    $('#'+form+' #CEP').attr('required','required');
+                }else{
+                    $('#'+form+' #CEP').removeAttr('required');
+                }
+                if(result.oNUMERO==1){
+                    $('#'+form+' #EnderecoNr').attr('required','required');
+                }else{
+                    $('#'+form+' #EnderecoNr').removeAttr('required');
+                }
+                if(result.oLOGRADOURO==1){
+                    $('#'+form+' #Logradouro').attr('required','required');
+                }else{
+                    $('#'+form+' #Logradouro').removeAttr('required');
+                }
+                if(result.oCOMPLEMENTO==1){
+                    $('#'+form+' #Complemento').attr('required','required');
+                }else{
+                    $('#'+form+' #Complemento').removeAttr('required');
+                }
+                if(result.oBAIRRO==1){
+                    $('#'+form+' #Bairro').attr('required','required');
+                }else{
+                    $('#'+form+' #Bairro').removeAttr('required');
+                }
+                if(result.oCIDADE==1){
+                    $('#'+form+' #Cidade').attr('required','required');
+                }else{
+                    $('#'+form+' #Cidade').removeAttr('required');
+                }
+                if(result.oUF==1){
+                    $('#'+form+' #UF').attr('required','required');
+                }else{
+                    $('#'+form+' #UF').removeAttr('required');
+                }
+            }
+        });
+    }
     $(document).ready(function() {
 
         var tablePsCanal = $('#tbPsCanal').DataTable({
@@ -27,6 +85,10 @@
                 {
                     data: 'CANALSG',
                     name: 'CANALSG'
+                },
+                {
+                    data: 'TipPos',
+                    name: 'TipPos'
                 },
                 {
                     data: 'TelefoneNr',
@@ -59,6 +121,10 @@
                 {
                     data: 'Cidade',
                     name: 'Cidade'
+                },
+                {
+                    data: 'UF',
+                    name: 'UF'
                 },
 
                 {

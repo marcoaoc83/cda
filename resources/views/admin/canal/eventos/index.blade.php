@@ -22,6 +22,8 @@
             <thead>
             <tr>
                 <th>Evento</th>
+                <th>Ordem</th>
+                <th>Sigla</th>
             </tr>
             </thead>
         </table>

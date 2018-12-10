@@ -26,6 +26,7 @@
             <tr>
                 <th>Fonte</th>
                 <th>Canal</th>
+                <th>Tipo Pos</th>
                 <th>Telefone</th>
                 <th>Email</th>
                 <th>CEP</th>

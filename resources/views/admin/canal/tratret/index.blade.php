@@ -26,8 +26,9 @@
             <thead>
             <tr>
                 <th>Descrição</th>
-                <th>Evento</th>
                 <th>Número Erro</th>
+                <th>Evento</th>
+
             </tr>
             </thead>
         </table>

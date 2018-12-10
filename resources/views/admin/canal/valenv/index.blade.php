@@ -26,7 +26,7 @@
             <thead>
             <tr>
                 <th>Sigla</th>
-                <th>Nome</th>
+                <th>Validação de Envio</th>
                 <th>Evento</th>
             </tr>
             </thead>

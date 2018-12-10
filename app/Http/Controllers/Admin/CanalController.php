@@ -84,9 +84,20 @@ class CanalController extends Controller
 
 
         $canal = Canal::findOrFail($id);
-        $canal->CANALSG       = $request->CANALSG;
-        $canal->CANALNM       = $request->CANALNM;
-        $canal->save();
+
+        $data = $request->all();
+        $data['oEMAIL']?$data['oEMAIL']=1:$data['oEMAIL']=NULL;
+        $data['oTELEFONE']?$data['oTELEFONE']=1:$data['oTELEFONE']=NULL;
+        $data['oCEP']?$data['oCEP']=1:$data['oCEP']=NULL;
+        $data['oNUMERO']?$data['oNUMERO']=1:$data['oNUMERO']=NULL;
+        $data['oLOGRADOURO']?$data['oLOGRADOURO']=1:$data['oLOGRADOURO']=NULL;
+        $data['oCOMPLEMENTO']?$data['oCOMPLEMENTO']=1:$data['oCOMPLEMENTO']=NULL;
+        $data['oBAIRRO']?$data['oBAIRRO']=1:$data['oBAIRRO']=NULL;
+        $data['oCIDADE']?$data['oCIDADE']=1:$data['oCIDADE']=NULL;
+        $data['oUF']?$data['oUF']=1:$data['oUF']=NULL;
+
+
+        $canal->update($data);
         // redirect
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('admin.canal');

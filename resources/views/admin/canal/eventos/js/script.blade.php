@@ -23,6 +23,14 @@
                     name: 'EventoNm'
                 },
                 {
+                    data: 'EventoOrd',
+                    name: 'EventoOrd'
+                },
+                {
+                    data: 'EventoSg',
+                    name: 'EventoSg'
+                },
+                {
                     data: 'EventoId',
                     name: 'EventoId',
                     "visible": false,

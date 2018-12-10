@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Canal;
 use App\Models\Pessoa;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
@@ -249,5 +250,12 @@ class PessoaController extends Controller
         $cda_pessoa = Pessoa::select(['cda_pessoa.PESSOAID','PESSOANMRS','CPF_CNPJNR','INSCRMUNNR'])->leftJoin("cda_inscrmun","cda_inscrmun.PESSOAID","=","cda_pessoa.PESSOAID");
 
         return Datatables::of($cda_pessoa)->make(true);
+    }
+
+    public function getDadosDataTableCanal(Request $request)
+    {
+        $Canal=Canal::where('CANALID',$request->canal)->first()->toArray();
+
+        return response()->json($Canal);
     }
 }
