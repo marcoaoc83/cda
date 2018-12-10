@@ -38,20 +38,20 @@
                         {{--<li role="presentation"><a data-toggle="tab" href="#2a">Configurações</a></li>--}}
                         {{--<li role="presentation"><a data-toggle="tab" href="#3a">Filtros</a></li>--}}
                     {{--</ul>--}}
-                    <div  >
-                        <div class="row tab-pane active" id="1a">
-                            <div class="x_panel">
-                                <div class="x_title">
-                                    <h2>Dados da Fila <small></small></h2>
-                                    <ul class="nav navbar-right panel_toolbox">
-                                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                        </li>
-                                    </ul>
-                                    <div class="clearfix"></div>
-                                </div>
-                                <div class="x_content">
 
-                                    <form class="form-horizontal form-label-left"  id="formFila"  method="post" action="{{ route('fila.update',$Fila->FilaTrabId) }}">
+                    <div>
+                        <form class="form-horizontal form-label-left"  id="formFila"  method="post" action="{{ route('fila.update',$Fila->FilaTrabId) }}">
+                            <div class="row tab-pane active" id="1a">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>Dados da Fila <small></small></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                            </li>
+                                        </ul>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
                                         {{ csrf_field() }}
                                         {{ method_field('PUT') }}
                                         <div class="item form-group">
@@ -80,8 +80,28 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                                <div class="x_panel" id="filExecucao">
+                                    <div class="x_title">
+                                        <h2>Execução de Fila<small></small></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                            <li>
+                                                <a class="collapse-link">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_carteira">Filtro - Carteira
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_carteira">Carteira
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -90,7 +110,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_roteiro">Filtro - Roteiro
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_roteiro">Roteiro
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -99,16 +119,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_validacao">Filtro - Validação de Envio
-                                            </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
-                                                <label style="">
-                                                    <input type="checkbox" id="filtro_validacao" name="filtro_validacao" @if ($Fila->filtro_validacao ==1) checked @endif value="1" class="js-switch" >
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_contribuinte">Filtro - Contribuinte
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_contribuinte">Contribuinte
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -117,7 +128,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_parcelas">Filtro - Parcela
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_parcelas">Parcela
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -125,8 +136,34 @@
                                                 </label>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                                <div class="x_panel" id="filHigiene">
+                                    <div class="x_title">
+                                        <h2>Higienização de Cadastro<small></small></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                            <li>
+                                                <a class="collapse-link">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_eventos">Filtro - Eventos Possíveis
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_validacao">Validação de Envio
+                                            </label>
+                                            <div class="col-md-7" style="margin-top: 5px">
+                                                <label style="">
+                                                    <input type="checkbox" id="filtro_validacao" name="filtro_validacao" @if ($Fila->filtro_validacao ==1) checked @endif value="1" class="js-switch" >
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_eventos">Eventos Possíveis
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -135,7 +172,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_tratamento">Filtro - Tratamento de Retorno
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_tratamento">Tratamento de Retorno
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -144,7 +181,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="filtro_notificacao">Filtro - Notificação
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_notificacao">Notificação
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -152,8 +189,26 @@
                                                 </label>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                                <div class="x_panel" id="filResultado">
+                                    <div class="x_title">
+                                        <h2>Resultado<small></small></h2>
+                                        <ul class="nav navbar-right panel_toolbox">
+                                            <li>
+                                                <a class="collapse-link">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resultado_contribuinte">Resultado - Contribuinte
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_contribuinte">Resultado - Contribuinte
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -162,7 +217,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resultado_im">Resultado - Insc. Municipal
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_im">Resultado - Insc. Municipal
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -171,7 +226,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resultado_parcelas">Resultado - Parcelas
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_parcelas">Resultado - Parcelas
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -180,7 +235,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="resultado_canais">Resultado - Canais
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_canais">Resultado - Canais
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -188,11 +243,10 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="row tab-pane" id="2a">
                             @include('admin.fila.horaexec.index')
                             @include('admin.fila.filaconf.index')
