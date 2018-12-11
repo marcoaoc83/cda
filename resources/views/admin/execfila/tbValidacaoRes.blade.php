@@ -29,8 +29,16 @@
                     name: 'Dados'
                 },
                 {
+                    data: 'Fonte',
+                    name: 'Fonte'
+                },
+                {
                     data: 'Evento',
                     name: 'Evento'
+                },
+                {
+                    data: 'TipoPos',
+                    name: 'TipoPos'
                 },
                 {
                     data: 'PsCanalId',

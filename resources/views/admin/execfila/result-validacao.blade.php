@@ -13,7 +13,9 @@
                 <th>Nome</th>
                 <th>Canal</th>
                 <th>Dados</th>
+                <th>Fonte</th>
                 <th>Evento</th>
+                <th>Tipo Pos</th>
             </tr>
             </thead>
         </table>

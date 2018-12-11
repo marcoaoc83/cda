@@ -37,6 +37,7 @@
                     data: 'Notificacao',
                     name: 'Notificacao'
                 },
+                {data: 'action', name: 'action', orderable: false, searchable: false},
                 {
                     data: 'PsCanalId',
                     name: 'PsCanalId',

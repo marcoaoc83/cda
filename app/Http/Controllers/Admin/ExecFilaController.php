@@ -215,7 +215,14 @@ class ExecFilaController extends Controller
             ->where("cda_roteiro.FilaTrabId",$r->fila)
             ->groupBy("cda_evento.EventoId")
             ->get();
-        return Datatables::of($Var)->make(true);
+        if(count($Var)>0) {
+            return Datatables::of($Var)->make(true);
+        }else{
+            $Var =Evento::where("TpASId",79)
+                ->groupBy("cda_evento.EventoId")
+                ->get();
+            return Datatables::of($Var)->make(true);
+        }
     }
 
     public function getDadosTratRet(Request $r)
@@ -227,7 +234,19 @@ class ExecFilaController extends Controller
             ->where('cda_roteiro.FilaTrabId',$r->fila)
             ->groupBy("TratRetId")
             ->get();
-        return Datatables::of($tratret)->make(true);
+        if(count($tratret)>0) {
+            return Datatables::of($tratret)->make(true);
+        }else{
+            $tratret = TratRet::select(['RetornoCd', 'RetornoCdNr', 'EventoSg','cda_tratret.EventoId','TratRetId'])
+                ->join('cda_canal', 'cda_canal.CANALID', '=', 'cda_tratret.CanalId')
+                ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_tratret.EventoId')
+
+                ->orderBy("RetornoCdNr")
+                ->groupBy("TratRetId")
+                ->get();
+            return Datatables::of($tratret)->make(true);
+        }
+
     }
 
     public function getDadosDataTableOrigTrib()
@@ -462,6 +481,7 @@ class ExecFilaController extends Controller
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
             ->groupBy($group)
+            ->orderBy('cda_parcela.PessoaId')
             ->orderBy('cda_parcela.ParcelaId')
             ->limit($limit)
             ->get();
@@ -871,11 +891,7 @@ class ExecFilaController extends Controller
             foreach ($pscanais as $dado){
                 $dado=array_change_key_case($dado,CASE_LOWER);
 
-//                $ValEnv = RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')
-//                    ->where('TABSYSSG','ValEnv')
-//                    ->join('cda_vento','cda_evento.EventoSg','=','cda_regtab.REGTABSG')
-//                    //->where('cda_evento.FilaTrabId','=',$fila)
-//                    ->get();
+
                 $ValEnv= ValEnv::join('cda_evento','cda_evento.EventoId','=','cda_valenv.EventoId')
                     ->join('cda_regtab','cda_regtab.REGTABID','=','cda_valenv.ValEnvId')
                     ->where('cda_valenv.CanalId',$dado['canalid'])
@@ -899,8 +915,12 @@ class ExecFilaController extends Controller
                             $Validacao[$x]['FilaTrabId']=2;
                             $Validacao[$x]['Nome']=$dado['nome'];
                             $Validacao[$x]['Canal']=$dado['canalsg'];
+                            $Validacao[$x]['TipoPos']=$dado['tippos'];
                             $Validacao[$x]['Evento']=$val->EventoNm;
+                            $Validacao[$x]['Fonte']=$dado['fonteinfo'];
                             $Validacao[$x]['Dados']=trim($Dados);
+
+
                             $x++;
                         }
                     }else{
@@ -915,6 +935,8 @@ class ExecFilaController extends Controller
                             $Validacao[$x]['Nome']=$dado['nome'];
                             $Validacao[$x]['Canal']=$dado['canalsg'];
                             $Validacao[$x]['Evento']=$val->EventoNm;
+                            $Validacao[$x]['TipoPos']=$dado['tippos'];
+                            $Validacao[$x]['Fonte']=$dado['fonteinfo'];
                             $Validacao[$x]['Dados']=trim($Dados);
                             $x++;
                         }
@@ -941,7 +963,10 @@ class ExecFilaController extends Controller
         $dados=(json_decode($request->dados, true));
         $tarefa=Tarefas::create([
             'tar_categoria' => 'execValidacao',
-            'tar_titulo' => 'Execução de Validação',
+            'tar_titulo' => 'Execução de Fila de Emissão de Cartas – Validação',
+            'tar_user' => auth()->id(),
+            'tar_inicio' => date("Y-m-d H:i:s"),
+            'tar_final' => date("Y-m-d H:i:s"),
             'tar_status' => 'Finalizado'
         ]);
         if($request->csv){
@@ -1017,9 +1042,11 @@ class ExecFilaController extends Controller
         $valenv = ValEnv::select(['cda_valenv.id','REGTABSG', 'REGTABNM', 'EventoSg','cda_valenv.EventoId','cda_valenv.ValEnvId'])
             ->join('cda_canal', 'cda_canal.CANALID', '=', 'cda_valenv.CanalId')
             ->join('cda_regtab', 'cda_regtab.REGTABID', '=', 'cda_valenv.ValEnvId')
-            ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_valenv.EventoId')
-            ->whereIn('cda_canal.CANALID',$canais)
-            ->get();
+            ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_valenv.EventoId');
+        if(count($canais)>0){
+            $valenv->whereIn('cda_canal.CANALID',$canais);
+        }
+        $valenv->get();
 
         return Datatables::of($valenv)->make(true);
     }
@@ -1102,7 +1129,13 @@ class ExecFilaController extends Controller
         }
 
         $collection = collect($Validacao);
-        return Datatables::of($collection)->make(true);
+        return Datatables::of($collection)->addColumn('action', function ($pessoa) {
+
+            return '
+                <a href="#" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
+                <a href="#" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
+                ';
+        })->make(true);
     }
 
     function getDadosDataTableParcelasExec(Request $request){

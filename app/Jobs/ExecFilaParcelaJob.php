@@ -70,13 +70,14 @@ class ExecFilaParcelaJob implements ShouldQueue
         if(!Storage::exists($dir)) {
             Storage::makeDirectory($dir);
         }
-        $ExecFila=ExecFila::create([
-            'exfi_fila'     =>  $this->Fila,
-            'exfi_tarefa'   =>  $this->Tarefa,
-        ]);
+        if($this->Gravar) {
+            $ExecFila = ExecFila::create([
+                'exfi_fila' => $this->Fila,
+                'exfi_tarefa' => $this->Tarefa,
+            ]);
 
-        $Lote=$ExecFila->exfi_lote;
-
+            $Lote = $ExecFila->exfi_lote;
+        }
         $sql="Select
               cda_parcela.PARCELAID,
               cda_parcela.PESSOAID,
@@ -182,10 +183,12 @@ class ExecFilaParcelaJob implements ShouldQueue
         foreach ($filas as $modelo=> $fila){
             foreach ($fila as $pessoa){
                 //$function_name="geraModelo".$modelo;
-                $Notificacao=ExecFilaPsCanal::create([
-                    "Lote"=>$Lote,
-                    "PsCanalId"=>$pessoa[0]->PsCanalId,
-                ]);
+                if($this->Gravar) {
+                    $Notificacao = ExecFilaPsCanal::create([
+                        "Lote" => $Lote,
+                        "PsCanalId" => $pessoa[0]->PsCanalId,
+                    ]);
+                }
                 //error_log(print_r($pessoa,1));
 
                 $html.=self::geraModelo($pessoa,$modelo,$Notificacao)."<div class='page-break'></div>";
@@ -218,15 +221,17 @@ class ExecFilaParcelaJob implements ShouldQueue
         return false;
     }
 
-    function geraModelo($pessoa,$modeloid,$Notificacao){
+    function geraModelo($pessoa,$modeloid,$Notificacao=null){
 
         $Modelo= ModCom::find($modeloid);
 
         $html=$Modelo->ModTexto;
-        $NotificacaoNR=$Notificacao->Lote.".".$Notificacao->efpa_id;
-        $NotificacaoNR=str_pad($NotificacaoNR,10,"0",STR_PAD_LEFT);
-        $ExecFila=ExecFila::find($Notificacao->Lote);
 
+        if($Notificacao) {
+            $NotificacaoNR = $Notificacao->Lote . "." . $Notificacao->efpa_id;
+            $NotificacaoNR = str_pad($NotificacaoNR, 10, "0", STR_PAD_LEFT);
+            $ExecFila = ExecFila::find($Notificacao->Lote);
+        }
         $ANOLANC1=$TRIB1=$VENC1=$ParcelaVr1=$JMD1=$HONOR1=$TOTAL1='';
         $PRINCT=$JMDT=$HONORT=$TOTALT=0;
 
@@ -246,7 +251,7 @@ class ExecFilaParcelaJob implements ShouldQueue
         $i=1;
         foreach ($pessoa as $linha) {
 
-            if(isset($linha->PARCELAID)){
+            if(isset($linha->PARCELAID) && $this->Gravar){
                 ExecFilaPsCanalParcela::create([
                     "Lote"          =>$Notificacao->Lote,
                     "Notificacao"   =>$Notificacao->efpa_id,
@@ -255,8 +260,13 @@ class ExecFilaParcelaJob implements ShouldQueue
             }
             //foreach ($linhas as $linha) {
             //$linha=$linha[0];
-            $linha->NotificacaoNR=$NotificacaoNR;
-            $linha->NotificacaoData=$ExecFila->exfi_data;
+            if($Notificacao) {
+                $linha->NotificacaoNR = $NotificacaoNR;
+                $linha->NotificacaoData = $ExecFila->exfi_data;
+            }else{
+                $linha->NotificacaoNR = "00000000000";
+                $linha->NotificacaoData = date("d/m/Y");
+            }
             foreach ($replace as $tipo => $campo) {
                 foreach ($campo as  $campos) {
                     $sg = $campos['sg'];
