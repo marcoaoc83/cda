@@ -30,8 +30,16 @@ class AdminController extends Controller
 
             $parcela_sum_aberta = DB::table('cda_parcela')->where("SitPagId", "61")->sum('TotalVr');
             $parcela_sum_aberta = number_format($parcela_sum_aberta, 2, ',', '.');
-
-            return view('admin.home.index', compact('parcela_qtde', 'parcela_qtde_aberta', 'parcela_sum', 'parcela_sum_aberta'));
+            $FxAtraso = DB::select("Select cda_regtab.REGTABID, cda_regtab.REGTABSG, cda_regtab.REGTABNM From cda_regtab Where cda_regtab.TABSYSID = 32");
+            return view('admin.home.index',
+                compact(
+                    'FxAtraso',
+                    'parcela_qtde',
+                    'parcela_qtde_aberta',
+                    'parcela_sum',
+                    'parcela_sum_aberta'
+                )
+            );
         }
     }
 
