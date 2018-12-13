@@ -70,7 +70,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CEP">CEP 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="CEP" name="CEP"  class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="CEP" name="CEP" onchange="buscacep(this.value,'formPsCanal')"   class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Logradouro">Logradouro 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="Logradouro" name="Logradouro"  class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="Logradouro" name="Logradouro"   class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 
@@ -102,7 +102,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Bairro">Bairro
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="Bairro" name="Bairro"  class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="Bairro" name="Bairro" readonly  class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 
@@ -110,7 +110,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Cidade">Cidade
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="Cidade" name="Cidade"  class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="Cidade" name="Cidade" readonly  class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 
@@ -118,7 +118,7 @@
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="UF">UF
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" id="UF" name="UF"  class="form-control col-md-7 col-xs-12">
+                            <input type="text" id="UF" name="UF"  readonly class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 

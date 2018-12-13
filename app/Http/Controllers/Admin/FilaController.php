@@ -67,6 +67,7 @@ class FilaController extends Controller
         $data['filtro_eventos']?$data['filtro_eventos']=1:$data['filtro_eventos']=0;
         $data['filtro_tratamento']?$data['filtro_tratamento']=1:$data['filtro_tratamento']=0;
         $data['filtro_notificacao']?$data['filtro_notificacao']=1:$data['filtro_notificacao']=0;
+        $data['filtro_canal']?$data['filtro_canal']=1:$data['filtro_canal']=0;
 
         $data['resultado_contribuinte']?$data['resultado_contribuinte']=1:$data['resultado_contribuinte']=0;
         $data['resultado_im']?$data['resultado_im']=1:$data['resultado_im']=0;
@@ -152,6 +153,7 @@ class FilaController extends Controller
         $data['filtro_eventos']?$data['filtro_eventos']=1:$data['filtro_eventos']=0;
         $data['filtro_tratamento']?$data['filtro_tratamento']=1:$data['filtro_tratamento']=0;
         $data['filtro_notificacao']?$data['filtro_notificacao']=1:$data['filtro_notificacao']=0;
+        $data['filtro_canal']?$data['filtro_canal']=1:$data['filtro_canal']=0;
 
         $data['resultado_contribuinte']?$data['resultado_contribuinte']=1:$data['resultado_contribuinte']=0;
         $data['resultado_im']?$data['resultado_im']=1:$data['resultado_im']=0;

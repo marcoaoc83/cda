@@ -139,6 +139,15 @@
                                 </div>
                                 <div class="x_content">
                                     <div class="item form-group">
+                                        <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_canal">Canal
+                                        </label>
+                                        <div class="col-md-7" style="margin-top: 5px">
+                                            <label style="">
+                                                <input type="checkbox" id="filtro_canal" name="filtro_canal"  value="1" class="js-switch" >
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
                                         <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_validacao">Validação de Envio
                                         </label>
                                         <div class="col-md-7" style="margin-top: 5px">

@@ -15,6 +15,7 @@
                     <th>Dados</th>
                     <th>Lote</th>
                     <th>Notificação</th>
+                    <th>Data</th>
                     <th>Ações</th>
                 </tr>
             </thead>

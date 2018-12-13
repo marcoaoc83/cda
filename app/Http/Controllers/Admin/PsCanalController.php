@@ -121,7 +121,7 @@ class PsCanalController extends Controller
             'cda_pscanal.Email',
             'cda_pscanal.BairroId',
             'cda_pscanal.CidadeId',
-            'cda_cidade.cida_uf as UF',
+            'cda_pscanal.UF as UF',
             'FonteInfoId.REGTABSG as FonteInfo',
             'TipPosId.REGTABNM as TipPos',
             'cda_canal.CANALSG',

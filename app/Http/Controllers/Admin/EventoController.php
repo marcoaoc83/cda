@@ -159,9 +159,10 @@ class EventoController extends Controller
 
     public function getDadosDataTable()
     {
-        $cda_evento = Evento::select(['cda_evento.*','TransfCtr.REGTABNM as TransfCtrNM','ObjEvento.REGTABNM as ObjEventoNM'])
+        $cda_evento = Evento::select(['cda_evento.*','Fila.FilaTrabSg','TransfCtr.REGTABNM as TransfCtrNM','ObjEvento.REGTABNM as ObjEventoNM'])
             ->join('cda_regtab  as ObjEvento', 'ObjEvento.REGTABID', '=', 'cda_evento.ObjEventoId')
             ->join('cda_regtab  as TransfCtr', 'TransfCtr.REGTABID', '=', 'cda_evento.TransfCtrId')
+            ->leftJoin('cda_filatrab  as Fila', 'Fila.FilaTrabId', '=', 'cda_evento.FilaTrabId')
             ->get();
         ;
         return Datatables::of($cda_evento)

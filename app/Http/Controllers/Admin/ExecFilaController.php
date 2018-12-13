@@ -40,7 +40,8 @@ class ExecFilaController extends Controller
     {
         $cda_evento = DB::table('cda_evento')->get();
         $FilaTrab = DB::table('cda_filatrab')->get();
-        return view('admin.execfila.index',compact('FilaTrab'));
+        $Canal = DB::table('cda_canal')->get();
+        return view('admin.execfila.index',compact('FilaTrab','Canal'));
     }
 
     /**
@@ -211,10 +212,14 @@ class ExecFilaController extends Controller
     public function getDadosEventos(Request $r)
     {
         $Var =Evento::join('cda_canal_eventos', 'cda_canal_eventos.EventoId', '=', 'cda_evento.EventoId')
-            ->join("cda_roteiro","cda_roteiro.CanalId","cda_canal_eventos.CanalId")
-            ->where("cda_roteiro.FilaTrabId",$r->fila)
-            ->groupBy("cda_evento.EventoId")
-            ->get();
+            ->join("cda_roteiro","cda_roteiro.CanalId","cda_canal_eventos.CanalId");
+            if($r->fila){
+                $Var->where("cda_roteiro.FilaTrabId",$r->fila);
+            }
+            if($r->canal){
+                $Var->where("cda_canal_eventos.CanalId",$r->canal);
+            }
+            $Var->get();
         if(count($Var)>0) {
             return Datatables::of($Var)->make(true);
         }else{
@@ -230,18 +235,24 @@ class ExecFilaController extends Controller
         $tratret = TratRet::select(['RetornoCd', 'RetornoCdNr', 'EventoSg','cda_tratret.EventoId','TratRetId'])
             ->join('cda_canal', 'cda_canal.CANALID', '=', 'cda_tratret.CanalId')
             ->join("cda_roteiro","cda_roteiro.CanalId","cda_canal.CanalId")
-            ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_tratret.EventoId')
-            ->where('cda_roteiro.FilaTrabId',$r->fila)
-            ->groupBy("TratRetId")
-            ->get();
+            ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_tratret.EventoId');
+        if($r->fila){
+            $tratret->where('cda_roteiro.FilaTrabId',$r->fila);
+        }
+        if($r->canal){
+            $tratret->where('cda_canal.CanalId',$r->canal);
+        }
+        $tratret->groupBy("TratRetId")->get();
         if(count($tratret)>0) {
             return Datatables::of($tratret)->make(true);
         }else{
             $tratret = TratRet::select(['RetornoCd', 'RetornoCdNr', 'EventoSg','cda_tratret.EventoId','TratRetId'])
                 ->join('cda_canal', 'cda_canal.CANALID', '=', 'cda_tratret.CanalId')
-                ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_tratret.EventoId')
-
-                ->orderBy("RetornoCdNr")
+                ->join('cda_evento', 'cda_evento.EventoId', '=', 'cda_tratret.EventoId');
+            if($r->canal){
+                $tratret->where('cda_canal.CanalId',$r->canal);
+            }
+            $tratret->orderBy("RetornoCdNr")
                 ->groupBy("TratRetId")
                 ->get();
             return Datatables::of($tratret)->make(true);
@@ -1038,7 +1049,10 @@ class ExecFilaController extends Controller
         foreach ($canal as $cn){
             $canais[]=$cn->CANALID;
         }
-
+        if($request->canal){
+            $canais=[];
+            $canais[]=$request->canal;
+        }
         $valenv = ValEnv::select(['cda_valenv.id','REGTABSG', 'REGTABNM', 'EventoSg','cda_valenv.EventoId','cda_valenv.ValEnvId'])
             ->join('cda_canal', 'cda_canal.CANALID', '=', 'cda_valenv.CanalId')
             ->join('cda_regtab', 'cda_regtab.REGTABID', '=', 'cda_valenv.ValEnvId')

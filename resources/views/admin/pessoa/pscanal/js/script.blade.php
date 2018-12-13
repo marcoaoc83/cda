@@ -5,6 +5,21 @@
 <script src="https://cdn.datatables.net/select/1.1.2/js/dataTables.select.min.js"></script>
 <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
 <script type="text/javascript">
+    function buscacep(cep,form) {
+        $.ajax({
+            method: "POST",
+            url: "{{route('portal.cep')}}",
+            data: { cep: cep, _token: '{!! csrf_token() !!}'}
+        })
+            .done(function( msg ) {
+                var obj = $.parseJSON( msg);
+                $('#'+form+' #Logradouro').val(obj.logradouro);
+                $('#'+form+' #Bairro').val(obj.bairro);
+                $('#'+form+' #Cidade').val(obj.localidade);
+                $('#'+form+' #UF').val(obj.uf);
+            });
+    }
+
     function selectCanal(canal,form){
         $.ajax({
             type: 'GET',

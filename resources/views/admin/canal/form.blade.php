@@ -32,36 +32,46 @@
                             </a>
                         </div>
                     </div>
+                    <form class="form-horizontal form-label-left"    method="post" action="{{ route('canal.editarPost',$canal->CANALID) }}">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Dados do Canal <small></small></h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                    </li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content">
 
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Dados do Canal <small></small></h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
+
+                                    {{ csrf_field() }}
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="name">Sigla <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input value="{{$canal->CANALSG}}" id="CANALSG" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="CANALSG"  required="required" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="control-label col-md-4 col-sm-4 col-xs-12" for="CANALNM">Nome <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input value="{{$canal->CANALNM}}"  type="text" id="CANALNM" name="CANALNM" required="required" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+
+
+
+                                    <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
+
+                            </div>
                         </div>
-                        <div class="x_content">
+                        <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                            <div class="x_panel" id="fil01">
 
-                            <form class="form-horizontal form-label-left"    method="post" action="{{ route('canal.editarPost',$canal->CANALID) }}">
-                                {{ csrf_field() }}
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Sigla <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{$canal->CANALSG}}" id="CANALSG" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="CANALSG"  required="required" type="text">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CANALNM">Nome <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{$canal->CANALNM}}"  type="text" id="CANALNM" name="CANALNM" required="required" class="form-control col-md-7 col-xs-12">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oTELEFONE">Telefone
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oTELEFONE">Telefone
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -70,7 +80,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oEMAIL">E-mail
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oEMAIL">E-mail
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -78,8 +88,12 @@
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                            <div class="x_panel" id="fil02">
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oCEP">CEP
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oCEP">CEP
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -88,7 +102,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oNUMERO">NUMERO
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oNUMERO">NUMERO
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -97,7 +111,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oLOGRADOURO">LOGRADOURO
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oLOGRADOURO">LOGRADOURO
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -106,7 +120,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oCOMPLEMENTO"> COMPLEMENTO
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oCOMPLEMENTO"> COMPLEMENTO
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -115,7 +129,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oBAIRRO"> BAIRRO
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oBAIRRO"> BAIRRO
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -123,8 +137,12 @@
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                            <div class="x_panel" id="fil03">
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oCIDADE"> CIDADE
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oCIDADE"> CIDADE
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -133,7 +151,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oUF"> UF
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oUF"> UF
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -141,11 +159,9 @@
                                         </label>
                                     </div>
                                 </div>
-                                <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
-                            </form>
+                            </div>
                         </div>
-                    </div>
-
+                    </form>
                     @include('admin.canal.valenv.index')
 
                     @include('admin.canal.eventos.index')

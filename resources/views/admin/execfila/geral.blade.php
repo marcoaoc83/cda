@@ -9,8 +9,6 @@ function addRoteiro(obj) {
 
 }
 
-
-
 function filtrarParcelas(){
     $("#divResultValidacaoRes").hide();
     $("#divResultContribuinteRes").show();
@@ -129,6 +127,12 @@ function selectFila(fila) {
         }else{
             $('#divFiltroNotificacao').hide();
         }
+
+        if(result.filtro_canal==1){
+            $('#divFiltroCanal').show();
+        }else{
+            $('#divFiltroCanal').hide();
+        }
     }
 });
     filtrarCarteira(fila);
@@ -137,7 +141,19 @@ function selectFila(fila) {
     filtrarEventos(fila);
     filtrarTratRet(fila);
 }
+function selectCanal(canal) {
+    var tbValidacao = $('#tbValidacao').DataTable( );
+    var url = "{{ route('execfila.getDadosDataTableValidacoes') }}"+"/?canal="+canal;
+    tbValidacao.ajax.url(url).load();
 
+    var tbEventos = $('#tbEventos').DataTable( );
+    var url = "{{ route('execfila.getDadosEventos') }}"+"/?canal="+canal;
+    tbEventos.ajax.url(url).load();
+
+    var tbTratRet = $('#tbTratRet').DataTable( );
+    var url = "{{ route('execfila.getDadosTratRet') }}"+"/?canal="+canal;
+    tbTratRet.ajax.url(url).load();
+}
 function filtrarCarteira(fila){
     var tbCarteira = $('#tbCarteira').DataTable();
     var url = "{{ route('carteira.getdataCarteira') }}"+"/?fila="+fila;

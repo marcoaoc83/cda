@@ -45,6 +45,7 @@
                                     <th>Nome</th>
                                     <th>Objetivo do Evento</th>
                                     <th>Transf Ctr </th>
+                                    <th> Fila - Transf </th>
                                     <th style="width: 55px">Ação</th>
                                 </tr>
                                 </thead>
@@ -78,6 +79,7 @@
                     {data: 'EventoNm', name: 'EventoNm'},
                     {data: 'ObjEventoNM', name: 'ObjEventoNM'},
                     {data: 'TransfCtrNM', name: 'TransfCtrNM'},
+                    {data: 'FilaTrabSg', name: 'FilaTrabSg'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 "language": {

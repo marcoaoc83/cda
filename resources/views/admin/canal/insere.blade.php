@@ -18,6 +18,7 @@
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
+
                     <div class="x_panel">
                         <div class="x_content">
                             <a class="btn btn-app" onclick="$('#send').trigger('click')">
@@ -28,6 +29,7 @@
                             </a>
                         </div>
                     </div>
+                    <form class="form-horizontal form-label-left"    method="post" action="{{ route('canal.inserirPost') }}">
                     <div class="x_panel">
                         <div class="x_title">
                             <h2>Dados da Tabela <small></small></h2>
@@ -39,42 +41,54 @@
                         </div>
                         <div class="x_content">
 
-                            <form class="form-horizontal form-label-left"    method="post" action="{{ route('canal.inserirPost') }}">
+
                                 {{ csrf_field() }}
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Sigla <span class="required">*</span>
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="name">Sigla <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input value="{{ old('CANALSG') }}" id="CANALSG" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="CANALSG"  required="required" type="text">
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CANALNM">Nome <span class="required">*</span>
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="CANALNM">Nome <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input value="{{ old('CANALNM') }}"  type="text" id="CANALNM" name="CANALNM" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oTELEFONE">Telefone
+
+                                <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                        <div class="x_panel" id="fil01">
+                            <div class="item form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oTELEFONE">Telefone
+                                </label>
+                                <div class="col-md-7" style="margin-top: 5px">
+                                    <label style="">
+                                        <input type="checkbox" id="oTELEFONE" name="oTELEFONE"    value="1" class="js-switch" >
                                     </label>
-                                    <div class="col-md-7" style="margin-top: 5px">
-                                        <label style="">
-                                            <input type="checkbox" id="oTELEFONE" name="oTELEFONE"    value="1" class="js-switch" >
-                                        </label>
-                                    </div>
                                 </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oEMAIL">E-mail
+                            </div>
+                            <div class="item form-group">
+                                <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oEMAIL">E-mail
+                                </label>
+                                <div class="col-md-7" style="margin-top: 5px">
+                                    <label style="">
+                                        <input type="checkbox" id="oEMAIL" name="oEMAIL"    value="1" class="js-switch" >
                                     </label>
-                                    <div class="col-md-7" style="margin-top: 5px">
-                                        <label style="">
-                                            <input type="checkbox" id="oEMAIL" name="oEMAIL"    value="1" class="js-switch" >
-                                        </label>
-                                    </div>
                                 </div>
+                            </div>
+
+                        </div>
+                    </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                            <div class="x_panel" id="fil02">
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oCEP">CEP
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oCEP">CEP
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -83,7 +97,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oNUMERO">NUMERO
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oNUMERO">NUMERO
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -92,7 +106,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oLOGRADOURO">LOGRADOURO
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oLOGRADOURO">LOGRADOURO
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -101,7 +115,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oCOMPLEMENTO"> COMPLEMENTO
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oCOMPLEMENTO"> COMPLEMENTO
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -110,7 +124,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oBAIRRO"> BAIRRO
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oBAIRRO"> BAIRRO
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -118,8 +132,13 @@
                                         </label>
                                     </div>
                                 </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                            <div class="x_panel" id="fil03">
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oCIDADE"> CIDADE
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oCIDADE"> CIDADE
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -128,7 +147,7 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="oUF"> UF
+                                    <label class="control-label col-md-4 col-sm-4 col-xs-12" for="oUF"> UF
                                     </label>
                                     <div class="col-md-7" style="margin-top: 5px">
                                         <label style="">
@@ -136,10 +155,9 @@
                                         </label>
                                     </div>
                                 </div>
-                                <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

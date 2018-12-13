@@ -20,6 +20,7 @@ class Fila extends Model
         'filtro_eventos',
         'filtro_tratamento',
         'filtro_notificacao',
+        'filtro_canal',
         'resultado_contribuinte',
         'resultado_im',
         'resultado_parcelas',
