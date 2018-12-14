@@ -3,14 +3,14 @@
     $(document).ready(function() {
 
         var tbValidacaoRes = $('#tbValidacaoRes').DataTable({
-            processing: true,
-            serverSide: true,
+            processing: false,
+            serverSide: false,
             responsive: true,
             "searching": false,
-            "paging":   false,
+            "paging":   true,
             "ordering": false,
             "info":     false,
-            ajax: '{{ route('execfila.getDadosValidar') }}?none=true',
+            ajax: '{{ route('execfila.getDadosValidarAll') }}?none=true',
             // select: {
             //     style: 'multiple',
             //     info:false
@@ -40,6 +40,7 @@
                     data: 'TipoPos',
                     name: 'TipoPos'
                 },
+                {data: 'action', name: 'action', orderable: false, searchable: false},
                 {
                     data: 'PsCanalId',
                     name: 'PsCanalId',

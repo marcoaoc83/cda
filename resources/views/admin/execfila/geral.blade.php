@@ -32,7 +32,7 @@ function filtrarValidacao() {
     $("#divResultIM").hide();
     $("#divResultParcela").hide();
     var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
-    var url = "{{ route('execfila.getDadosValidar') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+    var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
     tbValidacaoRes.ajax.url(url).load();
 
 }

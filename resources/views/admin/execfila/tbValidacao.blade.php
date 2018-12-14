@@ -54,6 +54,18 @@
         });
 
 
+        tbValidacao.on( 'select', function ( e, dt, type, indexes ) {
+            if ( type === 'row' ) {
+                var ValEnvId = tbValidacao.rows( indexes ).data().pluck( 'ValEnvId' );
+                $('#formFiltroParcela').append('<input type="hidden" id="ValEnvId'+ValEnvId[0]+'" name="ValEnvId[]" value='+ValEnvId[0]+' />');
+            }
+        })
+            .on( 'deselect', function ( e, dt, type, indexes ){
+                if ( type === 'row' ) {
+                    var ValEnvId = tbValEnv.rows( indexes ).data().pluck( 'ValEnvId' );
+                    $( "#ValEnvId"+ValEnvId[0] ).remove();
+                }
+            });
     }); // document ready
 
 

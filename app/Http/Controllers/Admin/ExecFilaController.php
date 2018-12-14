@@ -1219,4 +1219,119 @@ class ExecFilaController extends Controller
         $collection = collect($collect);
         return Datatables::of($collection)->make(true);
     }
+
+    function getDadosDataTableValidarAll(Request $request){
+
+        if($request->none){
+            $collection = collect([]);
+            return Datatables::of($collection)->make(true);
+        }
+
+        $Validacao=[];
+        $x=0;
+        $pscanais = PsCanal::select([
+            'cda_pscanal.PsCanalId',
+            'cda_pscanal.PessoaId',
+            'cda_pscanal.InscrMunId',
+            'cda_pscanal.FonteInfoId',
+            'cda_pscanal.CanalId',
+            'cda_pscanal.TipPosId',
+            'cda_pscanal.CEP',
+            'cda_pscanal.LogradouroId',
+            'cda_pscanal.EnderecoNr',
+            'cda_pscanal.Complemento',
+            'cda_pscanal.TelefoneNr',
+            'cda_pscanal.Email',
+            'cda_pscanal.BairroId',
+            'cda_pscanal.CidadeId',
+            'cda_cidade.cida_uf as UF',
+            'FonteInfoId.REGTABSG as FonteInfo',
+            'TipPosId.REGTABNM as TipPos',
+            'cda_canal.CANALSG',
+            'cda_inscrmun.INSCRMUNNR',
+            'cda_pessoa.PESSOANMRS as Nome',
+            DB::raw('IF(cda_pscanal.LogradouroId IS NOT NULL , CONCAT_WS(" ",cda_logradouro.logr_tipo,cda_logradouro.logr_nome),cda_pscanal.Logradouro) AS Logradouro'),
+            DB::raw('IF(cda_pscanal.BairroId IS NOT NULL ,cda_bairro.bair_nome,cda_pscanal.Bairro) AS Bairro'),
+            DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade')
+        ])
+            ->leftjoin('cda_regtab as FonteInfoId', 'FonteInfoId.REGTABID', '=', 'cda_pscanal.FonteInfoId')
+            ->leftjoin('cda_regtab as TipPosId', 'TipPosId.REGTABID', '=', 'cda_pscanal.TipPosId')
+            ->leftjoin('cda_canal', 'cda_canal.CANALID', '=', 'cda_pscanal.CanalId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_pscanal.InscrMunId')
+            ->leftjoin('cda_logradouro', 'cda_logradouro.logr_id', '=', 'cda_pscanal.LogradouroId')
+            ->leftjoin('cda_bairro', 'cda_bairro.bair_id', '=', 'cda_pscanal.BairroId')
+            ->leftjoin('cda_cidade', 'cda_cidade.cida_id', '=', 'cda_pscanal.CidadeId')
+            ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId')
+            ->where('cda_pscanal.Ativo',1)
+            ->limit(100)
+            ->groupBy('cda_pscanal.PsCanalId')
+            ->get()->toArray();
+
+        //error_log(print_r($pscanais,1));
+
+        foreach ($pscanais as $dado){
+            $where=' 1 ';
+            if($request->ValEnvId){
+                $where='   cda_valenv.ValEnvId IN ('.implode(',',$request->ValEnvId).')';
+            }
+            $dado=array_change_key_case($dado,CASE_LOWER);
+            $ValEnv= ValEnv::join('cda_evento','cda_evento.EventoId','=','cda_valenv.EventoId')
+                ->join('cda_regtab','cda_regtab.REGTABID','=','cda_valenv.ValEnvId')
+                ->where('cda_valenv.CanalId',$dado['canalid'])
+                ->whereRaw($where)
+                ->get();
+
+
+            foreach ($ValEnv as $val){
+                $sql=$val->REGTABSQL;
+                $sql=explode("*",$sql);
+                list($campo, $sinal, $valor) = $sql;
+                //error_log(print_r($dado,1));
+                if(strtolower($valor)=='null'){
+
+
+                    if(empty($dado[strtolower($campo)])){
+
+                        $Dados=$dado['logradouro'].' '.$dado['endereconr'].' '.$dado['bairro'].' '.$dado['cidade'].' '.$dado['uf'].' '.$dado['cep'].' '.$dado['email'].' '.$dado['telefonenr'];
+                        $Validacao[$x]['PessoaId']=$dado['pessoaid'];
+                        $Validacao[$x]['PsCanalId']=$dado['pscanalid'];
+                        $Validacao[$x]['EventoId']=$val->EventoId;
+                        $Validacao[$x]['FilaTrabId']=2;
+                        $Validacao[$x]['Nome']=$dado['nome'];
+                        $Validacao[$x]['Canal']=$dado['canalsg'];
+                        $Validacao[$x]['TipoPos']=$dado['tippos'];
+                        $Validacao[$x]['Evento']=$val->EventoNm;
+                        $Validacao[$x]['Fonte']=$dado['fonteinfo'];
+                        $Validacao[$x]['Dados']=trim($Dados);
+                        $x++;
+                    }
+                }else{
+                    $com=$dado[strtolower($campo)].$sinal.$valor;
+                    if(eval($com)){
+                        $Dados=$dado['logradouro'].' '.$dado['endereconr'].' '.$dado['bairro'].' '.$dado['cidade'].' '.$dado['uf'].' '.$dado['cep'].' '.$dado['email'].' '.$dado['telefonenr'];
+                        $Validacao[$x]['PessoaId']=$dado['pessoaid'];
+                        $Validacao[$x]['PsCanalId']=$dado['pscanalid'];
+                        $Validacao[$x]['EventoId']=$val->EventoId;
+                        $Validacao[$x]['FilaTrabId']=2;
+                        $Validacao[$x]['Nome']=$dado['nome'];
+                        $Validacao[$x]['Canal']=$dado['canalsg'];
+                        $Validacao[$x]['Evento']=$val->EventoNm;
+                        $Validacao[$x]['TipoPos']=$dado['tippos'];
+                        $Validacao[$x]['Fonte']=$dado['fonteinfo'];
+                        $Validacao[$x]['Dados']=trim($Dados);
+                        $x++;
+                    }
+                }
+
+            }
+        }
+        $collection = collect($Validacao);
+        return Datatables::of($collection)->addColumn('action', function ($pessoa) {
+
+            return '
+                <a href="#" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
+                <a href="#" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
+                ';
+        })->make(true);
+    }
 }

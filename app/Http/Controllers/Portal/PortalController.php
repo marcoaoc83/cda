@@ -99,8 +99,8 @@ class PortalController extends Controller
         }
 
         $pessoa=Pessoa::where("CPF_CNPJNR",$data['soa_documento'])
-            ->where("DATA_NASCIMENTO",$data['soa_data_nasc'])
-            ->where("NOME_MAE",$data['soa_nome_mae'])
+            //->where("DATA_NASCIMENTO",$data['soa_data_nasc'])
+            //->where("NOME_MAE",$data['soa_nome_mae'])
             ->where("PESSOANMRS",$data['soa_nome'])
             ->get()
         ;

@@ -96,7 +96,7 @@
                         @include('admin.execfila.result-contribuinte')
                         @include('admin.execfila.result-validacao')
                         @include('admin.execfila.result-im')
-                    @include('admin.execfila.result-canalexec')
+                        @include('admin.execfila.result-canalexec')
                         @include('admin.execfila.result-parcela')
 
 
