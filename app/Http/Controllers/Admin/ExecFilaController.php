@@ -40,8 +40,10 @@ class ExecFilaController extends Controller
     {
         $cda_evento = DB::table('cda_evento')->get();
         $FilaTrab = DB::table('cda_filatrab')->get();
-        $Canal = DB::table('cda_canal')->get();
-        return view('admin.execfila.index',compact('FilaTrab','Canal'));
+        $FonteInfoId=\App\Models\RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','FonteInfo')->get();
+        $Canal=\App\Models\Canal::get();
+        $TipPos=\App\Models\RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','TpPos')->get();
+        return view('admin.execfila.index',compact('FilaTrab','Canal','FonteInfoId','TipPos'));
     }
 
     /**
@@ -1146,8 +1148,8 @@ class ExecFilaController extends Controller
         return Datatables::of($collection)->addColumn('action', function ($pessoa) {
 
             return '
-                <a href="#" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
-                <a href="#" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
+                <a data-toggle="modal" data-target="#myModalPsCanal" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
+                <a data-toggle="modal" data-target="#myModalPsCanal" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
                 ';
         })->make(true);
     }
@@ -1329,8 +1331,8 @@ class ExecFilaController extends Controller
         return Datatables::of($collection)->addColumn('action', function ($pessoa) {
 
             return '
-                <a href="#" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
-                <a href="#" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
+                <a data-toggle="modal" data-target="#myModalPsCanal" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
+                <a data-toggle="modal" data-target="#myModalPsCanal" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
                 ';
         })->make(true);
     }

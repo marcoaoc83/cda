@@ -97,11 +97,17 @@ function selectFila(fila) {
         }
 
         if(result.resultado_canais==1){
-            $('#divResultValidacaoRes').show();
-            $('#tipoexecV').parent( "label" ).show();
+            if(fila==12){
+                $("#divResultValidacaoRes").hide();
+                $("#divResultCanalExec").show();
+            }
+            if(fila==11){
+                $("#divResultValidacaoRes").show();
+                $("#divResultCanalExec").hide();
+            }
         }else{
             $('#divResultValidacaoRes').hide();
-            $('#tipoexecV').parent( "label" ).hide();
+            $("#divResultCanalExec").hide();
         }
 
         if(result.filtro_validacao==1){
@@ -133,6 +139,21 @@ function selectFila(fila) {
         }else{
             $('#divFiltroCanal').hide();
         }
+        $('#divBotaoFiltrarVal').hide();
+        $('#divBotaoFiltrar').show();
+        $('#divBotaoFiltrarTrat').hide();
+        if(fila==11){
+            $('#divBotaoFiltrarVal').show();
+            $('#divBotaoFiltrar').hide();
+            $('#divBotaoFiltrarTrat').hide();
+        }
+        if(fila==12){
+            $('#divBotaoFiltrarVal').hide();
+            $('#divBotaoFiltrar').hide();
+            $('#divBotaoFiltrarTrat').show();
+        }
+
+
     }
 });
     filtrarCarteira(fila);

@@ -154,45 +154,45 @@
                                     </div>
                                     <div class="x_content">
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_canal">Canal
+                                            <label class="control-label col-md-6 col-sm-5 col-xs-12" for="filtro_canal">Canal
                                             </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
+                                            <div class="col-md-6" style="margin-top: 5px">
                                                 <label style="">
                                                     <input type="checkbox" id="filtro_canal" name="filtro_canal" @if ($Fila->filtro_canal ==1) checked @endif value="1" class="js-switch" >
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_validacao">Validação de Envio
+                                            <label class="control-label col-md-6 col-sm-6 col-xs-12" for="filtro_validacao">Validação de Envio
                                             </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
+                                            <div class="col-md-6" style="margin-top: 5px">
                                                 <label style="">
                                                     <input type="checkbox" id="filtro_validacao" name="filtro_validacao" @if ($Fila->filtro_validacao ==1) checked @endif value="1" class="js-switch" >
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_eventos">Eventos Possíveis
+                                            <label class="control-label col-md-6 col-sm-6 col-xs-12" for="filtro_eventos">Eventos Possíveis
                                             </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
+                                            <div class="col-md-6" style="margin-top: 5px">
                                                 <label style="">
                                                     <input type="checkbox" id="filtro_eventos" name="filtro_eventos"  value="1" class="js-switch" @if($Fila->filtro_eventos ==1)checked @endif  >
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_tratamento">Tratamento de Retorno
+                                            <label class="control-label col-md-6 col-sm-6 col-xs-12" for="filtro_tratamento">Tratamento de Retorno
                                             </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
+                                            <div class="col-md-6" style="margin-top: 5px">
                                                 <label style="">
                                                     <input type="checkbox" id="filtro_tratamento" name="filtro_tratamento"  value="1" class="js-switch" @if($Fila->filtro_tratamento ==1)checked @endif  >
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_notificacao">Notificação
+                                            <label class="control-label col-md-6 col-sm-6 col-xs-12" for="filtro_notificacao">Notificação
                                             </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
+                                            <div class="col-md-6" style="margin-top: 5px">
                                                 <label style="">
                                                     <input type="checkbox" id="filtro_notificacao" name="filtro_notificacao"  value="1" class="js-switch" @if($Fila->filtro_notificacao ==1)checked @endif  >
                                                 </label>
@@ -217,7 +217,7 @@
                                     <div class="x_content">
 
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_contribuinte">Resultado - Contribuinte
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_contribuinte">Contribuinte
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -226,7 +226,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_im">Resultado - Insc. Municipal
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_im">Insc. Municipal
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -235,7 +235,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_parcelas">Resultado - Parcelas
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_parcelas">Parcelas
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
@@ -244,7 +244,7 @@
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_canais">Resultado - Canais
+                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_canais">Canais
                                             </label>
                                             <div class="col-md-7" style="margin-top: 5px">
                                                 <label style="">
