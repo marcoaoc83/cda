@@ -1145,11 +1145,10 @@ class ExecFilaController extends Controller
         }
 
         $collection = collect($Validacao);
-        return Datatables::of($collection)->addColumn('action', function ($pessoa) {
-
+        return Datatables::of($collection)->addColumn('action', function ($var) {
             return '
-                <a data-toggle="modal" data-target="#myModalPsCanal" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
-                <a data-toggle="modal" data-target="#myModalPsCanal" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
+                <a onclick="abreNovoCanal('.$var['PessoaId'].')" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
+                <a onclick="abreEditaCanal('.$var['PessoaId'].','.$var['PsCanalId'].')"  class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
                 ';
         })->make(true);
     }
@@ -1328,11 +1327,10 @@ class ExecFilaController extends Controller
             }
         }
         $collection = collect($Validacao);
-        return Datatables::of($collection)->addColumn('action', function ($pessoa) {
-
+        return Datatables::of($collection)->addColumn('action', function ($var) {
             return '
-                <a data-toggle="modal" data-target="#myModalPsCanal" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
-                <a data-toggle="modal" data-target="#myModalPsCanal" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
+                <a onclick="abreNovoCanal('.$var['PessoaId'].')" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> Novo</a>
+                <a onclick="abreEditaCanal('.$var['PessoaId'].','.$var['PsCanalId'].')"  class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
                 ';
         })->make(true);
     }

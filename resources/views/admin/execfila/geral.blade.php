@@ -1,4 +1,114 @@
 <script type="text/javascript">
+    function buscacep(cep,form) {
+        $.ajax({
+            method: "POST",
+            url: "{{route('portal.cep')}}",
+            data: { cep: cep, _token: '{!! csrf_token() !!}'}
+        })
+            .done(function( msg ) {
+                var obj = $.parseJSON( msg);
+                $('#'+form+' #Logradouro').val(obj.logradouro);
+                $('#'+form+' #Bairro').val(obj.bairro);
+                $('#'+form+' #Cidade').val(obj.localidade);
+                $('#'+form+' #UF').val(obj.uf);
+            });
+    }
+    function selectCanalForm(canal,form){
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            data: {
+                _token: '{!! csrf_token() !!}',
+                canal: canal
+            },
+            url: "{!! url('admin/pessoa/canal') !!}",
+            success: function( result ) {
+                if(result.oEMAIL==1){
+                    $('#'+form+' #Email').attr('required','required');
+                }else{
+                    $('#'+form+' #Email').removeAttr('required');
+                }
+                if(result.oTELEFONE==1){
+                    $('#'+form+' #TelefoneNr').attr('required','required');
+                }else{
+                    $('#'+form+' #TelefoneNr').removeAttr('required');
+                }
+                if(result.oCEP==1){
+                    $('#'+form+' #CEP').attr('required','required');
+                }else{
+                    $('#'+form+' #CEP').removeAttr('required');
+                }
+                if(result.oNUMERO==1){
+                    $('#'+form+' #EnderecoNr').attr('required','required');
+                }else{
+                    $('#'+form+' #EnderecoNr').removeAttr('required');
+                }
+                if(result.oLOGRADOURO==1){
+                    $('#'+form+' #Logradouro').attr('required','required');
+                }else{
+                    $('#'+form+' #Logradouro').removeAttr('required');
+                }
+                if(result.oCOMPLEMENTO==1){
+                    $('#'+form+' #Complemento').attr('required','required');
+                }else{
+                    $('#'+form+' #Complemento').removeAttr('required');
+                }
+                if(result.oBAIRRO==1){
+                    $('#'+form+' #Bairro').attr('required','required');
+                }else{
+                    $('#'+form+' #Bairro').removeAttr('required');
+                }
+                if(result.oCIDADE==1){
+                    $('#'+form+' #Cidade').attr('required','required');
+                }else{
+                    $('#'+form+' #Cidade').removeAttr('required');
+                }
+                if(result.oUF==1){
+                    $('#'+form+' #UF').attr('required','required');
+                }else{
+                    $('#'+form+' #UF').removeAttr('required');
+                }
+            }
+        });
+    }
+function abreNovoCanal(pessoa) {
+    $('#myModalPsCanal').modal('show');
+    $('#formPsCanal #PessoaId').val(pessoa);
+}
+
+function abreEditaCanal(pessoa,canal) {
+    $('#myModalPsCanalEdita').modal('show');
+    $('#formEditar #PessoaId').val(pessoa);
+    $('#formEditar #PsCanalId').val(canal);
+
+    $.ajax({
+        dataType: 'json',
+        type: 'GET',
+        url: '{{ url('admin/pscanal/') }}' + '/' + canal,
+        success: function (linha) {
+            if (linha) {
+                $('#formEditar #FonteInfoId').val(linha.FonteInfoId);
+                $('#formEditar #CanalId').val(linha.CanalId);
+                $('#formEditar #TipPosId').val(linha.TipPosId);
+                $('#formEditar #CEP').val(linha.CEP);
+                $('#formEditar #Logradouro').val(linha.Logradouro);
+                $('#formEditar #EnderecoNr').val(linha.EnderecoNr);
+                $('#formEditar #Complemento').val(linha.Complemento);
+                $('#formEditar #TelefoneNr').val(linha.TelefoneNr);
+                $('#formEditar #Email').val(linha.Email);
+                $('#formEditar #LogradouroDesc').val(linha.LogradouroDesc);
+                $('#formEditar #Bairro').val(linha.Bairro);
+                $('#formEditar #Cidade').val(linha.Cidade);
+                $('#formEditar #UF').val(linha.UF);
+            }
+        }
+    });
+
+
+
+
+}
+
 function addRoteiro(obj) {
     console.log(obj);
     if ( $( "#roteirosId"+obj.value ).length ) {
@@ -304,5 +414,65 @@ $(document).ready(function() {
                 $("#execTratamento").show();
             }
         });
+
+    $('#formEditar').on('submit', function (e) {
+        var formData = $('#formEditar').serialize();
+
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            data:formData,
+            url: '{{ url('admin/pscanal/') }}'+'/' +$('#formEditar #PsCanalId').val(),
+            success: function (data) {
+                if (data){
+                    $('#myModalPsCanalEdita').modal('toggle');
+                    swal({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Editado com sucesso!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    tablePsCanal.ajax.reload();
+                }
+            },
+            error: function (retorno) {
+                $('#myModalPsCanalEdita').modal('toggle');
+                console.log(retorno.responseJSON.message);
+                swal({
+                    position: 'top-end',
+                    type: 'error',
+                    title: 'Erro!',
+                    text: retorno.responseJSON.message,
+                    showConfirmButton: false,
+                    timer: 7500
+                });
+
+            }
+        });
+
+        return false;
+    });
+
+    $('#formPsCanal').on('submit', function (e) {
+        $.post( "{{ route('pscanal.store') }}", $( "#formPsCanal" ).serialize() )
+            .done(function( data ){
+                if (data){
+                    $('#myModalPsCanal').modal('toggle');
+                    swal({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Salvo com sucesso!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                    tablePsCanal.ajax.reload();
+                    $("#formPsCanal").trigger('reset');
+                }
+            });
+        return false;
+    });
 });
+
+
 </script>

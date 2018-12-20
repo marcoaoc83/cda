@@ -12,8 +12,6 @@
                 <form id="formPsCanal"  class="form-horizontal form-label-left" >
                     {{ csrf_field() }}
                     <input type="hidden" name="PessoaId" id="PessoaId">
-                    <input type="hidden" id="InscrMunId" name="InscrMunId" >
-                    <input type="hidden" id="PsCanalId" name="PsCanalId">
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FonteInfoId">Fonte </label><span class="required">*</span>
@@ -30,7 +28,7 @@
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CanalId">Canal </label><span class="required">*</span>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="CanalId" name="CanalId" required="required" onchange="selectCanal(this.value,'formPsCanal')">
+                            <select class="form-control" id="CanalId" name="CanalId" required="required" onchange="selectCanalForm(this.value,'formPsCanal')">
                                 <option value=""></option>
                                 @foreach($Canal as $var)
                                     <option value="{{$var->CANALID}}" >{{$var->CANALNM}}</option>             
