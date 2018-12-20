@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use League\Flysystem\File;
@@ -61,6 +62,7 @@ class ExecFilaParcelaJob implements ShouldQueue
      */
     public function handle()
     {
+        $filas=[];
         $Tarefa= Tarefas::findOrFail($this->Tarefa);
         $Tarefa->update([
             "tar_inicio"    => date("Y-m-d H:i:s")
@@ -122,7 +124,9 @@ class ExecFilaParcelaJob implements ShouldQueue
               cda_regtab TRIB On cda_parcela.TRIBUTOID = TRIB.REGTABID  
        
             Where
-               cda_parcela.PARCELAID in (".$this->parcelas.")";
+               cda_parcela.PARCELAID in (".$this->parcelas.") and SaidaDt is Null and ModComId > 0";
+
+
 
         $parcelas= DB::select($sql." GROUP BY cda_parcela.ParcelaId");
 
@@ -175,22 +179,21 @@ class ExecFilaParcelaJob implements ShouldQueue
                 $logradouro=Logradouro::find($pscanal->LogradouroId);
                 if($logradouro) $linha->logradouro= $logradouro->logr_tipo.' '.$logradouro->logr_nome.','.$pscanal->EnderecoNr.'<br>'.$bairro.'<br>'.$cidade;
                 $linha->PsCanalId=$pscanal->PsCanalId;
+
                 $filas[$modelo][$linha->PESSOAID][] = $linha;
 
             }
         }
         $html="<style>table, th, td {border: 1px solid #D0CECE;} .page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;} </style>";
+        Log::notice(print_r($filas,1));
         foreach ($filas as $modelo=> $fila){
             foreach ($fila as $pessoa){
-                //$function_name="geraModelo".$modelo;
                 if($this->Gravar) {
                     $Notificacao = ExecFilaPsCanal::create([
                         "Lote" => $Lote,
                         "PsCanalId" => $pessoa[0]->PsCanalId,
                     ]);
                 }
-                //error_log(print_r($pessoa,1));
-
                 $html.=self::geraModelo($pessoa,$modelo,$Notificacao)."<div class='page-break'></div>";
             }
         }
