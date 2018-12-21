@@ -339,6 +339,11 @@ class ExecFilaController extends Controller
             ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->join('cda_pscanal',  function($join)
+            {
+                $join->on('cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId');
+                $join->where('cda_pscanal.Ativo','=', 1);
+            })
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
             ->groupBy('cda_parcela.PessoaId')
