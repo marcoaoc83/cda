@@ -602,6 +602,34 @@ class ExecFilaController extends Controller
             ->orderBy('cda_roteiro.RoteiroOrd','asc')
             ->get();
 
+        if($roteiro->count()==0){
+            $where="1";
+            if($request->CARTEIRAID){
+                $where.=" AND cda_roteiro.CarteiraId = '$request->CARTEIRAID'";
+            }
+            $roteiro = Roteiro::select([
+                'cda_roteiro.*',
+                'Carteira.CARTEIRASG',
+                'Fase.REGTABSG as FaseCartNM',
+                'Evento.EventoSg as EventoNM',
+                'ModCom.ModComSg as ModComNM',
+                'FilaTrab.FilaTrabSg as FilaTrabNM',
+                'CANAL.CANALSG as CanalNM',
+                'CANAL.CANALID as CANALID',
+                'PROX.RoteiroOrd as RoteiroProxNM',
+            ])
+                ->leftJoin('cda_regtab  as Fase', 'Fase.REGTABID', '=', 'cda_roteiro.FaseCartId')
+                ->leftJoin('cda_evento as  Evento', 'Evento.EventoId', '=', 'cda_roteiro.EventoId')
+                ->leftJoin('cda_modcom  as ModCom', 'ModCom.ModComId', '=', 'cda_roteiro.ModComId')
+                ->leftJoin('cda_filatrab  as FilaTrab', 'FilaTrab.FilaTrabId', '=', 'cda_roteiro.FilaTrabId')
+                ->leftJoin('cda_canal  as CANAL', 'CANAL.CANALID', '=', 'cda_roteiro.CanalId')
+                ->leftJoin('cda_carteira  as Carteira', 'Carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+                ->leftJoin('cda_roteiro  as PROX', 'PROX.RoteiroId', '=', 'cda_roteiro.RoteiroProxId')
+
+                ->whereRaw($where)
+                ->orderBy('cda_roteiro.RoteiroOrd','asc')
+                ->get();
+        }
         return Datatables::of($roteiro)->make(true);
     }
 

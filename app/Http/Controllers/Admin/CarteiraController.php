@@ -250,6 +250,9 @@ class CarteiraController extends Controller
             ->groupBy('cda_carteira.CARTEIRAID')
             ->get();
 
+        if($roteiro->count()==0){
+            $roteiro=Carteira::all();
+        }
         return Datatables::of($roteiro)->make(true);
     }
 }
