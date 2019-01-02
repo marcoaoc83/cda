@@ -127,7 +127,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                cda_parcela.PARCELAID in (".$this->parcelas.") and SaidaDt is Null and ModComId > 0";
 
 
-
+        Log::info($sql." GROUP BY cda_parcela.ParcelaId");
         $parcelas= DB::select($sql." GROUP BY cda_parcela.ParcelaId");
 
         foreach ($parcelas as $linha){
@@ -135,15 +135,23 @@ class ExecFilaParcelaJob implements ShouldQueue
                 ->where('RoteiroId',$linha->RoteiroId)
                 ->orderBy('PrioridadeNr')->get();
             $pscanal=null;
-            foreach ($tppos as $tp){
-                $pscanal=PsCanal::where("PessoaId",$linha->PESSOAID)
-                    ->where('TipPosId',$tp->TpPosId)
-                    ->where('Ativo',1)
-                    ->first();
-                if($pscanal->PsCanalId){
-                    break;
+
+            if(count($tppos)>0){
+                foreach ($tppos as $tp) {
+                    $pscanal = PsCanal::where("PessoaId", $linha->PESSOAID)
+                        ->where('TipPosId', $tp->TpPosId)
+                        ->where('Ativo', 1)
+                        ->first();
+                    if ($pscanal->PsCanalId) {
+                        break;
+                    }
                 }
+            }else{
+                $pscanal = PsCanal::where("PessoaId", $linha->PESSOAID)
+                    ->where('Ativo', 1)
+                    ->first();
             }
+
             if(!isset($pscanal->PsCanalId)) continue;
 
             if($this->Gravar){
@@ -179,13 +187,11 @@ class ExecFilaParcelaJob implements ShouldQueue
                 $logradouro=Logradouro::find($pscanal->LogradouroId);
                 if($logradouro) $linha->logradouro= $logradouro->logr_tipo.' '.$logradouro->logr_nome.','.$pscanal->EnderecoNr.'<br>'.$bairro.'<br>'.$cidade;
                 $linha->PsCanalId=$pscanal->PsCanalId;
-
                 $filas[$modelo][$linha->PESSOAID][] = $linha;
 
             }
         }
         $html="<style>table, th, td {border: 1px solid #D0CECE;} .page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;} </style>";
-        Log::notice(print_r($filas,1));
         foreach ($filas as $modelo=> $fila){
             foreach ($fila as $pessoa){
                 if($this->Gravar) {
