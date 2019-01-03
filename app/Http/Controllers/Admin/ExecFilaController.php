@@ -1267,7 +1267,10 @@ class ExecFilaController extends Controller
             $collection = collect([]);
             return Datatables::of($collection)->make(true);
         }
-
+        $where=1;
+        if($request->Canal){
+            $where.=" AND cda_pscanal.CanalId = '$request->Canal'";
+        }
         $Validacao=[];
         $x=0;
         $pscanais = PsCanal::select([
@@ -1304,6 +1307,7 @@ class ExecFilaController extends Controller
             ->leftjoin('cda_cidade', 'cda_cidade.cida_id', '=', 'cda_pscanal.CidadeId')
             ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId')
             ->where('cda_pscanal.Ativo',1)
+            ->whereRaw($where)
             ->limit(100)
             ->groupBy('cda_pscanal.PsCanalId')
             ->get()->toArray();

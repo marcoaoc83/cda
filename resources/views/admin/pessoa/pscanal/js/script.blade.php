@@ -32,48 +32,66 @@
             success: function( result ) {
                 if(result.oEMAIL==1){
                     $('#'+form+' #Email').attr('required','required');
+                    $('#'+form+' #Email').attr('readonly', false);
                 }else{
+                    $('#'+form+' #Email').attr('readonly', true);
                     $('#'+form+' #Email').removeAttr('required');
                 }
                 if(result.oTELEFONE==1){
                     $('#'+form+' #TelefoneNr').attr('required','required');
+                    $('#'+form+' #TelefoneNr').attr('readonly', false);
                 }else{
                     $('#'+form+' #TelefoneNr').removeAttr('required');
+                    $('#'+form+' #TelefoneNr').attr('readonly', true);
                 }
                 if(result.oCEP==1){
                     $('#'+form+' #CEP').attr('required','required');
+                    $('#'+form+' #CEP').attr('readonly', false);
                 }else{
                     $('#'+form+' #CEP').removeAttr('required');
+                    $('#'+form+' #CEP').attr('readonly', true);
                 }
                 if(result.oNUMERO==1){
                     $('#'+form+' #EnderecoNr').attr('required','required');
+                    $('#'+form+' #EnderecoNr').attr('readonly', false);
                 }else{
                     $('#'+form+' #EnderecoNr').removeAttr('required');
+                    $('#'+form+' #EnderecoNr').attr('readonly', true);
                 }
                 if(result.oLOGRADOURO==1){
                     $('#'+form+' #Logradouro').attr('required','required');
+                    $('#'+form+' #Logradouro').attr('readonly', false);
                 }else{
                     $('#'+form+' #Logradouro').removeAttr('required');
+                    $('#'+form+' #Logradouro').attr('readonly', true);
                 }
                 if(result.oCOMPLEMENTO==1){
                     $('#'+form+' #Complemento').attr('required','required');
+                    $('#'+form+' #Complemento').attr('readonly', false);
                 }else{
                     $('#'+form+' #Complemento').removeAttr('required');
+                    $('#'+form+' #Complemento').attr('readonly', true);
                 }
                 if(result.oBAIRRO==1){
                     $('#'+form+' #Bairro').attr('required','required');
+                    $('#'+form+' #Bairro').attr('readonly', false);
                 }else{
                     $('#'+form+' #Bairro').removeAttr('required');
+                    $('#'+form+' #Bairro').attr('readonly', true);
                 }
                 if(result.oCIDADE==1){
                     $('#'+form+' #Cidade').attr('required','required');
+                    $('#'+form+' #Cidade').attr('readonly', false);
                 }else{
                     $('#'+form+' #Cidade').removeAttr('required');
+                    $('#'+form+' #Cidade').attr('readonly', true);
                 }
                 if(result.oUF==1){
                     $('#'+form+' #UF').attr('required','required');
+                    $('#'+form+' #UF').attr('readonly', false);
                 }else{
                     $('#'+form+' #UF').removeAttr('required');
+                    $('#'+form+' #UF').attr('readonly', true);
                 }
             }
         });

@@ -4,123 +4,125 @@
 @endsection
 @section('content')
     <!-- page content -->
-    <div class="right_col" role="main">
-        <div class="row top_tiles" style="margin: 10px 0;">
-            <div class="col-md-9">
-                <div class=" text-center">
-                    <section class="panel">
-                        <div class="x_title" style="background-color:#34495E">
-                            <h3>Acionamentos</h3>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div id="area-chart" ></div>
-                    </section>
-                </div>
-                <div class="col-md-4 text-center">
-                    <section class="panel">
-                        <div class="x_title" style="background-color:#34495E">
-                            <h3>Origem</h3>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div id="pie-chart-origem" ></div>
-                    </section>
-                </div>
-                <div class="col-md-4 text-center">
-                    <section class="panel">
-                        <div class="x_title" style="background-color:#34495E">
-                            <h3>Carteira</h3>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div id="pie-chart-carteira" ></div>
-                    </section>
-                </div>
-                <div class="col-md-4 text-center">
-                    <section class="panel">
-                        <div class="x_title" style="background-color:#34495E">
-                            <h3>Fase</h3>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div id="pie-chart-fase" ></div>
-                    </section>
-                </div>
-                <div class="col-md-12 text-center">
-                    <section class="panel">
-                        <div class="x_title" style="background-color:#34495E">
-                            <h3>Faixa Atraso</h3>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div id="bar-chart" ></div>
-                    </section>
-                </div>
-            </div>
-            <div class="col-md-3">
-                    <div class="x_panel">
-                        <div class="x_title">
-                            <h2>Filtros</h2>
-                            <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <div class="x_content" style="background-color: #dfeef0">
-                            <h5>Origem</h5>
-                            <button type="button" class="btn btn-default btn-xs">IMOB</button>
-                            <button type="button" class="btn btn-default btn-xs">MOB</button>
-                            <button type="button" class="btn btn-default btn-xs">PESSOA</button>
-                        </div>
-                        <div class="x_content" style="background-color: #dfeef0">
-                            <h5>Carteira</h5>
-                            <button type="button" class="btn btn-default btn-xs">Ano</button>
-                            <button type="button" class="btn btn-default btn-xs">DAT</button>
-                            <button type="button" class="btn btn-default btn-xs">NLD</button>
-                            <button type="button" class="btn btn-default btn-xs">PC</button>
-                            <button type="button" class="btn btn-default btn-xs">PPI</button>
-                            <button type="button" class="btn btn-default btn-xs">PPI E PC</button>
-                            <button type="button" class="btn btn-default btn-xs">REFIS</button>
-                        </div>
-                        <div class="x_content" style="background-color: #dfeef0">
-                            <h5>Fase</h5>
-                            <button type="button" class="btn btn-default btn-xs">Cob Adm</button>
-                            <button type="button" class="btn btn-default btn-xs">Exec Fisc</button>
-                            <button type="button" class="btn btn-default btn-xs">Hig Cad</button>
-                            <button type="button" class="btn btn-default btn-xs">Prot Tit</button>
-                            <button type="button" class="btn btn-default btn-xs">Ret Com</button>
-                        </div>
-                        <div class="x_content" style="background-color: #dfeef0">
-                            <h5>Faixa Atraso</h5>
-                            @foreach ($FxAtraso as  $value)
-                                <button type="button" class="btn btn-default btn-xs">{{$value->REGTABSG}}</button>
-                            @endforeach
-                        </div>
-                        <div class="x_content" style="background-color: #dfeef0">
-                            <h5>Ano</h5>
-                            @for($x=2013;$x<=date('Y');$x++)
-                                <button type="button" class="btn btn-default btn-xs">{{$x}}</button>
-                            @endfor
-                        </div>
-                        <div class="x_content" style="background-color: #dfeef0">
-                            <h5>Mês</h5>
-                            <button type="button" class="btn btn-default btn-xs">Jan</button>
-                            <button type="button" class="btn btn-default btn-xs">Fev</button>
-                            <button type="button" class="btn btn-default btn-xs">Mar</button>
-                            <button type="button" class="btn btn-default btn-xs">Abr</button>
-                            <button type="button" class="btn btn-default btn-xs">Mai</button>
-                            <button type="button" class="btn btn-default btn-xs">Jun</button>
-                            <button type="button" class="btn btn-default btn-xs">Jul</button>
-                            <button type="button" class="btn btn-default btn-xs">Ago</button>
-                            <button type="button" class="btn btn-default btn-xs">Set</button>
-                            <button type="button" class="btn btn-default btn-xs">Out</button>
-                            <button type="button" class="btn btn-default btn-xs">Nov</button>
-                            <button type="button" class="btn btn-default btn-xs">Dez</button>
-
-                        </div>
-                        <div class="x_content text-center">
-                            <button type="button" class="btn btn-success btn-sm">Filtrar</button>
-                        </div>
+    <form id="formFiltro">
+        <div class="right_col" role="main">
+            <div class="row top_tiles" style="margin: 10px 0;">
+                <div class="col-md-9">
+                    <div class=" text-center">
+                        <section class="panel">
+                            <div class="x_title" style="background-color:#34495E">
+                                <h3>Acionamentos</h3>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div id="area-chart" ></div>
+                        </section>
                     </div>
+                    <div class="col-md-4 text-center">
+                        <section class="panel">
+                            <div class="x_title" style="background-color:#34495E">
+                                <h3>Origem</h3>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div id="pie-chart-origem" ></div>
+                        </section>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <section class="panel">
+                            <div class="x_title" style="background-color:#34495E">
+                                <h3>Carteira</h3>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div id="pie-chart-carteira" ></div>
+                        </section>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <section class="panel">
+                            <div class="x_title" style="background-color:#34495E">
+                                <h3>Fase</h3>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div id="pie-chart-fase" ></div>
+                        </section>
+                    </div>
+                    <div class="col-md-12 text-center">
+                        <section class="panel">
+                            <div class="x_title" style="background-color:#34495E">
+                                <h3>Faixa Atraso</h3>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div id="bar-chart" ></div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                        <div class="x_panel">
+                            <div class="x_title">
+                                <h2>Filtros</h2>
+                                <ul class="nav navbar-right panel_toolbox">
+                                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+                                </ul>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="x_content" style="background-color: #dfeef0">
+                                <h5>Origem</h5>
+                                <button type="button" class="btn btn-default btn-xs  filt" id="origemIMOB" value="IMOB" >IMOB</button>
+                                <button type="button" class="btn btn-default btn-xs  filt" id="origemIMOB" value="MOB" >MOB</button>
+                                <button type="button" class="btn btn-default btn-xs  filt" id="origemIMOB" value="PESSOA" >PESSOA</button>
+                            </div>
+                            <div class="x_content" style="background-color: #dfeef0">
+                                <h5>Carteira</h5>
+                                <button type="button" class="btn btn-default btn-xs filt">Ano</button>
+                                <button type="button" class="btn btn-default btn-xs filt">DAT</button>
+                                <button type="button" class="btn btn-default btn-xs filt">NLD</button>
+                                <button type="button" class="btn btn-default btn-xs filt">PC</button>
+                                <button type="button" class="btn btn-default btn-xs filt">PPI</button>
+                                <button type="button" class="btn btn-default btn-xs filt">PPI E PC</button>
+                                <button type="button" class="btn btn-default btn-xs filt">REFIS</button>
+                            </div>
+                            <div class="x_content" style="background-color: #dfeef0">
+                                <h5>Fase</h5>
+                                <button type="button" class="btn btn-default btn-xs filt">Cob Adm</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Exec Fisc</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Hig Cad</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Prot Tit</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Ret Com</button>
+                            </div>
+                            <div class="x_content" style="background-color: #dfeef0">
+                                <h5>Faixa Atraso</h5>
+                                @foreach ($FxAtraso as  $value)
+                                    <button type="button" class="btn btn-default btn-xs filt">{{$value->REGTABSG}}</button>
+                                @endforeach
+                            </div>
+                            <div class="x_content" style="background-color: #dfeef0">
+                                <h5>Ano</h5>
+                                @for($x=2013;$x<=date('Y');$x++)
+                                    <button type="button" class="btn btn-default btn-xs filt">{{$x}}</button>
+                                @endfor
+                            </div>
+                            <div class="x_content" style="background-color: #dfeef0">
+                                <h5>Mês</h5>
+                                <button type="button" class="btn btn-default btn-xs filt">Jan</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Fev</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Mar</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Abr</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Mai</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Jun</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Jul</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Ago</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Set</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Out</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Nov</button>
+                                <button type="button" class="btn btn-default btn-xs filt">Dez</button>
+
+                            </div>
+                            <div class="x_content text-center">
+                                <button type="button" class="btn btn-success btn-sm">Filtrar</button>
+                            </div>
+                        </div>
+                </div>
             </div>
         </div>
-    </div>
+    </form>
     <!-- /page content -->
 @endsection
 @push('scripts')
@@ -214,5 +216,11 @@
             };
         config.element = 'bar-chart';
         Morris.Bar(config);
+
+        $( ".filt" ).click(function() {
+
+            $(this).button('toggle');
+            $(this).button('dispose');
+        });
     </script>
 @endpush
