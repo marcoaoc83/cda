@@ -9,7 +9,7 @@
             "searching": false,
             "paging":   true,
             "ordering": false,
-            "info":     false,
+            "info":     true,
             ajax: '{{ route('execfila.getDadosValidarAll') }}?none=true',
             // select: {
             //     style: 'multiple',
