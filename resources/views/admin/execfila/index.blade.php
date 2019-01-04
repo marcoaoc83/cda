@@ -94,8 +94,10 @@
                         </form>
                     </div>
                         @include('admin.execfila.result-contribuinte')
-                        @include('admin.execfila.result-validacao')
+                        @include('admin.execfila.result-contribuinteVal')
                         @include('admin.execfila.result-im')
+
+                        @include('admin.execfila.result-validacao')
                         @include('admin.execfila.result-canalexec')
                         @include('admin.execfila.result-parcela')
 
@@ -184,6 +186,7 @@
 
     @include('admin.execfila.tbParcela')
     @include('admin.execfila.tbContribuinteRes')
+    @include('admin.execfila.tbContribuinteResVal')
     @include('admin.execfila.tbValidacaoRes')
     @include('admin.execfila.tbCanalExec')
 

@@ -196,9 +196,6 @@ function abreEditaCanal(pessoa,canal) {
         }
     });
 
-
-
-
 }
 
 function addRoteiro(obj) {
@@ -212,10 +209,7 @@ function addRoteiro(obj) {
 }
 
 function filtrarParcelas(){
-    $("#divResultValidacaoRes").hide();
-    $("#divResultContribuinteRes").show();
-    $("#divResultIM").hide();
-    $("#divResultParcela").show();
+
     var tbContribuinteRes = $('#tbContribuinteRes').DataTable();
     var url = "{{ route('execfila.getdataParcela') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
     tbContribuinteRes.ajax.url(url).load();
@@ -229,18 +223,17 @@ function filtrarParcelas(){
     column.visible(true );
 }
 function filtrarValidacao() {
-    $("#divResultValidacaoRes").show();
-    $("#divResultContribuinteRes").hide();
-    $("#divResultIM").hide();
-    $("#divResultParcela").hide();
-    var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
+     
+    var tbContribuinteResVal = $('#tbContribuinteResVal').DataTable();
     var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+    tbContribuinteResVal.ajax.url(url).load();
+
+    var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
+    var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbValidacaoRes.ajax.url(url).load();
 
 }
 function filtrarTratamento() {
-    $("#divResultCanalExec").show();
-    $("#divResultParcela").show();
 
     var tbCanalExec = $('#tbCanalExec').DataTable();
     var url = "{{ route('execfila.getDadosTratRetorno') }}" + "/?group=Pes&" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
@@ -282,12 +275,21 @@ function selectFila(fila) {
 
         if(result.resultado_contribuinte==1){
             $('#divResultContribuinteRes').show();
+            if(fila==11) {
+                $('#divResultContribuinteResVal').show();
+                $('#divResultContribuinteRes').hide();
+            }
+            if(fila==12) {
+                $('#divResultContribuinteResVal').show();
+                $('#divResultContribuinteRes').hide();
+            }
         }else{
             $('#divResultContribuinteRes').hide();
+            $('#divResultContribuinteResVal').hide();
         }
 
         if(result.resultado_im==1){
-            $('#divResultIM').hide();
+            $('#divResultIM').show();
         }else{
             $('#divResultIM').hide();
         }
@@ -469,54 +471,6 @@ $(document).ready(function() {
             this.element.val(chosen_date.format('DD/MM/YYYY'));
         }
     });
-    $('input:radio[name="tipoexec"]').change(
-        function () {
-            if (this.checked && this.value == 'v') {
-                $("#divBotaoFiltrar").hide();
-                $("#divBotaoFiltrarVal").show();
-                $("#divBotaoFiltrarTrat").hide();
-
-                $("#divResultValidacaoRes").show();
-                $("#divResultCanalExec").hide();
-                $("#divResultContribuinteRes").hide();
-                $("#divResultIM").hide();
-                $("#divResultParcela").hide();
-                $("#execFila").hide();
-                $("#execValida").show();
-                $("#execTratamento").hide();
-
-            }
-            if (this.checked && this.value == 'f') {
-                $("#divBotaoFiltrarVal").hide();
-                $("#divBotaoFiltrar").show();
-                $("#divBotaoFiltrarTrat").hide();
-
-                $("#divResultValidacaoRes").hide();
-                $("#divResultCanalExec").hide();
-                $("#divResultContribuinteRes").show();
-                $("#divResultIM").hide();
-                $("#divResultParcela").show();
-
-                $("#execFila").show();
-                $("#execValida").hide();
-                $("#execTratamento").hide();
-            }
-            if (this.checked && this.value == 't') {
-                $("#divBotaoFiltrarVal").hide();
-                $("#divBotaoFiltrar").hide();
-                $("#divBotaoFiltrarTrat").show();
-
-                $("#divResultValidacaoRes").hide();
-                $("#divResultCanalExec").show();
-                $("#divResultContribuinteRes").hide();
-                $("#divResultIM").hide();
-                $("#divResultParcela").hide();
-
-                $("#execFila").hide();
-                $("#execValida").hide();
-                $("#execTratamento").show();
-            }
-        });
 
     $('#formEditar').on('submit', function (e) {
         var formData = $('#formEditar').serialize();

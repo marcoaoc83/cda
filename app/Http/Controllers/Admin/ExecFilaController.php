@@ -229,7 +229,9 @@ class ExecFilaController extends Controller
                 $Var->where("cda_canal_eventos.CanalId",$r->canal);
             }
             $Var->get();
-        if(count($Var)>0) {
+
+        $pkCount = (is_array($Var) ? count($Var) : 0);
+        if ($pkCount == 0){
             return Datatables::of($Var)->make(true);
         }else{
             $Var =Evento::where("TpASId",79)
@@ -252,7 +254,8 @@ class ExecFilaController extends Controller
             $tratret->where('cda_canal.CanalId',$r->canal);
         }
         $tratret->groupBy("TratRetId")->get();
-        if(count($tratret)>0) {
+        $pkCount = (is_array($tratret) ? count($tratret) : 0);
+        if ($pkCount == 0){
             return Datatables::of($tratret)->make(true);
         }else{
             $tratret = TratRet::select(['RetornoCd', 'RetornoCdNr', 'EventoSg','cda_tratret.EventoId','TratRetId'])
@@ -1271,6 +1274,9 @@ class ExecFilaController extends Controller
         if($request->Canal){
             $where.=" AND cda_pscanal.CanalId = '$request->Canal'";
         }
+        if($request->ContribuinteResId){
+            $where.=' AND cda_pessoa.PessoaId IN ('.implode(',',$request->ContribuinteResId).')';
+        }
         $Validacao=[];
         $x=0;
         $pscanais = PsCanal::select([
@@ -1294,6 +1300,7 @@ class ExecFilaController extends Controller
             'cda_canal.CANALSG',
             'cda_inscrmun.INSCRMUNNR',
             'cda_pessoa.PESSOANMRS as Nome',
+            'cda_pessoa.CPF_CNPJNR as Documento',
             DB::raw('IF(cda_pscanal.LogradouroId IS NOT NULL , CONCAT_WS(" ",cda_logradouro.logr_tipo,cda_logradouro.logr_nome),cda_pscanal.Logradouro) AS Logradouro'),
             DB::raw('IF(cda_pscanal.BairroId IS NOT NULL ,cda_bairro.bair_nome,cda_pscanal.Bairro) AS Bairro'),
             DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade')
@@ -1333,10 +1340,7 @@ class ExecFilaController extends Controller
                 list($campo, $sinal, $valor) = $sql;
                 //error_log(print_r($dado,1));
                 if(strtolower($valor)=='null'){
-
-
                     if(empty($dado[strtolower($campo)])){
-
                         $Dados=$dado['logradouro'].' '.$dado['endereconr'].' '.$dado['bairro'].' '.$dado['cidade'].' '.$dado['uf'].' '.$dado['cep'].' '.$dado['email'].' '.$dado['telefonenr'];
                         $Validacao[$x]['PessoaId']=$dado['pessoaid'];
                         $Validacao[$x]['PsCanalId']=$dado['pscanalid'];
@@ -1359,6 +1363,7 @@ class ExecFilaController extends Controller
                         $Validacao[$x]['EventoId']=$val->EventoId;
                         $Validacao[$x]['FilaTrabId']=2;
                         $Validacao[$x]['Nome']=$dado['nome'];
+                        $Validacao[$x]['Documento']=$dado['documento'];
                         $Validacao[$x]['Canal']=$dado['canalsg'];
                         $Validacao[$x]['Evento']=$val->EventoNm;
                         $Validacao[$x]['TipoPos']=$dado['tippos'];
@@ -1369,6 +1374,16 @@ class ExecFilaController extends Controller
                 }
 
             }
+        }
+        if($request->group=='Pes'){
+            $tempValidacao=[];
+            foreach ($Validacao as $key => $value){
+                $tempValidacao[$value['PessoaId']]['PessoaId']=$value['PessoaId'];
+                $tempValidacao[$value['PessoaId']]['Nome']=$value['Nome'];
+                $tempValidacao[$value['PessoaId']]['CPFCNPJ']=$value['Documento'];
+            }
+            ksort($tempValidacao);
+            $Validacao=$tempValidacao;
         }
         $collection = collect($Validacao);
         return Datatables::of($collection)->addColumn('action', function ($var) {
@@ -1462,8 +1477,8 @@ class ExecFilaController extends Controller
                 ->where('RoteiroId',$linha->RoteiroId)
                 ->orderBy('PrioridadeNr')->get();
             $pscanal=null;
-
-            if(count($tppos)>0){
+            $pkCount = (is_array($tppos) ? count($tppos) : 0);
+            if ($pkCount == 0){
                 foreach ($tppos as $tp) {
                     $pscanal = PsCanal::where("PessoaId", $linha->PESSOAID)
                         ->where('TipPosId', $tp->TpPosId)
