@@ -1136,6 +1136,13 @@ class ExecFilaController extends Controller
         $x=0;
         $Validacao=[];
         foreach ($resultado as $linha){
+            $where=1;
+            if($request->ContribuinteResId){
+                $where.=' AND cda_pscanal.PessoaId IN ('.implode(',',$request->ContribuinteResId).')';
+            }
+            if($request->ContribuinteResIMId && ($request->group!='IM')){
+                $where.=' AND cda_pscanal.InscrMunId IN ('.implode(',',$request->ContribuinteResIMId).')';
+            }
             $pscanais = PsCanal::select([
                 'cda_pscanal.PsCanalId',
                 'cda_pscanal.PessoaId',
@@ -1155,8 +1162,10 @@ class ExecFilaController extends Controller
                 'FonteInfoId.REGTABSG as FonteInfo',
                 'TipPosId.REGTABNM as TipPos',
                 'cda_canal.CANALSG',
+                'cda_inscrmun.INSCRMUNID',
                 'cda_inscrmun.INSCRMUNNR',
                 'cda_pessoa.PESSOANMRS as Nome',
+                'cda_pessoa.CPF_CNPJNR as Documento',
                 DB::raw('IF(cda_pscanal.LogradouroId IS NOT NULL , CONCAT_WS(" ",cda_logradouro.logr_tipo,cda_logradouro.logr_nome),cda_pscanal.Logradouro) AS Logradouro'),
                 DB::raw('IF(cda_pscanal.BairroId IS NOT NULL ,cda_bairro.bair_nome,cda_pscanal.Bairro) AS Bairro'),
                 DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade')
@@ -1170,7 +1179,14 @@ class ExecFilaController extends Controller
                 ->leftjoin('cda_cidade', 'cda_cidade.cida_id', '=', 'cda_pscanal.CidadeId')
                 ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId')
                 ->where('cda_pscanal.PsCanalId',$linha->PsCanalId)
-                ->first()->toArray();
+                ->whereRaw($where)
+                ->first();
+
+            if ($pscanais) {
+                $pscanais = $pscanais->toArray();
+            }else{
+                continue;
+            }
 
             $dado=array_change_key_case($pscanais,CASE_LOWER);
             $Dados=$dado['logradouro'].' '.$dado['endereconr'].' '.$dado['bairro'].' '.$dado['cidade'].' '.$dado['uf'].' '.$dado['cep'].' '.$dado['email'].' '.$dado['telefonenr'];
@@ -1179,6 +1195,7 @@ class ExecFilaController extends Controller
             $Validacao[$x]['EventoId']="";
             $Validacao[$x]['FilaTrabId']=2;
             $Validacao[$x]['Nome']=$dado['nome'];
+            $Validacao[$x]['Documento']=$dado['documento'];
             $Validacao[$x]['Canal']=$dado['canalsg'];
             $Validacao[$x]['Evento']="";
             $Validacao[$x]['Dados']=trim($Dados);
@@ -1186,7 +1203,26 @@ class ExecFilaController extends Controller
             $Validacao[$x]['Notificacao']=trim($linha->efpa_id);
             $x++;
         }
-
+        if($request->group=='Pes'){
+            $tempValidacao=[];
+            foreach ($Validacao as $key => $value){
+                $tempValidacao[$value['PessoaId']]['PessoaId']=$value['PessoaId'];
+                $tempValidacao[$value['PessoaId']]['Nome']=$value['Nome'];
+                $tempValidacao[$value['PessoaId']]['CPFCNPJ']=$value['Documento'];
+            }
+            ksort($tempValidacao);
+            $Validacao=$tempValidacao;
+        }
+        if($request->group=='IM'){
+            $tempValidacao=[];
+            foreach ($Validacao as $key => $value){
+                $tempValidacao[$value['INSCRMUNID']]['INSCRMUNID']=$value['INSCRMUNID'];
+                $tempValidacao[$value['INSCRMUNID']]['INSCRMUNNR']=$value['INSCRMUNNR'];
+                $tempValidacao[$value['INSCRMUNID']]['Nome']=$value['Nome'];
+            }
+            ksort($tempValidacao);
+            $Validacao=$tempValidacao;
+        }
         $collection = collect($Validacao);
         return Datatables::of($collection)->addColumn('action', function ($var) {
             return '
@@ -1277,6 +1313,9 @@ class ExecFilaController extends Controller
         if($request->ContribuinteResId){
             $where.=' AND cda_pessoa.PessoaId IN ('.implode(',',$request->ContribuinteResId).')';
         }
+        if($request->ContribuinteResIMId && ($request->group!='IM')){
+            $where.=' AND cda_inscrmun.INSCRMUNID IN ('.implode(',',$request->ContribuinteResIMId).')';
+        }
         $Validacao=[];
         $x=0;
         $pscanais = PsCanal::select([
@@ -1298,6 +1337,7 @@ class ExecFilaController extends Controller
             'FonteInfoId.REGTABSG as FonteInfo',
             'TipPosId.REGTABNM as TipPos',
             'cda_canal.CANALSG',
+            'cda_inscrmun.INSCRMUNID',
             'cda_inscrmun.INSCRMUNNR',
             'cda_pessoa.PESSOANMRS as Nome',
             'cda_pessoa.CPF_CNPJNR as Documento',
@@ -1347,6 +1387,9 @@ class ExecFilaController extends Controller
                         $Validacao[$x]['EventoId']=$val->EventoId;
                         $Validacao[$x]['FilaTrabId']=2;
                         $Validacao[$x]['Nome']=$dado['nome'];
+                        $Validacao[$x]['Documento']=$dado['documento'];
+                        $Validacao[$x]['INSCRMUNID']=$dado['inscrmunid'];
+                        $Validacao[$x]['INSCRMUNNR']=$dado['inscrmunnr'];
                         $Validacao[$x]['Canal']=$dado['canalsg'];
                         $Validacao[$x]['TipoPos']=$dado['tippos'];
                         $Validacao[$x]['Evento']=$val->EventoNm;
@@ -1364,6 +1407,8 @@ class ExecFilaController extends Controller
                         $Validacao[$x]['FilaTrabId']=2;
                         $Validacao[$x]['Nome']=$dado['nome'];
                         $Validacao[$x]['Documento']=$dado['documento'];
+                        $Validacao[$x]['INSCRMUNID']=$dado['inscrmunid'];
+                        $Validacao[$x]['INSCRMUNNR']=$dado['inscrmunnr'];
                         $Validacao[$x]['Canal']=$dado['canalsg'];
                         $Validacao[$x]['Evento']=$val->EventoNm;
                         $Validacao[$x]['TipoPos']=$dado['tippos'];
@@ -1381,6 +1426,16 @@ class ExecFilaController extends Controller
                 $tempValidacao[$value['PessoaId']]['PessoaId']=$value['PessoaId'];
                 $tempValidacao[$value['PessoaId']]['Nome']=$value['Nome'];
                 $tempValidacao[$value['PessoaId']]['CPFCNPJ']=$value['Documento'];
+            }
+            ksort($tempValidacao);
+            $Validacao=$tempValidacao;
+        }
+        if($request->group=='IM'){
+            $tempValidacao=[];
+            foreach ($Validacao as $key => $value){
+                $tempValidacao[$value['INSCRMUNID']]['INSCRMUNID']=$value['INSCRMUNID'];
+                $tempValidacao[$value['INSCRMUNID']]['INSCRMUNNR']=$value['INSCRMUNNR'];
+                $tempValidacao[$value['INSCRMUNID']]['Nome']=$value['Nome'];
             }
             ksort($tempValidacao);
             $Validacao=$tempValidacao;

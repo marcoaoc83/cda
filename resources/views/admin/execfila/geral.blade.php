@@ -228,6 +228,10 @@ function filtrarValidacao() {
     var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbContribuinteResVal.ajax.url(url).load();
 
+    var tbContribuinteResIMVal = $('#tbContribuinteResIMVal').DataTable();
+    var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+    tbContribuinteResIMVal.ajax.url(url).load();
+
     var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
     var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbValidacaoRes.ajax.url(url).load();
@@ -235,8 +239,16 @@ function filtrarValidacao() {
 }
 function filtrarTratamento() {
 
+    var tbContribuinteResTrat = $('#tbContribuinteResTrat').DataTable();
+    var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+    tbContribuinteResTrat.ajax.url(url).load();
+
+    {{--var tbContribuinteResIMVal = $('#tbContribuinteResIMTrat').DataTable();--}}
+    {{--var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();--}}
+    {{--tbContribuinteResIMVal.ajax.url(url).load();--}}
+
     var tbCanalExec = $('#tbCanalExec').DataTable();
-    var url = "{{ route('execfila.getDadosTratRetorno') }}" + "/?group=Pes&" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+    var url = "{{ route('execfila.getDadosTratRetorno') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbCanalExec.ajax.url(url).load();
 
 }
@@ -280,18 +292,28 @@ function selectFila(fila) {
                 $('#divResultContribuinteRes').hide();
             }
             if(fila==12) {
-                $('#divResultContribuinteResVal').show();
+                $('#divResultContribuinteResTrat').show();
                 $('#divResultContribuinteRes').hide();
             }
         }else{
             $('#divResultContribuinteRes').hide();
             $('#divResultContribuinteResVal').hide();
+            $('#divResultContribuinteResTrat').hide();
         }
 
         if(result.resultado_im==1){
             $('#divResultIM').show();
+            if(fila==11) {
+                $('#divResultContribuinteResIMVal').show();
+                $('#divResultIM').hide();
+            }
+            if(fila==12) {
+                $('#divResultContribuinteResIMVal').show();
+                $('#divResultIM').hide();
+            }
         }else{
             $('#divResultIM').hide();
+            $('#divResultContribuinteResIMVal').hide();
         }
 
         if(result.resultado_parcelas==1){

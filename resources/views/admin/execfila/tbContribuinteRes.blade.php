@@ -30,6 +30,10 @@
                 {
                     targets: 3,
                     className: 'text-right'
+                },
+                {
+                    targets: 4,
+                    className: 'text-right'
                 }
             ],
             "language": {

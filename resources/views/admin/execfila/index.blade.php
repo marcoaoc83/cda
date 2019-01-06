@@ -95,6 +95,10 @@
                     </div>
                         @include('admin.execfila.result-contribuinte')
                         @include('admin.execfila.result-contribuinteVal')
+                        @include('admin.execfila.result-contribuinteTrat')
+
+                        {{--@include('admin.execfila.result-contribuinteIMVal')--}}
+                        @include('admin.execfila.result-contribuinteIMVal')
                         @include('admin.execfila.result-im')
 
                         @include('admin.execfila.result-validacao')
@@ -187,6 +191,8 @@
     @include('admin.execfila.tbParcela')
     @include('admin.execfila.tbContribuinteRes')
     @include('admin.execfila.tbContribuinteResVal')
+    @include('admin.execfila.tbContribuinteResTrat')
+    @include('admin.execfila.tbContribuinteResIMVal')
     @include('admin.execfila.tbValidacaoRes')
     @include('admin.execfila.tbCanalExec')
 

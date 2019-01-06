@@ -52,6 +52,7 @@
 
         tbCanalExec.on('select', function (e, dt, type, indexes) {
             if (type === 'row') {
+                $('#divResultParcela').show();
                 var Lote = tbCanalExec.rows(indexes).data().pluck('Lote');
                 var Notificacao = tbCanalExec.rows(indexes).data().pluck('Notificacao');
                 var tbParcela = $('#tbParcela').DataTable();
@@ -60,6 +61,7 @@
 
             }
         }).on('deselect', function (e, dt, type, indexes) {
+            $('#divResultParcela').hide();
             var tbParcela = $('#tbParcela').DataTable();
             var url = "{{ route('execfila.getDadosParcelasExec') }}" + "/?none=a";
             tbParcela.ajax.url(url).load();
