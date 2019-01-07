@@ -75,6 +75,8 @@
                 url: '{{ url('crontab') }}/'+tarefa+'?id='+id,
                 success: function(data){
                     $("#DTstatus"+id).html('<span class="label label-default">Finalizado</span>');
+                    var table = $('.datatable').DataTable();
+                    table.ajax.reload();
                 }
             });
         }
