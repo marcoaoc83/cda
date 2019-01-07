@@ -275,6 +275,7 @@
             $('#pnPsCanal #formEditar #Bairro').val(linha['Bairro']);
             $('#pnPsCanal #formEditar #Cidade').val(linha['Cidade']);
             $('#pnPsCanal #formEditar #UF').val(linha['UF']);
+            selectCanal(linha['CanalId'],'formEditar');
 
         });
 

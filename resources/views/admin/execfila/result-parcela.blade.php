@@ -14,7 +14,10 @@
             <tr>
                 <th><input name="select_all" value="1" type="checkbox"></th>
                 <th>Carteira</th>
+                <th>Modelo</th>
                 <th>Nome</th>
+                <th>CPF/CNPJ</th>
+                <th>I.M.</th>
                 <th>Sit Pag</th>
                 <th>Sit Cob</th>
                 <th>Orig Trib</th>

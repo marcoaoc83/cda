@@ -31,61 +31,68 @@
         var rows_selected = [];
 
 var tbParcela = $('#tbParcela').DataTable({
-processing: true,
-serverSide: true,
-responsive: true,
-ajax: '{{ route('execfila.getdataParcela') }}'+"/?limit=0",
-"pageLength": 100,
-columns: [
-{
-'targets': 0,
-'searchable': false,
-'orderable': false,
-'width': '1%',
-'className': 'dt-body-center',
-'render': function (data, type, full, meta){
-return '<input type="checkbox">';
-}
-},
-{data: 'Carteira', name: 'Carteira'},
-{data: 'Nome', name: 'Nome'},
-{data: 'SitPag', name: 'SitPag'},
-{data: 'SitCob', name: 'SitCob'},
-{data: 'OrigTrib', name: 'OrigTrib'},
-{data: 'Trib', name: 'Trib'},
-{data: 'LancamentoNr', name: 'LancamentoNr'},
-{data: 'ParcelaNr', name: 'ParcelaNr'},
-{data: 'PlanoQt', name: 'PlanoQt'},
-{data: 'VencimentoDt', name: 'VencimentoDt'},
-{data: 'TotalVr', name: 'TotalVr'},
-// {data: 'FxAtraso', name: 'FxAtraso'},
-// {data: 'FxValor', name: 'FxValor'},
-{
-data: 'ParcelaId',
-name: 'ParcelaId',
-"visible": false,
-"searchable": false
-},
-],
-columnDefs: [
-{
-targets: 10,
-className: 'text-right'
-}
-],
-"language": {
-"url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
-},
-'rowCallback': function(row, data, dataIndex){
-// Get row ID
-var rowId = data['ParcelaId'];
+    processing: true,
+    serverSide: true,
+    responsive: true,
+    ajax: '{{ route('execfila.getdataParcela') }}'+"/?none=1",
+    "pageLength": 100,
+    columns: [
+    {
+        'targets': 0,
+        'searchable': false,
+        'orderable': false,
+        'width': '1%',
+        'className': 'dt-body-center',
+        'render': function (data, type, full, meta){
+        return '<input type="checkbox">';
+        }
+        },
+        {data: 'Carteira', name: 'Carteira'},
+        {data: 'Modelo', name: 'Modelo'},
+        {data: 'Nome', name: 'Nome'},
+        {data: 'CPFCNPJ', name: 'CPFCNPJ'},
+        {data: 'INSCRMUNNR', name: 'INSCRMUNNR'},
+        {data: 'SitPag', name: 'SitPag'},
+        {data: 'SitCob', name: 'SitCob'},
+        {data: 'OrigTrib', name: 'OrigTrib'},
+        {data: 'Trib', name: 'Trib'},
+        {data: 'LancamentoNr', name: 'LancamentoNr'},
+        {data: 'ParcelaNr', name: 'ParcelaNr'},
+        {data: 'PlanoQt', name: 'PlanoQt'},
+        {data: 'VencimentoDt', name: 'VencimentoDt'},
+        {data: 'TotalVr', name: 'TotalVr'},
+        // {data: 'FxAtraso', name: 'FxAtraso'},
+        // {data: 'FxValor', name: 'FxValor'},
+        {
+        data: 'ParcelaId',
+        name: 'ParcelaId',
+        "visible": false,
+        "searchable": false
+        },
+        ],
+        columnDefs: [
+            {
+            targets: 10,
+            className: 'text-right'
+            },
+            {
+            targets: 11,
+            className: 'text-right'
+            },
+        ],
+        "language": {
+        "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
+        },
+        'rowCallback': function(row, data, dataIndex){
+        // Get row ID
+        var rowId = data['ParcelaId'];
 
-// If row ID is in the list of selected row IDs
-if($.inArray(rowId, rows_selected) !== -1){
-$(row).find('input[type="checkbox"]').prop('checked', true);
-$(row).addClass('selected');
-}
-}
+        // If row ID is in the list of selected row IDs
+        if($.inArray(rowId, rows_selected) !== -1){
+            $(row).find('input[type="checkbox"]').prop('checked', true);
+            $(row).addClass('selected');
+        }
+    }
 });
 
 // Handle click on checkbox

@@ -6,7 +6,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
-            ajax: '{{ route('execfila.getdataParcela') }}'+"/?limit=0",
+            ajax: '{{ route('execfila.getdataParcela') }}'+"/?none=1",
             select: {
                 style: 'multi',
                 info:false
