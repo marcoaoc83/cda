@@ -12,13 +12,8 @@
         <table id="tbIMRes" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
             <thead>
             <tr>
-                <th><input name="select_all" value="1" type="checkbox"></th>
                 <th>Nome</th>
                 <th>Inscr Mun</th>
-                <th>Vencimento</th>
-                <th>Valor</th>
-                <th>Fx Atraso</th>
-                <th>Fx Valor</th>
             </tr>
             </thead>
         </table>

@@ -214,6 +214,10 @@ function filtrarParcelas(){
     var url = "{{ route('execfila.getdataParcela') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
     tbContribuinteRes.ajax.url(url).load();
 
+    var tbIMRes = $('#tbIMRes').DataTable();
+    var url = "{{ route('execfila.getdataParcela') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+    tbIMRes.ajax.url(url).load();
+
     var tbParcela = $('#tbParcela').DataTable();
     var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
     tbParcela.ajax.url(url).load();

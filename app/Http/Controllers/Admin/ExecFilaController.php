@@ -299,7 +299,7 @@ class ExecFilaController extends Controller
             $group='cda_parcela.PessoaId';
         }
         if($request->group=='IM'){
-            $group='cda_parcela.InscrMunId';
+            $group='cda_inscrmun.InscrMunId';
         }
 
         $Parcelas = Parcela::select([
@@ -352,6 +352,7 @@ class ExecFilaController extends Controller
             $collect[$i]['SitPag']=$parcela['SitPag'];
             $collect[$i]['PessoaId']=$parcela['PessoaId'];
             $collect[$i]['INSCRMUNNR']=$parcela['INSCRMUNNR'];
+            $collect[$i]['INSCRMUNID']=$parcela['INSCRMUNID'];
             $collect[$i]['CPFCNPJ']=$doc;
             $collect[$i]['SitCob']=$parcela['SitCob'];
             $collect[$i]['OrigTrib']=$parcela['OrigTrib'];
@@ -804,6 +805,32 @@ class ExecFilaController extends Controller
 
 
         $where=self::filtroParcela($request, $FxAtraso, $FxValor, $arrayFxValor, $arrayFxAtraso);
+
+        $Parcelas = Parcela::select([
+            'cda_parcela.PessoaId'
+        ])
+            ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
+            ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
+            ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
+            ->leftjoin('cda_regtab as  TribT', 'TribT.REGTABID', '=', 'cda_parcela.TributoId')
+            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->leftjoin('cda_modcom', 'cda_roteiro.ModComId', '=', 'cda_modcom.ModComId')
+            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+            ->where('cda_parcela.SitPagId', '61')
+            ->whereRaw($where)
+            ->groupBy('cda_parcela.PessoaId')
+            ->orderBy('cda_parcela.PessoaId')
+            ->get();
+        foreach ($Parcelas as $par){
+            $pessoa[]=$par->PessoaId;
+        }
+        $where=1;
+        if($pessoa){
+            $where.=" AND cda_pscanal.PessoaId in (".implode(',',$pessoa).")";
+        }
         if($request->Canal){
             $where.=" AND cda_pscanal.CanalId = '$request->Canal'";
         }
@@ -1249,7 +1276,10 @@ class ExecFilaController extends Controller
         }
 
         if($request->FilaTrabId){
-            $where.=' AND cda_roteiro.FilaTrabId='.$request->FilaTrabId;
+            if ($request->FilaTrabId==11)
+                $where.=' AND cda_roteiro.FilaTrabId=3';
+            else
+                $where.=' AND cda_roteiro.FilaTrabId='.$request->FilaTrabId;
         }
 
         if($request->roteirosId){
@@ -1337,13 +1367,20 @@ class ExecFilaController extends Controller
         foreach ($Pessoas as $pess){
             $parc[]=$pess->ParcelaId;
         }
+        if($parc)
         $Pessoas=Parcela::select([
             DB::raw("Distinct cda_parcela.ParcelaId"),
             'cda_parcela.PessoaId',
             DB::raw("datediff(NOW(), MIN(VencimentoDt))  as MAX_VENC"),
             DB::raw("SUM(TotalVr)  as Total"),
             DB::raw("COUNT(cda_parcela.ParcelaId)  as Qtde"),
-        ]) ->whereIn('cda_parcela.ParcelaId', $parc)
+        ])
+            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+            ->whereIn('cda_parcela.ParcelaId', $parc)
+            ->where('cda_parcela.SitPagId', '61')
+            ->whereRaw($where)
             ->groupBy('cda_parcela.PessoaId')
             ->get();
 

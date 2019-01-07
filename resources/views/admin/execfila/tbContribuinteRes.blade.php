@@ -45,6 +45,11 @@
             if ( type === 'row' ) {
                 var ContribuinteResId = tbContribuinteRes.rows( indexes ).data().pluck( 'PessoaId' );
                 $('#formFiltroParcela').append('<input type="hidden" id="ContribuinteResId'+ContribuinteResId[0]+'" name="ContribuinteResId[]" value='+ContribuinteResId[0]+' />');
+
+                var tbIMRes = $('#tbIMRes').DataTable();
+                var url = "{{ route('execfila.getdataParcela') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+                tbIMRes.ajax.url(url).load();
+
                 var tbParcela = $('#tbParcela').DataTable();
                 var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
                 tbParcela.ajax.url(url).load();
@@ -53,6 +58,11 @@
             if ( type === 'row' ) {
                 var ContribuinteResId = tbContribuinteRes.rows( indexes ).data().pluck( 'PessoaId' );
                 $( "#ContribuinteResId"+ContribuinteResId[0] ).remove();
+
+                var tbIMRes = $('#tbIMRes').DataTable();
+                var url = "{{ route('execfila.getdataParcela') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
+                tbIMRes.ajax.url(url).load();
+
                 var tbParcela = $('#tbParcela').DataTable();
                 var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
                 tbParcela.ajax.url(url).load();

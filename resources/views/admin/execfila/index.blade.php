@@ -190,6 +190,7 @@
 
     @include('admin.execfila.tbParcela')
     @include('admin.execfila.tbContribuinteRes')
+    @include('admin.execfila.tbIMRes')
     @include('admin.execfila.tbContribuinteResVal')
     @include('admin.execfila.tbContribuinteResTrat')
     @include('admin.execfila.tbContribuinteResIMVal')

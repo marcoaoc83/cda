@@ -72,11 +72,11 @@ var tbParcela = $('#tbParcela').DataTable({
         ],
         columnDefs: [
             {
-            targets: 10,
+            targets: 13,
             className: 'text-right'
             },
             {
-            targets: 11,
+            targets: 14,
             className: 'text-right'
             },
         ],
