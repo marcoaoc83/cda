@@ -1357,6 +1357,7 @@ class ExecFilaController extends Controller
             ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
             ->join('cda_pscanal',  function($join)
             {
                 $join->on('cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId');
@@ -1381,6 +1382,8 @@ class ExecFilaController extends Controller
             ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
             ->whereIn('cda_parcela.ParcelaId', $parc)
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
