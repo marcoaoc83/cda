@@ -101,7 +101,9 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         @include('admin.pessoa.pscanal.index')
                     </div>
-
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        @include('admin.pessoa.pscanalevento.index')
+                    </div>
                 </div>
                 <div class="row tab-pane" id="2a">
                     <p> </p>

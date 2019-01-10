@@ -6,12 +6,13 @@
 @endsection
 @section('content')
 
+
     <!-- page content -->
     <div class="right_col" role="main">
         <div class="">
             <div class="page-title">
                 <div class="title_left">
-                    <h3>Menus</h3>
+                    <h3>Grupos</h3>
                 </div>
             </div>
 
@@ -22,15 +23,14 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Listagem de Menus</h2>
-                            <a href="{{route('menu.create')}}" style="margin-left: 15px" type="button" class="btn btn-success btn-sm ">
+                            <h2>Listagem de Grupos</h2>
+                            <a href="{{route('grupos.create')}}" style="margin-left: 15px" type="button" class="btn btn-success btn-sm ">
                                 <span class="glyphicon glyphicon-plus-sign "  style="color:white" aria-hidden="true"></span>
                                 Adicionar
                             </a>
 
                             <ul class="nav navbar-right panel_toolbox">
-                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                </li>
+                                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                             </ul>
                             <div class="clearfix"></div>
                         </div>
@@ -38,6 +38,7 @@
                             <table class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
                                 <thead>
                                     <tr>
+                                        <th  style="width: 55px">ID</th>
                                         <th>Nome</th>
                                         <th style="width: 55px">Ação</th>
                                     </tr>
@@ -65,11 +66,11 @@
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                ajax: '{{ route('menu.getdata') }}',
+                ajax: '{{ route('grupos.getdata') }}',
                 columns: [
-                    {data: 'menu_nome', name: 'menu_nome'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false},
-                    {data: 'menu_id', name: 'menu_id',visible:false,searchable: false},
+                    {data: 'fun_id',    name: 'fun_id'},
+                    {data: 'fun_nome',  name: 'fun_nome'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 "language": {
                     "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"
@@ -77,10 +78,10 @@
             });
         });
 
-        function deleteLegislacao(dataId) {
+        function deleteGrupos(dataId) {
             swal({
                 title             : "Tem certeza?",
-                text              : "Este registro será deletado!",
+                text              : "Este Grupo será deletado!",
                 type              : "warning",
                 showCancelButton  : true,
                 confirmButtonColor: "#DD6B55",
@@ -95,7 +96,7 @@
                         _method: 'DELETE',
                         _token: '{!! csrf_token() !!}',
                     },
-                    url: '{{ url('admin/menu') }}' + '/' + dataId,
+                    url: '{{ url('admin/grupos') }}' + '/' + dataId,
                     success: function( msg ) {
                         $('.datatable').DataTable().ajax.reload();
                         swal({

@@ -186,6 +186,11 @@
             if ( type === 'row' ) {
                 $('#pnPsCanal #btEditar').removeClass('disabled');
                 $('#pnPsCanal #btDeletar').removeClass('disabled');
+
+                var PsCanalId = tablePsCanal.rows( indexes ).data().pluck( 'PsCanalId' );
+                var tbPsCanalEvento = $('#tbPsCanalEvento').DataTable();
+                var url = "{{ route('pscanalevento.getdata') }}"+"/?pscanal="+PsCanalId[0];
+                tbPsCanalEvento.ajax.url(url).load( );
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {

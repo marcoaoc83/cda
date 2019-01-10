@@ -40,7 +40,12 @@
                     data: 'TipoPos',
                     name: 'TipoPos'
                 },
-                {data: 'action', name: 'action', orderable: false, searchable: false},
+                {
+                    data: 'PsCanalId',
+                    name: 'PsCanalId',
+                    "visible": false,
+                    "searchable": false
+                },
                 {
                     data: 'PsCanalId',
                     name: 'PsCanalId',

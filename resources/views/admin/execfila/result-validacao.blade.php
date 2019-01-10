@@ -16,7 +16,6 @@
                 <th>Fonte</th>
                 <th>Evento</th>
                 <th>Tipo Pos</th>
-                <th>Ação</th>
             </tr>
             </thead>
         </table>

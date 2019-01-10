@@ -550,8 +550,9 @@ class ExecFilaController extends Controller
         if($request->gravar){
             foreach ($dados as $dado){
                 PsCanal::findOrFail($dado['PsCanalId'])->update(['Ativo'=>0]);
+                if( $dado['TransfCtrId'] ==81 && !empty($dado['TransfFilaTrabId']))
                 CanalFila::create([
-                    'cafi_fila' => $dado['FilaTrabId'],
+                    'cafi_fila' => $dado['TransfFilaTrabId'],
                     'cafi_pscanal' => $dado['PsCanalId'],
                     'cafi_evento' => $dado['EventoId'],
                     'cafi_entrada' => Carbon::now()->format('Y-m-d')
@@ -909,6 +910,8 @@ class ExecFilaController extends Controller
                         $Validacao[$x]['PessoaId']=$dado['pessoaid'];
                         $Validacao[$x]['PsCanalId']=$dado['pscanalid'];
                         $Validacao[$x]['EventoId']=$val->EventoId;
+                        $Validacao[$x]['TransfCtrId']=$val->TransfCtrId;
+                        $Validacao[$x]['TransfFilaTrabId']=$val->FilaTrabId;
                         $Validacao[$x]['FilaTrabId']=2;
                         $Validacao[$x]['Nome']=$dado['nome'];
                         $Validacao[$x]['Documento']=$dado['documento'];

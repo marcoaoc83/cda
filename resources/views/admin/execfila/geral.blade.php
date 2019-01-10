@@ -238,7 +238,7 @@ function filtrarValidacao() {
 
     var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
     var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-    tbValidacaoRes.ajax.url(url).load();
+    tbValidacaoRes.ajax.url(url).load();S
 
 }
 function filtrarTratamento() {
