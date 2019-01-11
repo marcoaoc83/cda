@@ -2,7 +2,7 @@
 
     $(document).ready(function() {
 
-        var tbValidacaoRes = $('#tbValidacaoRes').DataTable({
+        var tbCanalRes = $('#tbCanalRes').DataTable({
             processing: false,
             serverSide: false,
             responsive: true,
@@ -40,6 +40,7 @@
                     data: 'TipoPos',
                     name: 'TipoPos'
                 },
+                {data: 'action', name: 'action',"visible": false, orderable: false, searchable: false},
                 {
                     data: 'PsCanalId',
                     name: 'PsCanalId',

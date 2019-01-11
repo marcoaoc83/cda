@@ -29,17 +29,17 @@
             if ( type === 'row' ) {
                 var ContribuinteResIMId =  tbContribuinteResIMVal.rows( indexes ).data().pluck( 'INSCRMUNID' );
                 $('#formFiltroParcela').append('<input type="hidden" class="resIMid" id="ContribuinteResIMId'+ContribuinteResIMId[0]+'" name="ContribuinteResIMId[]" value='+ContribuinteResIMId[0]+' />');
-                var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
+                var tbCanalRes = $('#tbCanalRes').DataTable();
                 var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-                tbValidacaoRes.ajax.url(url).load();
+                tbCanalRes.ajax.url(url).load();
             }
         }).on( 'deselect', function ( e, dt, type, indexes ){
             if ( type === 'row' ) {
                 var ContribuinteResIMId =  tbContribuinteResIMVal.rows( indexes ).data().pluck( 'INSCRMUNID' );
                 $( "#ContribuinteResIMId"+ContribuinteResIMId[0] ).remove();
-                var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
+                var tbCanalRes = $('#tbCanalRes').DataTable();
                 var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-                tbValidacaoRes.ajax.url(url).load();
+                tbCanalRes.ajax.url(url).load();
             }
         });
 

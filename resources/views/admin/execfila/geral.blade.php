@@ -89,7 +89,24 @@
             }
         });
     }
-function abreNovoCanal(pessoa) {
+
+    function filtrar() {
+        $fila=$('#FilaTrabId').val();
+        if($fila==3 || $fila==4 || $fila==5){
+            filtrarParcelas();
+        }
+        if($fila==11){
+            filtrarValidacao();
+        }
+        if($fila==12){
+            filtrarTratamento();
+        }
+        if($fila==13){
+            filtrarHigiene();
+        }
+    }
+
+    function abreNovoCanal(pessoa) {
     $('#myModalPsCanal').modal('show');
     $('#formPsCanal #PessoaId').val(pessoa);
 }
@@ -236,9 +253,9 @@ function filtrarValidacao() {
     var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbContribuinteResIMVal.ajax.url(url).load();
 
-    var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
+    var tbCanalRes = $('#tbCanalRes').DataTable();
     var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-    tbValidacaoRes.ajax.url(url).load();S
+    tbCanalRes.ajax.url(url).load();S
 
 }
 function filtrarTratamento() {
@@ -254,6 +271,21 @@ function filtrarTratamento() {
     var tbCanalExec = $('#tbCanalExec').DataTable();
     var url = "{{ route('execfila.getDadosTratRetorno') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbCanalExec.ajax.url(url).load();
+
+}
+function filtrarHigiene() {
+
+    var tbContribuinteResVal = $('#tbContribuinteResVal').DataTable();
+    var url = "{{ route('execfila.getDadosDataTableHigiene') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+    tbContribuinteResVal.ajax.url(url).load();
+
+    var tbContribuinteResIMVal = $('#tbContribuinteResIMVal').DataTable();
+    var url = "{{ route('execfila.getDadosDataTableHigiene') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+    tbContribuinteResIMVal.ajax.url(url).load();
+
+    var tbCanalRes = $('#tbCanalRes').DataTable();
+    var url = "{{ route('execfila.getDadosDataTableHigiene') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+    tbCanalRes.ajax.url(url).load();
 
 }
 function selectFila(fila) {
@@ -291,7 +323,7 @@ function selectFila(fila) {
 
         if(result.resultado_contribuinte==1){
             $('#divResultContribuinteRes').show();
-            if(fila==11) {
+            if(fila==11 || fila==13) {
                 $('#divResultContribuinteResVal').show();
                 $('#divResultContribuinteRes').hide();
             }
@@ -307,7 +339,7 @@ function selectFila(fila) {
 
         if(result.resultado_im==1){
             $('#divResultIM').show();
-            if(fila==11) {
+            if(fila==11 || fila==13) {
                 $('#divResultContribuinteResIMVal').show();
                 $('#divResultIM').hide();
             }
@@ -328,15 +360,14 @@ function selectFila(fila) {
 
         if(result.resultado_canais==1){
             if(fila==12){
-                $("#divResultValidacaoRes").hide();
+                $("#divResultCanalRes").hide();
                 $("#divResultCanalExec").show();
-            }
-            if(fila==11){
-                $("#divResultValidacaoRes").show();
+            }else{
+                $("#divResultCanalRes").show();
                 $("#divResultCanalExec").hide();
             }
         }else{
-            $('#divResultValidacaoRes').hide();
+            $('#divResultCanalRes').hide();
             $("#divResultCanalExec").hide();
         }
 
@@ -369,21 +400,14 @@ function selectFila(fila) {
         }else{
             $('#divFiltroCanal').hide();
         }
-        $('#divBotaoFiltrarVal').hide();
-        $('#divBotaoFiltrar').show();
-        $('#divBotaoFiltrarTrat').hide();
+
         if(fila==11){
-            $('#divBotaoFiltrarVal').show();
-            $('#divBotaoFiltrar').hide();
-            $('#divBotaoFiltrarTrat').hide();
             $("#execFila").hide();
             $("#execValida").show();
             $("#execTratamento").hide();
         }
         if(fila==12){
-            $('#divBotaoFiltrarVal').hide();
-            $('#divBotaoFiltrar').hide();
-            $('#divBotaoFiltrarTrat').show();
+
             $("#execFila").hide();
             $("#execValida").hide();
             $("#execTratamento").show();
@@ -411,7 +435,7 @@ function selectCanal(canal) {
     var url = "{{ route('execfila.getDadosTratRet') }}"+"/?canal="+canal;
     tbTratRet.ajax.url(url).load();
 
-    var table = $('#tbValidacaoRes').DataTable();
+    var table = $('#tbCanalRes').DataTable();
     table.clear().draw();
     var table = $('#tbCanalExec').DataTable();
     table.clear().draw();

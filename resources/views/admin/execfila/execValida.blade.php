@@ -3,7 +3,7 @@
     $(document).ready(function() {
 
         $('#execValida').on('click', function(e){
-            var table = $('#tbValidacaoRes').DataTable();
+            var table = $('#tbCanalRes').DataTable();
             var data = table.rows().data().toArray();
             var csv =  $('#gCSV').is(':checked');
             var txt =  $('#gTXT').is(':checked');

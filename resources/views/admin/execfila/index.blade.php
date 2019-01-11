@@ -62,31 +62,9 @@
 
                             @include('admin.execfila.filtro-contribuinte')
                             @include('admin.execfila.filtro-parcela')
-                            {{--<div class="item form-group  text-center ">--}}
-                                {{--<div class="col-md-12 col-sm-12 col-xs-12"  data-toggle="buttons">--}}
-                                    {{--<label class="btn btn-default  ">--}}
-                                        {{--<input type="radio" name="tipoexec" id="tipoexecV" value="v" > Validação de Envio--}}
-                                    {{--</label>--}}
-                                    {{--<label class="btn btn-default active">--}}
-                                        {{--<input type="radio" name="tipoexec" id="tipoexecF" value="f" checked="checked"> Execução de Fila--}}
-                                    {{--</label>--}}
-                                    {{--<label class="btn btn-default">--}}
-                                        {{--<input type="radio" name="tipoexec" id="tipoexecT" value="t">  Tratamento de Retorno--}}
-                                    {{--</label>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+
                             <div class="x_panel text-center " style="background-color: #BDBDBD" id="divBotaoFiltrar">
-                                <a class="btn btn-app" id="btfiltrar" onclick="filtrarParcelas()" >
-                                    <i class="fa fa-filter"></i> Filtrar
-                                </a>
-                            </div>
-                            <div class="x_panel text-center " style="background-color: #BDBDBD; display: none" id="divBotaoFiltrarVal">
-                                <a class="btn btn-app" id="btfiltrar" onclick="filtrarValidacao()" >
-                                    <i class="fa fa-filter"></i> Filtrar
-                                </a>
-                            </div>
-                            <div class="x_panel text-center " style="background-color: #BDBDBD; display: none" id="divBotaoFiltrarTrat">
-                                <a class="btn btn-app" id="btfiltrar" onclick="filtrarTratamento()" >
+                                <a class="btn btn-app" id="btfiltrar" onclick="filtrar()" >
                                     <i class="fa fa-filter"></i> Filtrar
                                 </a>
                             </div>
@@ -97,11 +75,10 @@
                         @include('admin.execfila.result-contribuinteVal')
                         @include('admin.execfila.result-contribuinteTrat')
 
-                        {{--@include('admin.execfila.result-contribuinteIMVal')--}}
                         @include('admin.execfila.result-contribuinteIMVal')
                         @include('admin.execfila.result-im')
 
-                        @include('admin.execfila.result-validacao')
+                        @include('admin.execfila.result-canal')
                         @include('admin.execfila.result-canalexec')
                         @include('admin.execfila.result-parcela')
 
@@ -194,7 +171,7 @@
     @include('admin.execfila.tbContribuinteResVal')
     @include('admin.execfila.tbContribuinteResTrat')
     @include('admin.execfila.tbContribuinteResIMVal')
-    @include('admin.execfila.tbValidacaoRes')
+    @include('admin.execfila.tbCanalRes')
     @include('admin.execfila.tbCanalExec')
 
     @include('admin.execfila.execFila')

@@ -36,9 +36,9 @@
                 var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
                 tbContribuinteResIMVal.ajax.url(url).load();
 
-                var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
+                var tbCanalRes = $('#tbCanalRes').DataTable();
                 var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-                tbValidacaoRes.ajax.url(url).load();
+                tbCanalRes.ajax.url(url).load();
             }
         }).on( 'deselect', function ( e, dt, type, indexes ){
             if ( type === 'row' ) {
@@ -50,9 +50,9 @@
                 var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
                 tbContribuinteResIMVal.ajax.url(url).load();
 
-                var tbValidacaoRes = $('#tbValidacaoRes').DataTable();
+                var tbCanalRes = $('#tbCanalRes').DataTable();
                 var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-                tbValidacaoRes.ajax.url(url).load();
+                tbCanalRes.ajax.url(url).load();
             }
         });
 
