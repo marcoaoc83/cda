@@ -264,9 +264,9 @@ function filtrarTratamento() {
     var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbContribuinteResTrat.ajax.url(url).load();
 
-    {{--var tbContribuinteResIMVal = $('#tbContribuinteResIMTrat').DataTable();--}}
-    {{--var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();--}}
-    {{--tbContribuinteResIMVal.ajax.url(url).load();--}}
+    var tbContribuinteResIMVal = $('#tbContribuinteResIMTrat').DataTable();
+    var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+    tbContribuinteResIMVal.ajax.url(url).load();
 
     var tbCanalExec = $('#tbCanalExec').DataTable();
     var url = "{{ route('execfila.getDadosTratRetorno') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();

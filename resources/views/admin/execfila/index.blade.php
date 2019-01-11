@@ -76,6 +76,7 @@
                         @include('admin.execfila.result-contribuinteTrat')
 
                         @include('admin.execfila.result-contribuinteIMVal')
+                        @include('admin.execfila.result-contribuinteIMTrat')
                         @include('admin.execfila.result-im')
 
                         @include('admin.execfila.result-canal')
@@ -171,6 +172,7 @@
     @include('admin.execfila.tbContribuinteResVal')
     @include('admin.execfila.tbContribuinteResTrat')
     @include('admin.execfila.tbContribuinteResIMVal')
+    @include('admin.execfila.tbContribuinteResIMTrat')
     @include('admin.execfila.tbCanalRes')
     @include('admin.execfila.tbCanalExec')
 
