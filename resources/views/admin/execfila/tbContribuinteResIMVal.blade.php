@@ -28,18 +28,30 @@
          tbContribuinteResIMVal.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
                 var ContribuinteResIMId =  tbContribuinteResIMVal.rows( indexes ).data().pluck( 'INSCRMUNID' );
-                $('#formFiltroParcela').append('<input type="hidden" class="resIMid" id="ContribuinteResIMId'+ContribuinteResIMId[0]+'" name="ContribuinteResIMId[]" value='+ContribuinteResIMId[0]+' />');
-                var tbCanalRes = $('#tbCanalRes').DataTable();
-                var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-                tbCanalRes.ajax.url(url).load();
+                $('#formFiltroParcela').append('<input type="hidden" class="resIMid filtroRes"   id="ContribuinteResIMId'+ContribuinteResIMId[0]+'" name="ContribuinteResIMId[]" value='+ContribuinteResIMId[0]+' />');
+                if($("#FilaTrabId").val()!=13) {
+                    var tbCanalRes = $('#tbCanalRes').DataTable();
+                    var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+                    tbCanalRes.ajax.url(url).load();
+                }else{
+                    var tbCanalRes = $('#tbCanalExec').DataTable();
+                    var url = "{{ route('execfila.getDadosTratRetorno') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val() + '&Canal=' + $('#CanalId').val();
+                    tbCanalRes.ajax.url(url).load();
+                }
             }
         }).on( 'deselect', function ( e, dt, type, indexes ){
             if ( type === 'row' ) {
                 var ContribuinteResIMId =  tbContribuinteResIMVal.rows( indexes ).data().pluck( 'INSCRMUNID' );
                 $( "#ContribuinteResIMId"+ContribuinteResIMId[0] ).remove();
-                var tbCanalRes = $('#tbCanalRes').DataTable();
-                var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-                tbCanalRes.ajax.url(url).load();
+                if($("#FilaTrabId").val()!=13) {
+                    var tbCanalRes = $('#tbCanalRes').DataTable();
+                    var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+                    tbCanalRes.ajax.url(url).load();
+                }else{
+                    var tbCanalRes = $('#tbCanalExec').DataTable();
+                    var url = "{{ route('execfila.getDadosTratRetorno') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val() + '&Canal=' + $('#CanalId').val();
+                    tbCanalRes.ajax.url(url).load();
+                }
             }
         });
 

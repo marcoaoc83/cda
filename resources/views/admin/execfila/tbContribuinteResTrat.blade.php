@@ -30,7 +30,7 @@
             if ( type === 'row' ) {
                 $( ".resIMid" ).remove();
                 var ContribuinteResId =  tbContribuinteResTrat.rows( indexes ).data().pluck( 'PessoaId' );
-                $('#formFiltroParcela').append('<input type="hidden" id="ContribuinteResId'+ContribuinteResId[0]+'" name="ContribuinteResId[]" value='+ContribuinteResId[0]+' />');
+                $('#formFiltroParcela').append('<input type="hidden"  class="filtroRes" id="ContribuinteResId'+ContribuinteResId[0]+'" name="ContribuinteResId[]" value='+ContribuinteResId[0]+' />');
 
                 var tbContribuinteResIMTrat = $('#tbContribuinteResIMTrat').DataTable();
                 var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
@@ -46,9 +46,9 @@
                 var ContribuinteResId =  tbContribuinteResTrat.rows( indexes ).data().pluck( 'PessoaId' );
                 $( "#ContribuinteResId"+ContribuinteResId[0] ).remove();
 
-                {{--var tbContribuinteResIMTrat = $('#tbContribuinteResIMTrat').DataTable();--}}
-                {{--var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();--}}
-                {{--tbContribuinteResIMTrat.ajax.url(url).load();--}}
+                var tbContribuinteResIMTrat = $('#tbContribuinteResIMTrat').DataTable();
+                var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
+                tbContribuinteResIMTrat.ajax.url(url).load();
 
                 var tbCanalExec = $('#tbCanalExec').DataTable();
                 var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();

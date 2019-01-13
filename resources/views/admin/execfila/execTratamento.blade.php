@@ -2,8 +2,8 @@
 
     $(document).ready(function() {
 
-        $('#execValida').on('click', function(e){
-            var table = $('#tbCanalRes').DataTable();
+        $('#execTratamento').on('click', function(e){
+            var table = $('#tbCanalExec').DataTable();
             var data = table.rows().data().toArray();
             var csv =  $('#gCSV').is(':checked');
             var txt =  $('#gTXT').is(':checked');
@@ -14,7 +14,7 @@
                     type: 'POST',
                     data: {
                         _token: '{!! csrf_token() !!}',
-                        dados:JSON.stringify(data),
+                        dados: $('#formParcelas').serialize(),
                         csv:csv,
                         gravar:gravar,
                         txt:txt
@@ -24,7 +24,7 @@
                         swal({
                             position: 'top-end',
                             type: 'success',
-                            title: 'Execução de Validação enviada para lista de tarefas!',
+                            title: 'Execução de Tratamento enviada para lista de tarefas!',
                             showConfirmButton: false,
                             timer: 1500
                         })

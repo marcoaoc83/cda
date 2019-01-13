@@ -44,7 +44,7 @@
         tbContribuinteRes.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
                 var ContribuinteResId = tbContribuinteRes.rows( indexes ).data().pluck( 'PessoaId' );
-                $('#formFiltroParcela').append('<input type="hidden" id="ContribuinteResId'+ContribuinteResId[0]+'" name="ContribuinteResId[]" value='+ContribuinteResId[0]+' />');
+                $('#formFiltroParcela').append('<input type="hidden" class="filtroRes"  id="ContribuinteResId'+ContribuinteResId[0]+'" name="ContribuinteResId[]" value='+ContribuinteResId[0]+' />');
 
                 var tbIMRes = $('#tbIMRes').DataTable();
                 var url = "{{ route('execfila.getdataParcela') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();

@@ -6,7 +6,7 @@
             processing: true,
             serverSide: true,
             responsive: true,
-            ajax: '{{ route('execfila.getDadosValidarAll') }}'+"/?none=1",
+            ajax: '{{ route('execfila.getDadosTratRetorno') }}'+"/?none=1",
             select: {
                 style: 'multi',
                 info:false
@@ -28,7 +28,7 @@
          tbContribuinteResIMTrat.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
                 var ContribuinteResIMId =  tbContribuinteResIMTrat.rows( indexes ).data().pluck( 'INSCRMUNID' );
-                $('#formFiltroParcela').append('<input type="hidden" class="resIMid" id="ContribuinteResIMId'+ContribuinteResIMId[0]+'" name="ContribuinteResIMId[]" value='+ContribuinteResIMId[0]+' />');
+                $('#formFiltroParcela').append('<input type="hidden" class="resIMid filtroRes" id="ContribuinteResIMId'+ContribuinteResIMId[0]+'" name="ContribuinteResIMId[]" value='+ContribuinteResIMId[0]+' />');
                 var tbCanalRes = $('#tbCanalRes').DataTable();
                 var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
                 tbCanalRes.ajax.url(url).load();
@@ -37,9 +37,9 @@
             if ( type === 'row' ) {
                 var ContribuinteResIMId =  tbContribuinteResIMTrat.rows( indexes ).data().pluck( 'INSCRMUNID' );
                 $( "#ContribuinteResIMId"+ContribuinteResIMId[0] ).remove();
-                var tbCanalRes = $('#tbCanalRes').DataTable();
+                var tbCanalExec = $('#tbCanalExec').DataTable();
                 var url = "{{ route('execfila.getDadosTratRetorno') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-                tbCanalRes.ajax.url(url).load();
+                tbCanalExec.ajax.url(url).load();
             }
         });
 

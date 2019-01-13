@@ -50,7 +50,8 @@ class ExecFilaController extends Controller
         $FonteInfoId=\App\Models\RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','FonteInfo')->get();
         $Canal=\App\Models\Canal::get();
         $TipPos=\App\Models\RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','TpPos')->get();
-        return view('admin.execfila.index',compact('FilaTrab','Canal','FonteInfoId','TipPos'));
+        $Trat=TratRet::all();
+        return view('admin.execfila.index',compact('FilaTrab','Canal','FonteInfoId','TipPos','Trat'));
     }
 
     /**
@@ -305,6 +306,7 @@ class ExecFilaController extends Controller
         $Parcelas = Parcela::select([
             'cda_parcela.*',
             'cda_inscrmun.INSCRMUNNR',
+            'cda_inscrmun.INSCRMUNID',
             'cda_pessoa.CPF_CNPJNR',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
             DB::raw("datediff(NOW(), VencimentoDt)  as Atraso"),
@@ -691,7 +693,12 @@ class ExecFilaController extends Controller
             $Validacao[$x]['Nome']=$dado['nome'];
             $Validacao[$x]['Documento']=$dado['documento'];
             $Validacao[$x]['Canal']=$dado['canalsg'];
+            $Validacao[$x]['CanalId']=$dado['canalid'];
+            $Validacao[$x]['INSCRMUNID']=$dado['inscrmunid'];
+            $Validacao[$x]['INSCRMUNNR']=$dado['inscrmunnr'];
             $Validacao[$x]['Evento']="";
+            $Validacao[$x]['Fonte']="";
+            $Validacao[$x]['TipoPos']="";
             $Validacao[$x]['Dados']=trim($Dados);
             $Validacao[$x]['Lote']=trim($linha->Lote);
             $Validacao[$x]['Notificacao']=trim($linha->efpa_id);
@@ -720,9 +727,9 @@ class ExecFilaController extends Controller
         $collection = collect($Validacao);
         return Datatables::of($collection)->addColumn('action', function ($var) {
             return '
-                <a onclick="abreTratRetorno('.$var['PessoaId'].','.$var['PsCanalId'].')"  class="btn btn-xs btn-primary">
+                <a onclick="abreTratRetorno('.$var['PessoaId'].','.$var['PsCanalId'].','.$var['CanalId'].')"  class="btn btn-xs btn-primary">
                     <i class="glyphicon glyphicon-edit"></i>
-                    Retornar
+                    Retorno
                 </a>
                 ';
         })->make(true);
@@ -744,6 +751,7 @@ class ExecFilaController extends Controller
             'OrigTribT.REGTABSG as OrigTrib',
             'TribT.REGTABSG as Trib',
             'cda_carteira.CARTEIRASG as Carteira',
+            'cda_modcom.ModComSg as Modelo',
             DB::raw("sum(cda_parcela.TotalVr)  as TotalVr2"),
             DB::raw("if(cda_pessoa.PESSOANMRS IS NULL,'Não Informado',cda_pessoa.PESSOANMRS) as Nome"),
         ])
@@ -753,6 +761,7 @@ class ExecFilaController extends Controller
             ->leftjoin('cda_regtab as  TribT', 'TribT.REGTABID', '=', 'cda_parcela.TributoId')
             ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->join('cda_modcom', 'cda_roteiro.ModComId', '=', 'cda_modcom.ModComId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->join('cda_execfila_pscanal_parcela', 'cda_execfila_pscanal_parcela.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
@@ -779,6 +788,7 @@ class ExecFilaController extends Controller
             $collect[$i]['SitPag']=$parcela['SitPag'];
             $collect[$i]['PessoaId']=$parcela['PessoaId'];
             $collect[$i]['INSCRMUNNR']=$parcela['INSCRMUNNR'];
+            $collect[$i]['Modelo']=$parcela['Modelo'];
             $collect[$i]['CPFCNPJ']=$doc;
             $collect[$i]['SitCob']=$parcela['SitCob'];
             $collect[$i]['OrigTrib']=$parcela['OrigTrib'];
@@ -1313,6 +1323,10 @@ class ExecFilaController extends Controller
             $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$request->ContribuinteResId).')';
         }
 
+        if($request->IMRes){
+            $where.=' AND cda_inscrmun.INSCRMUNID IN ('.implode(',',$request->IMRes).')';
+        }
+
         if($request->SitPagId){
             $where.=' AND cda_parcela.SitPagId IN ('.implode(',',$request->SitPagId).')';
         }
@@ -1612,5 +1626,67 @@ class ExecFilaController extends Controller
                 <a onclick="abreEditaCanal('.$var['PessoaId'].','.$var['PsCanalId'].')"  class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Editar</a>
                 ';
         })->make(true);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function tratar(Request $request)
+    {
+        $dados=(json_decode($request->dados, true));
+        $tarefa=Tarefas::create([
+            'tar_categoria' => 'execTratamento',
+            'tar_titulo' => 'Execução de Fila – Tratamento Retorno',
+            'tar_user' => auth()->id(),
+            'tar_inicio' => date("Y-m-d H:i:s"),
+            'tar_final' => date("Y-m-d H:i:s"),
+            'tar_status' => 'Finalizado'
+        ]);
+        if($request->csv){
+            $targetpath=storage_path("../public/export");
+            $file=md5(uniqid(rand(), true));
+            $csv= Excel::create($file, function($excel) use ($dados) {
+                $excel->sheet('mySheet', function($sheet) use ($dados)
+                {
+                    $sheet->fromArray($dados);
+                });
+            })->store("csv",$targetpath);
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
+            $Tarefa->update([
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".csv' target='_blank'>Arquivo - CSV</a></h6>"
+            ]);
+        }
+        if($request->txt){
+            $targetpath=storage_path("../public/export");
+            $file=md5(uniqid(rand(), true));
+            $csv= Excel::create($file, function($excel) use ($dados) {
+                $excel->sheet('mySheet', function($sheet) use ($dados)
+                {
+                    $sheet->fromArray($dados);
+                });
+            })->store("txt",$targetpath);
+
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
+            $Tarefa->update([
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".txt' target='_blank'>Arquivo - TXT</a></h6>"
+            ]);
+        }
+        if($request->gravar){
+            $PsTratRetId=null;
+            parse_str($request->dados);
+            foreach ($PsTratRetId as $val){
+                $vals=explode("_",$val);
+                CanalFila::create([
+                    'cafi_fila' =>13,
+                    'cafi_pscanal' => $vals[0],
+                    'cafi_evento' =>$vals[1],
+                    'cafi_entrada' => Carbon::now()->format('Y-m-d')
+                ]);
+            }
+        }
+        return \response()->json(true);
     }
 }

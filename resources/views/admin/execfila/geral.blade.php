@@ -92,6 +92,7 @@
 
     function filtrar() {
         $fila=$('#FilaTrabId').val();
+        $('.filtroRes').remove();
         if($fila==3 || $fila==4 || $fila==5){
             filtrarParcelas();
         }
@@ -109,7 +110,7 @@
     function abreNovoCanal(pessoa) {
     $('#myModalPsCanal').modal('show');
     $('#formPsCanal #PessoaId').val(pessoa);
-}
+    }
 
 function abreEditaCanal(pessoa,canal) {
     $('#myModalPsCanalEdita').modal('show');
@@ -214,7 +215,14 @@ function abreEditaCanal(pessoa,canal) {
     });
 
 }
+function abreTratRetorno (pessoa,pscanal,canal) {
+    $('#myModalRetorno').modal('show');
+    $('#formRetorno #PessoaId').val(pessoa);
+    $('#formRetorno #PsCanalId').val(pscanal);
+    $('#formRetorno #CanalId').val(canal);
+    $('.TratCanal'+canal).show();
 
+}
 function addRoteiro(obj) {
     console.log(obj);
     if ( $( "#roteirosId"+obj.value ).length ) {
@@ -322,14 +330,19 @@ function selectFila(fila) {
         }
 
         if(result.resultado_contribuinte==1){
+            $('#divResultContribuinteRes').hide();
+            $('#divResultContribuinteResVal').hide();
+            $('#divResultContribuinteResTrat').hide();
             $('#divResultContribuinteRes').show();
             if(fila==11 || fila==13) {
                 $('#divResultContribuinteResVal').show();
                 $('#divResultContribuinteRes').hide();
+                $('#divResultContribuinteResTrat').hide();
             }
             if(fila==12) {
                 $('#divResultContribuinteResTrat').show();
                 $('#divResultContribuinteRes').hide();
+                $('#divResultContribuinteResVal').hide();
             }
         }else{
             $('#divResultContribuinteRes').hide();
@@ -338,18 +351,24 @@ function selectFila(fila) {
         }
 
         if(result.resultado_im==1){
+            $('#divResultIM').hide();
+            $('#divResultContribuinteResIMVal').hide();
+            $('#divResultContribuinteResIMTrat').hide();
             $('#divResultIM').show();
             if(fila==11 || fila==13) {
                 $('#divResultContribuinteResIMVal').show();
                 $('#divResultIM').hide();
+                $('#divResultContribuinteResIMTrat').hide();
             }
             if(fila==12) {
-                $('#divResultContribuinteResIMVal').show();
+                $('#divResultContribuinteResIMTrat').show();
                 $('#divResultIM').hide();
+                $('#divResultContribuinteResIMVal').hide();
             }
         }else{
             $('#divResultIM').hide();
             $('#divResultContribuinteResIMVal').hide();
+            $('#divResultContribuinteResIMTrat').hide();
         }
 
         if(result.resultado_parcelas==1){
@@ -400,7 +419,9 @@ function selectFila(fila) {
         }else{
             $('#divFiltroCanal').hide();
         }
-
+        $("#execFila").show();
+        $("#execValida").hide();
+        $("#execTratamento").hide();
         if(fila==11){
             $("#execFila").hide();
             $("#execValida").show();
@@ -577,6 +598,16 @@ $(document).ready(function() {
                     $("#formPsCanal").trigger('reset');
                 }
             });
+        return false;
+    });
+
+    $('#formRetorno').on('submit', function (e) {
+        $('input[type="checkbox"]:checked').each(function () {
+            $('#formParcelas').append('<input type="hidden" id="PsTratRetId'+$(this).val()+'" name="PsTratRetId[]" value="'+$("#formRetorno #PsCanalId").val()+'_'+$(this).val()+'"  />');
+        });
+
+        $("#formRetorno").trigger('reset');
+        $('#myModalRetorno').modal('toggle');
         return false;
     });
 });

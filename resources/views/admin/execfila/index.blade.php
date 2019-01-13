@@ -2,6 +2,12 @@
 @section('styles')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/select/1.1.2/css/select.dataTables.min.css" rel="stylesheet">
+    <style>
+        .modal-full {
+            min-width: 95%;
+        }
+
+    </style>
 @endsection
 @section('content')
     <!-- page content -->
@@ -85,6 +91,7 @@
 
                         @include('admin.execfila.novo-canal')
                         @include('admin.execfila.edita-canal')
+                        @include('admin.execfila.novo-retorno')
 
 
 
@@ -126,6 +133,8 @@
                             <a class="btn btn-app "    id="execTratamento" style="display: none">
                                 <i class="fa fa-save"></i> Executar
                             </a>
+                            <form id="formTratRetorno" >
+                            </form>
                         </div>
                     </div>
 
@@ -178,4 +187,5 @@
 
     @include('admin.execfila.execFila')
     @include('admin.execfila.execValida')
+    @include('admin.execfila.execTratamento')
 @endpush

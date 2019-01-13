@@ -29,7 +29,7 @@
         tbIMRes.on( 'select', function ( e, dt, type, indexes ) {
             if ( type === 'row' ) {
                 var IMRes = tbIMRes.rows( indexes ).data().pluck( 'INSCRMUNID' );
-                $('#formFiltroParcela').append('<input type="hidden" id="IMRes'+IMRes[0]+'" name="IMRes[]" value='+IMRes[0]+' />');
+                $('#formFiltroParcela').append('<input type="hidden" class="filtroRes" id="IMRes'+IMRes[0]+'" name="IMRes[]" value='+IMRes[0]+' />');
                 var tbParcela = $('#tbParcela').DataTable();
                 var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
                 tbParcela.ajax.url(url).load();
