@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use PDO;
 
 class DistribuicaoJob implements ShouldQueue
@@ -66,7 +67,7 @@ class DistribuicaoJob implements ShouldQueue
                   (cda_parcela.SitPagId = 61) LIMIT $this->page,50";
         $consulta= DB::select($sql_prime);
 
-        $where="";
+
         foreach ($consulta as $parcelas){
             DB::beginTransaction();
             try {
@@ -81,8 +82,9 @@ class DistribuicaoJob implements ShouldQueue
                                 From
                                   cda_carteira";
                 $consulta_carteiras = DB::select($sql_carteiras);
-                foreach ($consulta_carteiras as $carteiras) {
 
+                foreach ($consulta_carteiras as $carteiras) {
+                    $where="";
                     $sql2 = "Select
                           cda_entcart.CarteiraId,
                           cda_entcart.EntCartId,
@@ -101,7 +103,7 @@ class DistribuicaoJob implements ShouldQueue
                     foreach ($consulta2 as $linha2) {
                         $where .= " " . $linha2->REGTABSQL;
                     }
-
+                    Log::notice($where);
                     $sql_pric = "SELECT ParcelaId FROM cda_parcela WHERE ParcelaId =" . $parcelas->ParcelaId;
                     $sql_pric .= $where;
 
