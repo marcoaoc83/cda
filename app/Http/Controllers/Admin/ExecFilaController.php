@@ -104,7 +104,7 @@ class ExecFilaController extends Controller
             ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
-            ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
             ->whereIn('cda_parcela.ParcelaId',explode(',',$request->parcelas))
             ->groupBy('cda_parcela.ParcelaId')
             ->orderBy('cda_parcela.ParcelaId')
@@ -327,7 +327,7 @@ class ExecFilaController extends Controller
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->leftjoin('cda_modcom', 'cda_roteiro.ModComId', '=', 'cda_modcom.ModComId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
-            ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
             ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
@@ -765,7 +765,7 @@ class ExecFilaController extends Controller
             ->join('cda_modcom', 'cda_roteiro.ModComId', '=', 'cda_modcom.ModComId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->join('cda_execfila_pscanal_parcela', 'cda_execfila_pscanal_parcela.ParcelaId', '=', 'cda_parcela.ParcelaId')
-            ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
             ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
             ->where("cda_execfila_pscanal_parcela.Lote",$request->lote)
             ->where("cda_execfila_pscanal_parcela.Notificacao",$request->notificacao)
@@ -831,7 +831,7 @@ class ExecFilaController extends Controller
             ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->leftjoin('cda_modcom', 'cda_roteiro.ModComId', '=', 'cda_modcom.ModComId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
-            ->leftjoin('cda_inscrmun', 'cda_inscrmun.PESSOAID', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
             ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
@@ -852,7 +852,7 @@ class ExecFilaController extends Controller
             $where.=' AND cda_pessoa.PessoaId IN ('.implode(',',$request->ContribuinteResId).')';
         }
         if($request->ContribuinteResIMId && ($request->group!='IM')){
-            $where.=' AND cda_inscrmun.INSCRMUNID IN ('.implode(',',$request->ContribuinteResIMId).')';
+            $where.=' AND cda_pscanal.InscrMunId IN ('.implode(',',$request->ContribuinteResIMId).')';
         }
         $Validacao=[];
         $x=0;
@@ -1326,7 +1326,7 @@ class ExecFilaController extends Controller
         }
 
         if($request->IMRes){
-            $where.=' AND cda_inscrmun.INSCRMUNID IN ('.implode(',',$request->IMRes).')';
+            $where.=' AND cda_parcela.InscrMunId IN ('.implode(',',$request->IMRes).')';
         }
 
         if($request->SitPagId){
@@ -1530,7 +1530,7 @@ class ExecFilaController extends Controller
             $where.=' AND cda_pessoa.PessoaId IN ('.implode(',',$request->ContribuinteResId).')';
         }
         if($request->ContribuinteResIMId && ($request->group!='IM')){
-            $where.=' AND cda_inscrmun.INSCRMUNID IN ('.implode(',',$request->ContribuinteResIMId).')';
+            $where.=' AND cda_pscanal.InscrMunId IN ('.implode(',',$request->ContribuinteResIMId).')';
         }
         $Validacao=[];
         $x=0;

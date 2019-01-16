@@ -112,6 +112,12 @@
                     name: 'ParcelaId',
                     "visible": false,
                     "searchable": false
+                },
+                {
+                    data: 'InscrMunId',
+                    name: 'InscrMunId',
+                    "visible": false,
+                    "searchable": false
                 }
             ],
             select: {
@@ -235,6 +241,7 @@
             $('#pnParcela #formEditar #DescontoVr').val(linha['DescontoVr']);
             $('#pnParcela #formEditar #Honorarios').val(linha['Honorarios']);
             $('#pnParcela #formEditar #TotalVr').val(linha['TotalVr']);
+            $('#pnParcela #formEditar #InscrMunId').val(linha['InscrMunId']);
 
         });
 
