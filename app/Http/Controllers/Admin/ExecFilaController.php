@@ -664,7 +664,8 @@ class ExecFilaController extends Controller
                 'cda_pessoa.CPF_CNPJNR as Documento',
                 DB::raw('IF(cda_pscanal.LogradouroId IS NOT NULL , CONCAT_WS(" ",cda_logradouro.logr_tipo,cda_logradouro.logr_nome),cda_pscanal.Logradouro) AS Logradouro'),
                 DB::raw('IF(cda_pscanal.BairroId IS NOT NULL ,cda_bairro.bair_nome,cda_pscanal.Bairro) AS Bairro'),
-                DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade')
+                DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade'),
+                DB::raw('IF(cda_cidade.cida_uf IS NOT NULL , cda_cidade.cida_uf,cda_pscanal.UF) AS UF')
             ])
                 ->leftjoin('cda_regtab as FonteInfoId', 'FonteInfoId.REGTABID', '=', 'cda_pscanal.FonteInfoId')
                 ->leftjoin('cda_regtab as TipPosId', 'TipPosId.REGTABID', '=', 'cda_pscanal.TipPosId')
@@ -880,7 +881,8 @@ class ExecFilaController extends Controller
             'cda_pessoa.CPF_CNPJNR as Documento',
             DB::raw('IF(cda_pscanal.LogradouroId IS NOT NULL , CONCAT_WS(" ",cda_logradouro.logr_tipo,cda_logradouro.logr_nome),cda_pscanal.Logradouro) AS Logradouro'),
             DB::raw('IF(cda_pscanal.BairroId IS NOT NULL ,cda_bairro.bair_nome,cda_pscanal.Bairro) AS Bairro'),
-            DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade')
+            DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade'),
+            DB::raw('IF(cda_cidade.cida_uf IS NOT NULL , cda_cidade.cida_uf,cda_pscanal.UF) AS UF')
         ])
             ->leftjoin('cda_regtab as FonteInfoId', 'FonteInfoId.REGTABID', '=', 'cda_pscanal.FonteInfoId')
             ->leftjoin('cda_regtab as TipPosId', 'TipPosId.REGTABID', '=', 'cda_pscanal.TipPosId')
@@ -1547,7 +1549,7 @@ class ExecFilaController extends Controller
             'cda_pscanal.Email',
             'cda_pscanal.BairroId',
             'cda_pscanal.CidadeId',
-            'cda_cidade.cida_uf as UF',
+            
             'FonteInfoId.REGTABSG as FonteInfo',
             'TipPosId.REGTABNM as TipPos',
             'cda_canal.CANALSG',
@@ -1558,7 +1560,8 @@ class ExecFilaController extends Controller
             'cda_evento.*',
             DB::raw('IF(cda_pscanal.LogradouroId IS NOT NULL , CONCAT_WS(" ",cda_logradouro.logr_tipo,cda_logradouro.logr_nome),cda_pscanal.Logradouro) AS Logradouro'),
             DB::raw('IF(cda_pscanal.BairroId IS NOT NULL ,cda_bairro.bair_nome,cda_pscanal.Bairro) AS Bairro'),
-            DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade')
+            DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade'),
+            DB::raw('IF(cda_cidade.cida_uf IS NOT NULL , cda_cidade.cida_uf,cda_pscanal.UF) AS UF')
         ])
             ->leftjoin('cda_regtab as FonteInfoId', 'FonteInfoId.REGTABID', '=', 'cda_pscanal.FonteInfoId')
             ->leftjoin('cda_regtab as TipPosId', 'TipPosId.REGTABID', '=', 'cda_pscanal.TipPosId')
