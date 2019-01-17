@@ -295,6 +295,12 @@ class ExecFilaController extends Controller
         $limit=100000;
 
         $where=self::filtroParcela($request,$FxAtraso,$FxValor,$arrayFxValor,$arrayFxAtraso);
+
+        if(empty($where)){
+            $collection = collect([]);
+            return Datatables::of($collection)->make(true);
+        }
+
         $group=['cda_parcela.ParcelaId','cda_roteiro.CarteiraId'];
         if($request->group=='Pes'){
             $group='cda_parcela.PessoaId';
@@ -820,6 +826,10 @@ class ExecFilaController extends Controller
 
         $where=self::filtroParcela($request, $FxAtraso, $FxValor, $arrayFxValor, $arrayFxAtraso);
 
+        if(empty($where)){
+            $collection = collect([]);
+            return Datatables::of($collection)->make(true);
+        }
         $Parcelas = Parcela::select([
             'cda_parcela.PessoaId'
         ])
@@ -1378,7 +1388,8 @@ class ExecFilaController extends Controller
             ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
             ->join('cda_pscanal',  function($join)
             {
-                $join->on('cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId');
+                $join->on('cda_inscrmun.INSCRMUNID', '=', 'cda_pscanal.InscrMunId');
+                $join->on( 'cda_roteiro.CanalId', '=', 'cda_pscanal.CanalId');
                 $join->where('cda_pscanal.Ativo','=', 1);
             })
             ->where('cda_parcela.SitPagId', '61')
@@ -1389,24 +1400,27 @@ class ExecFilaController extends Controller
         foreach ($Pessoas as $pess){
             $parc[]=$pess->ParcelaId;
         }
-        if($parc)
-        $Pessoas=Parcela::select([
-            DB::raw("Distinct cda_parcela.ParcelaId"),
-            'cda_parcela.PessoaId',
-            DB::raw("datediff(NOW(), MIN(VencimentoDt))  as MAX_VENC"),
-            DB::raw("SUM(TotalVr)  as Total"),
-            DB::raw("COUNT(cda_parcela.ParcelaId)  as Qtde"),
-        ])
-            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
-            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
-            ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
-            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
-            ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
-            ->whereIn('cda_parcela.ParcelaId', $parc)
-            ->where('cda_parcela.SitPagId', '61')
-            ->whereRaw($where)
-            ->groupBy('cda_parcela.PessoaId')
-            ->get();
+        if($parc) {
+            $where.=" AND cda_parcela.ParcelaId IN (".implode(',',$parc).")";
+            $Pessoas = Parcela::select([
+                DB::raw("Distinct cda_parcela.ParcelaId"),
+                'cda_parcela.PessoaId',
+                DB::raw("datediff(NOW(), MIN(VencimentoDt))  as MAX_VENC"),
+                DB::raw("SUM(TotalVr)  as Total"),
+                DB::raw("COUNT(cda_parcela.ParcelaId)  as Qtde"),
+            ])
+                ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+                ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+                ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+                ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+                ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
+                ->where('cda_parcela.SitPagId', '61')
+                ->whereRaw($where)
+                ->groupBy('cda_parcela.PessoaId')
+                ->get();
+        }else{
+            return false;
+        }
 
         $arrayFxAtraso=[];
 
