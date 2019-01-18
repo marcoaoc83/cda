@@ -14,7 +14,8 @@
                     type: 'POST',
                     data: {
                         _token: '{!! csrf_token() !!}',
-                        dados: $('#formParcelas').serialize(),
+                        PsTratRetId: $('.PsTratRetId').serialize(),
+                        dados: JSON.stringify(data),
                         csv:csv,
                         gravar:gravar,
                         txt:txt

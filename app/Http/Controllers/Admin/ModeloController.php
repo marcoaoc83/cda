@@ -155,8 +155,10 @@ table_schema = '".DB::getDatabaseName()."'");
         ";
         $html.=$request->html;
         $html=str_replace("{{BREAK}}","<div class='page-break'></div>",$html);
-        $html=str_replace('border="0"','border="1"',$html);
-        $html=str_replace("</tbody>","",$html);
+
+        $html=str_replace('pt;','px;',$html);
+        $html=str_replace('0.0001px;','0.0001pt;',$html);
+
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('b4')
             ->setWarnings(false)

@@ -638,7 +638,7 @@ class ExecFilaController extends Controller
         $x=0;
         $Validacao=[];
         foreach ($resultado as $linha){
-            $where=1;
+            $where=" (cda_canal_fila.cafi_entrada is null or cda_canal_fila.cafi_saida is not null)";
             if($request->ContribuinteResId){
                 $where.=' AND cda_pscanal.PessoaId IN ('.implode(',',$request->ContribuinteResId).')';
             }
@@ -681,7 +681,9 @@ class ExecFilaController extends Controller
                 ->leftjoin('cda_bairro', 'cda_bairro.bair_id', '=', 'cda_pscanal.BairroId')
                 ->leftjoin('cda_cidade', 'cda_cidade.cida_id', '=', 'cda_pscanal.CidadeId')
                 ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId')
+                ->leftjoin('cda_canal_fila', 'cda_canal_fila.cafi_pscanal', '=', 'cda_pscanal.PsCanalId')
                 ->where('cda_pscanal.PsCanalId',$linha->PsCanalId)
+                ->where('cda_pscanal.CanalId',$request->Canal)
                 ->whereRaw($where)
                 ->first();
 
@@ -733,12 +735,14 @@ class ExecFilaController extends Controller
         }
         $collection = collect($Validacao);
         return Datatables::of($collection)->addColumn('action', function ($var) {
-            return '
-                <a onclick="abreTratRetorno('.$var['PessoaId'].','.$var['PsCanalId'].','.$var['CanalId'].')"  class="btn btn-xs btn-primary">
-                    <i class="glyphicon glyphicon-edit"></i>
-                    Retorno
-                </a>
-                ';
+            $sel='<select id="PsTratRetId'.$var['PsCanalId'].'" name="PsTratRetId[]" class="PsTratRetId">
+                    <option value=""> </option>';
+            $Trat=TratRet::where('CanalId',$var['CanalId'])->orderBy('RetornoCd')->get();
+            foreach($Trat as $value){
+                $sel.='<option value="'.$var['PsCanalId'].'_'.$value->EventoId.'">'.$value->RetornoCd.'</option>';
+            }
+            $sel.='</select>';
+            return $sel;
         })->make(true);
     }
 
@@ -1006,7 +1010,7 @@ class ExecFilaController extends Controller
     {
         //dd('oi');
         $TarefaId=1;
-        $parcelas='149302,149306,149310,149314,149315,36539,42884,119460,120715';
+        $parcelas='9,10,11,12,13,14';
         $Gravar=false;
         $Fila=3;
 
@@ -1083,8 +1087,8 @@ class ExecFilaController extends Controller
                 ->where('RoteiroId',$linha->RoteiroId)
                 ->orderBy('PrioridadeNr')->get();
             $pscanal=null;
-            $pkCount = (is_array($tppos) ? count($tppos) : 0);
-            if ($pkCount == 0){
+
+            if(count($tppos)>0){
                 foreach ($tppos as $tp) {
                     $pscanal = PsCanal::where("PessoaId", $linha->PESSOAID)
                         ->where('TipPosId', $tp->TpPosId)
@@ -1102,7 +1106,7 @@ class ExecFilaController extends Controller
 
             if(!isset($pscanal->PsCanalId)) continue;
 
-            if($Gravar){
+            if($this->Gravar){
                 $sql="INSERT INTO cda_pcevento SET ";
                 $sql.="PESSOAID='".$linha->PESSOAID."',";
                 $sql.="INSCRMUNID='".$linha->INSCRMUNID."',";
@@ -1161,7 +1165,8 @@ class ExecFilaController extends Controller
         $html=str_replace("{{BREAK}}","<div class='page-break'></div>",$html);
 
 
-
+        $html=str_replace('pt;','px;',$html);
+        $html=str_replace('0.0001px;','0.0001pt;',$html);
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
         $pdf->save($dir.$file);
@@ -1662,7 +1667,7 @@ class ExecFilaController extends Controller
             'tar_final' => date("Y-m-d H:i:s"),
             'tar_status' => 'Finalizado'
         ]);
-        if($request->csv){
+        if(filter_var($request->csv, FILTER_VALIDATE_BOOLEAN)){
             $targetpath=storage_path("../public/export");
             $file=md5(uniqid(rand(), true));
             $csv= Excel::create($file, function($excel) use ($dados) {
@@ -1676,7 +1681,7 @@ class ExecFilaController extends Controller
                 'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".csv' target='_blank'>Arquivo - CSV</a></h6>"
             ]);
         }
-        if($request->txt){
+        if(filter_var($request->txt, FILTER_VALIDATE_BOOLEAN)){
             $targetpath=storage_path("../public/export");
             $file=md5(uniqid(rand(), true));
             $csv= Excel::create($file, function($excel) use ($dados) {
@@ -1692,9 +1697,9 @@ class ExecFilaController extends Controller
             ]);
         }
         if($request->gravar){
-            $PsTratRetId=null;
-            parse_str($request->dados);
-            foreach ($PsTratRetId as $val){
+            $arr=null;
+            parse_str($request->PsTratRetId,$arr);
+            foreach ($arr['PsTratRetId'] as $val){
                 $vals=explode("_",$val);
                 CanalFila::create([
                     'cafi_fila' =>13,

@@ -14,7 +14,8 @@
             ajax: "{{ route('execfila.getDadosTratRetorno') }}" + "/?none=1",
             select: {
                 style: 'single',
-                info: false
+                info: false,
+                selector:':not(:last-child)'
             },
             columns: [
                 {
