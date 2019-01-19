@@ -371,7 +371,13 @@ class ExecFilaController extends Controller
             $collect[$i]['VencimentoDt']=$parcela['VencimentoDt']->format('d/m/Y');
             $collect[$i]['TotalVr']="R$ ".number_format($parcela['TotalVr2'],2,',','.');
             $collect[$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['PessoaId']]]['Desc']:'';
+            if($request->group=='IM'){
+                $collect[$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['InscrMunId']]]['Desc']:'';
+            }
             $collect[$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['PessoaId']]]['Desc']:'';
+            if($request->group=='IM'){
+                $collect[$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['InscrMunId']]]['Desc']:'';
+            }
             $collect[$i]['ParcelaId']=$parcela['ParcelaId'];
             $i++;
         }
@@ -1405,11 +1411,18 @@ class ExecFilaController extends Controller
         foreach ($Pessoas as $pess){
             $parc[]=$pess->ParcelaId;
         }
+
+        $grp="cda_parcela.PessoaId";
+        if($request->group=='IM'){
+            $grp="cda_parcela.InscrMunId";
+        }
+
         if($parc) {
             $where.=" AND cda_parcela.ParcelaId IN (".implode(',',$parc).")";
             $Pessoas = Parcela::select([
                 DB::raw("Distinct cda_parcela.ParcelaId"),
                 'cda_parcela.PessoaId',
+                'cda_parcela.InscrMunId',
                 DB::raw("datediff(NOW(), MIN(VencimentoDt))  as MAX_VENC"),
                 DB::raw("SUM(TotalVr)  as Total"),
                 DB::raw("COUNT(cda_parcela.ParcelaId)  as Qtde"),
@@ -1421,7 +1434,7 @@ class ExecFilaController extends Controller
                 ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
                 ->where('cda_parcela.SitPagId', '61')
                 ->whereRaw($where)
-                ->groupBy('cda_parcela.PessoaId')
+                ->groupBy($grp)
                 ->get();
         }else{
             return false;
@@ -1464,10 +1477,18 @@ class ExecFilaController extends Controller
                 if($pessoa['MAX_VENC']>$value['Min']){
                     if($value['Max']){
                         if($pessoa['MAX_VENC']<=$value['Max']){
-                            $FxAtraso[$pessoa['PessoaId']]=$key;
+                            if($request->group=='IM'){
+                                $FxAtraso[$pessoa['InscrMunId']]=$key;
+                            }else{
+                                $FxAtraso[$pessoa['PessoaId']]=$key;
+                            }
                         }
                     }else{
-                        $FxAtraso[$pessoa['PessoaId']]=$key;
+                        if($request->group=='IM'){
+                            $FxAtraso[$pessoa['InscrMunId']]=$key;
+                        }else{
+                            $FxAtraso[$pessoa['PessoaId']]=$key;
+                        }
                     }
                 }
             }
@@ -1476,14 +1497,27 @@ class ExecFilaController extends Controller
                 if($pessoa['Total']>$value['Min']){
                     if($value['Max']){
                         if($pessoa['Total']<=$value['Max']){
-                            $FxValor[$pessoa['PessoaId']]=$key;
+                            if($request->group=='IM'){
+                                $FxValor[$pessoa['InscrMunId']]=$key;
+                            }else{
+                                $FxValor[$pessoa['PessoaId']]=$key;
+                            }
                         }
                     }else{
-                        $FxValor[$pessoa['PessoaId']]=$key;
+                        if($request->group=='IM'){
+                            $FxValor[$pessoa['InscrMunId']]=$key;
+                        }else{
+                            $FxValor[$pessoa['PessoaId']]=$key;
+                        }
                     }
                 }
             }
-            $seqValor[$pessoa['Total']]=$pessoa['PessoaId'];
+            if($request->group=='IM'){
+                $seqValor[$pessoa['Total']]=$pessoa['InscrMunId'];
+            }else{
+                $seqValor[$pessoa['Total']]=$pessoa['PessoaId'];
+            }
+
         }
 
         if($request->nmaiores){
@@ -1507,19 +1541,31 @@ class ExecFilaController extends Controller
         }
 
         if($FxAtraso){
-            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',array_keys($FxAtraso)).')';
+            if($request->group=='IM') {
+                $where .= ' AND cda_parcela.InscrMunId IN (' . implode(',', array_keys($FxAtraso)) . ')';
+            }else{
+                $where .= ' AND cda_parcela.PessoaId IN (' . implode(',', array_keys($FxAtraso)) . ')';
+            }
         }elseif($request->FxAtrasoId){
             $where.=' AND cda_parcela.PessoaId IN (0)';
         }
 
         if($FxValor){
-            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',array_keys($FxValor)).')';
+            if($request->group=='IM') {
+                $where .= ' AND cda_parcela.InscrMunId IN (' . implode(',', array_keys($FxValor)) . ')';
+            }else{
+                $where .= ' AND cda_parcela.PessoaId IN (' . implode(',', array_keys($FxValor)) . ')';
+            }
         }elseif($request->FxValorId){
             $where.=' AND cda_parcela.PessoaId IN (0)';
         }
 
         if($Nqtde){
-            $where.=' AND cda_parcela.PessoaId IN ('.implode(',',$Nqtde).')';
+            if($request->group=='IM') {
+                $where .= ' AND cda_parcela.InscrMunId IN (' .implode(',',$Nqtde).')';
+            }else{
+                $where .= ' AND cda_parcela.PessoaId IN (' .implode(',',$Nqtde).')';
+            }
         }
         return $where;
     }

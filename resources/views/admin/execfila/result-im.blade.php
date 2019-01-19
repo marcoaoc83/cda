@@ -14,6 +14,10 @@
             <tr>
                 <th>Nome</th>
                 <th>Inscr Mun</th>
+                <th>Vencimento</th>
+                <th style="text-align: right">Valor</th>
+                <th>Fx Atraso</th>
+                <th>Fx Valor</th>
             </tr>
             </thead>
         </table>

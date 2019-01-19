@@ -14,12 +14,18 @@
             columns: [
                 {data: 'Nome', name: 'Nome'},
                 {data: 'INSCRMUNNR', name: 'INSCRMUNNR'},
+                {data: 'VencimentoDt', name: 'VencimentoDt'},
+                {data: 'TotalVr', name: 'TotalVr'},
+                {data: 'FxAtraso', name: 'FxAtraso'},
+                {data: 'FxValor', name: 'FxValor'},
                 {
                     data: 'INSCRMUNID',
                     name: 'INSCRMUNID',
+
                     "visible": false,
                     "searchable": false
                 }
+
             ],
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Portuguese-Brasil.json"

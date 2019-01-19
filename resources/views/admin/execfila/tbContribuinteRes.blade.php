@@ -14,7 +14,7 @@
             columns: [
                 {data: 'Nome', name: 'Nome'},
                 {data: 'CPFCNPJ', name: 'CPFCNPJ'},
-                {data: 'INSCRMUNNR', name: 'INSCRMUNNR'},
+
                 {data: 'VencimentoDt', name: 'VencimentoDt'},
                 {data: 'TotalVr', name: 'TotalVr'},
                 {data: 'FxAtraso', name: 'FxAtraso'},
