@@ -1016,7 +1016,7 @@ class ExecFilaController extends Controller
     {
         //dd('oi');
         $TarefaId=1;
-        $parcelas='9,10,11,12,13,14';
+        $parcelas='5,6,7,8,9,10,11,12,13,14';
         $Gravar=false;
         $Fila=3;
 
@@ -1043,7 +1043,7 @@ class ExecFilaController extends Controller
               cda_parcela.PESSOAID,
               cda_parcela.SITPAGID,
               cda_parcela.SITCOBID,
-              cda_parcela.INSCRMUNID,
+              cda_parcela.INSCRMUNID as IM,
               cda_parcela.ORIGTRIBID,
               cda_parcela.LancamentoDt,
               cda_parcela.VencimentoDt,
@@ -1089,6 +1089,7 @@ class ExecFilaController extends Controller
         $parcelas= DB::select($sql." GROUP BY cda_parcela.ParcelaId");
 
         foreach ($parcelas as $linha){
+            $campoPrincipal=$linha->IM;
             $tppos=PrRotCanal::where('CarteiraId',$linha->CarteiraId)
                 ->where('RoteiroId',$linha->RoteiroId)
                 ->orderBy('PrioridadeNr')->get();
@@ -1096,7 +1097,7 @@ class ExecFilaController extends Controller
 
             if(count($tppos)>0){
                 foreach ($tppos as $tp) {
-                    $pscanal = PsCanal::where("PessoaId", $linha->PESSOAID)
+                    $pscanal = PsCanal::where("InscrMunId", $campoPrincipal)
                         ->where('TipPosId', $tp->TpPosId)
                         ->where('Ativo', 1)
                         ->first();
@@ -1105,7 +1106,7 @@ class ExecFilaController extends Controller
                     }
                 }
             }else{
-                $pscanal = PsCanal::where("PessoaId", $linha->PESSOAID)
+                $pscanal = PsCanal::where("InscrMunId", $campoPrincipal)
                     ->where('Ativo', 1)
                     ->first();
             }
@@ -1145,7 +1146,7 @@ class ExecFilaController extends Controller
                 $logradouro=Logradouro::find($pscanal->LogradouroId);
                 if($logradouro) $linha->logradouro= $logradouro->logr_tipo.' '.$logradouro->logr_nome.','.$pscanal->EnderecoNr.'<br>'.$bairro.'<br>'.$cidade;
                 $linha->PsCanalId=$pscanal->PsCanalId;
-                $filas[$modelo][$linha->PESSOAID][] = $linha;
+                $filas[$modelo][$campoPrincipal][] = $linha;
 
             }
         }

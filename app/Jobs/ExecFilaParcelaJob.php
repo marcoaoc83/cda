@@ -85,7 +85,7 @@ class ExecFilaParcelaJob implements ShouldQueue
               cda_parcela.PESSOAID,
               cda_parcela.SITPAGID,
               cda_parcela.SITCOBID,
-              cda_parcela.INSCRMUNID,
+              cda_parcela.INSCRMUNID AS IM,
               cda_parcela.ORIGTRIBID,
               cda_parcela.LancamentoDt,
               cda_parcela.VencimentoDt,
@@ -127,7 +127,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                cda_parcela.PARCELAID in (".$this->parcelas.") and SaidaDt is Null and ModComId > 0";
 
 
-        Log::info($sql." GROUP BY cda_parcela.ParcelaId");
+        //Log::info($sql." GROUP BY cda_parcela.ParcelaId");
         $parcelas= DB::select($sql." GROUP BY cda_parcela.ParcelaId");
 
         foreach ($parcelas as $linha){
@@ -138,7 +138,7 @@ class ExecFilaParcelaJob implements ShouldQueue
 
             if(count($tppos)>0){
                 foreach ($tppos as $tp) {
-                    $pscanal = PsCanal::where("PessoaId", $linha->PESSOAID)
+                    $pscanal = PsCanal::where("InscrMunId", $linha->IM)
                         ->where('TipPosId', $tp->TpPosId)
                         ->where('Ativo', 1)
                         ->first();
@@ -147,7 +147,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                     }
                 }
             }else{
-                $pscanal = PsCanal::where("PessoaId", $linha->PESSOAID)
+                $pscanal = PsCanal::where("InscrMunId", $linha->IM)
                     ->where('Ativo', 1)
                     ->first();
             }
@@ -187,7 +187,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                 $logradouro=Logradouro::find($pscanal->LogradouroId);
                 if($logradouro) $linha->logradouro= $logradouro->logr_tipo.' '.$logradouro->logr_nome.','.$pscanal->EnderecoNr.'<br>'.$bairro.'<br>'.$cidade;
                 $linha->PsCanalId=$pscanal->PsCanalId;
-                $filas[$modelo][$linha->PESSOAID][] = $linha;
+                $filas[$modelo][$linha->IM][] = $linha;
 
             }
         }
@@ -213,7 +213,8 @@ class ExecFilaParcelaJob implements ShouldQueue
         $html=str_replace("{{BREAK}}","<div class='page-break'></div>",$html);
 
 
-
+        $html=str_replace('pt;','px;',$html);
+        $html=str_replace('0.0001px;','0.0001pt;',$html);
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
         $pdf->save($dir.$file);
@@ -241,8 +242,7 @@ class ExecFilaParcelaJob implements ShouldQueue
             $NotificacaoNR = str_pad($NotificacaoNR, 10, "0", STR_PAD_LEFT);
             $ExecFila = ExecFila::find($Notificacao->Lote);
         }
-        $ANOLANC1=$TRIB1=$VENC1=$ParcelaVr1=$JMD1=$HONOR1=$TOTAL1='';
-        $PRINCT=$JMDT=$HONORT=$TOTALT=0;
+
 
         $Variaveis=RegTab::where('TABSYSID',46)->get();
 
@@ -308,7 +308,8 @@ class ExecFilaParcelaJob implements ShouldQueue
                                 if (strpos($valor, '-') !== false) {
                                     $valor = Carbon::createFromFormat('Y-m-d', $linha->$campo)->format('d/m/Y');
                                 }else{
-                                    $valor =number_format($linha->$campo, 2, ',', '.');
+                                    if(is_numeric($linha->$campo))
+                                        $valor =number_format($linha->$campo, 2, ',', '.');
                                 }
                                 $result[$i][self::soLetra($sg) . $i] = $valor;
                             }

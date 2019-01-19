@@ -103,7 +103,7 @@ class DistribuicaoJob implements ShouldQueue
                     foreach ($consulta2 as $linha2) {
                         $where .= " " . $linha2->REGTABSQL;
                     }
-                    Log::notice($where);
+                    //Log::notice($where);
                     $sql_pric = "SELECT ParcelaId FROM cda_parcela WHERE ParcelaId =" . $parcelas->ParcelaId;
                     $sql_pric .= $where;
 
