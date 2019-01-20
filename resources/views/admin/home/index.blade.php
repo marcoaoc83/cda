@@ -5,6 +5,7 @@
 @section('content')
     <!-- page content -->
     <form id="formFiltro">
+        {{ csrf_field() }}
         <div class="right_col" role="main">
             <div class="row top_tiles" style="margin: 10px 0;">
                 <div class="col-md-9">
@@ -65,58 +66,52 @@
                             </div>
                             <div class="x_content" style="background-color: #dfeef0">
                                 <h5>Origem</h5>
-                                <button type="button" class="btn btn-default btn-xs  filt" id="origemIMOB" value="IMOB" >IMOB</button>
-                                <button type="button" class="btn btn-default btn-xs  filt" id="origemIMOB" value="MOB" >MOB</button>
-                                <button type="button" class="btn btn-default btn-xs  filt" id="origemIMOB" value="PESSOA" >PESSOA</button>
+                                @foreach ($Origem as  $value)
+                                    <button type="button" class="btn btn-default btn-xs filt" data-nome="OrigemTrib" value="{{$value->REGTABID}}">{{$value->REGTABSG}}</button>
+                                @endforeach
                             </div>
                             <div class="x_content" style="background-color: #dfeef0">
                                 <h5>Carteira</h5>
-                                <button type="button" class="btn btn-default btn-xs filt">Ano</button>
-                                <button type="button" class="btn btn-default btn-xs filt">DAT</button>
-                                <button type="button" class="btn btn-default btn-xs filt">NLD</button>
-                                <button type="button" class="btn btn-default btn-xs filt">PC</button>
-                                <button type="button" class="btn btn-default btn-xs filt">PPI</button>
-                                <button type="button" class="btn btn-default btn-xs filt">PPI E PC</button>
-                                <button type="button" class="btn btn-default btn-xs filt">REFIS</button>
+                                @foreach ($Carteira as  $value)
+                                    <button type="button" class="btn btn-default btn-xs filt" data-nome="Carteira" value="{{$value->CARTEIRAID}}">{{$value->CARTEIRASG}}</button>
+                                @endforeach
                             </div>
                             <div class="x_content" style="background-color: #dfeef0">
                                 <h5>Fase</h5>
-                                <button type="button" class="btn btn-default btn-xs filt">Cob Adm</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Exec Fisc</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Hig Cad</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Prot Tit</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Ret Com</button>
+                                @foreach ($Fase as  $value)
+                                    <button type="button" class="btn btn-default btn-xs filt" data-nome="Fase" value="{{$value->REGTABID}}">{{$value->REGTABSG}}</button>
+                                @endforeach
                             </div>
                             <div class="x_content" style="background-color: #dfeef0">
                                 <h5>Faixa Atraso</h5>
                                 @foreach ($FxAtraso as  $value)
-                                    <button type="button" class="btn btn-default btn-xs filt">{{$value->REGTABSG}}</button>
+                                    <button type="button" class="btn btn-default btn-xs filt" data-nome="FxAtraso" value="{{$value->REGTABID}}">{{$value->REGTABSG}}</button>
                                 @endforeach
                             </div>
                             <div class="x_content" style="background-color: #dfeef0">
                                 <h5>Ano</h5>
                                 @for($x=2013;$x<=date('Y');$x++)
-                                    <button type="button" class="btn btn-default btn-xs filt">{{$x}}</button>
+                                    <button type="button" class="btn btn-default btn-xs filt" data-nome="Ano" value="{{$x}}">{{$x}}</button>
                                 @endfor
                             </div>
                             <div class="x_content" style="background-color: #dfeef0">
                                 <h5>Mês</h5>
-                                <button type="button" class="btn btn-default btn-xs filt">Jan</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Fev</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Mar</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Abr</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Mai</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Jun</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Jul</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Ago</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Set</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Out</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Nov</button>
-                                <button type="button" class="btn btn-default btn-xs filt">Dez</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="1">Jan</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="2">Fev</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="3">Mar</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="4">Abr</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="5">Mai</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="6">Jun</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="7">Jul</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="8">Ago</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="9">Set</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="10">Out</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="11">Nov</button>
+                                <button type="button" class="btn btn-default btn-xs filt" data-nome="Mes" value="12">Dez</button>
 
                             </div>
                             <div class="x_content text-center">
-                                <button type="button" class="btn btn-success btn-sm">Filtrar</button>
+                                <button type="button" class="btn btn-success btn-sm" id="filtrarGrafico">Filtrar</button>
                             </div>
                         </div>
                 </div>
@@ -129,31 +124,39 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script>
-        var data = [
-                { y: '2011', a: 400000 },
-                { y: '2012', a: 670000 },
-                { y: '2013', a: 450000 },
-                { y: '2014', a: 500000 },
-                { y: '2015', a: 650000 },
-                { y: '2016', a: 500000 },
-                { y: '2017', a: 750000 },
-                { y: '2018', a: 800000 },
-            ],
-            config = {
-                data: data,
-                xkey: 'y',
-                ykeys: ['a'],
-                labels: ['Total'],
-                fillOpacity: 0.6,
-                hideHover: 'auto',
-                behaveLikeLine: true,
-                resize: true,
-                pointFillColors:['#ffffff'],
-                pointStrokeColors: ['black'],
-                lineColors:['#26B99A' ]
-            };
-        config.element = 'area-chart';
-        Morris.Area(config);
+        function chartAcionamentos() {
+            $('#area-chart').empty();
+            $.ajax({
+                url:"{{route('graficos.acionamentos')}}",
+                type : 'POST',
+                dataType: "json",
+                data: {
+                    dados: $('#formFiltro').serialize(),
+                    _token: '{!! csrf_token() !!}',
+                },
+                success : function(response){
+                        config = {
+                            data: response,
+                            xkey: 'y',
+                            ykeys: ['a'],
+                            labels: ['Total'],
+                            fillOpacity: 0.6,
+                            hideHover: 'auto',
+                            behaveLikeLine: true,
+                            resize: true,
+                            pointFillColors:['#ffffff'],
+                            pointStrokeColors: ['black'],
+                            lineColors:['#26B99A' ]
+                        };
+                    config.element = 'area-chart';
+                    Morris.Area(config);
+                },
+                error : function() {
+                    console.log('Error');
+                }
+            });
+        };
+
 
         Morris.Donut({
             element: 'pie-chart-origem',
@@ -221,6 +224,21 @@
 
             $(this).button('toggle');
             $(this).button('dispose');
+            $(this).trigger("blur");
+            $nome=$( this ).data( "nome" );
+            $valor=$( this ).val();
+            if( $( this ).hasClass( "active" )){
+                $('#formFiltro').append('<input type="hidden" id="'+$nome+$valor+'" name="'+$nome+'[]" value='+$valor+' />');
+            }else{
+                $( "#formFiltro #"+$nome+$valor ).remove();
+            }
+
+        });
+        $(document).ready(function() {
+            chartAcionamentos();
+            $('#filtrarGrafico').click(function () {
+                chartAcionamentos();
+            })
         });
     </script>
 @endpush

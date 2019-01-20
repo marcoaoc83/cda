@@ -164,6 +164,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                 $sql.="CARTEIRAID='".$linha->CarteiraId."',";
                 $sql.="FILATRABID='".$linha->FilaTrabId."',";
                 $sql.="PSCANALID='".$pscanal->PsCanalId."',";
+                $sql.="ROTEIROID='".$linha->ROTEIROID."',";
                 $sql.="MODCOMID='".$linha->ModComId."'";
                 DB::beginTransaction();
                 try {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Carteira;
 use App\Models\Parcela;
 use App\User;
 use Illuminate\Http\Request;
@@ -30,9 +31,15 @@ class AdminController extends Controller
 
             $parcela_sum_aberta = DB::table('cda_parcela')->where("SitPagId", "61")->sum('TotalVr');
             $parcela_sum_aberta = number_format($parcela_sum_aberta, 2, ',', '.');
+            $Origem = DB::select("Select cda_regtab.REGTABID, cda_regtab.REGTABSG, cda_regtab.REGTABNM From cda_regtab Where cda_regtab.TABSYSID = 16");
+            $Carteira = Carteira::all();
+            $Fase = DB::select("Select cda_regtab.REGTABID, cda_regtab.REGTABSG, cda_regtab.REGTABNM From cda_regtab Where cda_regtab.TABSYSID = 11");
             $FxAtraso = DB::select("Select cda_regtab.REGTABID, cda_regtab.REGTABSG, cda_regtab.REGTABNM From cda_regtab Where cda_regtab.TABSYSID = 32");
             return view('admin.home.index',
                 compact(
+                    'Origem',
+                    'Carteira',
+                    'Fase',
                     'FxAtraso',
                     'parcela_qtde',
                     'parcela_qtde_aberta',
