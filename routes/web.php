@@ -274,4 +274,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::resource('admin/grupos', 'GruposController');
 
     Route::post('admin/graficos/acionamentos', 'GraficosController@acionamentos')->name('graficos.acionamentos');
+    Route::post('admin/graficos/origem', 'GraficosController@origem')->name('graficos.origem');
+    Route::post('admin/graficos/carteira', 'GraficosController@carteira')->name('graficos.carteira');
+    Route::post('admin/graficos/fase', 'GraficosController@fase')->name('graficos.fase');
 });

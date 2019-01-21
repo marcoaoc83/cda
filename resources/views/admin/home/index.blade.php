@@ -156,43 +156,79 @@
                 }
             });
         };
+        function chartOrigem() {
+            $('#pie-chart-origem').empty();
+            $.ajax({
+                url:"{{route('graficos.origem')}}",
+                type : 'POST',
+                dataType: "json",
+                data: {
+                    dados: $('#formFiltro').serialize(),
+                    _token: '{!! csrf_token() !!}',
+                },
+                success : function(response){
+                    config = {
+                        data: response,
+                        colors:["#172D44","#26B99A","#8BE1CF"]
+                    };
+                    config.element = 'pie-chart-origem';
+                    Morris.Donut(config);
+                },
+                error : function() {
+                    console.log('Error');
+                }
+            });
+        };
+        function chartCarteira() {
+            $('#pie-chart-carteira').empty();
+            $.ajax({
+                url:"{{route('graficos.carteira')}}",
+                type : 'POST',
+                dataType: "json",
+                data: {
+                    dados: $('#formFiltro').serialize(),
+                    _token: '{!! csrf_token() !!}',
+                },
+                success : function(response){
+                    config = {
+                        data: response,
+                        colors:["#172D44","#26B99A","#8BE1CF","RED","YELLOW","GRAY"],
+                        formatter:function (y, data) { return y + '%'}
+                    };
+                    config.element = 'pie-chart-carteira';
+                    Morris.Donut(config);
+                },
+                error : function() {
+                    console.log('Error');
+                }
+            });
+        };
 
 
-        Morris.Donut({
-            element: 'pie-chart-origem',
-            data: [
-                {label: "Pessoa", value: 17000},
-                {label: "Mobiliario", value: 197000},
-                {label: "Imobiliario", value: 414000}
-            ],
-            colors:["#172D44","#26B99A","#8BE1CF"]
-        });
-        Morris.Donut({
-            element: 'pie-chart-carteira',
-            data: [
-                {label: "DAT", value: 68.56},
-                {label: "PPI", value: 2},
-                {label: "Ano", value: 12.88},
-                {label: "NLD", value: 4.26},
-                {label: "PC", value: 3.7},
-                {label: "REFIS", value: 5.56},
-            ],
-            colors:["#172D44","#26B99A","#8BE1CF","RED","YELLOW","GRAY"],
-            formatter:function (y, data) { return y + '%'}
-        });
-        Morris.Donut({
-            element: 'pie-chart-fase',
-            data: [
-                {label: "Cob Adm", value: 68.56},
-                {label: "Exec Fisc", value: 2},
-                {label: "Hig Cad", value: 8.88},
-                {label: "Prot Tit", value: 12.26},
-                {label: "Ret Com", value: 3.7},
-            ],
-            colors:["#26B99A","#172D44","#8BE1CF","RED","YELLOW","GRAY"],
-            formatter:function (y, data) { return y + '%'}
-        });
-
+        function chartFase() {
+            $('#pie-chart-fase').empty();
+            $.ajax({
+                url:"{{route('graficos.fase')}}",
+                type : 'POST',
+                dataType: "json",
+                data: {
+                    dados: $('#formFiltro').serialize(),
+                    _token: '{!! csrf_token() !!}',
+                },
+                success : function(response){
+                    config = {
+                        data: response,
+                        colors:["#172D44","#26B99A","#8BE1CF","RED","YELLOW","GRAY"],
+                        formatter:function (y, data) { return y + '%'}
+                    };
+                    config.element = 'pie-chart-fase';
+                    Morris.Donut(config);
+                },
+                error : function() {
+                    console.log('Error');
+                }
+            });
+        };
         var data = [
                 { y: '0..1m', a: 400000 },
                 { y: '1..3m', a: 670000 },
@@ -236,8 +272,14 @@
         });
         $(document).ready(function() {
             chartAcionamentos();
+            chartOrigem();
+            chartCarteira();
+            chartFase();
             $('#filtrarGrafico').click(function () {
                 chartAcionamentos();
+                chartOrigem();
+                chartCarteira();
+                chartFase();
             })
         });
     </script>

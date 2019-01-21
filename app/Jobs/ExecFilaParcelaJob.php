@@ -98,7 +98,7 @@ class ExecFilaParcelaJob implements ShouldQueue
               cda_parcela.TotalVr,
               TRIB.REGTABSG as TRIBUTONM,
               cda_pcrot.SaidaDt,
-              cda_roteiro.RoteiroId,
+              cda_roteiro.RoteiroId as idRoteiro,
               cda_roteiro.CarteiraId,
               cda_roteiro.FaseCartId,
               cda_roteiro.EventoId,
@@ -164,7 +164,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                 $sql.="CARTEIRAID='".$linha->CarteiraId."',";
                 $sql.="FILATRABID='".$linha->FilaTrabId."',";
                 $sql.="PSCANALID='".$pscanal->PsCanalId."',";
-                $sql.="ROTEIROID='".$linha->ROTEIROID."',";
+                $sql.="ROTEIROID='".$linha->idRoteiro."',";
                 $sql.="MODCOMID='".$linha->ModComId."'";
                 DB::beginTransaction();
                 try {

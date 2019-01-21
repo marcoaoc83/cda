@@ -295,6 +295,10 @@ function filtrarHigiene() {
     var url = "{{ route('execfila.getDadosDataTableHigiene') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbCanalRes.ajax.url(url).load();
 
+   tbCanalRes.column(6).visible(true);
+
+
+
 }
 function selectFila(fila) {
     $('#divFiltros').show();
