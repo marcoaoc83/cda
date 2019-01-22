@@ -12,7 +12,8 @@
                 <form id="formPsCanal"  class="form-horizontal form-label-left" >
                     {{ csrf_field() }}
                     <input type="hidden" name="PessoaId" id="PessoaId">
-
+                    <input type="hidden" name="PsCanalId" id="PsCanalId">
+                    <input type="hidden" id="higiene"     name="higiene" value="1">
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FonteInfoId">Fonte </label><span class="required">*</span>
                         <div class="col-md-6 col-sm-6 col-xs-12">

@@ -95,7 +95,7 @@
 
 
 
-                    <form  id="formParcelas" method="post" action="{{ route('execfila.store') }}" >
+                    <form  id="formParcelas" class="noHigiene" method="post" action="{{ route('execfila.store') }}" >
                         {{ csrf_field() }}
                         <input type="hidden" id="filaId" name="filaId">
                         <input type="hidden" id="parcelas" name="parcelas">
@@ -121,7 +121,7 @@
                         </div>
                     </form>
 
-                    <div class="x_panel text-center">
+                    <div class="x_panel text-center noHigiene ">
 
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                             <a class="btn btn-app "    id="execFila">

@@ -107,9 +107,10 @@
         }
     }
 
-    function abreNovoCanal(pessoa) {
+    function abreNovoCanal(pessoa,canal) {
     $('#myModalPsCanal').modal('show');
     $('#formPsCanal #PessoaId').val(pessoa);
+    $('#formPsCanal #PsCanalId').val(canal);
     }
 
 function abreEditaCanal(pessoa,canal) {
@@ -263,7 +264,9 @@ function filtrarValidacao() {
 
     var tbCanalRes = $('#tbCanalRes').DataTable();
     var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
-    tbCanalRes.ajax.url(url).load();S
+    tbCanalRes.ajax.url(url).load();
+
+    tbCanalRes.column(6).visible(false);
 
 }
 function filtrarTratamento() {
@@ -302,6 +305,10 @@ function filtrarHigiene() {
 }
 function selectFila(fila) {
     $('#divFiltros').show();
+    $(".noHigiene").show();
+    if(fila==13){
+        $(".noHigiene").hide();
+    }
     $.ajax({
         type: 'GET',
         dataType: 'json',
@@ -431,13 +438,13 @@ function selectFila(fila) {
             $("#execValida").show();
             $("#execTratamento").hide();
         }
+
         if(fila==12){
 
             $("#execFila").hide();
             $("#execValida").hide();
             $("#execTratamento").show();
         }
-
 
     }
 });
@@ -547,7 +554,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#formEditar').on('submit', function (e) {
+    $('#myModalPsCanalEdita #formEditar').on('submit', function (e) {
         var formData = $('#formEditar').serialize();
 
         $.ajax({
@@ -565,7 +572,8 @@ $(document).ready(function() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    tablePsCanal.ajax.reload();
+                    var tbCanalRes = $('#tbCanalRes').DataTable();
+                    tbCanalRes.ajax.reload();
                 }
             },
             error: function (retorno) {
@@ -598,7 +606,8 @@ $(document).ready(function() {
                         showConfirmButton: false,
                         timer: 1500
                     });
-                    tablePsCanal.ajax.reload();
+                    var tbCanalRes = $('#tbCanalRes').DataTable();
+                    tbCanalRes.ajax.reload();
                     $("#formPsCanal").trigger('reset');
                 }
             });

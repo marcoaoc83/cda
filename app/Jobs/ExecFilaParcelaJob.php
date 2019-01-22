@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Http\Controllers\Admin\ModeloController;
 use App\Models\Bairro;
+use App\Models\CanalFila;
 use App\Models\Cidade;
 use App\Models\ExecFila;
 use App\Models\ExecFilaPsCanal;
@@ -129,7 +130,7 @@ class ExecFilaParcelaJob implements ShouldQueue
 
         //Log::info($sql." GROUP BY cda_parcela.ParcelaId");
         $parcelas= DB::select($sql." GROUP BY cda_parcela.ParcelaId");
-
+        $arrPsCanal=[];
         foreach ($parcelas as $linha){
             $tppos=PrRotCanal::where('CarteiraId',$linha->CarteiraId)
                 ->where('RoteiroId',$linha->RoteiroId)
@@ -169,6 +170,16 @@ class ExecFilaParcelaJob implements ShouldQueue
                 DB::beginTransaction();
                 try {
                     DB::insert($sql);
+                    if(!in_array($pscanal->PsCanalId,$arrPsCanal)) {
+                        CanalFila::create([
+                            'cafi_fila' => $linha->FilaTrabId,
+                            'cafi_pscanal' => $pscanal->PsCanalId,
+                            'cafi_evento' => 65,
+                            'cafi_entrada' => date("Y-m-d"),
+                            'cafi_saida' => date("Y-m-d")
+                        ]);
+                        $arrPsCanal[]=$pscanal->PsCanalId;
+                    }
                     DB::commit();
                 } catch (\Exception $e) {
                     echo $e->getMessage();

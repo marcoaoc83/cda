@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\CanalFila;
 use App\Models\PsCanal;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +44,16 @@ class PsCanalController extends Controller
     {
 
         $data = $request->all();
-
+        if($data->PsCanalId){
+            CanalFila::where('cafi_pscanal',$data->PsCanalId)->whereNull('cafi_saida')->update(['cafi_saida' => date('Y-m-d')]);
+            CanalFila::create([
+                'cafi_fila' =>13,
+                'cafi_pscanal' =>$data->PsCanalId,
+                'cafi_evento' => 13,
+                'cafi_entrada' => Carbon::now()->format('Y-m-d'),
+                'cafi_saida' => Carbon::now()->format('Y-m-d')
+            ]);
+        }
         if (PsCanal::create($data))
             return \response()->json(true);
         return \response()->json(false);
@@ -113,6 +124,17 @@ class PsCanalController extends Controller
     {
 
         $ExecRot = PsCanal::findOrFail($id);
+
+        if($request->higiene) {
+            CanalFila::where('cafi_pscanal', $id)->whereNull('cafi_saida')->update(['cafi_saida' => date('Y-m-d')]);
+            CanalFila::create([
+                'cafi_fila' =>13,
+                'cafi_pscanal' =>$id,
+                'cafi_evento' => 13,
+                'cafi_entrada' => Carbon::now()->format('Y-m-d'),
+                'cafi_saida' => Carbon::now()->format('Y-m-d')
+            ]);
+        }
         if($ExecRot->update($request->all()))
             return \response()->json(true);
         return \response()->json(false);

@@ -14,6 +14,8 @@
                     {{ method_field('PUT') }}
                     <input type="hidden" id="PessoaId"      name="PessoaId" >
                     <input type="hidden" id="PsCanalId"     name="PsCanalId">
+                    <input type="hidden" id="Ativo"     name="Ativo" value="1">
+                    <input type="hidden" id="higiene"     name="higiene" value="1">
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="FonteInfoId">Fonte </label><span class="required">*</span>
