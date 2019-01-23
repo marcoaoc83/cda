@@ -8,7 +8,7 @@
         <div class="clearfix"></div>
     </div>
     <div class="x_content x_title profile_title">
-        <a class="btn btn-default btn-xs" id="btInserir"  data-toggle="modal" data-target="#myModalParcela">
+        <a class="btn btn-default btn-xs disabled" id="btInserir"  data-toggle="modal" data-target="#myModalParcela">
             <i class="fa fa-plus-square"> Inserir</i>
         </a>
         @include('admin.pessoa.parcela.create')

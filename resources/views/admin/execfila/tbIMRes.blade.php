@@ -42,7 +42,7 @@
             }
         }).on( 'deselect', function ( e, dt, type, indexes ){
             if ( type === 'row' ) {
-                var IMRes = tbIMRes.rows( indexes ).data().pluck( 'PessoaId' );
+                var IMRes = tbIMRes.rows( indexes ).data().pluck( 'INSCRMUNID' );
                 $( "#IMRes"+IMRes[0] ).remove();
                 var tbParcela = $('#tbParcela').DataTable();
                 var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();

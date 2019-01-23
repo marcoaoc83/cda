@@ -1077,7 +1077,7 @@ class ExecFilaController extends Controller
               INNER Join
               cda_pessoa On cda_pessoa.PESSOAID = cda_parcela.PessoaId 
               LEFT Join
-              cda_inscrmun On cda_parcela.PESSOAID = cda_inscrmun.PESSOAID   
+              cda_inscrmun On cda_parcela.INSCRMUNID = cda_inscrmun.INSCRMUNID   
               LEFT Join
               cda_regtab TRIB On cda_parcela.TRIBUTOID = TRIB.REGTABID  
        
@@ -1137,14 +1137,11 @@ class ExecFilaController extends Controller
 
                 $modelo=$linha->ModComId;
 
-                $bairro=Bairro::find($pscanal->BairroId);
-                if($bairro) $bairro= $bairro->bair_nome;
+                $bairro=$pscanal->Bairro;
 
-                $cidade=Cidade::find($pscanal->CidadeId);
-                if($cidade) $cidade= $cidade->cida_nome.'/'.$cidade->cida_uf;
+                $cidade=$pscanal->Cidade;
 
-                $logradouro=Logradouro::find($pscanal->LogradouroId);
-                if($logradouro) $linha->logradouro= $logradouro->logr_tipo.' '.$logradouro->logr_nome.','.$pscanal->EnderecoNr.'<br>'.$bairro.'<br>'.$cidade;
+                $linha->logradouro= $pscanal->Logradouro.','.$pscanal->EnderecoNr.' '.$pscanal->Complemento.'<br>'.$bairro.'<br>'.$cidade;
                 $linha->PsCanalId=$pscanal->PsCanalId;
                 $filas[$modelo][$campoPrincipal][] = $linha;
 
