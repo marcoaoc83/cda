@@ -111,7 +111,6 @@ class PrRotCanalController extends Controller
             ->join('cda_regtab', 'cda_regtab.REGTABID', '=', 'cda_prrotcanal.TpPosId')
             ->where('cda_prrotcanal.RoteiroId',$request->RoteiroId)
             ->get();
-        ;
 
         return Datatables::of($prrotcanal)->make(true);
     }

@@ -1745,12 +1745,15 @@ class ExecFilaController extends Controller
             parse_str($request->PsTratRetId,$arr);
             foreach ($arr['PsTratRetId'] as $val){
                 $vals=explode("_",$val);
-                CanalFila::create([
-                    'cafi_fila' =>13,
-                    'cafi_pscanal' => $vals[0],
-                    'cafi_evento' =>$vals[1],
-                    'cafi_entrada' => Carbon::now()->format('Y-m-d')
-                ]);
+                if(!empty($vals[1])) {
+                    $filaEv = Evento::find($vals[1]);
+                    CanalFila::create([
+                        'cafi_fila' => $filaEv->FilaTrabId,
+                        'cafi_pscanal' => $vals[0],
+                        'cafi_evento' => $vals[1],
+                        'cafi_entrada' => Carbon::now()->format('Y-m-d')
+                    ]);
+                }
             }
         }
         return \response()->json(true);
