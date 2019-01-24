@@ -44,8 +44,9 @@
                                     <th>Sigla</th>
                                     <th>Nome</th>
                                     <th>Objetivo do Evento</th>
-                                    <th>Transf Ctr </th>
-                                    <th> Fila - Transf </th>
+                                    <th>Transf Ctr</th>
+                                    <th>Fila - Transf</th>
+                                    <th>Ação no Canal</th>
                                     <th style="width: 55px">Ação</th>
                                 </tr>
                                 </thead>
@@ -80,6 +81,7 @@
                     {data: 'ObjEventoNM', name: 'ObjEventoNM'},
                     {data: 'TransfCtrNM', name: 'TransfCtrNM'},
                     {data: 'FilaTrabSg', name: 'FilaTrabSg'},
+                    {data: 'AcCanalNM', name: 'AcCanalNM'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 "language": {

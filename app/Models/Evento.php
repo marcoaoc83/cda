@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Evento extends Model
 {
     protected $fillable = [
-        'EventoSg', 'EventoNm', 'EventoOrd', 'TpASId', 'ObjEventoId', 'TransfCtrId', 'FilaTrabId'
+        'EventoSg', 'EventoNm', 'EventoOrd', 'TpASId', 'ObjEventoId', 'TransfCtrId', 'FilaTrabId', 'AcCanal'
     ];
     protected $table = 'cda_evento';
     protected $primaryKey = 'EventoId';
