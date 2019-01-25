@@ -173,6 +173,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                     if(!in_array($pscanal->PsCanalId,$arrPsCanal)) {
                         CanalFila::create([
                             'cafi_fila' => $linha->FilaTrabId,
+                            'cafi_fila_origem' => $linha->FilaTrabId,
                             'cafi_pscanal' => $pscanal->PsCanalId,
                             'cafi_evento' => 65,
                             'cafi_entrada' => date("Y-m-d"),

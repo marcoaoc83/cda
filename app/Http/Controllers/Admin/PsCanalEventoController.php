@@ -110,7 +110,7 @@ class PsCanalEventoController extends Controller
                                       LEFT Join
                                       cda_canal On cda_pscanal.CANALID = cda_canal.CANALID
                                       Inner Join
-                                      cda_filatrab On cda_canal_fila.cafi_fila = cda_filatrab.FilaTrabId
+                                      cda_filatrab On cda_canal_fila.cafi_fila_origem = cda_filatrab.FilaTrabId
                                       where 
                                       cda_canal_fila.cafi_pscanal ='{$request->pscanal}'
                           ")

@@ -48,6 +48,7 @@ class PsCanalController extends Controller
             CanalFila::where('cafi_pscanal',$data->PsCanalId)->whereNull('cafi_saida')->update(['cafi_saida' => date('Y-m-d')]);
             CanalFila::create([
                 'cafi_fila' =>13,
+                'cafi_fila_origem' =>13,
                 'cafi_pscanal' =>$data->PsCanalId,
                 'cafi_evento' => 13,
                 'cafi_entrada' => Carbon::now()->format('Y-m-d'),
@@ -129,6 +130,7 @@ class PsCanalController extends Controller
             CanalFila::where('cafi_pscanal', $id)->whereNull('cafi_saida')->update(['cafi_saida' => date('Y-m-d')]);
             CanalFila::create([
                 'cafi_fila' =>13,
+                'cafi_fila_origem' =>13,
                 'cafi_pscanal' =>$id,
                 'cafi_evento' => 13,
                 'cafi_entrada' => Carbon::now()->format('Y-m-d'),

@@ -567,6 +567,7 @@ class ExecFilaController extends Controller
                 if( $dado['TransfCtrId'] ==81 && !empty($dado['TransfFilaTrabId']))
                 CanalFila::create([
                     'cafi_fila' => $dado['TransfFilaTrabId'],
+                    'cafi_fila_origem' => $dado['FilaTrabId'],
                     'cafi_pscanal' => $dado['PsCanalId'],
                     'cafi_evento' => $dado['EventoId'],
                     'cafi_entrada' => Carbon::now()->format('Y-m-d')
@@ -947,7 +948,7 @@ class ExecFilaController extends Controller
                         $Validacao[$x]['EventoId']=$val->EventoId;
                         $Validacao[$x]['TransfCtrId']=$val->TransfCtrId;
                         $Validacao[$x]['TransfFilaTrabId']=$val->FilaTrabId;
-                        $Validacao[$x]['FilaTrabId']=2;
+                        $Validacao[$x]['FilaTrabId']=11;
                         $Validacao[$x]['Nome']=$dado['nome'];
                         $Validacao[$x]['Documento']=$dado['documento'];
                         $Validacao[$x]['INSCRMUNID']=$dado['inscrmunid'];
@@ -966,7 +967,7 @@ class ExecFilaController extends Controller
                         $Validacao[$x]['PessoaId']=$dado['pessoaid'];
                         $Validacao[$x]['PsCanalId']=$dado['pscanalid'];
                         $Validacao[$x]['EventoId']=$val->EventoId;
-                        $Validacao[$x]['FilaTrabId']=2;
+                        $Validacao[$x]['FilaTrabId']=11;
                         $Validacao[$x]['Nome']=$dado['nome'];
                         $Validacao[$x]['Documento']=$dado['documento'];
                         $Validacao[$x]['INSCRMUNID']=$dado['inscrmunid'];
@@ -1750,6 +1751,7 @@ class ExecFilaController extends Controller
                     $filaEv = Evento::find($vals[1]);
                     CanalFila::create([
                         'cafi_fila' => $filaEv->FilaTrabId,
+                        'cafi_fila_origem' => 12,
                         'cafi_pscanal' => $vals[0],
                         'cafi_evento' => $vals[1],
                         'cafi_entrada' => Carbon::now()->format('Y-m-d')
