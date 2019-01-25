@@ -105,6 +105,9 @@
         if($fila==13){
             filtrarHigiene();
         }
+        if($fila==14){
+            filtrarHigiene();
+        }
     }
 
     function abreNovoCanal(pessoa,canal) {
@@ -300,13 +303,11 @@ function filtrarHigiene() {
 
    tbCanalRes.column(6).visible(true);
 
-
-
 }
 function selectFila(fila) {
     $('#divFiltros').show();
     $(".noHigiene").show();
-    if(fila==13){
+    if(fila==13 || fila==14){
         $(".noHigiene").hide();
     }
     $.ajax({
@@ -345,7 +346,7 @@ function selectFila(fila) {
             $('#divResultContribuinteResVal').hide();
             $('#divResultContribuinteResTrat').hide();
             $('#divResultContribuinteRes').show();
-            if(fila==11 || fila==13) {
+            if(fila==11 || fila==13|| fila==14) {
                 $('#divResultContribuinteResVal').show();
                 $('#divResultContribuinteRes').hide();
                 $('#divResultContribuinteResTrat').hide();
@@ -366,7 +367,7 @@ function selectFila(fila) {
             $('#divResultContribuinteResIMVal').hide();
             $('#divResultContribuinteResIMTrat').hide();
             $('#divResultIM').show();
-            if(fila==11 || fila==13) {
+            if(fila==11 || fila==13 || fila==14) {
                 $('#divResultContribuinteResIMVal').show();
                 $('#divResultIM').hide();
                 $('#divResultContribuinteResIMTrat').hide();

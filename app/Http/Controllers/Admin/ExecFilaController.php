@@ -690,6 +690,7 @@ class ExecFilaController extends Controller
                 ->leftjoin('cda_canal_fila', 'cda_canal_fila.cafi_pscanal', '=', 'cda_pscanal.PsCanalId')
                 ->where('cda_pscanal.PsCanalId',$linha->PsCanalId)
                 ->where('cda_pscanal.CanalId',$request->Canal)
+                ->where('cda_pscanal.Ativo',1)
                 ->whereRaw($where)
                 ->first();
 
@@ -1638,7 +1639,7 @@ class ExecFilaController extends Controller
             ->join('cda_evento','cda_evento.EventoId','=','cda_canal_fila.cafi_evento')
             ->leftjoin('cda_valenv','cda_valenv.EventoId','=','cda_evento.EventoId')
             ->leftjoin('cda_tratret','cda_tratret.EventoId','=','cda_evento.EventoId')
-            ->where('cda_canal_fila.cafi_fila',13)
+            ->where('cda_canal_fila.cafi_fila',$request->FilaTrabId)
             ->whereNull('cda_canal_fila.cafi_saida')
             ->whereRaw($where)
             ->limit(100)
@@ -1753,6 +1754,7 @@ class ExecFilaController extends Controller
                         'cafi_evento' => $vals[1],
                         'cafi_entrada' => Carbon::now()->format('Y-m-d')
                     ]);
+                    PsCanal::find($vals[0])->update(['Ativo'=>0]);
                 }
             }
         }
