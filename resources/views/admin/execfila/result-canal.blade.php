@@ -17,6 +17,8 @@
                 <th>Evento</th>
                 <th>Tipo Pos</th>
                 <th>Ações</th>
+                <th>Ações</th>
+                <th>Ações</th>
             </tr>
             </thead>
         </table>

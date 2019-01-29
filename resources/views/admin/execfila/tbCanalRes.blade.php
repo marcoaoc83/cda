@@ -41,6 +41,8 @@
                     name: 'TipoPos'
                 },
                 {data: 'action', name: 'action',"visible": false, orderable: false, searchable: false},
+                {data: 'action2', name: 'action3',"visible": false, orderable: false, searchable: false},
+                {data: 'action3', name: 'action3',"visible": false, orderable: false, searchable: false},
                 {
                     data: 'PsCanalId',
                     name: 'PsCanalId',

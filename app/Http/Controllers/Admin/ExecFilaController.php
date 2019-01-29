@@ -742,7 +742,13 @@ class ExecFilaController extends Controller
             $Validacao=$tempValidacao;
         }
         $collection = collect($Validacao);
+
         return Datatables::of($collection)->addColumn('action', function ($var) {
+            return '
+                <a onclick="abreNovoCanal('.$var['PessoaId'].','.$var['PsCanalId'].')" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i>  </a>
+                <a onclick="abreEditaCanal('.$var['PessoaId'].','.$var['PsCanalId'].')"  class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>  </a>
+                ';
+        })->addColumn('action2', function ($var) {
             $sel='<select id="PsTratRetId'.$var['PsCanalId'].'" name="PsTratRetId[]" class="PsTratRetId">
                     <option value=""> </option>';
             $Trat=TratRet::where('CanalId',$var['CanalId'])->orderBy('RetornoCd')->get();
@@ -751,7 +757,16 @@ class ExecFilaController extends Controller
             }
             $sel.='</select>';
             return $sel;
-        })->make(true);
+        })->addColumn('action3', function ($var) {
+            $sel='<select id="AcCanal'.$var['PsCanalId'].'" name="AcCanal[]" class="AcCanal">
+                    <option value=""> </option>';
+            $AcCanal=RegTab::where('TABSYSID',47)->get();
+            foreach($AcCanal as $value){
+                $sel.='<option value="'.$var['PsCanalId'].'_'.$value->REGTABID.'">'.$value->REGTABNM.'</option>';
+            }
+            $sel.='</select>';
+            return $sel;
+        })->rawColumns(['action', 'action2', 'action3'])->make(true);
     }
 
     function getDadosDataTableParcelasExec(Request $request){
@@ -1006,10 +1021,28 @@ class ExecFilaController extends Controller
         $collection = collect($Validacao);
         return Datatables::of($collection)->addColumn('action', function ($var) {
             return '
-                <a onclick="abreNovoCanal('.$var['PessoaId'].')" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i> </a>
-                <a onclick="abreEditaCanal('.$var['PessoaId'].','.$var['PsCanalId'].')"  class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
+                <a onclick="abreNovoCanal('.$var['PessoaId'].','.$var['PsCanalId'].')" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i>  </a>
+                <a onclick="abreEditaCanal('.$var['PessoaId'].','.$var['PsCanalId'].')"  class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>  </a>
                 ';
-        })->make(true);
+        })->addColumn('action2', function ($var) {
+            $sel='<select id="PsTratRetId'.$var['PsCanalId'].'" name="PsTratRetId[]" class="PsTratRetId">
+                    <option value=""> </option>';
+            $Trat=TratRet::where('CanalId',$var['CanalId'])->orderBy('RetornoCd')->get();
+            foreach($Trat as $value){
+                $sel.='<option value="'.$var['PsCanalId'].'_'.$value->EventoId.'">'.$value->RetornoCd.'</option>';
+            }
+            $sel.='</select>';
+            return $sel;
+        })->addColumn('action3', function ($var) {
+            $sel='<select id="AcCanal'.$var['PsCanalId'].'" name="AcCanal[]" class="AcCanal">
+                    <option value=""> </option>';
+            $AcCanal=RegTab::where('TABSYSID',47)->get();
+            foreach($AcCanal as $value){
+                $sel.='<option value="'.$var['PsCanalId'].'_'.$value->REGTABID.'">'.$value->REGTABNM.'</option>';
+            }
+            $sel.='</select>';
+            return $sel;
+        })->rawColumns(['action', 'action2', 'action3'])->make(true);
     }
 
     ########################
@@ -1688,12 +1721,33 @@ class ExecFilaController extends Controller
             $Validacao=$tempValidacao;
         }
         $collection = collect($Validacao);
-        return Datatables::of($collection)->addColumn('action', function ($var) {
-            return '
+
+            return Datatables::of($collection)->addColumn('action', function ($var) {
+                return '
                 <a onclick="abreNovoCanal('.$var['PessoaId'].','.$var['PsCanalId'].')" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-plus"></i>  </a>
                 <a onclick="abreEditaCanal('.$var['PessoaId'].','.$var['PsCanalId'].')"  class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i>  </a>
                 ';
-        })->make(true);
+            })->addColumn('action2', function ($var) {
+                $sel='<select id="PsTratRetId'.$var['PsCanalId'].'" name="PsTratRetId[]" class="PsTratRetId">
+                    <option value=""> </option>';
+                $Trat=TratRet::where('CanalId',$var['CanalId'])->orderBy('RetornoCd')->get();
+                foreach($Trat as $value){
+                    $sel.='<option value="'.$var['PsCanalId'].'_'.$value->EventoId.'">'.$value->RetornoCd.'</option>';
+                }
+                $sel.='</select>';
+                return $sel;
+            })->addColumn('action3', function ($var) {
+                $sel='<select id="AcCanal'.$var['PsCanalId'].'" name="AcCanal[]" class="AcCanal">
+                    <option value=""> </option>';
+                $AcCanal=RegTab::where('TABSYSID',47)->get();
+                foreach($AcCanal as $value){
+                    $sel.='<option value="'.$var['PsCanalId'].'_'.$value->REGTABID.'">'.$value->REGTABNM.'</option>';
+                }
+                $sel.='</select>';
+                return $sel;
+            })->rawColumns(['action', 'action2', 'action3'])->make(true);
+
+
     }
 
     /**

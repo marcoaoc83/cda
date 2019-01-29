@@ -24,7 +24,10 @@ class Fila extends Model
         'resultado_contribuinte',
         'resultado_im',
         'resultado_parcelas',
-        'resultado_canais'
+        'resultado_canais',
+        'canal_crud',
+        'canal_eventos',
+        'canal_acoes'
     ];
     protected $table = 'cda_filatrab';
     protected $primaryKey = 'FilaTrabId';

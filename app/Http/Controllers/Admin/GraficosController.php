@@ -154,7 +154,7 @@ class GraficosController extends Controller
         $x=0;
         foreach ($arr as $key => $value){
             $res[$x]['label']=strval($key);
-            $res[$x]['value']=($value*100)/$total;
+            $res[$x]['value']=number_format(($value*100)/$total,1);
             $x++;
         }
         if(empty($res)){

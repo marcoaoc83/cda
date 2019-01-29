@@ -269,7 +269,7 @@ function filtrarValidacao() {
     var url = "{{ route('execfila.getDadosValidarAll') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbCanalRes.ajax.url(url).load();
 
-    tbCanalRes.column(6).visible(false);
+
 
 }
 function filtrarTratamento() {
@@ -301,7 +301,6 @@ function filtrarHigiene() {
     var url = "{{ route('execfila.getDadosDataTableHigiene') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val()+'&Canal='+$('#CanalId').val();
     tbCanalRes.ajax.url(url).load();
 
-   tbCanalRes.column(6).visible(true);
 
 }
 function selectFila(fila) {
@@ -431,6 +430,29 @@ function selectFila(fila) {
         }else{
             $('#divFiltroCanal').hide();
         }
+        var tbCanalRes = $('#tbCanalRes').DataTable();
+            tbCanalRes.column(6).visible(false);
+            tbCanalRes.column(7).visible(false);
+            tbCanalRes.column(8).visible(false);
+        var tbCanalExec = $('#tbCanalExec').DataTable();
+            tbCanalExec.column(5).visible(false);
+            tbCanalExec.column(6).visible(false);
+            tbCanalExec.column(7).visible(false);
+
+
+        if(result.canal_crud==1){
+            tbCanalRes.column(6).visible(true);
+            tbCanalExec.column(5).visible(true);
+        }
+        if(result.canal_eventos==1){
+            tbCanalRes.column(7).visible(true);
+            tbCanalExec.column(6).visible(true);
+        }
+        if(result.canal_acoes==1){
+            tbCanalRes.column(8).visible(true);
+            tbCanalExec.column(7).visible(true);
+        }
+
         $("#execFila").show();
         $("#execValida").hide();
         $("#execTratamento").hide();

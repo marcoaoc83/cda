@@ -39,6 +39,8 @@
                     name: 'Notificacao'
                 },
                 {data: 'action', name: 'action', orderable: false, searchable: false},
+                {data: 'action2', name: 'action2', orderable: false, searchable: false},
+                {data: 'action3', name: 'action3', orderable: false, searchable: false},
                 {
                     data: 'PsCanalId',
                     name: 'PsCanalId',

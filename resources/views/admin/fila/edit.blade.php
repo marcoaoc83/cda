@@ -212,38 +212,65 @@
                                     <div class="x_content">
 
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_contribuinte">Contribuinte
+                                            <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_contribuinte">Contribuinte
                                             </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
+                                            <div class="col-md-3" style="margin-top: 5px">
                                                 <label style="">
                                                     <input type="checkbox" id="resultado_contribuinte" name="resultado_contribuinte" @if($Fila->resultado_contribuinte ==1)checked @endif value="1" class="js-switch" >
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_im">Insc. Municipal
+                                            <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_im">Insc. Municipal
                                             </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
+                                            <div class="col-md-3" style="margin-top: 5px">
                                                 <label style="">
                                                     <input type="checkbox" id="resultado_im" name="resultado_im" @if($Fila->resultado_im ==1)checked @endif value="1" class="js-switch" >
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_parcelas">Parcelas
+                                            <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_parcelas">Parcelas
                                             </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
+                                            <div class="col-md-3" style="margin-top: 5px">
                                                 <label style="">
                                                     <input type="checkbox" id="resultado_parcelas" name="resultado_parcelas" @if($Fila->resultado_parcelas ==1)checked @endif value="1" class="js-switch" >
                                                 </label>
                                             </div>
                                         </div>
                                         <div class="item form-group">
-                                            <label class="control-label col-md-5 col-sm-5 col-xs-12" for="resultado_canais">Canais
+                                            <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_canais">Canais
                                             </label>
-                                            <div class="col-md-7" style="margin-top: 5px">
+                                            <div class="col-md-3" style="margin-top: 5px">
                                                 <label style="">
                                                     <input type="checkbox" id="resultado_canais" name="resultado_canais" @if($Fila->resultado_canais ==1)checked @endif value="1" class="js-switch" >
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="item form-group canalgroup">
+                                            <label class="control-label col-md-9 col-sm-9 col-xs-12" for="canal_crud">Canais - Ins/Update
+                                            </label>
+                                            <div class="col-md-3" style="margin-top: 5px">
+                                                <label style="">
+                                                    <input type="checkbox" id="canal_crud" name="canal_crud" @if($Fila->canal_crud ==1)checked @endif value="1" class="js-switch" >
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="item form-group canalgroup">
+                                            <label class="control-label col-md-9 col-sm-9 col-xs-12" for="canal_eventos">Canais - Eventos
+                                            </label>
+                                            <div class="col-md-3" style="margin-top: 5px">
+                                                <label style="">
+                                                    <input type="checkbox" id="canal_eventos" name="canal_eventos" @if($Fila->canal_eventos ==1)checked @endif value="1" class="js-switch" >
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="item form-group canalgroup">
+                                            <label class="control-label col-md-9 col-sm-9 col-xs-12" for="canal_acoes">Canais - Ações do Canal
+                                            </label>
+                                            <div class="col-md-3" style="margin-top: 5px">
+                                                <label style="">
+                                                    <input type="checkbox" id="canal_acoes" name="canal_acoes" @if($Fila->canal_acoes ==1)checked @endif value="1" class="js-switch" >
                                                 </label>
                                             </div>
                                         </div>
