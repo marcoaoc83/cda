@@ -306,7 +306,7 @@ function filtrarHigiene() {
 function selectFila(fila) {
     $('#divFiltros').show();
     $(".noHigiene").show();
-    if(fila==13 || fila==14){
+    if(fila==13){
         $(".noHigiene").hide();
     }
     $.ajax({
@@ -453,20 +453,37 @@ function selectFila(fila) {
             tbCanalExec.column(7).visible(true);
         }
 
-        $("#execFila").show();
+        $("#execFila").hide();
         $("#execValida").hide();
         $("#execTratamento").hide();
+        $("#execAnalise").hide();
+
+        if(fila==3){
+            $("#execFila").show();
+            $("#execAnalise").hide();
+            $("#execValida").hide();
+            $("#execTratamento").hide();
+        }
+
         if(fila==11){
             $("#execFila").hide();
             $("#execValida").show();
             $("#execTratamento").hide();
+            $("#execAnalise").hide();
         }
 
         if(fila==12){
-
             $("#execFila").hide();
             $("#execValida").hide();
             $("#execTratamento").show();
+            $("#execAnalise").hide();
+        }
+
+        if(fila==14){
+            $("#execFila").hide();
+            $("#execValida").hide();
+            $("#execTratamento").hide();
+            $("#execAnalise").show();
         }
 
     }

@@ -1816,4 +1816,60 @@ class ExecFilaController extends Controller
         }
         return \response()->json(true);
     }
+
+    public function analisar(Request $request){
+        $dados=(json_decode($request->dados, true));
+        $tarefa=Tarefas::create([
+            'tar_categoria' => 'execTratamento',
+            'tar_titulo' => 'Execução de Fila – Analise',
+            'tar_user' => auth()->id(),
+            'tar_inicio' => date("Y-m-d H:i:s"),
+            'tar_final' => date("Y-m-d H:i:s"),
+            'tar_status' => 'Finalizado'
+        ]);
+        if(filter_var($request->csv, FILTER_VALIDATE_BOOLEAN)){
+            $targetpath=storage_path("../public/export");
+            $file=md5(uniqid(rand(), true));
+            $csv= Excel::create($file, function($excel) use ($dados) {
+                $excel->sheet('mySheet', function($sheet) use ($dados)
+                {
+                    $sheet->fromArray($dados);
+                });
+            })->store("csv",$targetpath);
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
+            $Tarefa->update([
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".csv' target='_blank'>Arquivo - CSV</a></h6>"
+            ]);
+        }
+        if(filter_var($request->txt, FILTER_VALIDATE_BOOLEAN)){
+            $targetpath=storage_path("../public/export");
+            $file=md5(uniqid(rand(), true));
+            $csv= Excel::create($file, function($excel) use ($dados) {
+                $excel->sheet('mySheet', function($sheet) use ($dados)
+                {
+                    $sheet->fromArray($dados);
+                });
+            })->store("txt",$targetpath);
+
+            $Tarefa= Tarefas::findOrFail($tarefa->tar_id);
+            $Tarefa->update([
+                'tar_descricao' =>  $Tarefa->tar_descricao."<h6><a href='".URL::to('/')."/export/".$file.".txt' target='_blank'>Arquivo - TXT</a></h6>"
+            ]);
+        }
+        if($request->gravar){
+            $arr=null;
+            parse_str($request->AcCanal,$arr);
+            foreach ($arr['AcCanal'] as $val){
+                $vals=explode("_",$val);
+                if(!empty($vals[1])) {
+                    $RegTab = RegTab::find($vals[1]);
+                    $sqlEvent=eval($RegTab->REGTABSQL);
+                    CanalFila::where('cafi_fila',14)->where('cafi_pscanal',$vals[0])->update(['cafi_saida'=>Carbon::now()->format('Y-m-d')]);
+                    PsCanal::find($vals[0])->update($sqlEvent);
+                }
+            }
+        }
+        return \response()->json(true);
+    }
+
 }

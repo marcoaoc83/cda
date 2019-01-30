@@ -124,13 +124,16 @@
                     <div class="x_panel text-center noHigiene ">
 
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                            <a class="btn btn-app "    id="execFila">
+                            <a class="btn btn-app "    id="execFila" style="display: none">
                                 <i class="fa fa-save"></i> Executar
                             </a>
                             <a class="btn btn-app "    id="execValida" style="display: none">
                                 <i class="fa fa-save"></i> Executar
                             </a>
                             <a class="btn btn-app "    id="execTratamento" style="display: none">
+                                <i class="fa fa-save"></i> Executar
+                            </a>
+                            <a class="btn btn-app "    id="execAnalise" style="display: none">
                                 <i class="fa fa-save"></i> Executar
                             </a>
                             <form id="formTratRetorno" >
@@ -188,4 +191,5 @@
     @include('admin.execfila.execFila')
     @include('admin.execfila.execValida')
     @include('admin.execfila.execTratamento')
+    @include('admin.execfila.execAnalise')
 @endpush
