@@ -458,7 +458,7 @@ function selectFila(fila) {
         $("#execTratamento").hide();
         $("#execAnalise").hide();
 
-        if(fila==3){
+        if(fila==3 || fila==4 || fila==5){
             $("#execFila").show();
             $("#execAnalise").hide();
             $("#execValida").hide();

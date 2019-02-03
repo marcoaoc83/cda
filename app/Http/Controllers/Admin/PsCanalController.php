@@ -194,7 +194,7 @@ class PsCanalController extends Controller
             ->leftjoin('cda_bairro', 'cda_bairro.bair_id', '=', 'cda_pscanal.BairroId')
             ->leftjoin('cda_cidade', 'cda_cidade.cida_id', '=', 'cda_pscanal.CidadeId')
             ->where('cda_pscanal.PessoaId',$request->PESSOAID);
-            if($request->INSCRMUNID)
+
                 $data->where('cda_pscanal.INSCRMUNID',$request->INSCRMUNID);
             $data->get();
 

@@ -12,6 +12,7 @@ use App\Models\ExecFilaPsCanalParcela;
 use App\Models\Logradouro;
 use App\Models\ModCom;
 use App\Models\PcRot;
+use App\Models\PortalAdm;
 use App\Models\PrRotCanal;
 use App\Models\PsCanal;
 use App\Models\RegTab;
@@ -28,6 +29,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use League\Flysystem\File;
@@ -89,6 +91,8 @@ class ExecFilaParcelaJob implements ShouldQueue
               cda_parcela.INSCRMUNID AS IM,
               cda_parcela.ORIGTRIBID,
               cda_parcela.LancamentoDt,
+              cda_parcela.PlanoQt,
+              cda_parcela.ParcelaNr,
               cda_parcela.VencimentoDt,
               cda_parcela.TRIBUTOID,
               cda_parcela.PrincipalVr,
@@ -125,7 +129,7 @@ class ExecFilaParcelaJob implements ShouldQueue
               cda_regtab TRIB On cda_parcela.TRIBUTOID = TRIB.REGTABID  
        
             Where
-               cda_parcela.PARCELAID in (".$this->parcelas.") and SaidaDt is Null and ModComId > 0";
+               cda_parcela.PARCELAID in (".$this->parcelas.") and FilaTrabId=$this->Fila and SaidaDt is Null and ModComId > 0";
 
 
         //Log::info($sql." GROUP BY cda_parcela.ParcelaId");
@@ -133,7 +137,7 @@ class ExecFilaParcelaJob implements ShouldQueue
         $arrPsCanal=[];
         foreach ($parcelas as $linha){
             $tppos=PrRotCanal::where('CarteiraId',$linha->CarteiraId)
-                ->where('RoteiroId',$linha->RoteiroId)
+                ->where('RoteiroId',$linha->idRoteiro)
                 ->orderBy('PrioridadeNr')->get();
             $pscanal=null;
 
@@ -171,11 +175,15 @@ class ExecFilaParcelaJob implements ShouldQueue
                 try {
                     DB::insert($sql);
                     if(!in_array($pscanal->PsCanalId,$arrPsCanal)) {
+                        $cafi_evento=65;
+                        if($this->Fila==5){
+                            $cafi_evento=67;
+                        }
                         CanalFila::create([
                             'cafi_fila' => $linha->FilaTrabId,
                             'cafi_fila_origem' => $linha->FilaTrabId,
                             'cafi_pscanal' => $pscanal->PsCanalId,
-                            'cafi_evento' => 65,
+                            'cafi_evento' => $cafi_evento,
                             'cafi_entrada' => date("Y-m-d"),
                             'cafi_saida' => date("Y-m-d")
                         ]);
@@ -188,47 +196,62 @@ class ExecFilaParcelaJob implements ShouldQueue
                 }
             }
             if($linha->ModComId>0) {
-
                 $modelo=$linha->ModComId;
-
                 $bairro=$pscanal->Bairro;
-
                 $cidade=$pscanal->Cidade;
-
                 $linha->logradouro= $pscanal->Logradouro.','.$pscanal->EnderecoNr.' '.$pscanal->Complemento.'<br>'.$bairro.'<br>'.$cidade;
                 $linha->PsCanalId=$pscanal->PsCanalId;
+                $linha->telefone=$pscanal->TelefoneNr;
+                $linha->email=$pscanal->Email;
                 $filas[$modelo][$linha->IM][] = $linha;
-
             }
         }
-        $html="<style>table, th, td {border: 1px solid #D0CECE;} .page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;} </style>";
+        $html="";
+        if($this->Fila!=5) {
+            $html .= "<style>table, th, td {border: 1px solid #D0CECE;} .page-break { page-break-after: always;}   @page { margin:5px; } html {margin:5px;} </style>";
+        }
         foreach ($filas as $modelo=> $fila){
             foreach ($fila as $pessoa){
+                $idLote=0;
                 if($this->Gravar) {
                     $Notificacao = ExecFilaPsCanal::create([
                         "Lote" => $Lote,
                         "PsCanalId" => $pessoa[0]->PsCanalId,
                     ]);
+                    $idLote=$Notificacao->efpa_id;
                 }
-                $html.=self::geraModelo($pessoa,$modelo,$Notificacao)."<div class='page-break'></div>";
+                $html.=self::geraModelo($pessoa,$modelo,$Notificacao);
+
+                if($this->Fila!=5) {
+                    $html .= "<div class='page-break'></div>";
+                }else{
+                    $html=strip_tags($html);
+                    $this->SMS($pessoa[0]->telefone,$html,$idLote );
+                    $html="";
+                }
+                $email=$pessoa[0]->email;
+            }
+            if($this->Fila==4) {
+                $this->EMAIL($email,$html);
+                $html="";
             }
         }
+        if($this->Fila==3) { //Cartas
 
-        $Variaveis=RegTab::where('TABSYSID',46)->get();
-        foreach ($Variaveis as $var){
-            $html=str_replace("{{".$var->REGTABSG."}}","",$html);
+            $Variaveis=RegTab::where('TABSYSID',46)->get();
+            foreach ($Variaveis as $var){
+                $html=str_replace("{{".$var->REGTABSG."}}","",$html);
+            }
+
+            $dir = public_path() . "/filas/";
+            $file = "carta-" . date('Ymd') . "-" . $this->Tarefa . ".pdf";
+            $html = str_replace("{{BREAK}}", "<div class='page-break'></div>", $html);
+            $html = str_replace('pt;', 'px;', $html);
+            $html = str_replace('0.0001px;', '0.0001pt;', $html);
+            $pdf = App::make('dompdf.wrapper');
+            $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
+            $pdf->save($dir . $file);
         }
-        $dir=public_path()."/filas/";
-        $file="carta-".date('Ymd')."-".$this->Tarefa.".pdf";
-        $html=str_replace("{{BREAK}}","<div class='page-break'></div>",$html);
-
-
-        $html=str_replace('pt;','px;',$html);
-        $html=str_replace('0.0001px;','0.0001pt;',$html);
-        $pdf = App::make('dompdf.wrapper');
-        $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
-        $pdf->save($dir.$file);
-
         $Tarefa= Tarefas::findOrFail($this->Tarefa);
         $Tarefa->update([
             "tar_status"    => "Finalizado",
@@ -312,15 +335,26 @@ class ExecFilaParcelaJob implements ShouldQueue
                                 $result[$i][$sg] = $valor;
                             }
                             break;
+                        case "textoFirst":
+                            if (isset($linha->$campo)) {
+                                $valor = explode(' ',$linha->$campo);
+                                $result[$i][$sg] = trim($valor[0]);
+                            }
+                            break;
                         case "array":
                             if (isset($linha->$campo)) {
                                 $valor = $linha->$campo;
                                 if (strpos($valor, '-') !== false) {
                                     $valor = Carbon::createFromFormat('Y-m-d', $linha->$campo)->format('d/m/Y');
-                                }else{
-                                    if(is_numeric($linha->$campo))
-                                        $valor =number_format($linha->$campo, 2, ',', '.');
                                 }
+                                $result[$i][self::soLetra($sg) . $i] = $valor;
+                            }
+                            break;
+                        case "arrayNumber":
+                            if (isset($linha->$campo)) {
+                                $valor = $linha->$campo;
+                                if(is_numeric($valor))
+                                    $valor =number_format($valor, 2, ',', '.');
                                 $result[$i][self::soLetra($sg) . $i] = $valor;
                             }
                             break;
@@ -355,5 +389,24 @@ class ExecFilaParcelaJob implements ShouldQueue
 
     private function soLetra($str) {
         return preg_replace("/[^A-Za-z]/", "", $str);
+    }
+
+    private function SMS($numero,$msg,$lote){
+        $msg=html_entity_decode($msg);
+
+        $url="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=$numero&content=$msg&campaign_id=$lote&type=0";
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $url);
+        $url2="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=$numero&content=$msg&campaign_id=$lote&type=5";
+        $client2 = new \GuzzleHttp\Client();
+        $response2 = $client->request('GET', $url2);
+        return true;
+    }
+    private function EMAIL($email,$msg){
+        $cda_portal = PortalAdm::get();
+        $cda_portal=$cda_portal[0];
+
+        Mail::to($email)->send(new \App\Mail\SendMailFilas($cda_portal->port_titulo,$msg));
+        return true;
     }
 }
