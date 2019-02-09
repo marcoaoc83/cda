@@ -56,7 +56,7 @@ class ImportacaoJob implements ShouldQueue
 
     }
 
-    function split_file($source, $targetpath=null, $lines=10000){
+    function split_file($source, $targetpath=null, $lines=1000){
 
         $i=0;
         $j=1;
@@ -95,7 +95,7 @@ class ImportacaoJob implements ShouldQueue
             }
         }
         fclose ($handle);
-        Artisan::call('queue:restart');
+       // Artisan::call('queue:restart');
         return $files_name;
     }
 

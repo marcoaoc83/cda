@@ -11,6 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ImportacaoSplitJob implements ShouldQueue
 {
@@ -41,6 +42,7 @@ class ImportacaoSplitJob implements ShouldQueue
      */
     public function handle()
     {
+
         self::importarCSV($this->ArquivoId, $this->File);
         $qt=explode("--",$this->File);
         $qt=explode(".",$qt[1]);
@@ -55,11 +57,7 @@ class ImportacaoSplitJob implements ShouldQueue
 
     public function importarCSV($ArquivoId,$path){
 
-        $ImpCampo = ImpCampo::select(['*'])
-            ->where('ArquivoId', $ArquivoId)
-            ->orderBy("OrdTable","asc")
-            ->get()->all();
-
+        $ImpCampo = ImpCampo::where('ArquivoId', $ArquivoId)->orderBy("OrdTable","asc")->get()->toArray();
         foreach ($ImpCampo as $campos){
             $Layout[$campos['TabelaDB']][] = json_decode(json_encode($campos), true);
         }
@@ -71,7 +69,7 @@ class ImportacaoSplitJob implements ShouldQueue
 
         if(!empty($data) )
         {
-            DB::beginTransaction();
+
             try {
                 // Percorrendo a linha
                 for($i=0;$i<count($data);$i++)
@@ -134,11 +132,15 @@ class ImportacaoSplitJob implements ShouldQueue
                         }
 
                         $values=substr_replace($values, '', -1);
-                        $sql=$sql.$values." ON DUPLICATE KEY UPDATE ".$values;
+                        $sql=$sql.$values;
+                        $sql.=" ON DUPLICATE KEY UPDATE ".$values;
+                        //Log::info("\n\r".$sql);
+                        DB::beginTransaction();
                         DB::insert($sql);
+                        DB::commit();
                     }
                 }
-                DB::commit();
+
                 unlink($path);
             } catch (\Exception $e) {
                 echo $e->getMessage();
@@ -178,5 +180,25 @@ class ImportacaoSplitJob implements ShouldQueue
         }
 
         return $results;
+    }
+    function csv_to_array2($filename='', $delimiter=';')
+    {
+        if(!file_exists($filename) || !is_readable($filename))
+            return FALSE;
+
+        $header = NULL;
+        $data = array();
+        if (($handle = fopen($filename, 'r')) !== FALSE)
+        {
+            while (($row = fgetcsv($handle, 4000, $delimiter)) !== FALSE)
+            {
+                if(!$header)
+                    $header = $row;
+                else
+                    $data[] = array_combine($header, $row);
+            }
+            fclose($handle);
+        }
+        return $data;
     }
 }
