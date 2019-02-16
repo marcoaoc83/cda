@@ -116,7 +116,7 @@ class ParcelaController extends Controller
             ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
             ->leftjoin('cda_regtab as TributoT', 'TributoT.REGTABID', '=', 'cda_parcela.TributoId')
             ->where('cda_parcela.PessoaId',$request->PESSOAID);
-
+        if($request->INSCRMUNID)
             $cda_parcela->where('cda_parcela.INSCRMUNID',$request->INSCRMUNID);
         $cda_parcela->get();
 

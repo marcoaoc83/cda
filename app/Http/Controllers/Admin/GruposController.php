@@ -67,9 +67,9 @@ class GruposController extends Controller
     {
         // show the view and pass the nerd to it
         $Grupos = Grupos::find($id);
-
+        $Menus=Menu::orderBy('menu_nome')->get();
         if(empty($Grupos->fun_menu_json)){
-            $Menus=Menu::all();
+
             $arr=[];
             $x=0;
             foreach ($Menus as $val){
@@ -77,6 +77,7 @@ class GruposController extends Controller
                 $arr[$x]['href']    =$val->menu_url;
                 $arr[$x]['icon']    ="fa ".$val->menu_icone;
                 $arr[$x]['target']  =$val->menu_target;
+                $arr[$x]['id']  =$val->menu_id;
                 $x++;
             }
             $Menu=json_encode($arr);
@@ -84,7 +85,7 @@ class GruposController extends Controller
             $Menu=$Grupos->fun_menu_json;
         }
 
-        return view('admin.grupos.edit',['Grupos'=>$Grupos,'Menu'=>$Menu]);
+        return view('admin.grupos.edit',['Grupos'=>$Grupos,'Menu'=>$Menu,'Menus'=>$Menus]);
     }
 
     /**

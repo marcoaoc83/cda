@@ -18,6 +18,23 @@
                         </ul>
                     </div>
                 </div>
+                <div   id="ver"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body" id="cont">
+                        <select id="menusSel">
+                            <option></option>
+                            @foreach($Menus as $var)
+                                <option data-text="{{$var->menu_nome}}" data-id="{{$var->menu_id}}" data-href="{{$var->menu_url}}" data-icon="{{$var->menu_icone}}" data-target="{{$var->menu_target}}" value="{{$var->menu_id}}"  >{{$var->menu_nome}}</option>             
+                            @endforeach
+                        </select>
+                        <a href="#ver" id="addMenu"  style="margin-left: 15px" type="button" class="btn btn-success btn-sm ">
+                            <span class="glyphicon glyphicon-plus-sign "  style="color:white" aria-hidden="true"></span>
+                            Adicionar
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 </div>
@@ -51,6 +68,21 @@
                 var str = editor.getString();
                 $("#fun_menu_json").val((str));
                 $('#send').trigger('click');
+            });
+
+            $('#addMenu').on('click', function () {
+                $text=$( "#menusSel" ).find(':selected').data( "text" );
+                $href=$( "#menusSel" ).find(':selected').data( "href" );
+                $icon=$( "#menusSel" ).find(':selected').data( "icon" );
+                $target=$( "#menusSel" ).find(':selected').data( "target" );
+                $id=$( "#menusSel" ).find(':selected').data( "id" );
+
+                var str = editor.getString();
+                str = jQuery.parseJSON(str );
+                str.push(
+                    {text: $text, href: $href, icon:$icon, target: $target, id: $id}
+                );
+                editor.setData(str);
             });
         });
     </script>

@@ -280,6 +280,7 @@
             $('#pnPsCanal #formEditar #Bairro').val(linha['Bairro']);
             $('#pnPsCanal #formEditar #Cidade').val(linha['Cidade']);
             $('#pnPsCanal #formEditar #UF').val(linha['UF']);
+            $('#pnPsCanal #formEditar #InscrMunId').val(linha['InscrMunId']);
             selectCanal(linha['CanalId'],'formEditar');
 
         });

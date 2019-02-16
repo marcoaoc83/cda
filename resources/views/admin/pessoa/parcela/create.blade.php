@@ -104,56 +104,56 @@
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="PrincipalVr">Valor Principal </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="PrincipalVr" name="PrincipalVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number">
+                            <input id="PrincipalVr" name="PrincipalVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number" min="0.00" step="0.01">
                         </div>
                     </div>
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="MultaVr">Valor Multa </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="MultaVr" name="MultaVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number">
+                            <input id="MultaVr" name="MultaVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number" min="0.00" step="0.01">
                         </div>
                     </div>
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="JurosVr">Valor Juros </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="JurosVr" name="JurosVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number">
+                            <input id="JurosVr" name="JurosVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number" min="0.00" step="0.01">
                         </div>
                     </div>
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TaxaVr">Valor Taxa </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="TaxaVr" name="TaxaVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number">
+                            <input id="TaxaVr" name="TaxaVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number" min="0.00" step="0.01">
                         </div>
                     </div>
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="AcrescimoVr">Valor Acrescimo </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="AcrescimoVr" name="AcrescimoVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number">
+                            <input id="AcrescimoVr" name="AcrescimoVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number" min="0.00" step="0.01">
                         </div>
                     </div>
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="DescontoVr">Valor Desconto </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="DescontoVr" name="DescontoVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number">
+                            <input id="DescontoVr" name="DescontoVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number" min="0.00" step="0.01">
                         </div>
                     </div>
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Honorarios">Valor Honorarios </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="Honorarios" name="Honorarios"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number">
+                            <input id="Honorarios" name="Honorarios"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number" min="0.00" step="0.01">
                         </div>
                     </div>
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="TotalVr">Valor Total </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input id="TotalVr" name="TotalVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number">
+                            <input id="TotalVr" name="TotalVr"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="number" min="0.00" step="0.01">
                         </div>
                     </div>
 
