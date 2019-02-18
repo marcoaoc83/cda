@@ -297,4 +297,9 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::post('admin/graficos/origem', 'GraficosController@origem')->name('graficos.origem');
     Route::post('admin/graficos/carteira', 'GraficosController@carteira')->name('graficos.carteira');
     Route::post('admin/graficos/fase', 'GraficosController@fase')->name('graficos.fase');
+
+    Route::post('admin/graficos/parcelas', 'GraficosParcelasController@parcelas')->name('graficos.parcelas');
+    Route::post('admin/graficos/origem-parcela', 'GraficosParcelasController@origem')->name('graficos.origem-parcela');
+    Route::post('admin/graficos/carteira-parcela', 'GraficosParcelasController@carteira')->name('graficos.carteira-parcela');
+    Route::post('admin/graficos/fase-parcela', 'GraficosParcelasController@fase')->name('graficos.fase-parcela');
 });

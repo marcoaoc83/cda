@@ -25,7 +25,7 @@
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel" id="filaDiv">
+                    <div class="x_panel" id="filaDiv"  style="display: none">
                         <div class="x_title">
                             <h2>Fila<small></small></h2>
                             <ul class="nav navbar-right panel_toolbox">
@@ -44,6 +44,9 @@
                                 </select>
                             </div>
                         </div>
+
+                    </div>
+                    <div class="x_panel" id="divFiltros" style="display: none">
                         <div class="x_content"  id="divFiltroCanal" style="display: none">
                             <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
                                 <select class="form-control" id="CanalId" name="CanalId" placeholder="Canal"  onchange="selectCanal(this.value)" >
@@ -54,8 +57,6 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="x_panel" id="divFiltros" style="display: none">
                         <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             @include('admin.execfila.filtro-carteira')

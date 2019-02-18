@@ -47,13 +47,8 @@ class ExecFilaController extends Controller
      */
     public function index()
     {
-        $cda_evento = DB::table('cda_evento')->get();
-        $FilaTrab = DB::table('cda_filatrab')->get();
-        $FonteInfoId=\App\Models\RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','FonteInfo')->get();
-        $Canal=\App\Models\Canal::get();
-        $TipPos=\App\Models\RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','TpPos')->get();
-        $Trat=TratRet::all();
-        return view('admin.execfila.index',compact('FilaTrab','Canal','FonteInfoId','TipPos','Trat'));
+
+        return view('admin.execfila.menu');
     }
 
     /**
@@ -63,7 +58,13 @@ class ExecFilaController extends Controller
      */
     public function create()
     {
-        //
+        $cda_evento = DB::table('cda_evento')->get();
+        $FilaTrab = DB::table('cda_filatrab')->get();
+        $FonteInfoId=\App\Models\RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','FonteInfo')->get();
+        $Canal=\App\Models\Canal::get();
+        $TipPos=\App\Models\RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','TpPos')->get();
+        $Trat=TratRet::all();
+        return view('admin.execfila.index',compact('FilaTrab','Canal','FonteInfoId','TipPos','Trat'));
     }
 
     /**

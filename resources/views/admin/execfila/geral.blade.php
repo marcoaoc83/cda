@@ -550,6 +550,8 @@ function filtrarTratRet(fila){
     tbTratRet.ajax.url(url).load();
 }
 $(document).ready(function() {
+
+
     $('.date-picker').daterangepicker({
         singleDatePicker: true,
         autoUpdateInput: false,
@@ -663,7 +665,11 @@ $(document).ready(function() {
         $('#myModalRetorno').modal('toggle');
         return false;
     });
-});
 
+});
+    $(window).on("load", function() {
+
+        $("#FilaTrabId").val({{ Request::get('fila') }}).change();
+    });
 
 </script>

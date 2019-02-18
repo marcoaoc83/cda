@@ -1,6 +1,6 @@
 <div class="x_panel" id="pnExecRot">
     <div class="x_title">
-        <h2>Execução do Roteiro <small></small></h2>
+        <h2>Execução do Roteiro <small>(Selecione um roteiro)</small></h2>
         <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>

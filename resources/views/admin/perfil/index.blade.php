@@ -39,7 +39,7 @@
                         <form class="form-horizontal form-label-left" novalidate method="post" action="{{ route('perfil.update') }}">
                             {{ csrf_field() }}
                             <div class="item form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Name <span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nome <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input value="{{auth()->user()->name}}" id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name"  required="required" type="text">
@@ -54,13 +54,13 @@
                             </div>
 
                             <div class="item form-group">
-                                <label for="password" class="control-label col-md-3">Password</label>
+                                <label for="password" class="control-label col-md-3">Senha</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="password" type="password" name="password" data-validate-length="6,8" class="form-control col-md-7 col-xs-12" required="required">
                                 </div>
                             </div>
                             <div class="item form-group">
-                                <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">Repeat Password</label>
+                                <label for="password2" class="control-label col-md-3 col-sm-3 col-xs-12">Confirme a Senha</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <input id="password2" type="password" name="password2" data-validate-linked="password" class="form-control col-md-7 col-xs-12" required="required">
                                 </div>
