@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Parcela;
 use App\Models\RegraCalculo;
+use App\Models\RegraTributo;
 use App\Models\RegTab;
 use App\Models\TabelasSistema;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Softon\SweetAlert\Facades\SWAL;
 use App\Http\Controllers\Controller;
@@ -191,5 +194,55 @@ class RegraCalculoController extends Controller
                 ';
             })
             ->make(true);
+    }
+
+    public function gerarRegra(){
+
+        $regras=RegraCalculo::where('TpRegCalcId',167)
+            ->where('InicioDt','<=',date('Y-m-d'))
+            ->where('TerminoDt','>=',date('Y-m-d'))
+            ->orderBy('InicioDt')
+        ;
+        foreach ($regras->cursor() as $regra){
+
+            $tributos=RegraTributo::where('RegCalcId',$regra->RegCalcId);
+            $tipos_tributos=[];
+            foreach($tributos->cursor() as $tributo){
+                $tipos_tributos[]=$tributo->TributoId;
+            }
+            if(empty($tipos_tributos)) continue;
+
+            $parcelas= Parcela::where('SitPagId',61)->whereIn('TributoId',$tipos_tributos);
+            foreach($parcelas->cursor() as $parcela){
+                $valor=$parcela->PrincipalVr;
+                $valorJuros=0;
+                $valorMulta=($valor*($regra->MultaTx/100));
+                $valorDesconto=($valor*($regra->DescontoTx/100));
+                $valorHonorarios=($valor*($regra->HonorarioTx/100));
+                if($regra->TpJuroId==169){//Se for Juros Simples
+                    $meses=Carbon::parse($parcela->VencimentoDt->format('Y-m-d'))->DiffInMonths(date('Y-m-d'));
+                    if($meses==0) continue;
+                    for($x=1;$x<=$meses;$x++){
+                        $valorJuros=$valorJuros+($valor*($regra->JuroTx/100));
+                    }
+                }else{//Se for Juros Compostos
+                    $meses=Carbon::parse($parcela->VencimentoDt)->DiffInMonths(date('Y-m-d'));
+
+                    for($x=1;$x<=$meses;$x++){
+                        $valorJuros=$valorJuros+(($valor+$valorJuros)*($regra->JuroTx/100));
+                    }
+                }
+                $valor=$valor+$valorJuros+$valorHonorarios+$valorMulta-$valorDesconto;
+                Parcela::find($parcela->ParcelaId)->update([
+                    'MultaVr'=>$valorMulta,
+                    'JurosVr'=>$valorJuros,
+                    'DescontoVr'=>$valorDesconto,
+                    //'AcrescimoVr'=>$valorJuros+$valorHonorarios+$valorMulta-$valorDesconto,
+                    'Honorarios'=>$valorHonorarios,
+                    'TotalVr'=>$valor
+                ]);
+            }
+        }
+
     }
 }

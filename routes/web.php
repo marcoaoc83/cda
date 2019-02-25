@@ -32,6 +32,7 @@ Route::get('crontab/teste', 'CronController@teste');
 Route::get('crontab/execfilaparcela', 'CronController@execfilaparcela');
 Route::get('crontab/execfila', 'CronController@execfila');
 Route::get('teste-execfila', 'Admin\ExecFilaController@teste');
+Route::get('regras-calculo', 'Admin\RegraCalculoController@gerarRegra');
 
 //Froala
 Route::post('admin/uploadfroala', 'Admin\FroalaController@store');

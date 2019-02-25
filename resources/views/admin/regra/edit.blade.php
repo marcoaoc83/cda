@@ -154,7 +154,7 @@
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="NomeGuia">Nome da Guia </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{$RegraCalculo->NomeGuia}}"  type="text" id="NomeGuia" name="NomeGuia" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{$RegraCalculo->NomeGuia}}"  type="text" id="NomeGuia" name="NomeGuia"  class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="item form-group">
@@ -172,14 +172,14 @@
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Agencia">Agencia/Código do Cedente</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ $RegraCalculo->Agencia}}"  type="text" id="Agencia" name="Agencia" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{ $RegraCalculo->Agencia}}"  type="text" id="Agencia" name="Agencia"  class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="Cedente">Cedente</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ $RegraCalculo->Cedente}}"  type="text" id="Cedente" name="Cedente" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{ $RegraCalculo->Cedente}}"  type="text" id="Cedente" name="Cedente"  class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
