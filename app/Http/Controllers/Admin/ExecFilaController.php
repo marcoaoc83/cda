@@ -25,6 +25,7 @@ use App\Models\Tarefas;
 use App\Models\TratRet;
 use App\Models\ValEnv;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
@@ -64,7 +65,9 @@ class ExecFilaController extends Controller
         $Canal=\App\Models\Canal::get();
         $TipPos=\App\Models\RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','TpPos')->get();
         $Trat=TratRet::all();
-        return view('admin.execfila.index',compact('FilaTrab','Canal','FonteInfoId','TipPos','Trat'));
+        $Fila=Fila::find(Input::get('fila') );
+        $Fila=$Fila->FilaTrabNm;
+        return view('admin.execfila.index',compact('FilaTrab','Canal','FonteInfoId','TipPos','Trat','Fila'));
     }
 
     /**

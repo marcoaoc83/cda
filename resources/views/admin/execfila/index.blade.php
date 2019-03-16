@@ -18,7 +18,7 @@
         <div class="">
             <div class="page-title">
                 <div class="title_left">
-                    <h3>Execução de Fila</h3>
+                    <h3>{{$Fila}}</h3>
                 </div>
             </div>
             <div class="clearfix"></div>

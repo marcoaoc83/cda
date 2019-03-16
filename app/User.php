@@ -57,8 +57,12 @@ class User extends Authenticatable
                 $menu=Menu::find($var['id']);
                 $var['text']=$menu->menu_nome;
             }
+            $url='';
+            if($var['href']){
+                $url=explode('?',$var['href']);
+            }
             $html.='<li><a';
-            $html.=$var["href"]?' href="'. route($var['href']).'">':'>';
+            $html.=$url?' href="'. route($url[0],[$url[1]]).'">':'>';
             $html.=$var["icon"] && trim($var['icon'])!='fa'?'<i class="fa '.$var['icon'].'"></i>':'';
             $html.=$var['text'];
             $html.=$var["children"]?'<span class="fa fa-chevron-down"></span>':'';
@@ -71,7 +75,11 @@ class User extends Authenticatable
                         $var2['text']=$menu->menu_nome;
                     }
                     $html.='<li><a';
-                    $html.=$var2["href"]?' href="'. route($var2['href']).'">':'>';
+                    $url2='';
+                    if($var2['href']){
+                        $url2=explode('?',$var2['href']);
+                    }
+                    $html.=$url2?' href="'. route($url2[0],[$url2[1]]).'">':'>';
                     $html.=$var2["icon"] && trim($var2['icon'])!='fa'?'<i class="fa '.$var2['icon'].'"></i>':'';
                     $html.=$var2['text'];
                     $html.=$var2["children"]?'<span class="fa fa-chevron-down"></span>':'';
@@ -83,8 +91,12 @@ class User extends Authenticatable
                                 $menu=Menu::find($var3['id']);
                                 $var3['text']=$menu->menu_nome;
                             }
+                            $url3='';
+                            if($var3['href']){
+                                $url3=explode('?',$var3['href']);
+                            }
                             $html.='<li><a';
-                            $html.=$var3["href"]?' href="'. route($var3['href']).'">':'>';
+                            $html.$url3?' href="'. route($url3[0],[$url3[1]]).'">':'>';
                             $html.=$var3["icon"] && trim($var3['icon'])!='fa'?'<i class="fa '.$var3['icon'].'"></i>':'';
                             $html.=$var3['text'];
                             $html.=$var3["children"]?'<span class="fa fa-chevron-down"></span>':'';
