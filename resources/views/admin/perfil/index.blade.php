@@ -52,7 +52,13 @@
                                     <input value="{{auth()->user()->email}}"  type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
                                 </div>
                             </div>
-
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="documento">Login <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input value="{{auth()->user()->documento}}"  type="text" id="documento" name="documento" required="required" class="form-control col-md-7 col-xs-12">
+                                </div>
+                            </div>
                             <div class="item form-group">
                                 <label for="password" class="control-label col-md-3">Senha</label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">

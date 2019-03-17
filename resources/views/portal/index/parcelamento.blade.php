@@ -11,7 +11,7 @@
                         <thead>
                         <tr>
                             <th>Tipo de Tributo</th>
-                            <th>Inscrição Municipal</th>
+                            <th>{{App\Models\RegTab::where('REGTABSG','LbDocument')->first()->REGTABNM}}</th>
                             <th>Endereço</th>
                         </tr>
                         </thead>

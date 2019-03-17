@@ -1,6 +1,6 @@
 <div class="x_panel " id="divResultIM" style="display: none">
     <div class="x_title">
-        <h2>Inscrição Municipal <small></small></h2>
+        <h2>{{App\Models\RegTab::where('REGTABSG','LbDocument')->first()->REGTABNM}}<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
@@ -13,7 +13,7 @@
             <thead>
             <tr>
                 <th>Nome</th>
-                <th>Inscr Mun</th>
+                <th>{{App\Models\RegTab::where('REGTABSG','GdDocument')->first()->REGTABNM}}</th>
                 <th>Vencimento</th>
                 <th style="text-align: right">Valor</th>
                 <th>Fx Atraso</th>

@@ -303,4 +303,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::post('admin/graficos/origem-parcela', 'GraficosParcelasController@origem')->name('graficos.origem-parcela');
     Route::post('admin/graficos/carteira-parcela', 'GraficosParcelasController@carteira')->name('graficos.carteira-parcela');
     Route::post('admin/graficos/fase-parcela', 'GraficosParcelasController@fase')->name('graficos.fase-parcela');
+
+    Route::get('admin/orgao/getdata', 'OrgaoController@getDadosDataTable')->name('orgao.getdata');
+    Route::resource('admin/orgao', 'OrgaoController');
 });

@@ -1,6 +1,6 @@
 <div class="x_panel" id="divResultContribuinteResIMVal" style="display: none">
     <div class="x_title">
-        <h2>Inscrição Municipal<small></small></h2>
+        <h2>{{App\Models\RegTab::where('REGTABSG','LbDocument')->first()->REGTABNM}}<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
@@ -12,7 +12,7 @@
         <table id="tbContribuinteResIMVal" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
             <thead>
             <tr>
-                <th>Número I.M.</th>
+                <th>Número {{App\Models\RegTab::where('REGTABSG','AbDocument')->first()->REGTABNM}}</th>
             </tr>
             </thead>
         </table>

@@ -17,7 +17,7 @@
                 <th>Modelo</th>
                 <th>Nome</th>
                 <th>CPF/CNPJ</th>
-                <th>I.M.</th>
+                <th>{{App\Models\RegTab::where('REGTABSG','AbDocument')->first()->REGTABNM}}</th>
                 <th>Sit Pag</th>
                 <th>Sit Cob</th>
                 <th>Orig Trib</th>

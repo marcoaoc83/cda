@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Orgao;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
@@ -49,9 +50,11 @@ class UserController extends Controller
     {
         // get the nerd
         $user = User::find($id);
+        $orgao = Orgao::get();
         $funcoes = DB::select("SELECT * FROM cda_user_funcao ORDER BY fun_id");
         // show the view and pass the nerd to it
         return View::make('admin.user.form')
+            ->with('orgaos', $orgao)
             ->with('funcoes', $funcoes)
             ->with('user', $user);
     }
@@ -80,6 +83,8 @@ class UserController extends Controller
             $user = User::find($id);
             $user->name       = Input::get('name');
             $user->email      = Input::get('email');
+            $user->documento   = Input::get('documento');
+            $user->orgao      = Input::get('orgao');
             $user->save();
 
             // redirect
@@ -91,8 +96,9 @@ class UserController extends Controller
     public function getInserir()
     {
         $funcoes = DB::select("SELECT * FROM cda_user_funcao ORDER BY fun_id");
+        $orgaos = Orgao::get();
         // show the view and pass the nerd to it
-        return view('admin.user.insere',compact('funcoes'));
+        return view('admin.user.insere',compact('funcoes','orgaos'));
     }
 
 
@@ -103,6 +109,7 @@ class UserController extends Controller
         $rules = array(
             'name'       => 'required',
             'email'      => 'required|email',
+            'documento'      => 'required',
             'password'      => 'required',
         );
         $niceNames = array(

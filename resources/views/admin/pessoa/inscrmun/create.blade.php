@@ -14,7 +14,7 @@
                     <input type="hidden" id="INSCRMUNID" name="INSCRMUNID">
 
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Inscr Mun<span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">{{App\Models\RegTab::where('REGTABSG','GdDocument')->first()->REGTABNM}}<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <input id="INSCRMUNNR" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="INSCRMUNNR"  required="required" type="number">
                         </div>
