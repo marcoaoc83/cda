@@ -63,20 +63,20 @@
                                         <input value="{{$user->email}}"  type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
-                                <div class="item form-group">
+                                <div class="item form-group" >
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="documento">Login <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input value="{{$user->documento}}"  type="text" id="documento" name="documento" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
-                                <div class="item form-group">
+                                <div class="item form-group"  @if (auth()->user()->orgao ) style="display: none" @endif >
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="orgao">Orgão</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select class="form-control" id="orgao" name="orgao">
                                             <option value=""></option>
                                             @foreach($orgaos as $orgao)
-                                                <option value="{{$orgao->org_id}}" @if ($user->orgao === $orgao->org_id) selected @endif>{{$orgao->org_nome}}</option>             
+                                                <option value="{{$orgao->org_id}}" @if ($user->orgao == $orgao->org_id) selected @endif>{{$orgao->org_nome}}</option>             
                                             @endforeach
                                         </select>
                                     </div>
@@ -92,3 +92,9 @@
 
     <!-- /page content -->
 @endsection
+
+@push('scripts')
+    <script>
+
+    </script>
+@endpush

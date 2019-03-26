@@ -50,7 +50,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="item form-group">
+                                @if (auth()->user()->orgao )
+                                    <input type="hidden" id="orgao" name="orgao" value="{{auth()->user()->orgao}}">
+                                @else
+                                <div class="item form-group" >
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="orgao">Orgão</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select class="form-control" id="orgao" name="orgao">
@@ -61,6 +64,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                @endif
                                 <div class="item form-group">
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Nome <span class="required">*</span>
                                     </label>
@@ -80,7 +84,7 @@
                                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="documento">Login <span class="required">*</span>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ old('documento') }}"  type="email" id="documento" name="documento" required="required" class="form-control col-md-7 col-xs-12">
+                                        <input value="{{ old('documento') }}"  type="text" id="documento" name="documento" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
 

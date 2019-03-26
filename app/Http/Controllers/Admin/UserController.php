@@ -27,8 +27,12 @@ class UserController extends Controller
 
     public function getPosts()
     {
-        $users = User::select(['id', 'name', 'email']);
 
+        $orgao=auth()->user()->orgao;
+        if($orgao)
+            $users = User::select(['id', 'name', 'email'])->where('orgao',$orgao);
+        else
+            $users = User::select(['id', 'name', 'email']);
 
         return Datatables::of($users)
             ->addColumn('action', function ($user) {
@@ -79,13 +83,52 @@ class UserController extends Controller
                 ->withErrors($validator)
                 ->withInput(Input::except('password'));
         } else {
-            // store
-            $user = User::find($id);
-            $user->name       = Input::get('name');
-            $user->email      = Input::get('email');
-            $user->documento   = Input::get('documento');
-            $user->orgao      = Input::get('orgao');
-            $user->save();
+            DB::beginTransaction();
+            try {
+                // store
+                $user = User::find($id);
+                $documento=$user->documento;
+                if($user->orgao){
+                    $org=Orgao::on('mysql')->find($user->orgao);
+                    $user = User::on($org->org_pasta)->find($id);
+                }
+                if(Input::get('orgao')) {
+                    $user->update([
+                        "name" => Input::get('name'),
+                        "email" => Input::get('email'),
+                        "documento" => Input::get('documento'),
+                        "orgao" => Input::get('orgao')
+                    ]);
+                }else{
+                    $user->update([
+                        "name" => Input::get('name'),
+                        "email" => Input::get('email'),
+                        "documento" => Input::get('documento')
+                    ]);
+                }
+
+
+                $user2 = User::on('mysql')->where('documento',$documento);
+                if(Input::get('orgao')) {
+                    $user2->update([
+                        "name" => Input::get('name'),
+                        "email" => Input::get('email'),
+                        "documento" => Input::get('documento'),
+                        "orgao" => Input::get('orgao')
+                    ]);
+                }else{
+                    $user2->update([
+                        "name" => Input::get('name'),
+                        "email" => Input::get('email'),
+                        "documento" => Input::get('documento')
+                    ]);
+                }
+
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+                throw new \Exception('Error: API is not accessible: ' . $e->getMessage());
+            }
 
             // redirect
             SWAL::message('Salvo','Usuário foi salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
@@ -134,7 +177,23 @@ class UserController extends Controller
                     ->withErrors($validator)
                     ->withInput(Input::except('password'));
             }
-            User::create($data);
+
+            DB::beginTransaction();
+            try {
+
+                $id=User::on('mysql')->create($data);
+                $data = array_merge($data, [ 'id' =>$id->id]);
+                if($data['orgao']){
+                    $org=Orgao::on('mysql')->find($data['orgao']);
+                    if($org->org_pasta && $org->org_pasta!='mysql')
+                        User::on($org->org_pasta)->create($data);
+                }
+
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollback();
+                throw new \Exception('Error: API is not accessible: ' . $e->getMessage());
+            }
             SWAL::message('Salvo','Usuário foi salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
             return redirect()->route('admin.users');
         }
@@ -144,6 +203,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if($user->delete()) {
+            User::on('mysql')->find($id)->delete();
             return 'true';
         }else{
             return 'false';
