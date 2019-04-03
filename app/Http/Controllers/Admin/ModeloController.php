@@ -160,7 +160,7 @@ table_schema = '".DB::getDatabaseName()."'");
         $html=str_replace('0.0001px;','0.0001pt;',$html);
 
         $pdf = App::make('dompdf.wrapper');
-        $pdf->setPaper('b4')
+        $pdf->setPaper('b3')
             ->setWarnings(false)
             ->loadHTML($html);
 

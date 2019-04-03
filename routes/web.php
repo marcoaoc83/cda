@@ -298,6 +298,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::post('admin/graficos/origem', 'GraficosController@origem')->name('graficos.origem');
     Route::post('admin/graficos/carteira', 'GraficosController@carteira')->name('graficos.carteira');
     Route::post('admin/graficos/fase', 'GraficosController@fase')->name('graficos.fase');
+    Route::post('admin/graficos/home', 'GraficosController@home')->name('graficos.home');
 
     Route::post('admin/graficos/parcelas', 'GraficosParcelasController@parcelas')->name('graficos.parcelas');
     Route::post('admin/graficos/origem-parcela', 'GraficosParcelasController@origem')->name('graficos.origem-parcela');
@@ -306,4 +307,10 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/orgao/getdata', 'OrgaoController@getDadosDataTable')->name('orgao.getdata');
     Route::resource('admin/orgao', 'OrgaoController');
+
+    Route::get('admin/graficos/getdata', 'GraficosController@getDadosDataTable')->name('graficos.getdata');
+    Route::resource('admin/graficos', 'GraficosController');
+
+    Route::get('admin/graficosseries/getdata', 'GraficosSeriesController@getDadosDataTable')->name('graficosseries.getdata');
+    Route::resource('admin/graficosseries', 'GraficosSeriesController');
 });

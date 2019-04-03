@@ -619,7 +619,7 @@ class PortalController extends Controller
         $Modelo= ModCom::find(8);
         $html=$Modelo->ModTexto;
         $pdf = App::make('dompdf.wrapper');
-        $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
+        $pdf->setPaper('b3')->setWarnings(false)->loadHTML($html);
         // Send data to the view using loadView function of PDF facade
         // If you want to store the generated pdf to the server then you can use the store function
         // Finally, you can download the file using download function

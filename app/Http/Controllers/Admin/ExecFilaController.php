@@ -1245,7 +1245,7 @@ class ExecFilaController extends Controller
             $html = str_replace('pt;', 'px;', $html);
             $html = str_replace('0.0001px;', '0.0001pt;', $html);
             $pdf = App::make('dompdf.wrapper');
-            $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
+            $pdf->setPaper('b3')->setWarnings(false)->loadHTML($html);
             $pdf->save($dir . $file);
         }
 
@@ -1488,9 +1488,9 @@ class ExecFilaController extends Controller
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
             ->groupBy('cda_parcela.PessoaId','cda_parcela.ParcelaId')
-            ->limit($limit)
-            ->get();
-        foreach ($Pessoas as $pess){
+            ->limit($limit);
+
+        foreach ($Pessoas->cursor() as $pess){
             $parc[]=$pess->ParcelaId;
         }
 

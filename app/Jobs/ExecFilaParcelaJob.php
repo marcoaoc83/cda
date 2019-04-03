@@ -249,7 +249,7 @@ class ExecFilaParcelaJob implements ShouldQueue
             $html = str_replace('pt;', 'px;', $html);
             $html = str_replace('0.0001px;', '0.0001pt;', $html);
             $pdf = App::make('dompdf.wrapper');
-            $pdf->setPaper('b4')->setWarnings(false)->loadHTML($html);
+            $pdf->setPaper('b3')->setWarnings(false)->loadHTML($html);
             $pdf->save($dir . $file);
         }
         $Tarefa= Tarefas::findOrFail($this->Tarefa);
