@@ -1057,9 +1057,9 @@ class ExecFilaController extends Controller
     {
         //dd('oi');
         $TarefaId=1;
-        $parcelas='9,10,11,12,13,14';
+        $parcelas='58,60,61';
         $Gravar=false;
-        $Fila=4;
+        $Fila=3;
 
         $filas=[];
         $Tarefa= Tarefas::findOrFail($TarefaId);
@@ -1358,6 +1358,7 @@ class ExecFilaController extends Controller
                             if (isset($linha->$campo)) {
                                 if (isset($result[$i - 1][$sg])) {
                                     $valor = $result[$i - 1][$sg] + $linha->$campo;
+                                    unset($result[$i - 1][$sg]);
                                 } else {
                                     $valor = $linha->$campo;
                                 }
@@ -1555,6 +1556,7 @@ class ExecFilaController extends Controller
         $FxAtraso=$FxValor=$seqValor=$Nqtde=[];
 
         foreach ($Pessoas as $pessoa){
+
             foreach ($arrayFxAtraso as $key=>$value){
                 if($pessoa['MAX_VENC']>$value['Min']){
                     if($value['Max']){
@@ -1622,11 +1624,14 @@ class ExecFilaController extends Controller
             }
         }
 
+        $wIM=$wPes=[];
         if($FxAtraso){
             if($request->group=='IM') {
-                $where .= ' AND cda_parcela.InscrMunId IN (' . implode(',', array_keys($FxAtraso)) . ')';
+                $wIM+=$FxAtraso;
+                //$where .= ' AND cda_parcela.InscrMunId IN (' . implode(',', array_keys($FxAtraso)) . ')';
             }else{
-                $where .= ' AND cda_parcela.PessoaId IN (' . implode(',', array_keys($FxAtraso)) . ')';
+                $wPes+=$FxAtraso;
+                //$where .= ' AND cda_parcela.PessoaId IN (' . implode(',', array_keys($FxAtraso)) . ')';
             }
         }elseif($request->FxAtrasoId){
             $where.=' AND cda_parcela.PessoaId IN (0)';
@@ -1634,9 +1639,11 @@ class ExecFilaController extends Controller
 
         if($FxValor){
             if($request->group=='IM') {
-                $where .= ' AND cda_parcela.InscrMunId IN (' . implode(',', array_keys($FxValor)) . ')';
+                $wIM+=$FxValor;
+                //$where .= ' AND cda_parcela.InscrMunId IN (' . implode(',', array_keys($FxValor)) . ')';
             }else{
-                $where .= ' AND cda_parcela.PessoaId IN (' . implode(',', array_keys($FxValor)) . ')';
+                $wPes+=$FxValor;
+               // $where .= ' AND cda_parcela.PessoaId IN (' . implode(',', array_keys($FxValor)) . ')';
             }
         }elseif($request->FxValorId){
             $where.=' AND cda_parcela.PessoaId IN (0)';
@@ -1644,11 +1651,15 @@ class ExecFilaController extends Controller
 
         if($Nqtde){
             if($request->group=='IM') {
-                $where .= ' AND cda_parcela.InscrMunId IN (' .implode(',',$Nqtde).')';
+                $wIM+=$Nqtde;
+                //$where .= ' AND cda_parcela.InscrMunId IN (' .implode(',',$Nqtde).')';
             }else{
-                $where .= ' AND cda_parcela.PessoaId IN (' .implode(',',$Nqtde).')';
+                $wPes+=$Nqtde;
+               // $where .= ' AND cda_parcela.PessoaId IN (' .implode(',',$Nqtde).')';
             }
         }
+        if($wIM) $where .= ' AND cda_parcela.InscrMunId IN (' . implode(',', array_keys($wIM)) . ')';
+        if($wPes) $where .= ' AND cda_parcela.PessoaId IN (' . implode(',', array_keys($wPes)) . ')';
         return $where;
     }
 
@@ -1922,12 +1933,18 @@ class ExecFilaController extends Controller
     }
     private function SMS($numero,$msg,$lote){
         $msg=html_entity_decode($msg);
+        $url="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=6796119286&content=$msg&campaign_id=$lote&type=0";
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $url);
+        return true;
+    }
+    private function WHATSAPP($numero,$msg,$lote){
+        $msg=html_entity_decode($msg);
         $url="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=6796119286&content=$msg&campaign_id=$lote&type=5";
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $url);
         return true;
     }
-
     private function EMAIL($email,$msg){
         $cda_portal = PortalAdm::get();
         $cda_portal=$cda_portal[0];

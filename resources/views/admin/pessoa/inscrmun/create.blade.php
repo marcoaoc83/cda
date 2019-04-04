@@ -51,7 +51,7 @@
                         </label>
                         <div class="col-md-7" style="margin-top: 5px">
                             <label style="">
-                                <input type="checkbox" id="SITUACAO" name="SITUACAO" value="1" class="js-switch" >
+                                <input type="checkbox" id="SITUACAO" name="SITUACAO" checked value="1" class="js-switch" >
                             </label>
                         </div>
                     </div>

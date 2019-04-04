@@ -64,7 +64,7 @@ class DistribuicaoJob implements ShouldQueue
                 Where
                   distribuicao_parcelas.parcela_id IS NULL AND
                   (cda_parcela.VENCIMENTODT Is Not Null) And
-                  (cda_parcela.SitPagId = 61) LIMIT $this->page,50";
+                  (cda_parcela.SitPagId = 61) order by cda_parcela.ParcelaId desc LIMIT $this->page,50";
         $consulta= DB::select($sql_prime);
 
 

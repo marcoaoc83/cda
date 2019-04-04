@@ -362,6 +362,7 @@ class ExecFilaParcelaJob implements ShouldQueue
                             if (isset($linha->$campo)) {
                                 if (isset($result[$i - 1][$sg])) {
                                     $valor = $result[$i - 1][$sg] + $linha->$campo;
+                                    unset($result[$i - 1][$sg]);
                                 } else {
                                     $valor = $linha->$campo;
                                 }
@@ -391,15 +392,22 @@ class ExecFilaParcelaJob implements ShouldQueue
         return preg_replace("/[^A-Za-z]/", "", $str);
     }
 
+
     private function SMS($numero,$msg,$lote){
         $msg=html_entity_decode($msg);
-
         $url="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=$numero&content=$msg&campaign_id=$lote&type=0";
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $url);
-        $url2="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=$numero&content=$msg&campaign_id=$lote&type=5";
-        $client2 = new \GuzzleHttp\Client();
-        $response2 = $client->request('GET', $url2);
+
+        return true;
+    }
+
+    private function WHATSAPP($numero,$msg,$lote){
+        $msg=html_entity_decode($msg);
+
+        $url="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=$numero&content=$msg&campaign_id=$lote&type=5";
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('GET', $url);
         return true;
     }
     private function EMAIL($email,$msg){
