@@ -171,19 +171,9 @@ class RelatoriosController extends Controller
 
     public function gerar($id)
     {
-        $rel=Relatorios::with('Parametros')->where('rel_id',$id)->get();
+        $rel=Relatorios::find($id);
 
-        $sql=explode("where",strtolower($rel[0]->rel_sql));
-
-        $result=DB::select($sql[0]);
-        $query=array_map(function ($value) {
-            return (array)$value;
-        }, $result);
-        $campos=(array_keys($query[0]));
-
-        return view('admin.relatorios.gerar')
-            ->with('campos',($campos))
-            ->with('rel',$rel[0]);
+        return view('admin.relatorios.gerar')->with('Relatorio',$rel);
 
     }
     public function getdataRegistroSql(Request $request)
@@ -288,5 +278,12 @@ class RelatoriosController extends Controller
                 $sheet->fromArray($data);
             });
         })->download("txt");
+    }
+
+    public function info(Request $request){
+
+        $fila = Relatorios::find($request->id)->toArray();
+
+        return response()->json($fila);
     }
 }

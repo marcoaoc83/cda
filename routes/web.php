@@ -268,6 +268,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
 
     Route::resource('admin/boleto', 'BoletoController');
 
+    Route::get('admin/relatorios/info', 'RelatoriosController@info')->name('relatorios.info');
     Route::get('admin/relatorios/getdata', 'RelatoriosController@getDadosDataTable')->name('relatorios.getdata');
     Route::get('admin/relatorios/{id}/gerar', 'RelatoriosController@gerar')->name('relatorios.gerar');
     Route::get('admin/relatorios/filtrar', 'RelatoriosController@getdataRegistro')->name('relatorios.getdataRegistro');
