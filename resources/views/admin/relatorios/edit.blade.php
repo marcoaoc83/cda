@@ -55,22 +55,128 @@
                                         <input value="{{ $Relatorio->rel_titulo }}"  type="text" id="rel_titulo" name="rel_titulo" required="required" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
-
-                                <div class="form-group sql">
-                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">SQL</label>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rel_saida">Saída</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <textarea class="form-control" rows="10" id="rel_sql" name="rel_sql">{{ $Relatorio->rel_sql }}</textarea>
+                                        <select class="form-control" id="rel_saida" name="rel_saida">
+                                            @foreach($Tipo as $var)
+                                                <option value="{{$var}}"  @if($Relatorio->rel_saida == $var) selected @endif>{{strtoupper($var)}}</option>             
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
 
+                                <div class="item form-group">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                                    <div class="x_panel" id="filExecucao">
+                                        <div class="x_title">
+                                            <h2>Execução de Fila<small></small></h2>
+                                            <ul class="nav navbar-right panel_toolbox">
+                                                <li>
+                                                    <a class="collapse-link">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_carteira">Carteira
+                                                </label>
+                                                <div class="col-md-7" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="filtro_carteira" name="filtro_carteira"  @if ($Relatorio->filtro_carteira ==1) checked @endif  value="1" class="js-switch" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_roteiro">Roteiro
+                                                </label>
+                                                <div class="col-md-7" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="filtro_roteiro" name="filtro_roteiro" @if ($Relatorio->filtro_roteiro ==1) checked @endif value="1" class="js-switch" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_contribuinte">Contribuinte
+                                                </label>
+                                                <div class="col-md-7" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="filtro_contribuinte" name="filtro_contribuinte" @if($Relatorio->filtro_contribuinte ==1)checked @endif value="1" class="js-switch" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-5 col-sm-5 col-xs-12" for="filtro_parcelas">Parcela
+                                                </label>
+                                                <div class="col-md-7" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="filtro_parcelas" name="filtro_parcelas" @if($Relatorio->filtro_parcelas ==1)checked @endif value="1" class="js-switch" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                                    <div class="x_panel" id="filResultado">
+                                        <div class="x_title">
+                                            <h2>Resultado<small></small></h2>
+                                            <ul class="nav navbar-right panel_toolbox">
+                                                <li>
+                                                    <a class="collapse-link">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_contribuinte">Contribuinte
+                                                </label>
+                                                <div class="col-md-3" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="resultado_contribuinte" name="resultado_contribuinte" @if($Relatorio->resultado_contribuinte ==1)checked @endif value="1" class=" unic" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_im">Insc. Municipal
+                                                </label>
+                                                <div class="col-md-3" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="resultado_im" name="resultado_im" @if($Relatorio->resultado_im ==1)checked @endif value="1" class=" unic" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_parcelas">Parcelas
+                                                </label>
+                                                <div class="col-md-3" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="resultado_parcelas" name="resultado_parcelas" @if($Relatorio->resultado_parcelas ==1)checked @endif value="1" class=" unic" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                    @include('admin.relatorios.parametros.index');
-                </div>
+
             </div>
         </div>
     </div>
@@ -79,5 +185,42 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
+    <script>
+        var $switchers = [];
+        //var elems = Array.prototype.slice.call();
+        $.each(document.querySelectorAll('.unic'),function(i,html) {
+            $switchers[html.name] = new Switchery(html);
+        });
 
+        $('input.unic').on('change', function () {
+            if (this.checked) {
+                $.each(document.querySelectorAll('input.unic:not([name="' + this.name + '"])'),
+                    function (i, e) {
+                        switcherySetChecked($switchers[e.name], false)
+                    });
+            }
+        });
+        function switcherySetChecked(switcher, check) {
+            var curr = $(switcher.element).prop('checked');
+            var disabled = $(switcher.element).prop('disabled');
+            if (disabled) {
+                switcher.enable();
+            }
+            if (check) {
+                if (curr) {
+                    $(switcher.element).prop('checked',false);
+                }
+                $(switcher.element).trigger('click');
+            } else {
+                if (!curr) {
+                    $(switcher.element).prop('checked', true);
+                }
+                $(switcher.element).trigger('click');
+            }
+            if (disabled) {
+                switcher.disable();
+            }
+        }
+    </script>
 @endpush

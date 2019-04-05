@@ -7,7 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class Relatorios extends Model
 {
     protected $fillable = [
-        'rel_titulo','rel_sql'
+        'rel_titulo',
+        'rel_sql',
+        'filtro_carteira',
+        'filtro_roteiro',
+        'filtro_validacao',
+        'filtro_contribuinte',
+        'filtro_parcelas',
+        'filtro_eventos',
+        'filtro_tratamento',
+        'filtro_notificacao',
+        'filtro_canal',
+        'resultado_contribuinte',
+        'resultado_im',
+        'resultado_parcelas',
+        'resultado_canais'
     ];
     protected $table = 'cda_relatorios';
     protected $primaryKey = 'rel_id';

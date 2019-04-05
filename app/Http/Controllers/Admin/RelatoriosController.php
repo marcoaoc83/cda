@@ -16,6 +16,11 @@ use Yajra\DataTables\Facades\DataTables;
 
 class RelatoriosController extends Controller
 {
+    private $tipo=[
+        'csv',
+        //'pdf',
+        'txt'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -33,8 +38,9 @@ class RelatoriosController extends Controller
      */
     public function create()
     {
+        $Tipo = collect($this->tipo);
         // show the view and pass the nerd to it
-        return view('admin.relatorios.create');
+        return view('admin.relatorios.create',compact('Tipo'));
     }
 
     /**
@@ -46,6 +52,20 @@ class RelatoriosController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $data['filtro_carteira']?$data['filtro_carteira']=1:$data['filtro_carteira']=0;
+        $data['filtro_roteiro']?$data['filtro_roteiro']=1:$data['filtro_roteiro']=0;
+        $data['filtro_contribuinte']?$data['filtro_contribuinte']=1:$data['filtro_contribuinte']=0;
+        $data['filtro_parcelas']?$data['filtro_parcelas']=1:$data['filtro_parcelas']=0;
+        $data['filtro_validacao']?$data['filtro_validacao']=1:$data['filtro_validacao']=0;
+        $data['filtro_eventos']?$data['filtro_eventos']=1:$data['filtro_eventos']=0;
+        $data['filtro_tratamento']?$data['filtro_tratamento']=1:$data['filtro_tratamento']=0;
+        $data['filtro_notificacao']?$data['filtro_notificacao']=1:$data['filtro_notificacao']=0;
+        $data['filtro_canal']?$data['filtro_canal']=1:$data['filtro_canal']=0;
+
+        $data['resultado_contribuinte']?$data['resultado_contribuinte']=1:$data['resultado_contribuinte']=0;
+        $data['resultado_im']?$data['resultado_im']=1:$data['resultado_im']=0;
+        $data['resultado_parcelas']?$data['resultado_parcelas']=1:$data['resultado_parcelas']=0;
+        $data['resultado_canais']?$data['resultado_canais']=1:$data['resultado_canais']=0;
 
         Relatorios::create($data);
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
@@ -73,9 +93,9 @@ class RelatoriosController extends Controller
     {
         $Relatorio = Relatorios::find($id);
 
-
+        $Tipo = collect($this->tipo);
         // show the view and pass the nerd to it
-        return view('admin.relatorios.edit',[ 'Relatorio'=>$Relatorio]);
+        return view('admin.relatorios.edit',[ 'Relatorio'=>$Relatorio,'Tipo'=>$Tipo]);
     }
 
     /**
@@ -87,8 +107,24 @@ class RelatoriosController extends Controller
      */
     public function update(Request $request,$id)
     {
+
+        $data = $request->all();
+        $data['filtro_carteira']?$data['filtro_carteira']=1:$data['filtro_carteira']=0;
+        $data['filtro_roteiro']?$data['filtro_roteiro']=1:$data['filtro_roteiro']=0;
+        $data['filtro_contribuinte']?$data['filtro_contribuinte']=1:$data['filtro_contribuinte']=0;
+        $data['filtro_parcelas']?$data['filtro_parcelas']=1:$data['filtro_parcelas']=0;
+        $data['filtro_validacao']?$data['filtro_validacao']=1:$data['filtro_validacao']=0;
+        $data['filtro_eventos']?$data['filtro_eventos']=1:$data['filtro_eventos']=0;
+        $data['filtro_tratamento']?$data['filtro_tratamento']=1:$data['filtro_tratamento']=0;
+        $data['filtro_notificacao']?$data['filtro_notificacao']=1:$data['filtro_notificacao']=0;
+        $data['filtro_canal']?$data['filtro_canal']=1:$data['filtro_canal']=0;
+
+        $data['resultado_contribuinte']?$data['resultado_contribuinte']=1:$data['resultado_contribuinte']=0;
+        $data['resultado_im']?$data['resultado_im']=1:$data['resultado_im']=0;
+        $data['resultado_parcelas']?$data['resultado_parcelas']=1:$data['resultado_parcelas']=0;
+        $data['resultado_canais']?$data['resultado_canais']=1:$data['resultado_canais']=0;
         $evento = Relatorios::findOrFail($id);
-        $evento->update($request->except(['_token']));
+        $evento->update($data);
 
         // redirect
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
