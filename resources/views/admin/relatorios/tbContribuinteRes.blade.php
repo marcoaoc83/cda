@@ -11,6 +11,10 @@
                 style: 'multi',
                 info:false
             },
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             columns: [
                 {data: 'Nome', name: 'Nome'},
                 {data: 'CPFCNPJ', name: 'CPFCNPJ'},

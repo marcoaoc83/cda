@@ -47,7 +47,18 @@
             }
         });
 
-
+        tbCarteira.on( 'select', function ( e, dt, type, indexes ) {
+            if ( type === 'row' ) {
+                var CARTEIRAID = tbCarteira.rows( indexes ).data().pluck( 'CARTEIRAID' );
+                var tableRoteiro = $('#tbRoteiro').DataTable();
+                var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID="+CARTEIRAID[0];
+                tableRoteiro.ajax.url(url).load();
+            }
+        }).on( 'deselect', function ( e, dt, type, indexes ){
+            var tableRoteiro = $('#tbRoteiro').DataTable();
+            var url = "{{ route('execfila.getDadosRoteiro') }}"+"/?CARTEIRAID=a";
+            tableRoteiro.ajax.url(url).load();
+        });
     }); // document ready
 
 

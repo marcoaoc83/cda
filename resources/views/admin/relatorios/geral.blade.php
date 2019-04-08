@@ -23,21 +23,26 @@ function filtrar() {
 
 function filtrarParcelas(){
 
-    var tbContribuinteRes = $('#tbContribuinteRes').DataTable();
-    var url = "{{ route('execfila.getdataParcela') }}"+"/?group=Pes&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
-    tbContribuinteRes.ajax.url(url).load();
+    if($('#tbContribuinteRes').is(':visible')) {
+        var tbContribuinteRes = $('#tbContribuinteRes').DataTable();
+        var url = "{{ route('relatorios.getdataParcela') }}" + "/?group=Pes&" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();
+        tbContribuinteRes.ajax.url(url).load();
+    }
 
-    var tbIMRes = $('#tbIMRes').DataTable();
-    var url = "{{ route('execfila.getdataParcela') }}"+"/?group=IM&"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
-    tbIMRes.ajax.url(url).load();
-
-    var tbParcela = $('#tbParcela').DataTable();
-    var url = "{{ route('execfila.getdataParcela') }}"+"/?"+$('#formFiltroParcela').serialize()+'&FilaTrabId='+$('#FilaTrabId').val();
-    tbParcela.ajax.url(url).load();
-    // Get the column API object
-    var column = tbParcela.column( 0 );
-    // Toggle the visibility
-    column.visible(true );
+    if($('#tbIMRes').is(':visible')) {
+        var tbIMRes = $('#tbIMRes').DataTable();
+        var url = "{{ route('relatorios.getdataParcela') }}" + "/?group=IM&" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();
+        tbIMRes.ajax.url(url).load();
+    }
+    if($('#tbParcela').is(':visible')) {
+        var tbParcela = $('#tbParcela').DataTable();
+        var url = "{{ route('relatorios.getdataParcela') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();
+        tbParcela.ajax.url(url).load();
+        // Get the column API object
+        var column = tbParcela.column(0);
+        // Toggle the visibility
+        column.visible(true);
+    }
 }
 
 function selectFila(fila) {
@@ -138,6 +143,7 @@ $(document).ready(function() {
             this.element.val(chosen_date.format('DD/MM/YYYY'));
         }
     });
+
 
 });
 

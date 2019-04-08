@@ -1057,9 +1057,9 @@ class ExecFilaController extends Controller
     {
         //dd('oi');
         $TarefaId=1;
-        $parcelas='58,60,61';
+        $parcelas='11';
         $Gravar=false;
-        $Fila=3;
+        $Fila=4;
 
         $filas=[];
         $Tarefa= Tarefas::findOrFail($TarefaId);
@@ -1466,7 +1466,7 @@ class ExecFilaController extends Controller
             $where.=' AND cda_inscrmun.INSCRMUNNR < 1';
         }
         if($request->filtro_contribuinteN2){
-            $where.=' AND cda_inscrmun.INSCRMUNNR ='.$request->filtro_contribuinteN;
+            $where.=' AND cda_inscrmun.INSCRMUNNR ='.$request->filtro_contribuinteN2;
         }
 
         $Pessoas = Parcela::select([
@@ -1933,14 +1933,14 @@ class ExecFilaController extends Controller
     }
     private function SMS($numero,$msg,$lote){
         $msg=html_entity_decode($msg);
-        $url="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=6796119286&content=$msg&campaign_id=$lote&type=0";
+        $url="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=$numero&content=$msg&campaign_id=$lote&type=0";
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $url);
         return true;
     }
     private function WHATSAPP($numero,$msg,$lote){
         $msg=html_entity_decode($msg);
-        $url="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=6796119286&content=$msg&campaign_id=$lote&type=5";
+        $url="http://54.233.99.254/webservice-rest/send-single?user=marcoaoc83&password=300572&country_code=55&number=$numero&content=$msg&campaign_id=$lote&type=5";
         $client = new \GuzzleHttp\Client();
         $response = $client->request('GET', $url);
         return true;

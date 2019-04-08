@@ -171,7 +171,7 @@ class PortalController extends Controller
     public function acessoLogin(Request $request)
     {
         $login = CredPort::join('cda_pessoa as Pessoa', 'Pessoa.PESSOAID', '=', 'cda_credport.PessoaId')
-            ->where('Pessoa.CPF_CNPJNR',$request->documento)
+            ->where('Pessoa.CPF_CNPJNR',preg_replace("/[^0-9]/", "", $request->documento))
             ->where('Senha',md5($request->password))
             ->where('Ativo',1)
             ->get();
@@ -245,6 +245,8 @@ class PortalController extends Controller
             ->where('cda_parcela.PessoaId',$request->PESSOAID);
         if($request->INSCRMUNID && $request->INSCRMUNID!='null')
             $cda_parcela->where('cda_parcela.INSCRMUNID',$request->INSCRMUNID);
+        if($request->TributoId && $request->TributoId!='null')
+            $cda_parcela->where('cda_parcela.TributoId',$request->TributoId);
         $cda_parcela->get();
 
         return Datatables::of($cda_parcela)->make(true);

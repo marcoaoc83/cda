@@ -13,10 +13,10 @@
                     <input type="text" class="form-control" name="soa_documento" placeholder="CPF/CNPJ" required="required" />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="soa_data_nasc" placeholder="Data Nascimento" required="required" />
+                    <input type="text" class="form-control" name="soa_data_nasc" placeholder="Data Nascimento"  />
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="soa_nome_mae" placeholder="Nome Mãe" required="required" />
+                    <input type="text" class="form-control" name="soa_nome_mae" placeholder="Nome Mãe"   />
                 </div>
                 <div>
                     <button class="btn btn-default submit" type="submit">Enviar</button>

@@ -204,7 +204,7 @@
                     $('#tributo').val(TributoId[0]);
 
                     var tableParcela = $('#tbParcela').DataTable();
-                    var url = "{{ route('portal.getDataParcela') }}" + "/?INSCRMUNID=" + INSCRMUNID[0];
+                    var url = "{{ route('portal.getDataParcela') }}" + "/?INSCRMUNID=" + INSCRMUNID[0]+"&TributoId="+TributoId[0];
                     tableParcela.ajax.url(url).load();
                     var the_id = $("#tbParcela");
 

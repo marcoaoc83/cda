@@ -123,6 +123,12 @@
                         name: 'INSCRMUNID',
                         "visible": false,
                         "searchable": false
+                    },
+                    {
+                        data: 'TributoId',
+                        name: 'TributoId',
+                        "visible": false,
+                        "searchable": false
                     }
                 ],
             });
@@ -131,11 +137,11 @@
                 if (type === 'row') {
                     $('#rowParcelas').show();
 
-
+                    var TributoId = tbTributo.rows(indexes).data().pluck('TributoId');
                     var INSCRMUNID = tbTributo.rows(indexes).data().pluck('INSCRMUNID');
                     $('#inscr').val(INSCRMUNID[0]);
                     var tableParcela = $('#tbParcela').DataTable();
-                    var url = "{{ route('portal.getDataParcela') }}" + "/?INSCRMUNID=" + INSCRMUNID[0];
+                    var url = "{{ route('portal.getDataParcela') }}" + "/?INSCRMUNID=" + INSCRMUNID[0]+"&TributoId="+TributoId[0];
                     tableParcela.ajax.url(url).load();
                     var the_id = $("#tbParcela");
 

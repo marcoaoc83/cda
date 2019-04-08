@@ -32,9 +32,13 @@
 
 var tbParcela = $('#tbParcela').DataTable({
     processing: true,
+    dom: 'Bfrtip',
+    buttons: [
+        'copy', 'csv', 'excel', 'pdf', 'print'
+    ],
     serverSide: true,
     responsive: true,
-    ajax: '{{ route('execfila.getdataParcela') }}'+"/?none=1",
+    ajax: '{{ route('relatorios.getdataParcela') }}'+"/?none=1",
     "pageLength": 100,
     columns: [
     {

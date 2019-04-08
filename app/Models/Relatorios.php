@@ -8,7 +8,7 @@ class Relatorios extends Model
 {
     protected $fillable = [
         'rel_titulo',
-        'rel_sql',
+        'rel_saida',
         'filtro_carteira',
         'filtro_roteiro',
         'filtro_validacao',

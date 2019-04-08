@@ -11,7 +11,7 @@
             "paging":   false,
             "ordering": false,
             "info":     false,
-            ajax: '{{ route('carteira.getdataRoteiro') }}',
+            ajax: '{{ route('carteira.getdataRoteiro') }}'+"/?fila=a",
 
             columns: [
                 {
