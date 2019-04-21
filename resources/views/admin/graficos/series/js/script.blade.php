@@ -133,10 +133,13 @@
                 },
                 url: '{{ url('admin/graficosseries/1/edit/') }}',
                 success: function (retorno) {
+                    $('#pnSeries #formEditar #grse_tipo').val(retorno['grse_tipo']);
                     $('#pnSeries #formEditar #grse_titulo').val(retorno['grse_titulo']);
+                    $('#pnSeries #formEditar #grse_subtitulo').val(retorno['grse_subtitulo']);
+                    $('#pnSeries #formEditar #grse_sql_valor').val(retorno['grse_sql_valor']);
                     $('#pnSeries #formEditar #grse_sql_campo').val(retorno['grse_sql_campo']);
                     $('#pnSeries #formEditar #grse_sql_condicao').val(retorno['grse_sql_condicao']);
-                    $('#pnSeries #formEditar #grse_grafico_ref').val(retorno['grse_grafico_ref']);
+                    $('#pnSeries #formEditar #grse_sql_agrupamento').val(retorno['grse_sql_agrupamento']);
                     $('#pnSeries #formEditar #grse_id').val(grse_id);
                 },
                 error: function (retorno) {

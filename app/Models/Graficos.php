@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Graficos extends Model
 {
     protected $fillable = [
-        'graf_titulo','graf_tipo','graf_subtitulo','graf_principal','graf_sql_valor','graf_sql_campo','graf_sql_condicao','graf_sql_agrupamento','graf_filtro','graf_sql_condicao','graf_grafico_ref'
+        'graf_grafico_ref','graf_tipo','graf_tabela','graf_titulo','graf_descricao','graf_status',
     ];
     protected $table = 'cda_graficos';
     protected $primaryKey = 'graf_id';

@@ -10,6 +10,7 @@ use App\Models\PcEvento;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -243,7 +244,15 @@ class GraficosController extends Controller
         // show the view and pass the nerd to it
         $Tipo =GraficosTipo::all();
         $GraficosAll = Graficos::all();
-        return view('admin.graficos.create',compact('Tipo','GraficosAll'));
+        $Pai=Input::get('pai');
+        $Tabelas=[
+            'cda_pscanal'=>'Canal',
+            'cda_evento'=>'Evento',
+            //'cda_filatrab'=>'Fila',
+            'cda_parcela'=>'Parcela',
+            'cda_pessoa'=>'Pessoa'
+        ];
+        return view('admin.graficos.create',compact('Tipo','GraficosAll','Pai','Tabelas'));
     }
 
     /**
@@ -286,10 +295,18 @@ class GraficosController extends Controller
         $GraficosAll = Graficos::where('graf_id', '!=' , $id)->get();
         $Graficos = Graficos::find($id);
         $Tipo = GraficosTipo::all();
+        $Tabelas=[
+            'cda_pscanal'=>'Canal',
+            'cda_evento'=>'Evento',
+            //'cda_filatrab'=>'Fila',
+            'cda_parcela'=>'Parcela',
+            'cda_pessoa'=>'Pessoa'
+        ];
         return view('admin.graficos.edit',[
             'Graficos'=>$Graficos,
             'GraficosAll'=>$GraficosAll,
-            'Tipo'=>$Tipo
+            'Tipo'=>$Tipo,
+            'Tabelas'=>$Tabelas
         ]);
     }
 
@@ -350,16 +367,18 @@ class GraficosController extends Controller
 
         if($request->id){
             $Graficos=Graficos::select(['cda_graficos.*','cda_graficos_tipos.*','child.graf_id as ref'])
-                ->join('cda_graficos_tipos', 'cda_graficos_tipos.grti_id', '=', 'cda_graficos.graf_tipo')
+                ->join('cda_graficos_series', 'grse_grafico_id', '=', 'graf_id')
+                ->join('cda_graficos_tipos', 'grti_id', '=', 'grse_tipo')
                 ->leftjoin('cda_graficos as child', 'child.graf_grafico_ref', '=', 'cda_graficos.graf_id')
                 ->where('cda_graficos.graf_id',$request->id)
                 ->groupBy('cda_graficos.graf_id')
                 ->get();
         }else{
             $Graficos=Graficos::select(['cda_graficos.*','cda_graficos_tipos.*','child.graf_id as ref'])
-                ->join('cda_graficos_tipos', 'cda_graficos_tipos.grti_id', '=', 'cda_graficos.graf_tipo')
+                ->join('cda_graficos_series', 'grse_grafico_id', '=', 'graf_id')
+                ->join('cda_graficos_tipos', 'grti_id', '=', 'grse_tipo')
                 ->leftjoin('cda_graficos as child', 'child.graf_grafico_ref', '=', 'cda_graficos.graf_id')
-                ->where('cda_graficos.graf_principal',1)
+                ->where('cda_graficos.graf_status',1)
                 ->where('cda_graficos.graf_grafico_ref',null)
                 ->groupBy('cda_graficos.graf_id')
                 ->get();
@@ -369,11 +388,75 @@ class GraficosController extends Controller
         $retorno=[];
 
         $x=0;
-        $id="";
-        $y=0;
-        foreach ($Graficos as $linha){
 
-            $sql = "SELECT 
+        foreach ($Graficos as $grafico){
+            $res=Graficos::select(['cda_graficos.*','cda_graficos_series.*','cda_graficos_tipos.*','child.graf_id as ref'])
+                ->join('cda_graficos_series', 'grse_grafico_id', '=', 'graf_id')
+                ->join('cda_graficos_tipos', 'grti_id', '=', 'grse_tipo')
+                ->leftjoin('cda_graficos as child', 'child.graf_grafico_ref', '=', 'cda_graficos.graf_id')
+                ->where('cda_graficos.graf_id',$grafico->graf_id)
+                ->groupBy('grse_id')
+                ->get();
+            $z=0;
+            foreach ($res as $linha) {
+
+                $sql=self::SQL($linha['graf_tabela']);
+                $valor = $linha->grse_sql_valor . " as Valor";
+                $alias = $linha->grse_sql_campo . " as Campo";
+                if ($linha->grse_sql_condicao) $where = $linha->grse_sql_condicao;
+                $group = $linha->grse_sql_agrupamento;
+
+                if ($request->filtros) {
+                    $i = 1;
+                    foreach ($request->filtros as $filtro) {
+                        $where = str_replace('{{VAR' . $i . '}}', "'$filtro'", $where);
+                        $i++;
+                    }
+                }
+
+                $sql = "SELECT $valor,$alias FROM ($sql) as Parcelas WHERE 1 $where";
+                if ($group) $sql .= " GROUP BY $group";
+
+                $resultado = DB::select($sql);
+
+                $retorno[$x][$z]['tipo'] = $linha['grti_nome'];
+                $retorno[$x][$z]['titulo'] = $linha['graf_titulo'];
+                $retorno[$x][$z]['pai'] = $linha['graf_id'];
+                $retorno[$x][$z]['ref'] = $linha['ref'];
+                $y = 0;
+                foreach ($resultado as $res) {
+                    $retorno[$x][$z]['series']['name'] = $linha['grse_subtitulo'];
+                    $retorno[$x][$z]['series']['data'][$y]['name'] = $res->Campo;
+                    $retorno[$x][$z]['series']['data'][$y]['y'] = $res->Valor;
+                    $retorno[$x][$z]['series']['data'][$y]['drilldown'] = "drilldown" . $linha['graf_grafico_ref'];
+                    $y++;
+                }
+                $z++;
+            }
+            $x++;
+        }
+
+        return \response()->json($retorno);
+    }
+
+    private function SQL($tabela){
+        switch ($tabela){
+            case 'cda_parcela':
+                return self::ParcelaSQL();
+                break;
+            case 'cda_pessoa':
+                return self::PessoaSQL();
+                break;
+            case 'cda_canal':
+                return self::CanalSQL();
+                break;
+            case 'cda_evento':
+                return self::EventoSQL();
+                break;
+        }
+    }
+    private function ParcelaSQL(){
+        $sql=  "SELECT 
                   cda_parcela.*,
                   SitPagT.REGTABNM as SitPag,
                   SitCobT.REGTABNM as SitCob,
@@ -381,48 +464,38 @@ class GraficosController extends Controller
                   TribT.REGTABSG as Trib,
                   cda_carteira.CARTEIRASG as Carteira 
               FROM cda_parcela ";
-            $sql .= " LEFT JOIN cda_regtab as SitPagT ON SitPagT.REGTABID=cda_parcela.SitPagId";
-            $sql .= " LEFT JOIN cda_regtab as SitCobT ON SitCobT.REGTABID=cda_parcela.SitCobId";
-            $sql .= " LEFT JOIN cda_regtab as OrigTribT ON OrigTribT.REGTABID=cda_parcela.OrigTribId";
-            $sql .= " LEFT JOIN cda_regtab as TribT ON TribT.REGTABID=cda_parcela.TributoId";
-            $sql .= " LEFT JOIN cda_pcrot     ON cda_pcrot.ParcelaId=cda_parcela.ParcelaId";
-            $sql .= " LEFT JOIN cda_roteiro   ON cda_roteiro.RoteiroId=cda_pcrot.RoteiroId";
-            $sql .= " LEFT JOIN cda_carteira     ON cda_carteira.CARTEIRAID=cda_roteiro.RoteiroId";
-            $sql .= " GROUP BY cda_parcela.ParcelaId";
-
-            $valor = $linha->graf_sql_valor . " as Valor";
-            $alias = $linha->graf_sql_campo . " as Campo";
-            if( $linha->graf_sql_condicao) $where = $linha->graf_sql_condicao;
-            $group = $linha->graf_sql_agrupamento;
-
-            if($request->filtros){
-                $i=1;
-                foreach ($request->filtros as $filtro){
-                    $where=str_replace('{{VAR'.$i.'}}', "'$filtro'", $where);
-                    $i++;
-                }
-            }
-
-            $sql = "SELECT $valor,$alias FROM ($sql) as Parcelas WHERE 1 $where";
-            if ($group) $sql .= " GROUP BY $group";
-
-            $resultado = DB::select($sql);
-
-            $retorno[$x]['tipo']=$linha['grti_nome'];
-            $retorno[$x]['titulo']=$linha['graf_titulo'];
-            $retorno[$x]['pai']=$linha['graf_id'];
-            $retorno[$x]['ref']=$linha['ref'];
-            $y=0;
-            foreach ($resultado as $res){
-                $retorno[$x]['series']['name']=$linha['graf_subtitulo'];
-                $retorno[$x]['series']['data'][$y]['name']=$res->Campo;
-                $retorno[$x]['series']['data'][$y]['y']=$res->Valor;
-                $retorno[$x]['series']['data'][$y]['drilldown']="drilldown".$linha['graf_grafico_ref'];
-                $y++;
-            }
-            $x++;
-        }
-        return \response()->json($retorno);
+        $sql .= " LEFT JOIN cda_regtab as SitPagT ON SitPagT.REGTABID=cda_parcela.SitPagId";
+        $sql .= " LEFT JOIN cda_regtab as SitCobT ON SitCobT.REGTABID=cda_parcela.SitCobId";
+        $sql .= " LEFT JOIN cda_regtab as OrigTribT ON OrigTribT.REGTABID=cda_parcela.OrigTribId";
+        $sql .= " LEFT JOIN cda_regtab as TribT ON TribT.REGTABID=cda_parcela.TributoId";
+        $sql .= " LEFT JOIN cda_pcrot     ON cda_pcrot.ParcelaId=cda_parcela.ParcelaId";
+        $sql .= " LEFT JOIN cda_roteiro   ON cda_roteiro.RoteiroId=cda_pcrot.RoteiroId";
+        $sql .= " LEFT JOIN cda_carteira  ON cda_carteira.CARTEIRAID=cda_roteiro.RoteiroId";
+        $sql .= " GROUP BY cda_parcela.ParcelaId";
+        return $sql;
     }
-
+    private function PessoaSQL(){
+        $sql=  "SELECT 
+                  *
+              FROM cda_pessoa ";
+        $sql .= " LEFT JOIN cda_inscrmun ON cda_inscrmun.PESSOAID=cda_pessoa.PESSOAID";
+        $sql .= " LEFT JOIN cda_pscanal ON cda_pscanal.PessoaId=cda_pessoa.PESSOAID";
+        return $sql;
+    }
+    private function CanalSQL(){
+        $sql=  "SELECT 
+                * 
+              FROM cda_pscanal ";
+        $sql .= " LEFT JOIN cda_canal_fila ON cafi_pscanal=cda_pscanal.PsCanalId";
+        $sql .= " LEFT JOIN cda_pcevento  ON cda_pcevento.PSCANALID=cda_pscanal.PsCanalId";
+        return $sql;
+    }
+    private function EventoSQL(){
+        $sql=  "SELECT 
+                * 
+              FROM cda_evento ";
+        $sql .= " LEFT JOIN cda_canal_eventos ON cda_canal_eventos.EventoId=cda_evento.EventoId";
+        $sql .= " LEFT JOIN cda_pcevento  ON cda_pcevento.EVENTOID=cda_evento.EventoId";
+        return $sql;
+    }
 }

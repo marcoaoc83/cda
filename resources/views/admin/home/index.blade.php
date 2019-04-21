@@ -48,26 +48,59 @@
                 _token: '{!! csrf_token() !!}',
             },
             url: '{{ route('graficos.home') }}',
-            success: function(data){
-                $.each(data, function(index) {
-                    $("#graficosHome").append('<br><div class=" text-center"><div id="container'+index+'" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>');
-                    var series=data[index].series.data;
-                    var nome=data[index].series.name;
-                    var pai=data[index].pai;
-                    var ref=data[index].ref;
-                    var new_data = [];
-                    $.each(series, function(index2) {
-                        new_data.push({
-                            name:series[index2].name,
-                            y:parseInt(series[index2].y)
+            success: function(datas){
+                $.each(datas, function(index1) {
+
+                    var series='';
+                    var titulo='';
+                    var nome='';
+                    var pai='';
+                    var ref='';
+                    var axes=[];
+                    var yAxisC=1;
+                    var yAxis=[];
+                    $.each(datas[index1], function(index) {
+                        let data = datas[index1];
+                        var new_data = [];
+                        $("#graficosHome").append('<br><div class=" text-center"><div id="container'+index+'" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>');
+
+                        series=data[index].series.data;
+                        nome=data[index].series.name;
+                        titulo=data[index].titulo;
+                        pai=data[index].pai;
+                        ref=data[index].ref;
+                        $.each(series, function(index2) {
+                            new_data.push({
+                                name:series[index2].name,
+                                y:parseInt(series[index2].y)
+                            });
+                        });
+                        if(index+1==datas[index1].length){
+                            axes.push({
+                                name:nome,
+                                type:data[index].tipo,
+                                data:new_data
+                            });
+                        }else{
+                            axes.push({
+                                name:nome,
+                                yAxis: yAxisC,
+                                type:data[index].tipo,
+                                data:new_data
+                            });
+                        }
+                        yAxisC++;
+                        yAxis.push({
+                            labels:false,
+                            title: false
                         });
                     });
 
                     // Create the chart
-                    var chart= Highcharts.chart('container'+index, {
+                    var chart= Highcharts.chart('container'+index1, {
                         chart: {
                             backgroundColor: '#c2e0e1',
-                            type: data[index].tipo,
+
                             events: {
                                 // drilldown: function(e) {
                                 //     chart.setTitle({ text: e.point.name });
@@ -78,15 +111,12 @@
                             },
                         },
                         title: {
-                            text:  data[index].titulo
+                            text:  titulo
                         },
                         xAxis: {
                             type: 'category'
                         },
-                        yAxis: {
-                            title: false,
-                            labels:false
-                        },
+                        yAxis: yAxis,
                         legend: {
                             enabled: false
                         },
@@ -96,25 +126,22 @@
                                 borderWidth: 0,
                                 dataLabels: {
                                     enabled: true
-                            },
+                                },
                                 colorByPoint: true,
                                 cursor: 'pointer',
                                 point: {
                                     events: {
                                         click: function() {
+                                            console.log(ref);
                                             if (ref > 0)
-                                                mostraGrafico("container"+index,ref,event.point.name,pai);
+                                                mostraGrafico("container"+index1,ref,event.point.name,pai);
                                         }
                                     }
                                 }
                             }
                         },
-                        series:[{
-                            name: nome,
-                            data: new_data
-                        }],
+                        series:axes,
                     });
-
                 });
             }
         });
@@ -139,32 +166,66 @@
                     filtros:filtros
                 },
                 url: '{{ route('graficos.home') }}',
-                success: function(data){
-                    $.each(data, function(index) {
-                        $(elemento).html(' ');
-                        var series=data[index].series.data;
-                        var nome=data[index].series.name;
-                        var vpai=data[index].pai;
-                        var vref=data[index].ref;
-                        var new_data = [];
-                        if(filtros.length>0) {
-                            var textoVoltar='<< Voltar';
-                        }else{
-                            var textoVoltar='';
-                        }
+                success: function(datas){
+                    $.each(datas, function(index1) {
 
-                        $.each(series, function(index2) {
-                            new_data.push({
-                                name:series[index2].name,
-                                y:parseInt(series[index2].y)
+                        var series='';
+                        var titulo='';
+                        var nome='';
+                        var vpai='';
+                        var vref='';
+                        var axes=[];
+                        var yAxisC=1;
+                        var yAxis=[];
+                        var textoVoltar='';
+                        $.each(datas[index1], function(index) {
+                            let data = datas[index1];
+                            $(elemento).html(' ');
+                            series=data[index].series.data;
+                            nome=data[index].series.name;
+
+                            vpai=data[index].pai;
+                            vref=data[index].ref;
+                            var new_data = [];
+                            if(filtros.length>0) {
+                                textoVoltar='<< Voltar';
+                                titulo=data[index].titulo+" - "+filtro;
+                            }else{
+                                textoVoltar='';
+                                titulo=data[index].titulo;
+                            }
+                            $.each(series, function(index2) {
+                                new_data.push({
+                                    name:series[index2].name,
+                                    y:parseInt(series[index2].y)
+                                });
+                            });
+                            if(index+1==datas[index1].length){
+                                axes.push({
+                                    name:nome,
+                                    type:data[index].tipo,
+                                    data:new_data
+                                });
+                            }else{
+                                axes.push({
+                                    name:nome,
+                                    yAxis: yAxisC,
+                                    type:data[index].tipo,
+                                    data:new_data
+                                });
+                            }
+                            yAxisC++;
+                            yAxis.push({
+                                labels:false,
+                                title: false
                             });
                         });
 
                         // Create the chart
-                        var chart= Highcharts.chart('container'+index, {
+                        var chart= Highcharts.chart(elemento, {
                             chart: {
-                                type: data[index].tipo,
                                 backgroundColor: '#c2e0e1',
+
                                 events: {
                                     // drilldown: function(e) {
                                     //     chart.setTitle({ text: e.point.name });
@@ -189,15 +250,12 @@
                                 }
                             },
                             title: {
-                                text:  data[index].titulo
+                                text:  titulo
                             },
                             xAxis: {
                                 type: 'category'
                             },
-                            yAxis: {
-                                title: false,
-                                labels:false
-                            },
+                            yAxis: yAxis,
                             legend: {
                                 enabled: false
                             },
@@ -215,20 +273,17 @@
                                             click: function() {
 
                                                 if (vref > 0)
-                                                    mostraGrafico("container"+index,vref,event.point.name,vpai,filtros);
+                                                    mostraGrafico(elemento,vref,event.point.name,vpai,filtros);
                                             }
                                         }
                                     }
                                 }
                             },
-                            series:[{
-                                name: nome,
-                                data: new_data
-                            }],
+                            series:axes,
                         });
-
                     });
                 }
+
             });
         }
 

@@ -11,45 +11,57 @@
                 <form id="formSeries"  class="form-horizontal form-label-left" >
                     {{ csrf_field() }}
                     <input type="hidden" name="grse_grafico_id" value="{{$Graficos->graf_id}}">
-
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grse_titulo">Titulo <span class="required">*</span>
-                        </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grse_tipo">Tipo</label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input value="{{ old('grse_titulo') }}"  type="text" id="grse_titulo" name="grse_titulo" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                    </div>
-                    <div class="form-group sql">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">SQL - CAMPO</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <textarea class="form-control" rows="3" id="grse_sql_campo" name="grse_sql_campo"></textarea>
-
-                        </div>
-                    </div>
-                    <div class="form-group sql">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">SQL - CONDIÇÃO</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <textarea class="form-control" rows="3" id="grse_sql_condicao" name="grse_sql_condicao"></textarea>
-
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grse_grafico_ref">Link Gráfico
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="grse_grafico_ref" name="grse_grafico_ref" >
-                                <option value=""></option>
-                                @foreach($GraficosAll as $var)
-                                    <option value="{{$var->graf_id}}" >{{$var->graf_titulo}}</option>             
+                            <select class="form-control" id="grse_tipo" name="grse_tipo">
+                                @foreach($Tipo as $var)
+                                    <option value="{{$var->grti_id}}">{{strtoupper($var->grti_nome)}}</option>             
                                 @endforeach
                             </select>
                         </div>
                     </div>
-
-
-
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grse_titulo">Titulo <span class="required">*</span></label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value="{{ old('grse_titulo') }}" id="grse_titulo" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="grse_titulo"  required="required" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grse_subtitulo">Subtítulo <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value="{{ old('grse_subtitulo') }}" id="grse_subtitulo" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="grse_subtitulo"  required="required" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grse_sql_valor">SQL - Valor <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value="{{ old('grse_sql_valor') }}" id="grse_sql_valor"  name="grse_sql_valor"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grse_sql_campo">SQL - Alias  <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value="{{ old('grse_sql_campo') }}" id="grse_sql_campo"  name="grse_sql_campo"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grse_sql_condicao">SQL - Condição <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value="{{ old('grse_sql_condicao') }}" id="grse_sql_condicao"  name="grse_sql_condicao"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2"  type="text">
+                        </div>
+                    </div>
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="grse_sql_agrupamento">SQL - Agrupamento <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value="{{ old('grse_sql_agrupamento') }}" id="grse_sql_agrupamento"  name="grse_sql_agrupamento"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
+                        </div>
+                    </div>
 
                     <div class="ln_solid"></div>
                     <div class="form-group">

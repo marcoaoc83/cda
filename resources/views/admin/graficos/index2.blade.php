@@ -129,10 +129,7 @@
                     <div class="x_panel">
                         <div class="x_title">
                             <h2>Organograma</h2>
-                            <a href="{{route('graficos.create')}}" style="margin-left: 15px" type="button" class="btn btn-success btn-sm ">
-                                <span class="glyphicon glyphicon-plus-sign "  style="color:white" aria-hidden="true"></span>
-                                Adicionar
-                            </a>
+
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                             </ul>
@@ -143,11 +140,15 @@
                                 <ul>
                                     <li>
                                         <a href="#">DASHBOARD - CDA-E</a>
+                                        <button href="javascript:;" onclick="location.href='{{route('graficos.create')}}'"  class="btn btn-xs btn-success"><i class="fa fa-plus-circle"></i></button>
                                         <ul>
                                             @foreach($graficos as $grafico)
                                                 <li id="grafico{!! $grafico['graf_id'] !!}">
                                                     <a href="javascript:;" >
                                                         <p><b>{!! $grafico['graf_titulo'] !!}</b></p>
+                                                        @if(count($grafico['children_rec'])==0)
+                                                            <button href="javascript:;" onclick="location.href='{{route('graficos.create')}}?pai={!! $grafico['graf_id'] !!}'"  class="btn btn-xs btn-success"><i class="fa fa-plus-circle"></i></button>
+                                                        @endif
                                                         <button href="javascript:;" onclick="location.href='graficos/{!! $grafico['graf_id'] !!}/edit/'"  class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i></button>
                                                         <button  href="javascript:;" onclick="deleteGraficos({!! $grafico['graf_id'] !!})" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                                                     </a>
@@ -156,6 +157,9 @@
                                                         <ul id="grafico{!! $grafico1['graf_id'] !!}">
                                                             <a href="#" >
                                                                 {!! $grafico1['graf_titulo'] !!}<br>
+                                                                @if(count($grafico1['children_rec'])==0)
+                                                                    <button href="javascript:;" onclick="location.href='{{route('graficos.create')}}?pai={!! $grafico1['graf_id'] !!}'"  class="btn btn-xs btn-success"><i class="fa fa-plus-circle"></i></button>
+                                                                @endif
                                                                 <button href="javascript:;" onclick="location.href='graficos/{!! $grafico1['graf_id'] !!}/edit/'"  class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i></button>
                                                                 <button  href="javascript:;" onclick="deleteGraficos({!! $grafico1['graf_id'] !!})" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                                                             </a>
@@ -163,6 +167,9 @@
                                                                 <ul id="grafico{!! $grafico2['graf_id'] !!}">
                                                                     <a href="#" >
                                                                         {!! $grafico2['graf_titulo'] !!}<br>
+                                                                        @if(count($grafico2['children_rec'])==0)
+                                                                            <button href="javascript:;" onclick="location.href='{{route('graficos.create')}}?pai={!! $grafico2['graf_id'] !!}'"  class="btn btn-xs btn-success"><i class="fa fa-plus-circle"></i></button>
+                                                                        @endif
                                                                         <button href="javascript:;" onclick="location.href='graficos/{!! $grafico2['graf_id'] !!}/edit/'"  class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i></button>
                                                                         <button  href="javascript:;" onclick="deleteGraficos({!! $grafico2['graf_id'] !!})" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                                                                     </a>
@@ -170,6 +177,9 @@
                                                                         <ul id="grafico{!! $grafico3['graf_id'] !!}">
                                                                             <a href="#" >
                                                                                 {!! $grafico3['graf_titulo'] !!}<br>
+                                                                                @if(count($grafico3['children_rec'])==0)
+                                                                                    <button href="javascript:;" onclick="location.href='{{route('graficos.create')}}?pai={!! $grafico3['graf_id'] !!}'"  class="btn btn-xs btn-success"><i class="fa fa-plus-circle"></i></button>
+                                                                                @endif
                                                                                 <button href="javascript:;" onclick="location.href='graficos/{!! $grafico3['graf_id'] !!}/edit/'"  class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i></button>
                                                                                 <button  href="javascript:;" onclick="deleteGraficos({!! $grafico3['graf_id'] !!})" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                                                                             </a>
@@ -177,6 +187,9 @@
                                                                                 <ul id="grafico{!! $grafico4['graf_id'] !!}">
                                                                                     <a href="#" >
                                                                                         {!! $grafico4['graf_titulo'] !!}<br>
+                                                                                        @if(count($grafico4['children_rec'])==0)
+                                                                                            <button href="javascript:;" onclick="location.href='{{route('graficos.create')}}?pai={!! $grafico4['graf_id'] !!}'"  class="btn btn-xs btn-success"><i class="fa fa-plus-circle"></i></button>
+                                                                                        @endif
                                                                                         <button href="javascript:;" onclick="location.href='graficos/{!! $grafico4['graf_id'] !!}/edit/'"  class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i></button>
                                                                                         <button  href="javascript:;" onclick="deleteGraficos({!! $grafico4['graf_id'] !!})" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                                                                                     </a>
@@ -184,6 +197,9 @@
                                                                                         <ul id="grafico{!! $grafico5['graf_id'] !!}">
                                                                                             <a href="#" >
                                                                                                 {!! $grafico5['graf_titulo'] !!}<br>
+                                                                                                @if(count($grafico5['children_rec'])==0)
+                                                                                                    <button href="javascript:;" onclick="location.href='{{route('graficos.create')}}?pai={!! $grafico5['graf_id'] !!}'"  class="btn btn-xs btn-success"><i class="fa fa-plus-circle"></i></button>
+                                                                                                @endif
                                                                                                 <button href="javascript:;" onclick="location.href='graficos/{!! $grafico5['graf_id'] !!}/edit/'"  class="btn btn-xs btn-primary"><i class="fa fa-pencil-square-o"></i></button>
                                                                                                 <button  href="javascript:;" onclick="deleteGraficos({!! $grafico5['graf_id'] !!})" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                                                                                             </a>

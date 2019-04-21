@@ -41,77 +41,34 @@
 
                             <form class="form-horizontal form-label-left"    method="post" action="{{ route('graficos.store') }}">
                                 {{ csrf_field() }}
+                                <input type="hidden" name="graf_grafico_ref" id="graf_grafico_ref" value="{!! $Pai !!}">
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_tipo">Tipo</label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_tabela">Tabela</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="graf_tipo" name="graf_tipo">
-                                            @foreach($Tipo as $var)
-                                                <option value="{{$var->grti_id}}">{{strtoupper($var->grti_nome)}}</option>             
+                                        <select class="form-control" id="graf_tabela" name="graf_tabela">
+                                            @foreach($Tabelas as $key=>$var)
+                                                <option value="{{$key}}">{{$var}}</option>             
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_titulo">Titulo <span class="required">*</span></label>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_titulo">Descrição <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <input value="{{ old('graf_titulo') }}" id="graf_titulo" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="graf_titulo"  required="required" type="text">
                                     </div>
                                 </div>
+
+                                @if(empty($Pai))
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_subtitulo">Subtítulo <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ old('graf_subtitulo') }}" id="graf_subtitulo" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="graf_subtitulo"  required="required" type="text">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_sql_valor">SQL - Valor <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ old('graf_sql_valor') }}" id="graf_sql_valor"  name="graf_sql_valor"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_sql_campo">SQL - Alias  <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ old('graf_sql_campo') }}" id="graf_sql_campo"  name="graf_sql_campo"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" required="required" type="text">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_sql_condicao">SQL - Condição <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ old('graf_sql_condicao') }}" id="graf_sql_condicao"  name="graf_sql_condicao"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2"  type="text">
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_sql_agrupamento">SQL - Agrupamento <span class="required">*</span>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input value="{{ old('graf_sql_agrupamento') }}" id="graf_sql_agrupamento"  name="graf_sql_agrupamento"   class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_grafico_ref">Gráfico - Pai
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <select class="form-control" id="graf_grafico_ref" name="graf_grafico_ref" >
-                                            <option value=""></option>
-                                            @foreach($GraficosAll as $var)
-                                                <option value="{{$var->graf_id}}" >{{$var->graf_titulo}}</option>             
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_principal">Mostrar Home</label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="graf_status">Status</label>
                                     <div class="col-md-6" style="margin-top: 5px">
                                         <label style="">
-                                            <input type="checkbox" id="graf_principal" name="graf_principal" @if($Graficos->graf_principal ==1)checked @endif value="1" class="js-switch" >
+                                            <input type="checkbox" id="graf_status" name="graf_status" @if($Graficos->graf_status ==1)checked @endif value="1" class="js-switch" >
                                         </label>
                                     </div>
                                 </div>
+                                @endif
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                             </form>
                         </div>
