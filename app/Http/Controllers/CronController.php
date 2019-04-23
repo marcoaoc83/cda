@@ -37,7 +37,7 @@ class CronController extends Controller
             "tar_user"    => Auth::user()->id
         ]);
         // Artisan::call('queue:forget');
-        Artisan::call('queue:work',["--timeout"=>1000,"--queue"=>"execfilaparcela"]);
+        Artisan::call('queue:work',["--timeout"=>1000,"--queue"=>"execfilaparcela".$request->id]);
 
     }
 }

@@ -195,7 +195,7 @@
                                         <div class="x_content">
 
                                             <div class="item form-group">
-                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_contribuinte">Resultado - Contribuinte
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_contribuinte">Contribuinte
                                                 </label>
                                                 <div class="col-md-4" style="margin-top: 5px">
                                                     <label style="">
@@ -204,7 +204,7 @@
                                                 </div>
                                             </div>
                                             <div class="item form-group">
-                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_im">Resultado - Insc. Municipal
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_im">Insc. Municipal
                                                 </label>
                                                 <div class="col-md-4" style="margin-top: 5px">
                                                     <label style="">
@@ -213,11 +213,20 @@
                                                 </div>
                                             </div>
                                             <div class="item form-group">
-                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_parcelas">Resultado - Parcelas
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_parcelas">Parcelas
                                                 </label>
                                                 <div class="col-md-4" style="margin-top: 5px">
                                                     <label style="">
                                                         <input type="checkbox" id="resultado_parcelas" name="resultado_parcelas"  value="1" class="unic" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_canais">Canal
+                                                </label>
+                                                <div class="col-md-4" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="resultado_canais" name="resultado_canais"  value="1" class="unic" >
                                                     </label>
                                                 </div>
                                             </div>

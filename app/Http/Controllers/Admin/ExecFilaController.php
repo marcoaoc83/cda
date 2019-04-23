@@ -87,7 +87,7 @@ class ExecFilaController extends Controller
             'tar_status' => 'Aguardando'
         ]);
         $gravar=$request->gravar?true:false;
-        ExecFilaParcelaJob::dispatch($request->parcelas,$tarefa->tar_id,$gravar,$request->filaId)->onQueue("execfilaparcela");
+        ExecFilaParcelaJob::dispatch($request->parcelas,$tarefa->tar_id,$gravar,$request->filaId)->onQueue("execfilaparcela".$tarefa->tar_id);
 
         $data = Parcela::select([
             'cda_parcela.*',

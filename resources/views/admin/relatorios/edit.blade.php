@@ -229,6 +229,15 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_canais">Canal
+                                                </label>
+                                                <div class="col-md-4" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="resultado_canais" name="resultado_canais"  value="1" class="unic" >
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -26,6 +26,7 @@ Route::get('apscanal',function () {
 //CRONTAB
 Route::get('criarjobdistribuicao', 'DistribuicaoController@index')->name('criarjobdistribuicao');
 Route::get('distribuicao/truncate', 'DistribuicaoController@truncate')->name('truncate');
+Route::get('distribuicao/teste', 'DistribuicaoController@teste')->name('distribuicaoteste');
 Route::get('crontab/importacao', 'CronController@importacao');
 Route::get('crontab/distribuicao/{x}', 'CronController@distribuicao');
 Route::get('crontab/teste', 'CronController@teste');
