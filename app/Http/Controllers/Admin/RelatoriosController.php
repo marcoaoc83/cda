@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\ModCom;
+use App\Models\ModeloVar;
 use App\Models\Parcela;
 use App\Models\RegTab;
 use App\Models\RelatorioParametro;
 use App\Models\Relatorios;
 use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,11 +21,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class RelatoriosController extends Controller
 {
-    private $tipo=[
-        'csv',
-        //'pdf',
-        'txt'
-    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -40,7 +39,7 @@ class RelatoriosController extends Controller
      */
     public function create()
     {
-        $Tipo = collect($this->tipo);
+        $Tipo =ModCom::all();
         // show the view and pass the nerd to it
         return view('admin.relatorios.create',compact('Tipo'));
     }
@@ -95,7 +94,7 @@ class RelatoriosController extends Controller
     {
         $Relatorio = Relatorios::find($id);
 
-        $Tipo = collect($this->tipo);
+        $Tipo = ModCom::all();
         // show the view and pass the nerd to it
         return view('admin.relatorios.edit',[ 'Relatorio'=>$Relatorio,'Tipo'=>$Tipo]);
     }

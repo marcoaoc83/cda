@@ -49,11 +49,11 @@
                                     </div>
                                 </div>
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rel_saida">Saída</label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rel_saida">Saída - Modelo</label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select class="form-control" id="rel_saida" name="rel_saida">
                                             @foreach($Tipo as $var)
-                                                <option value="{{$var}}">{{strtoupper($var)}}</option>             
+                                                <option value="{{$var->ModComId}}">{{($var->ModComNm)}}</option>             
                                             @endforeach
                                         </select>
                                     </div>
@@ -117,68 +117,68 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{--<div class="col-md-4 col-sm-4 col-xs-12 "  >--}}
-                                    {{--<div class="x_panel" id="filHigiene">--}}
-                                        {{--<div class="x_title">--}}
-                                            {{--<h2>Filtros de Cadastro<small></small></h2>--}}
-                                            {{--<ul class="nav navbar-right panel_toolbox">--}}
-                                                {{--<li>--}}
-                                                    {{--<a class="collapse-link">--}}
-                                                        {{--<i class="fa fa-chevron-up"></i>--}}
-                                                    {{--</a>--}}
-                                                {{--</li>--}}
-                                            {{--</ul>--}}
-                                            {{--<div class="clearfix"></div>--}}
-                                        {{--</div>--}}
-                                        {{--<div class="x_content">--}}
-                                            {{--<div class="item form-group">--}}
-                                                {{--<label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_canal">Canal--}}
-                                                {{--</label>--}}
-                                                {{--<div class="col-md-4" style="margin-top: 5px">--}}
-                                                    {{--<label style="">--}}
-                                                        {{--<input type="checkbox" id="filtro_canal" name="filtro_canal"  value="1" class="js-switch" >--}}
-                                                    {{--</label>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="item form-group">--}}
-                                                {{--<label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_validacao">Validação de Envio--}}
-                                                {{--</label>--}}
-                                                {{--<div class="col-md-4" style="margin-top: 5px">--}}
-                                                    {{--<label style="">--}}
-                                                        {{--<input type="checkbox" id="filtro_validacao" name="filtro_validacao"  value="1" class="js-switch" >--}}
-                                                    {{--</label>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="item form-group">--}}
-                                                {{--<label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_eventos">Eventos Possíveis--}}
-                                                {{--</label>--}}
-                                                {{--<div class="col-md-4" style="margin-top: 5px">--}}
-                                                    {{--<label style="">--}}
-                                                        {{--<input type="checkbox" id="filtro_eventos" name="filtro_eventos"  value="1" class="js-switch"  >--}}
-                                                    {{--</label>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="item form-group">--}}
-                                                {{--<label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_tratamento">Tratamento de Retorno--}}
-                                                {{--</label>--}}
-                                                {{--<div class="col-md-4" style="margin-top: 5px">--}}
-                                                    {{--<label style="">--}}
-                                                        {{--<input type="checkbox" id="filtro_tratamento" name="filtro_tratamento"  value="1" class="js-switch"   >--}}
-                                                    {{--</label>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                            {{--<div class="item form-group">--}}
-                                                {{--<label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_notificacao">Notificação--}}
-                                                {{--</label>--}}
-                                                {{--<div class="col-md-4" style="margin-top: 5px">--}}
-                                                    {{--<label style="">--}}
-                                                        {{--<input type="checkbox" id="filtro_notificacao" name="filtro_notificacao"  value="1" class="js-switch"   >--}}
-                                                    {{--</label>--}}
-                                                {{--</div>--}}
-                                            {{--</div>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
+                                <div class="col-md-4 col-sm-4 col-xs-12 "  >
+                                    <div class="x_panel" id="filHigiene">
+                                        <div class="x_title">
+                                            <h2>Filtros de Cadastro<small></small></h2>
+                                            <ul class="nav navbar-right panel_toolbox">
+                                                <li>
+                                                    <a class="collapse-link">
+                                                        <i class="fa fa-chevron-up"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="x_content">
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_canal">Canal
+                                                </label>
+                                                <div class="col-md-4" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="filtro_canal" name="filtro_canal"  value="1" class="js-switch" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_validacao">Validação de Envio
+                                                </label>
+                                                <div class="col-md-4" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="filtro_validacao" name="filtro_validacao"  value="1" class="js-switch" >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_eventos">Eventos Possíveis
+                                                </label>
+                                                <div class="col-md-4" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="filtro_eventos" name="filtro_eventos"  value="1" class="js-switch"  >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_tratamento">Tratamento de Retorno
+                                                </label>
+                                                <div class="col-md-4" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="filtro_tratamento" name="filtro_tratamento"  value="1" class="js-switch"   >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="item form-group">
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_notificacao">Notificação
+                                                </label>
+                                                <div class="col-md-4" style="margin-top: 5px">
+                                                    <label style="">
+                                                        <input type="checkbox" id="filtro_notificacao" name="filtro_notificacao"  value="1" class="js-switch"   >
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12 "  >
                                     <div class="x_panel" id="filResultado">
                                         <div class="x_title">

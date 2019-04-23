@@ -36,7 +36,7 @@
 
                             <div class="x_panel text-center " style="background-color: #BDBDBD" id="divBotaoFiltrar">
                                 <a class="btn btn-app" id="btfiltrar" onclick="filtrar()" >
-                                    <i class="fa fa-filter"></i> Filtrar
+                                    <i class="fa fa-filter"></i> Gerar
                                 </a>
                             </div>
                             <button id="send" type="submit" class="btn btn-success hidden">Salvar - {{strtoupper($Relatorio->rel_saida)}}</button>
