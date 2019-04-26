@@ -91,6 +91,7 @@
     }
 
     function filtrar() {
+        $('#divResultados').show();
         $fila=$('#FilaTrabId').val();
         $('.filtroRes').remove();
         if($fila==3 || $fila==4 || $fila==5){
@@ -111,9 +112,9 @@
     }
 
     function abreNovoCanal(pessoa,canal) {
-    $('#myModalPsCanal').modal('show');
-    $('#formPsCanal #PessoaId').val(pessoa);
-    $('#formPsCanal #PsCanalId').val(canal);
+        $('#myModalPsCanal').modal('show');
+        $('#formPsCanal #PessoaId').val(pessoa);
+        $('#formPsCanal #PsCanalId').val(canal);
     }
 
 function abreEditaCanal(pessoa,canal) {

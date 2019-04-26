@@ -13,7 +13,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                         <li><a href="{{ route('perfil.ver') }}"> Perfil</a></li>
-                        <li><a href="javascript:;">Ajuda</a></li>
+                        {{--<li><a href="javascript:;">Ajuda</a></li>--}}
                         <li><a href="{{url('/logout')}}" onclick="event.preventDefault();
                        document.getElementById('logout-form').submit();">
                                 <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">

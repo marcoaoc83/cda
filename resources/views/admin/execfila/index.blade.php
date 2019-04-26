@@ -78,6 +78,7 @@
                             <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                         </form>
                     </div>
+                    <div id="divResultados" style="display: none">
                         @include('admin.execfila.result-contribuinte')
                         @include('admin.execfila.result-contribuinteVal')
                         @include('admin.execfila.result-contribuinteTrat')
@@ -93,7 +94,7 @@
                         @include('admin.execfila.novo-canal')
                         @include('admin.execfila.edita-canal')
                         @include('admin.execfila.novo-retorno')
-
+                    </div>
 
 
                     <form  id="formParcelas" class="noHigiene" method="post" action="{{ route('execfila.store') }}" >

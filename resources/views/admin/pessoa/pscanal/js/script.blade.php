@@ -33,65 +33,83 @@
                 if(result.oEMAIL==1){
                     $('#'+form+' #Email').attr('required','required');
                     $('#'+form+' #Email').attr('readonly', false);
+                    $('#'+form+' #Email').parents( ".item" ).show();
                 }else{
                     $('#'+form+' #Email').attr('readonly', true);
                     $('#'+form+' #Email').removeAttr('required');
+                    $('#'+form+' #Email').parents( ".item" ).hide();
                 }
                 if(result.oTELEFONE==1){
                     $('#'+form+' #TelefoneNr').attr('required','required');
                     $('#'+form+' #TelefoneNr').attr('readonly', false);
+                    $('#'+form+' #TelefoneNr').parents( ".item" ).show();
                 }else{
                     $('#'+form+' #TelefoneNr').removeAttr('required');
                     $('#'+form+' #TelefoneNr').attr('readonly', true);
+                    $('#'+form+' #TelefoneNr').parents( ".item" ).hide();
                 }
                 if(result.oCEP==1){
                     $('#'+form+' #CEP').attr('required','required');
                     $('#'+form+' #CEP').attr('readonly', false);
+                    $('#'+form+' #CEP').parents( ".item" ).show();
                 }else{
                     $('#'+form+' #CEP').removeAttr('required');
                     $('#'+form+' #CEP').attr('readonly', true);
+                    $('#'+form+' #CEP').parents( ".item" ).hide();
                 }
                 if(result.oNUMERO==1){
                     $('#'+form+' #EnderecoNr').attr('required','required');
                     $('#'+form+' #EnderecoNr').attr('readonly', false);
+                    $('#'+form+' #EnderecoNr').parents( ".item" ).show();
                 }else{
                     $('#'+form+' #EnderecoNr').removeAttr('required');
                     $('#'+form+' #EnderecoNr').attr('readonly', true);
+                    $('#'+form+' #EnderecoNr').parents( ".item" ).hide();
                 }
                 if(result.oLOGRADOURO==1){
                     $('#'+form+' #Logradouro').attr('required','required');
                     $('#'+form+' #Logradouro').attr('readonly', false);
+                    $('#'+form+' #Logradouro').parents( ".item" ).show();
                 }else{
                     $('#'+form+' #Logradouro').removeAttr('required');
                     $('#'+form+' #Logradouro').attr('readonly', true);
+                    $('#'+form+' #Logradouro').parents( ".item" ).hide();
                 }
                 if(result.oCOMPLEMENTO==1){
                     $('#'+form+' #Complemento').attr('required','required');
                     $('#'+form+' #Complemento').attr('readonly', false);
+                    $('#'+form+' #Complemento').parents( ".item" ).show();
                 }else{
                     $('#'+form+' #Complemento').removeAttr('required');
                     $('#'+form+' #Complemento').attr('readonly', true);
+                    $('#'+form+' #Complemento').parents( ".item" ).hide();
                 }
                 if(result.oBAIRRO==1){
                     $('#'+form+' #Bairro').attr('required','required');
                     $('#'+form+' #Bairro').attr('readonly', false);
+                    $('#'+form+' #Bairro').parents( ".item" ).show();
                 }else{
                     $('#'+form+' #Bairro').removeAttr('required');
                     $('#'+form+' #Bairro').attr('readonly', true);
+                    $('#'+form+' #Bairro').parents( ".item" ).hide();
                 }
                 if(result.oCIDADE==1){
                     $('#'+form+' #Cidade').attr('required','required');
                     $('#'+form+' #Cidade').attr('readonly', false);
+                    $('#'+form+' #Cidade').parents( ".item" ).show();
                 }else{
                     $('#'+form+' #Cidade').removeAttr('required');
                     $('#'+form+' #Cidade').attr('readonly', true);
+                    $('#'+form+' #Cidade').parents( ".item" ).hide();
                 }
                 if(result.oUF==1){
                     $('#'+form+' #UF').attr('required','required');
                     $('#'+form+' #UF').attr('readonly', false);
+                    $('#'+form+' #UF').parents( ".item" ).show();
                 }else{
                     $('#'+form+' #UF').removeAttr('required');
                     $('#'+form+' #UF').attr('readonly', true);
+                    $('#'+form+' #UF').parents( ".item" ).hide();
                 }
             }
         });

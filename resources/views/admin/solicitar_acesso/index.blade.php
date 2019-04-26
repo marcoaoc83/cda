@@ -36,6 +36,7 @@
                                 <tr>
                                     <th>Doc</th>
                                     <th>Nome</th>
+                                    <th>Status</th>
                                     <th style="width: 55px">Ação</th>
                                 </tr>
                                 </thead>
@@ -71,6 +72,22 @@
                 columns: [
                     {data: 'CPF_CNPJNR', name: 'CPF_CNPJNR'},
                     {data: 'PESSOANMRS', name: 'PESSOANMRS'},
+                    {
+                        data: 'Ativo',
+                        name: 'Ativo',
+                        render: function ( data, type, row ) {
+                            if(data==0){
+                                return '<span class="btn btn-xs btn-dark">Aguardando</span>';
+                            }
+                            if(data==1){
+                                return '<span class="btn btn-xs btn-success">Ativo</span>';
+                            }
+                            if(data==2){
+                                return '<span class="btn btn-xs btn-danger">Inativo</span>';
+                            }
+                            return '';
+                        }
+                    },
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 "language": {
@@ -138,7 +155,8 @@
                         type: 'POST',
                         data: {
                             _token: '{!! csrf_token() !!}',
-                            _method: 'PUT'
+                            _method: 'PUT',
+                            status:1
                         },
                         url: '{{ url('admin/credport/') }}' + '/' + id,
                         success: function (data) {
@@ -147,6 +165,55 @@
                                     position: 'top-end',
                                     type: 'success',
                                     title: 'Ativado com sucesso!',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
+                                $('.datatable').DataTable().ajax.reload();
+                            }
+                        },
+                        error: function (retorno) {
+                            $('#myModalCredPortEdita').modal('toggle');
+                            console.log(retorno.responseJSON.message);
+                            swal({
+                                position: 'top-end',
+                                type: 'error',
+                                title: 'Erro!',
+                                text: retorno.responseJSON.message,
+                                showConfirmButton: false,
+                                timer: 7500
+                            });
+
+                        }
+                    });
+                }
+            });
+        }
+        function inativar(id) {
+            swal({
+                title             : "Confirma",
+                text              : "Deseja inativar?",
+                type              : "warning",
+                showCancelButton  : true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText : "Sim",
+                cancelButtonText  : "Não"
+            }).then((resultado) => {
+                if (resultado.value) {
+                    $.ajax({
+                        dataType: 'json',
+                        type: 'POST',
+                        data: {
+                            _token: '{!! csrf_token() !!}',
+                            _method: 'PUT',
+                            status:2
+                        },
+                        url: '{{ url('admin/credport/') }}' + '/' + id,
+                        success: function (data) {
+                            if (data) {
+                                swal({
+                                    position: 'top-end',
+                                    type: 'success',
+                                    title: 'Inativado com sucesso!',
                                     showConfirmButton: false,
                                     timer: 1500
                                 });

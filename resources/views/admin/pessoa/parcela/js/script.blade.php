@@ -6,7 +6,9 @@
 <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-
+        $.extend( $.fn.dataTable.defaults, {
+            responsive: true
+        } );
         var tableParcela = $('#tbParcela').DataTable({
             processing: true,
             serverSide: true,
@@ -19,9 +21,13 @@
                 }
             },
             columns: [
+
                 {
                     data: 'SitPag',
-                    name: 'SitPag'
+                    name: 'SitPag',
+                    render: function ( data, type, row ) {
+                        return '<div data-toggle="tooltip" title="'+row.SitPagNM+'">'+data+'</div>';
+                    }
                 },
                 {
                     data: 'SitCob',
@@ -53,35 +59,43 @@
                 },
                 {
                     data: 'PrincipalVr',
-                    name: 'PrincipalVr'
+                    name: 'PrincipalVr',
+                    render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')
                 },
                 {
                     data: 'MultaVr',
-                    name: 'MultaVr'
+                    name: 'MultaVr',
+                    render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')
                 },
                 {
                     data: 'JurosVr',
-                    name: 'JurosVr'
+                    name: 'JurosVr',
+                    render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')
                 },
                 {
                     data: 'TaxaVr',
-                    name: 'TaxaVr'
+                    name: 'TaxaVr',
+                    render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')
                 },
                 {
                     data: 'AcrescimoVr',
-                    name: 'AcrescimoVr'
+                    name: 'AcrescimoVr',
+                    render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')
                 },
                 {
                     data: 'DescontoVr',
-                    name: 'DescontoVr'
+                    name: 'DescontoVr',
+                    render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')
                 },
                 {
                     data: 'Honorarios',
-                    name: 'Honorarios'
+                    name: 'Honorarios',
+                    render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')
                 },
                 {
                     data: 'TotalVr',
-                    name: 'TotalVr'
+                    name: 'TotalVr',
+                    render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')
                 },
                 {
                     data: 'SitPagId',
@@ -116,6 +130,12 @@
                 {
                     data: 'InscrMunId',
                     name: 'InscrMunId',
+                    "visible": false,
+                    "searchable": false
+                },
+                {
+                    data: 'SitPagNM',
+                    name: 'SitPagNM',
                     "visible": false,
                     "searchable": false
                 }

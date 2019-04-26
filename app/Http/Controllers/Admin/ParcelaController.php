@@ -113,6 +113,7 @@ class ParcelaController extends Controller
             'cda_parcela.*',
             DB::raw("if(VencimentoDt='0000-00-00',null,VencimentoDt) as VencimentoDt"),
             'SitPagT.REGTABSG as  SitPag',
+            'SitPagT.REGTABNM as  SitPagNM',
             'SitCobT.REGTABSG as  SitCob',
             'OrigTribT.REGTABSG as  OrigTrib',
             'TributoT.REGTABSG as  Tributo',
