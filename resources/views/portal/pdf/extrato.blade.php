@@ -28,7 +28,7 @@
     {{--</tr>--}}
     <tr style="height: 41px; font-size: 11px; border:#0f0f0f">
         <th style="height: 41px; text-align: left; ">Inscri&ccedil;&atilde;o</th>
-        <th style="height: 41px; text-align: left; ">Tributo</th>
+        <th style="height: 41px; text-align: left; ">Tipo de Cadastro</th>
         <th style="height: 41px;  text-align: left;">Lan&ccedil;amento</th>
         <th style="height: 41px;  text-align: left;">Parcela</th>
         <th style="height: 41px; text-align: left;">Vencimento</th>

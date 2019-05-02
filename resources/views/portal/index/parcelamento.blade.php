@@ -26,7 +26,7 @@
                         <thead>
                         <tr>
                             <th>Inscrição</th>
-                            <th>Tributo</th>
+                            <th>Tipo de Cadastro</th>
                             {{--<th>Exercício</th>--}}
                             <th>Lançamento</th>
                             <th>Parcela</th>

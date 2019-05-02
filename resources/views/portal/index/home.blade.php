@@ -104,7 +104,7 @@
                     <a href="{{route('portal.acesso')}}" class="col-6 col-lg-3 border-right border-left border-top border-bottom pf-td-none m-lg-2 lg-border pf-acesso-rapido">
                         <img src="{{asset('images/portal/'.$Var->port_icone_3)}}" class="pb-4 pt-4" alt="Parcelamento" />
                         <h6 class="text-body">Parcelamento</h6>
-                        <p class="text-secondary">Simule e realiza o parcelamentos em aberto.</p>
+                        <p class="text-secondary">Simule e realize parcelamentos</p>
                     </a>
                     <a href="{{route('portal.ajuda')}}" class="col-6 col-lg-3 border-right border-top border-bottom pf-td-none m-lg-2 lg-border pf-acesso-rapido">
                         <img src="{{asset('images/portal/'.$Var->port_icone_4)}}" class="pb-4 pt-4" alt="Dúvidas Frequentes" />

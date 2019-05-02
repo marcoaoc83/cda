@@ -21,7 +21,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="cep" class="pf-text-label">CEP</label>
+                                <label for="cep" class="pf-text-label">CEP *</label>
                                 <input type="text" class="form-control pf-input-text cep" name="cep" id="cep" onchange="buscacep(this.value)"  required="required"  />
                             </div>
                             <div class="row form-group">
@@ -57,7 +57,7 @@
                             <div class="row form-group">
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <label for="uf" class="pf-text-label">Celular *</label>
-                                    <input type="text" class="form-control pf-input-text" name="celular" id="celular"  required="required"  />
+                                    <input type="text" class="form-control pf-input-text" name="celular" id="celular"  required="required"   data-validation="custom" data-validation-regexp="(\(\d{2}\)\s)?(\d{4,5}\-\d{4})"  />
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <label for="uf" class="pf-text-label">Residencial</label>
@@ -71,7 +71,7 @@
                             <div class="row form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label for="email" class="pf-text-label">E-mail *</label>
-                                    <input type="email" class="form-control pf-input-text" name="email" id="email" required="required"   />
+                                    <input type="email" class="form-control pf-input-text" name="email" id="email" required="required" d  />
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label for="cemail" class="pf-text-label">Confirmação E-mail *</label>
@@ -81,7 +81,7 @@
                             <div class="row form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label for="senha" class="pf-text-label">Senha *</label>
-                                    <input type="password" class="form-control pf-input-text" name="senha" id="senha" required="required"  />
+                                    <input type="password" class="form-control pf-input-text" name="senha" id="senha" required="required" minlength="8" />
                                 </div>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label for="csenha" class="pf-text-label">Confirmação Senha *</label>
@@ -113,6 +113,7 @@
     @include('vendor.sweetalert.validator')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js">
     </script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.js"></script>
     <script>
 
@@ -121,7 +122,7 @@
             keepStatic: true
         });
         $("#celular").inputmask({
-            mask: ['(99)9 9999-9999'],
+            mask: ['(99)99999-9999'],
             keepStatic: true
         });
         $("#residencial").inputmask({
@@ -176,5 +177,17 @@
 
         password.onchange = validatePassword;
         confirm_password.onkeyup = validatePassword;
+
+        $(document).ready(function(){
+            $('#cemail').on("cut copy paste",function(e) {
+                e.preventDefault();
+            });
+            $('#csenha').on("cut copy paste",function(e) {
+                e.preventDefault();
+            });
+        });
+        $.validate({
+            lang: 'pt'
+        });
     </script>
 @endpush

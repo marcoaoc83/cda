@@ -19,14 +19,14 @@
                 </div>
             </div>
             <p></p>
-            <div class="row justify-content-between pt-lg-4 pb-lg-4 card pf-border-light" style="display:none " id="rowParcelas">
+            <div class="row justify-content-between pt-lg-4 pb-lg-4  " style="display:none " id="rowParcelas">
                 <div class="card-body">
                     <p class="h2 pf-text-muted mb-4">Parcelas</p>
                     <table id="tbParcela" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%; font-size: 12px">
                         <thead>
                         <tr>
                             <th>Inscrição</th>
-                            <th>Tributo</th>
+                            <th>Tipo de Cadastro</th>
                             {{--<th>Exercício</th>--}}
                             <th>Lançamento</th>
                             <th>Parcela</th>
@@ -40,7 +40,8 @@
                         </tr>
                         </thead>
                     </table>
-                    <p class="pf-text-muted mb-4" style="font-size: 10px"><b>LEGENDA-SE - </b>
+                    <p class="pf-text-muted mb-4" style="font-size: 10px">
+                        <b>LEGENDA-SE - </b>
                         <b> (A) </b>- Dívida Ativa | (*) Dívida Ativa com CDA ,
                         <b> (T) </b>- Débito Protestado,
                         <b> (E) </b>- Débito Executado Manual,

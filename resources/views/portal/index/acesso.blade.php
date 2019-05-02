@@ -3,7 +3,7 @@
     <div class="pf-main">
         <div class="container pt-4 pb-4 pl-4 pr-4">
             <div class="h1 pf-text-secondary font-weight-light mb-3 pf-text-titulo">Área de Acesso</div>
-            <p class="pf-text-muted mb-4">Solicite acesso ao sistema. Visualize seus débitos. Regularize sua vida.</p>
+            <p class="pf-text-muted mb-4">Realize o login. Visualize seus débitos. Regularize sua vida.</p>
 
             <div class="row justify-content-center pt-lg-4 pb-lg-4">
                 <div class="col-12 col-lg-6 card pf-border-light">
