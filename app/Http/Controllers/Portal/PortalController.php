@@ -306,10 +306,11 @@ class PortalController extends Controller
         $pdf = App::make('dompdf.wrapper');
         // Send data to the view using loadView function of PDF facade
         $pdf->loadView('portal.pdf.extrato',  compact('cda_parcela','Var'));
+        $pdf->setPaper('a4', 'landscape');
         // If you want to store the generated pdf to the server then you can use the store function
         // Finally, you can download the file using download function
         //$pdf->setOptions(['dpi' => 96, 'defaultFont' => 'sans-serif']);
-        return $pdf->stream('extrato.pdf');;
+        return $pdf->stream('extrato.pdf');
     }
 
     public function credenciais(Request $request)
@@ -458,6 +459,7 @@ class PortalController extends Controller
         // If you want to store the generated pdf to the server then you can use the store function
         // Finally, you can download the file using download function
         //$pdf->setOptions(['dpi' => 96, 'defaultFont' => 'sans-serif']);
+        $pdf->setPaper('a4', 'landscape');
         return $pdf->stream('extrato.pdf');
     }
 
