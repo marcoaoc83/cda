@@ -96,6 +96,7 @@ class UserController extends Controller
                     $user->update([
                         "name" => Input::get('name'),
                         "email" => Input::get('email'),
+                        "funcao" => Input::get('funcao'),
                         "documento" => Input::get('documento'),
                         "orgao" => Input::get('orgao')
                     ]);
@@ -103,6 +104,7 @@ class UserController extends Controller
                     $user->update([
                         "name" => Input::get('name'),
                         "email" => Input::get('email'),
+                        "funcao" => Input::get('funcao'),
                         "documento" => Input::get('documento')
                     ]);
                 }
@@ -114,12 +116,14 @@ class UserController extends Controller
                         "name" => Input::get('name'),
                         "email" => Input::get('email'),
                         "documento" => Input::get('documento'),
+                        "funcao" => Input::get('funcao'),
                         "orgao" => Input::get('orgao')
                     ]);
                 }else{
                     $user2->update([
                         "name" => Input::get('name'),
                         "email" => Input::get('email'),
+                        "funcao" => Input::get('funcao'),
                         "documento" => Input::get('documento')
                     ]);
                 }
