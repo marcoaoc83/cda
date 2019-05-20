@@ -30,8 +30,25 @@ function filtrarParcelas(){
             _token: '{!! csrf_token() !!}'
         },
         url:url,
-        success: function( result ) {
-            window.open(result, '_blank');
+        success: function (msg) {
+            swal({
+                position: 'top-end',
+                type: 'success',
+                title: 'Gerado com sucesso!',
+                showConfirmButton: false,
+                text: 'Enviado para lista de tarefas!',
+                timer: 1500
+            })
+        },
+        error: function (data) {
+            swal({
+                position: 'top-end',
+                type: 'success',
+                title: 'Gerado com sucesso!',
+                text: 'Enviado para lista de tarefas!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
     });
 

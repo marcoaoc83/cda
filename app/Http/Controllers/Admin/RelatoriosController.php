@@ -8,6 +8,7 @@ use App\Models\Parcela;
 use App\Models\RegTab;
 use App\Models\RelatorioParametro;
 use App\Models\Relatorios;
+use App\Models\Tarefas;
 use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +16,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 use Maatwebsite\Excel\Facades\Excel;
 use Softon\SweetAlert\Facades\SWAL;
 use Yajra\DataTables\Facades\DataTables;
@@ -387,7 +389,8 @@ class RelatoriosController extends Controller
         }
 
         $collect = collect($collect);
-        $Modelo=ModCom::find($request->rel_saida);
+        $Relatorios=Relatorios::find($request->rel_id);
+        $Modelo=ModCom::find($Relatorios->rel_saida);
         $html=$Modelo->ModTexto;
         $lines=explode(PHP_EOL, $html);
         $html=$lines[1];
@@ -395,7 +398,8 @@ class RelatoriosController extends Controller
 
         $texto=[];
         foreach ($collect as $linha){
-            $dados[]=$this->geraModelo($linha,$html) ;
+            $res=($this->geraModelo($linha,$html));
+            $dados[]=explode(';',$res);
         }
 
             $targetpath=storage_path("../public/export");
@@ -403,11 +407,20 @@ class RelatoriosController extends Controller
             $csv= Excel::create($file, function($excel) use ($dados) {
                 $excel->sheet('mySheet', function($sheet) use ($dados)
                 {
-                    $sheet->fromArray($dados);
+                    $sheet->fromArray($dados,null);
                 });
             })->store("csv",$targetpath);
 
-        return  url('/export/').'/'.$file;
+
+        $tarefa=Tarefas::create([
+            'tar_categoria' => 'execfilaParcela',
+            'tar_titulo' => 'Geração de '.$Relatorios->rel_titulo,
+            'tar_descricao' =>  "<h6><a href='".URL::to('/')."/export/".$file.".csv' target='_blank'>Arquivo</a></h6>",
+            'tar_status' => 'Finalizado'
+        ]);
+
+
+        return true;
     }
     private function filtroParcela($request,&$FxAtraso,&$FxValor,&$arrayFxValor,&$arrayFxAtraso){
         $where=' `cda_pcrot`.`SaidaDt` IS NULL ';
