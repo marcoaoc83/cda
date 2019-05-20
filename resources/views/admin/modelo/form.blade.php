@@ -144,6 +144,9 @@
                                     <div class="clearfix"></div>
                                 </div>
                                 <div class="x_content">
+                                    <a href="javascript:;" onclick="on()" style="margin-left: 15px" type="button" class="btn btn-success btn-sm ">On
+                                    <a href="javascript:;" onclick="off()" style="margin-left: 15px" type="button" class="btn btn-danger btn-sm ">Off
+                                    </a>
                                     <textarea name="ModTexto" id="ModTexto" rows="20" class="resizable_textarea form-control">{{$modelo->ModTexto}}</textarea>
                                 </div>
                             </div>
@@ -476,6 +479,15 @@
             language: 'pt_br',
             imageUploadURL: '{{url("/admin/uploadfroala/")}}'
         });
+        function on() {
+            $('textarea').froalaEditor({
+                language: 'pt_br',
+                imageUploadURL: '{{url("/admin/uploadfroala/")}}'
+            });
+        }
+        function off() {
+            $('textarea').froalaEditor('destroy');
+        }
         function verPDF() {
             $('#html').val($('#ModTexto').val())
             $('#formPDF').submit();

@@ -358,37 +358,56 @@ class RelatoriosController extends Controller
             if(strlen($parcela['CPF_CNPJNR'])==14){
                 $doc= self::maskString($parcela['CPF_CNPJNR'],'##.###.###/####-##');
             }
-            $collect[$i]['Nome']=$parcela['Nome'];
-            $collect[$i]['Modelo']=$parcela['ModComSg'];
-            $collect[$i]['Carteira']=$parcela['Carteira'];
-            $collect[$i]['SitPag']=$parcela['SitPag'];
-            $collect[$i]['PessoaId']=$parcela['PessoaId'];
-            $collect[$i]['INSCRMUNNR']=$parcela['INSCRMUNNR'];
-            $collect[$i]['INSCRMUNID']=$parcela['INSCRMUNID'];
-            $collect[$i]['CPFCNPJ']=$doc;
-            $collect[$i]['SitCob']=$parcela['SitCob'];
-            $collect[$i]['OrigTrib']=$parcela['OrigTrib'];
-            $collect[$i]['Trib']=$parcela['Trib'];
-            $collect[$i]['LancamentoNr']=$parcela['LancamentoNr'];
-            $collect[$i]['ParcelaNr']=$parcela['ParcelaNr'];
-            $collect[$i]['PlanoQt']=$parcela['PlanoQt'];
-            $collect[$i]['VencimentoDt']=$parcela['VencimentoDt']->format('d/m/Y');
-            $collect[$i]['TotalVr']="R$ ".number_format($parcela['TotalVr2'],2,',','.');
-            $collect[$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['PessoaId']]]['Desc']:'';
+            $collect[$i][$i]['PESSOANMRS']=$parcela['Nome'];
+            $collect[$i][$i]['Modelo']=$parcela['ModComSg'];
+            $collect[$i][$i]['Carteira']=$parcela['Carteira'];
+            $collect[$i][$i]['SitPag']=$parcela['SitPag'];
+            $collect[$i][$i]['PessoaId']=$parcela['PessoaId'];
+            $collect[$i][$i]['INSCRMUNNR']=$parcela['INSCRMUNNR'];
+            $collect[$i][$i]['INSCRMUNID']=$parcela['INSCRMUNID'];
+            $collect[$i][$i]['CPF_CNPJNR']=$doc;
+            $collect[$i][$i]['SitCob']=$parcela['SitCob'];
+            $collect[$i][$i]['OrigTrib']=$parcela['OrigTrib'];
+            $collect[$i][$i]['Trib']=$parcela['Trib'];
+            $collect[$i][$i]['LancamentoNr']=$parcela['LancamentoNr'];
+            $collect[$i][$i]['ParcelaNr']=$parcela['ParcelaNr'];
+            $collect[$i][$i]['PlanoQt']=$parcela['PlanoQt'];
+            $collect[$i][$i]['VencimentoDt']=$parcela['VencimentoDt']->format('d/m/Y');
+            $collect[$i][$i]['TotalVr']="R$ ".number_format($parcela['TotalVr2'],2,',','.');
+            $collect[$i][$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['PessoaId']]]['Desc']:'';
             if($request->group=='IM'){
-                $collect[$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['InscrMunId']]]['Desc']:'';
+                $collect[$i][$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['InscrMunId']]]['Desc']:'';
             }
-            $collect[$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['PessoaId']]]['Desc']:'';
+            $collect[$i][$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['PessoaId']]]['Desc']:'';
             if($request->group=='IM'){
                 $collect[$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['InscrMunId']]]['Desc']:'';
             }
-            $collect[$i]['ParcelaId']=$parcela['ParcelaId'];
+            $collect[$i][$i]['ParcelaId']=$parcela['ParcelaId'];
             $i++;
         }
 
-        $collection = collect($collect);
-        return Datatables::of($collection)->make(true);
+        $collect = collect($collect);
+        $Modelo=ModCom::find($request->rel_saida);
+        $html=$Modelo->ModTexto;
+        $lines=explode(PHP_EOL, $html);
+        $html=$lines[1];
+        if(empty($lines[1])) $html=$lines[0];
 
+        $texto=[];
+        foreach ($collect as $linha){
+            $dados[]=$this->geraModelo($linha,$html) ;
+        }
+
+            $targetpath=storage_path("../public/export");
+            $file=md5(uniqid(rand(), true));
+            $csv= Excel::create($file, function($excel) use ($dados) {
+                $excel->sheet('mySheet', function($sheet) use ($dados)
+                {
+                    $sheet->fromArray($dados);
+                });
+            })->store("csv",$targetpath);
+
+        return  url('/export/').'/'.$file;
     }
     private function filtroParcela($request,&$FxAtraso,&$FxValor,&$arrayFxValor,&$arrayFxAtraso){
         $where=' `cda_pcrot`.`SaidaDt` IS NULL ';
@@ -691,4 +710,106 @@ class RelatoriosController extends Controller
 
         return $maskared;
     }
+
+    function geraModelo($pessoa,$html){
+
+        $Variaveis=RegTab::where('TABSYSID',46)->get();
+
+        $x=0;
+        foreach ($Variaveis as $var){
+
+            $vs=explode("*=",$var->REGTABSQL);
+            $key=$vs[0];
+            if(!$key) continue;
+            $replace[$key][$x]['sg']=$var['REGTABSG'];
+            $replace[$key][$x]['campo']=$vs[1]??null;
+            $x++;
+        }
+        $result=[];
+        $i=1;
+        foreach ($pessoa as $linha) {
+
+
+            foreach ($replace as $tipo => $campo) {
+                foreach ($campo as  $campos) {
+                    $sg = $campos['sg'];
+                    $campo = $campos['campo'];
+                    switch ($tipo) {
+                        case "fixo":
+                            $result[$i][$sg] = $campo;
+                            break;
+                        case "data":
+                            if (isset($linha[$campo])) {
+                                $valor = Carbon::createFromFormat('Y-m-d', $linha[$campo])->format('d/m/Y');
+                                $result[$i][$sg] = $valor;
+                            }
+                            break;
+                        case "numero":
+                            if (isset($linha[$campo])) {
+                                $valor = number_format($linha[$campo], 2, ',', '.');
+                                $result[$i][$sg] = $valor;
+                            }
+                            break;
+                        case "texto":
+                            if (isset($linha[$campo])) {
+                                $valor = $linha[$campo];
+                                $result[$i][$sg] = $valor;
+                            }
+                            break;
+                        case "textoFirst":
+                            if (isset($linha[$campo])) {
+                                $valor = explode(' ',$linha[$campo]);
+                                $result[$i][$sg] = trim($valor[0]);
+                            }
+                            break;
+                        case "array":
+                            if (isset($linha[$campo])) {
+                                $valor = $linha[$campo];
+                                if (strpos($valor, '-') !== false) {
+                                    $valor = Carbon::createFromFormat('Y-m-d', $linha[$campo])->format('d/m/Y');
+                                }
+                                $result[$i][self::soLetra($sg) . $i] = $valor;
+                            }
+                            break;
+                        case "arrayNumber":
+                            if (isset($linha[$campo])) {
+                                $valor = $linha[$campo];
+                                if(is_numeric($valor))
+                                    $valor =number_format($valor, 2, ',', '.');
+                                $result[$i][self::soLetra($sg) . $i] = $valor;
+                            }
+                            break;
+                        case "soma":
+                            if (isset($linha[$campo])) {
+                                if (isset($result[$i - 1][$sg])) {
+                                    $valor = $result[$i - 1][$sg] + $linha[$campo];
+                                    unset($result[$i - 1][$sg]);
+                                } else {
+                                    $valor = $linha[$campo];
+                                }
+
+                                $result[$i][$sg] = $valor;
+                            }
+                            break;
+                    }
+                }
+                // }
+            }
+            $i++;
+        }
+        foreach ($result as $campos) {
+            foreach ($campos as $key=>$val) {
+                $sg = "{{" . $key . "}}";
+                $value = $val;
+                $html = str_replace($sg,$value, $html);
+            }
+        }
+
+        return $html;
+
+    }
+    private function soLetra($str) {
+        return preg_replace("/[^A-Za-z]/", "", $str);
+    }
+
 }

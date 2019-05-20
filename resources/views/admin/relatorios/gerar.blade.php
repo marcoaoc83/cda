@@ -28,7 +28,7 @@
                     <div class="x_panel" id="divFiltros" style="">
                         <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
                             {{ csrf_field() }}
-
+                            <input type="hidden" name="rel_saida" value="{{$Relatorio->rel_saida}}">
                             @include('admin.relatorios.filtro-carteira')
                             @include('admin.relatorios.filtro-roteiro')
                             @include('admin.relatorios.filtro-contribuinte')
