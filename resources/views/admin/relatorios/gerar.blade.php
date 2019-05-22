@@ -28,7 +28,7 @@
                     <div class="x_panel" id="divFiltros" style="">
                         <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
                             {{ csrf_field() }}
-                            <input type="hidden" name="rel_saida" value="{{$Relatorio->rel_saida}}">
+                            <input type="hidden" name="rel_id" value="{{$Relatorio->rel_id}}">
                             @include('admin.relatorios.filtro-carteira')
                             @include('admin.relatorios.filtro-roteiro')
                             @include('admin.relatorios.filtro-contribuinte')
@@ -42,9 +42,9 @@
                             <button id="send" type="submit" class="btn btn-success hidden">Salvar - {{strtoupper($Relatorio->rel_saida)}}</button>
                         </form>
                     </div>
-                    @include('admin.relatorios.result-contribuinte')
-                    @include('admin.relatorios.result-im')
-                    @include('admin.relatorios.result-parcela')
+                    {{--@include('admin.relatorios.result-contribuinte')--}}
+                    {{--@include('admin.relatorios.result-im')--}}
+                    {{--@include('admin.relatorios.result-parcela')--}}
                     {{--<div class="x_panel text-center noHigiene ">--}}
 
                         {{--<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">--}}
