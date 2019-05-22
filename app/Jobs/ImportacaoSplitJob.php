@@ -85,11 +85,13 @@ class ImportacaoSplitJob implements ShouldQueue
                         foreach ($Tabela as $Campo) {
 
                             $value=$linha[$Campo["CampoNm"]];
-
-                            if($Campo["TipoDados"]=="date"){
+                            if(empty($value)) continue;
+                            if($Campo["TipoDados"]=="date" || $Campo["TipoDados"]=="data"){
                                 $value=strftime("%Y-%m-%d", strtotime($value));
                             }
-
+                            if($Campo["TipoDados"]=="int"){
+                                $value=preg_replace("/[^0-9]/", "", $value);
+                            }
                             if($Campo["TipoDados"]=="moedabr"){
                                 $value=str_replace([".","$","R"],"",$value);
                                 $value=trim(str_replace(",",".",$value));

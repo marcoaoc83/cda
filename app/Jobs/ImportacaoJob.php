@@ -53,6 +53,7 @@ class ImportacaoJob implements ShouldQueue
         foreach ($arquivos as $arquivo) {
             ImportacaoSplitJob::dispatch($this->ArquivoId,$arquivo,$this->Tarefa,count($arquivos))->onQueue("importacao");
         }
+        return false;
 
     }
 
