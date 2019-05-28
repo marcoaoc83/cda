@@ -47,39 +47,39 @@ class ImportacaoController extends Controller
      */
     public function store(Request $request)
     {
-        $str = (array) $request->allFiles();
-        //foreach $str
-        $nameFile=null;
-        // Verifica se informou o arquivo e se é válido
-        if ($request->hasFile('imp_arquivo') && $request->imp_arquivo->isValid()) {
+        $files = (array) $request->allFiles();
+        $retorno=[];
+        foreach ($files as $id => $file) {
+            $id=str_replace("imp_arquivo", "", $id);
+            $Arquivo=ImpArquivo::find($id);
+            $Campos=ImpCampo::select(['CampoNm'])->where('ArquivoId',$Arquivo->ArquivoId)->get();
+            $nameFile = null;
+            // Verifica se informou o arquivo e se é válido
+            if ($file->isFile() && $file->isValid())
+            {
+                //Define um aleatório para o arquivo baseado no timestamps atual
+                $name = uniqid(date('HisYmd'));
+                // Recupera a extensão do arquivo
+                $ext = $file->getClientOriginalExtension();
+                // Define finalmente o nome
+                $nameFile = "{$name}.{$ext}";
+                $upload = $file->storeAs('importacao', $nameFile, 'local');
+                $targetpath=storage_path("app/");
+                $arquivo=($targetpath.'importacao/'.$nameFile);
+                $retorno['arquivos'][$id]=$nameFile;
 
-            //Define um aleatório para o arquivo baseado no timestamps atual
-            $name = uniqid(date('HisYmd'));
-            // Recupera a extensão do arquivo
-            $ext = $request->imp_arquivo->getClientOriginalExtension();
-            // Define finalmente o nome
-            $nameFile = "{$name}.{$ext}";
-            $upload = $request->imp_arquivo->storeAs('importacao', $nameFile, 'local');
-
-
-            $LayoutArquivo=ImpArquivo::findOrFail($request->ArquivoId);
-            $data=date("d/m/Y H:i:s");
-            $desc=<<<EOD
-            Arquivo Enviado: {$request->imp_arquivo->getClientOriginalName()}
-            Data Envio: $data
-EOD;
-
-            $tarefa=Tarefas::create([
-                    'tar_categoria' => 'importacao',
-                    'tar_titulo' => 'Importação de '.$LayoutArquivo->ArquivoDs,
-                    'tar_descricao' => $desc,
-                    'tar_status' => 'Aguardando'
-                ]);
-            ImportacaoJob::dispatch($request->ArquivoId,$upload,$tarefa->tar_id)->onQueue("importacao");
-            SWAL::message('Salvo','Importação enviada para lista de tarefas!','success',['timer'=>4000,'showConfirmButton'=>false]);
-            return redirect()->route('importacao.index');
-
+                /* Verifica as colunas do arquivo conferem com a do layout cadastrado*/
+                $fn = fopen($arquivo,"r");
+                $frow = explode(';',strtolower(preg_replace("/[\n\r]/","",fgets($fn, 20))));
+                foreach ($Campos as $Campo){
+                    if(!in_array(strtolower($Campo->CampoNm),$frow)){
+                        $retorno['erros'][]="A coluna ".$Campo->CampoNm." não foi encontrada no arquivo ".$Arquivo->ArquivoDs."!";
+                    }
+                }
+            }
         }
+
+        return json_encode($retorno,JSON_UNESCAPED_UNICODE);
 
     }
 

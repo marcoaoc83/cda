@@ -85,6 +85,17 @@
                                         <p id="p-step-2">Carregando ...</p>
                                     </div>
                                     <div id="step-3" style="min-height: 450px">
+                                        <div class="col-md-12">
+                                            <div class="x_panel">
+                                                <div class="x_title">
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content bs-example-popovers">
+                                                    <p id="p-step-3">Carregando...</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div id="step-4" style="min-height: 450px">
                                     </div>
@@ -651,7 +662,8 @@
         }
         function leaveAStepCallback(obj, context){
             //alert("Leaving step " + context.fromStep + " to go to step " + context.toStep);
-            return validateSteps(context.fromStep); // return false to stay on step and true to continue navigation
+;
+            return validateSteps(context.fromStep,context.toStep); // return false to stay on step and true to continue navigation
         }
 
         function onFinishCallback(objs, context){
@@ -661,7 +673,7 @@
         }
 
         // Your Step validation logic
-        function validateSteps(stepnumber){
+        function validateSteps(stepnumber,tostep){
             var isStepValid = true;
             // validate step 1
             if(stepnumber == 1){
@@ -675,7 +687,7 @@
                 }
 
             }
-            if(stepnumber == 2){
+            if(stepnumber == 2 && tostep >= 3){
                 isStepValid=false;
                 $( ".imp_arquivo" ).each(function( index ) {
                     if($(this).val().length>0){
@@ -777,7 +789,8 @@
 
         $("#formImport").on("submit", function(e) {
             e.preventDefault();
-
+            $('#p-step-3').html('');
+            $('#p-step-3').html('Carregando...');
             var form_data = new FormData();
 
             var files =$('input[type=file]');
@@ -806,8 +819,32 @@
                     var myXhr = $.ajaxSettings.xhr();
                     return myXhr;
                 },
-                success: function(data) {
-                    console.log('asd');
+                success: function(retorno) {
+                    var obj = $.parseJSON(retorno);
+                    var err=0;
+                    $('#p-step-3').html('')
+                    $.each(obj, function (i,v)
+                    {
+                        if(i=='erros'){
+                            $.each(v, function (i2,v2) {
+                                $('#p-step-3').append(
+                                    '<div class="alert alert-danger alert-dismissible fade in" role="alert">\n' +
+
+                                    '<strong>' + v2 + '\n' +
+                                    '</div>'
+                                );
+                                err=err+1;
+                            });
+                        }
+
+                    });
+                    if(err==0){
+                        $('#p-step-3').append(
+                            '<div class="alert alert-success alert-dismissible fade in" role="alert">\n' +
+                            '<strong>Ok, não foi encontrado nenhum erro!\n' +
+                            '</div>'
+                        );
+                    }
                 }
             });
         });
