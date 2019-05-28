@@ -47,7 +47,8 @@ class ImportacaoController extends Controller
      */
     public function store(Request $request)
     {
-
+        $str = (array) $request->allFiles();
+        //foreach $str
         $nameFile=null;
         // Verifica se informou o arquivo e se é válido
         if ($request->hasFile('imp_arquivo') && $request->imp_arquivo->isValid()) {

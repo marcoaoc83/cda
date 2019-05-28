@@ -38,7 +38,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <form class="form-horizontal form-label-left"    method="post" action="{{ route('importacao.store') }}" enctype="multipart/form-data">
+                            <form class="form-horizontal form-label-left" id="formImport"    method="post"   enctype="multipart/form-data">
                                 {{ csrf_field() }}
                                 <div id="wizard" class="form_wizard wizard_horizontal" >
                                     <ul class="wizard_steps">
@@ -67,7 +67,7 @@
                                             </a>
                                         </li>
                                     </ul>
-                                    <div id="step-1" style="min-height: 450px">
+                                    <div id="step-1"  >
                                         <div class="item form-group" id="divLayout" style="height: 40px"></div>
                                         <div class="item form-group" id="divLayout" style="height: 100px" >
                                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId" >Layout <span class="required">*</span></label>
@@ -675,6 +675,23 @@
                 }
 
             }
+            if(stepnumber == 2){
+                isStepValid=false;
+                $( ".imp_arquivo" ).each(function( index ) {
+                    if($(this).val().length>0){
+                        isStepValid=true;
+                    }
+                });
+                if(!isStepValid) {
+                    swal({
+                        title: 'Erro!',
+                        html: 'Escolha um arquivo!',
+                        type: 'error'
+                    })
+                }else{
+                    $( "#formImport" ).submit();
+                }
+            }
             return isStepValid;
         }
         function validateAllSteps(){
@@ -690,7 +707,7 @@
             $(".input-file").before(
                 function() {
                     if ( ! $(this).prev().hasClass('input-ghost') ) {
-                        var element = $("<input type='file' accept='.csv, .txt, .xml' class='input-ghost'  required=\"required\" style='visibility:hidden; height:0'>");
+                        var element = $("<input type='file' name='"+$(this).children('input').attr('name')+"' accept='.csv, .txt, .xml' class='input-ghost'  required=\"required\" style='visibility:hidden; height:0'>");
                         element.attr("name",$(this).attr("name"));
                         element.change(function(){
                             element.next(element).find('input').val((element.val()).split('\\').pop());
@@ -757,6 +774,43 @@
                 }
             });
         }
+
+        $("#formImport").on("submit", function(e) {
+            e.preventDefault();
+
+            var form_data = new FormData();
+
+            var files =$('input[type=file]');
+            console.log(files.length);
+
+            for(var i=0;i<files.length;i++){
+                var file =files[i].files;
+                if(file.length>0)
+                form_data.append(files[i].name,file[0], file[0]['name']);
+
+            }
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-Token':'{!! csrf_token() !!}',
+                }
+            });
+
+            $.ajax({
+                url:'{{ url('admin/importacao/') }}' ,
+                data: form_data,
+                type: 'POST',
+                contentType: false, // The content type used when sending data to the server.
+                cache: false, // To unable request pages to be cached
+                processData: false,
+                xhr: function() {
+                    var myXhr = $.ajaxSettings.xhr();
+                    return myXhr;
+                },
+                success: function(data) {
+                    console.log('asd');
+                }
+            });
+        });
     </script>
 
 @endpush
