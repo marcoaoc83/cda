@@ -223,6 +223,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::resource('admin/imparquivo', 'ImpArquivoController');
 
     Route::resource('admin/importacao', 'ImportacaoController');
+    Route::post('admin/importacao/importar', 'ImportacaoController@importar')->name('importacao.importar');
 
     Route::resource('admin/uploadtinymce', 'tinymceController');
 

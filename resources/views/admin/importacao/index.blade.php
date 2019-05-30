@@ -40,6 +40,7 @@
                         <div class="x_content">
                             <form class="form-horizontal form-label-left" id="formImport"    method="post"   enctype="multipart/form-data">
                                 {{ csrf_field() }}
+
                                 <div id="wizard" class="form_wizard wizard_horizontal" >
                                     <ul class="wizard_steps">
                                         <li>
@@ -87,19 +88,24 @@
                                     <div id="step-3" style="min-height: 450px">
                                         <div class="col-md-12">
                                             <div class="x_panel">
-                                                <div class="x_title">
-                                                    <div class="clearfix"></div>
-                                                </div>
                                                 <div class="x_content bs-example-popovers">
                                                     <p id="p-step-3">Carregando...</p>
-
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div id="step-4" style="min-height: 450px">
+                                        <div class="col-md-12">
+                                            <div class="x_panel">
+                                                <div class="x_content bs-example-popovers">
+                                                    <p id="p-step-4">Carregando...</p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </form>
+                            <form id="formImport2">
                             </form>
                         </div>
                     </div>
@@ -649,7 +655,7 @@
         function init_SmartWizard() {
             "undefined" != typeof $.fn.smartWizard && (console.log("init_SmartWizard"),
                 $("#wizard").smartWizard({
-                    buttonOrder: ['prev','next','finish'],
+                    buttonOrder: ['prev','next'],
                     labelNext:'Próximo', // label for Next button
                     labelPrevious:'Voltar', // label for Previous button
                     labelFinish:'Finalizar',
@@ -703,7 +709,62 @@
                 }else{
                     $( "#formImport" ).submit();
                 }
+
             }
+            if(stepnumber == 3 && tostep == 4){
+                if( $('#errosImp').length ){
+                    swal({
+                        title: 'Erro!',
+                        html: 'Existe(m) erro(s) na validação!',
+                        type: 'error'
+                    });
+                    isStepValid=false;
+                } else{
+                    $('#p-step-4').html('');
+
+                    $( ".arquivoImp" ).each(function( index ) {
+
+                        var elemento="msgImp"+$(this).data("id");
+                        var nome =$(this).data("nome");
+                        $('#p-step-4').append(
+                            '<div class="alert alert-info alert-dismissible fade in" role="alert" id="'+elemento+'">\n' +
+                            '<strong>Importando '+nome+' ...</strong>\n' +
+                            '</div>'
+                        );
+                        $.ajax({
+                            dataType: 'json',
+                            type: 'POST',
+                            data: {
+                                _token: '{!! csrf_token() !!}',
+                                id:$(this).data("id"),
+                                arquivo:$(this).val(),
+                                _method: 'POST'
+                            },
+                            url: '{{ url('admin/importacao/importar') }}',
+                            success: function (retorno) {
+                                $('.buttonPrevious').hide();
+                                $('#'+elemento).removeClass("alert-info");
+                                $('#'+elemento).addClass("alert-success");
+                                $('#'+elemento).html(
+                                    '<strong>'+nome+' importado com sucesso!</strong>\n'
+                                );
+                            },
+                            error: function(jqXHR, exception) {
+                                $('#'+elemento).removeClass("alert-success");
+                                $('#'+elemento).addClass("alert-danger");
+
+                                $('#'+elemento).html(
+                                    '<strong>Erro ao importar '+$(this).data("nome")+'!</strong>\n'
+                                );
+                            }
+                        });
+
+                    });
+
+                    isStepValid=true;
+                }
+            }
+
             return isStepValid;
         }
         function validateAllSteps(){
@@ -790,6 +851,7 @@
         $("#formImport").on("submit", function(e) {
             e.preventDefault();
             $('#p-step-3').html('');
+            $("#errosImp").remove();
             $('#p-step-3').html('Carregando...');
             var form_data = new FormData();
 
@@ -829,21 +891,27 @@
                             $.each(v, function (i2,v2) {
                                 $('#p-step-3').append(
                                     '<div class="alert alert-danger alert-dismissible fade in" role="alert">\n' +
-
-                                    '<strong>' + v2 + '\n' +
+                                    '<strong>' + v2 + '</strong>\n' +
                                     '</div>'
                                 );
                                 err=err+1;
                             });
                         }
-
+                        if(i=='arquivos'){
+                            $.each(v, function (i2,v2) {
+                                $('#formImport2').append('<input type="hidden" id="arquivos'+i2+'" name="arquivos['+i2+']" class="arquivoImp" data-id="'+i2+'" data-nome="'+v2.nome+'" value="'+v2.file+'" />');
+                            });
+                        }
                     });
                     if(err==0){
                         $('#p-step-3').append(
                             '<div class="alert alert-success alert-dismissible fade in" role="alert">\n' +
-                            '<strong>Ok, não foi encontrado nenhum erro!\n' +
+                            '<strong>Nenhum erro encontrado!</strong>\n' +
                             '</div>'
                         );
+                    }else{
+                        $('.arquivoImp').remove();
+                        $('#formImport').append('<input type="hidden" id="errosImp" name="errosImp" value="1" />');
                     }
                 }
             });
