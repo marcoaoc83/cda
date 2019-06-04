@@ -62,7 +62,10 @@
                     $.each(datas[index1], function(index) {
                         let data = datas[index1];
                         var new_data = [];
-                        $("#graficosHome").append('<br><div class=" text-center"><div id="container'+index+'" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>');
+                        if(!$('#container'+index).length>0)         // use this if you are using class to check
+                        {
+                            $("#graficosHome").append('<br><div class=" text-center"><div id="container'+index+'" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>');
+                        }
 
                         series=data[index].series.data;
                         nome=data[index].series.name;
