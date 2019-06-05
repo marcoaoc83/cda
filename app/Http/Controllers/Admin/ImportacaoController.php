@@ -8,6 +8,7 @@ use App\Models\ImpCampo;
 use App\Models\ImpLayout;
 use App\Models\Importacao;
 use App\Models\Tarefas;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
@@ -262,7 +263,8 @@ class ImportacaoController extends Controller
                             $value=$linha[$Campo["CampoNm"]];
                             if(empty($value)) continue;
                             if($Campo["TipoDados"]=="date" || $Campo["TipoDados"]=="data"){
-                                $value=strftime("%Y-%m-%d", strtotime($value));
+                                $date = Carbon::createFromFormat('d/m/Y', $value);
+                                $value=$date->format('Y-m-d');
                             }
                             if($Campo["TipoDados"]=="int"){
                                 $value=preg_replace("/[^0-9]/", "", $value);
