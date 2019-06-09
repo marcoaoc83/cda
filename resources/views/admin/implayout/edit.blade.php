@@ -101,7 +101,7 @@
 
 @push('scripts')
 <script>
-    function reloadCampo(element,tabela)
+    function reloadCampo(element,tabela,select)
     {
         var FKCampo = $(element);
         FKCampo.empty();
@@ -116,7 +116,12 @@
             success: function(data){
                 FKCampo.append('<option value=""></option>');
                 $.each(data, function(i, d) {
-                    FKCampo.append('<option value="' + d.coluna + '">' + d.coluna.toUpperCase() + '</option>');
+                    if(d.coluna==select){
+                        FKCampo.append('<option value="' + d.coluna + '" selected>' + d.coluna.toUpperCase() + '</option>');
+                    }else{
+                        FKCampo.append('<option value="' + d.coluna + '">' + d.coluna.toUpperCase() + '</option>');
+                    }
+
                 });
             }
         });

@@ -175,8 +175,8 @@
             $('#pnImpCampo #formEditar #LayoutId').val(LayoutId);
             $('#pnImpCampo #formEditar #CampoNm').val(CampoNm);
             $('#pnImpCampo #formEditar #TabelaDB').val(TabelaDB);
-            reloadCampo('#formEditar #CampoDB',TabelaDB);
-
+            reloadCampo('#formEditar #CampoDB',TabelaDB,CampoDB);
+            reloadCampo('#formEditar #FKCampo',linha['FKTabela'],linha['FKCampo']);
             $('#pnImpCampo #formEditar #CampoPK').val(CampoPK);
             $('#pnImpCampo #formEditar #FKTabela').val( linha['FKTabela']);
             $('#pnImpCampo #formEditar #FKCampo').val( linha['FKCampo']);
