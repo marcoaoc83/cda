@@ -2,8 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Bairro;
 use App\Models\Canal;
+use App\Models\CanalFila;
+use App\Models\Cidade;
+use App\Models\InscrMun;
+use App\Models\Logradouro;
+use App\Models\Parcela;
+use App\Models\PcRot;
 use App\Models\Pessoa;
+use App\Models\PsCanal;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -149,13 +157,25 @@ class PessoaController extends Controller
      * @param  \App\Models\Pessoa  $pessoa
      * @return \Illuminate\Http\Response
      */
-    public function destroy($pessoa)
+    public function destroy($pessoa, Request $r)
     {
+        if($r->all){
+            Parcela::truncate();
+            PsCanal::truncate();
+            InscrMun::truncate();
+            Pessoa::truncate();
+            Logradouro::truncate();
+            Bairro::truncate();
+            Cidade::truncate();
+            PcRot::truncate();
+            CanalFila::truncate();
+            return 'true';
+        }
         $var = Pessoa::find($pessoa);
         if($var->delete()) {
             return 'true';
         }else{
-            return 'false';
+            return false;
         }
     }
 

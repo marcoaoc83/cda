@@ -28,7 +28,12 @@
                                 <span class="glyphicon glyphicon-plus-sign "  style="color:white" aria-hidden="true"></span>
                                 Adicionar
                             </a>
-
+                            @if(auth()->user()->funcao==1)
+                            <a href="javascript:;" onclick="deletePessoaAll()" style="margin-left: 15px" type="button" class="btn btn-danger btn-sm ">
+                                <span class="glyphicon glyphicon-minus-sign "  style="color:white" aria-hidden="true"></span>
+                                Deletar Dados
+                            </a>
+                            @endif
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
                                 <li class="dropdown">
@@ -130,5 +135,48 @@
             }
         });
     };
+        function deletePessoaAll() {
+            swal({
+                title             : "Tem certeza?",
+                text              : "Todos os dados serão deletados!",
+                type              : "warning",
+                showCancelButton  : true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText : "Sim",
+                cancelButtonText  : "Não"
+            }).then((resultado) => {
+                if (resultado.value) {
+                    $.ajax({
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            _method: 'DELETE',
+                            all:true,
+                            _token: '{!! csrf_token() !!}',
+                        },
+                        url: '{{ url('admin/pessoa') }}' + '/' + 1,
+                        success: function( msg ) {
+                            $('.datatable').DataTable().ajax.reload();
+                            swal({
+                                position: 'top-end',
+                                type: 'success',
+                                title: 'Deletado com sucesso!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        },
+                        error: function( data ) {
+                            swal({
+                                position: 'top-end',
+                                type: 'error',
+                                title: 'Erro ao deletar!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    });
+                }
+            });
+        };
     </script>
 @endpush
