@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Orchestra\Parser\Xml\Facade as XmlParser;
@@ -187,6 +188,7 @@ class ImportacaoController extends Controller
         } catch (\Exception $e) {
             DB::rollback();
             echo $e->getMessage();
+            Log::notice($e->getMessage());
         }
     }
 
@@ -314,6 +316,10 @@ class ImportacaoController extends Controller
                         $sql=$sql.$values;
                         $sql.=" ON DUPLICATE KEY UPDATE ".$values;
                         //Log::info("\n\r".$sql);
+
+                        if(empty($values)){
+                            continue;
+                        }
                         DB::insert($sql);
                     }
                 }

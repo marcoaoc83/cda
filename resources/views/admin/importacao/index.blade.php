@@ -754,8 +754,10 @@
                                 $('#'+elemento).addClass("alert-danger");
 
                                 $('#'+elemento).html(
-                                    '<strong>Erro ao importar '+$(this).data("nome")+'!</strong>\n'
+                                    '<strong>Erro ao importar '+nome+'!</strong>\n'
                                 );
+                                console.log(jqXHR);
+                                console.log(exception);
                             }
                         });
 
