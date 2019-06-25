@@ -1,5 +1,5 @@
 {{--Filtro Roteiro--}}
-<div class="col-md-5 col-sm-5 col-xs-12 " id="divFiltroRoteiro" >
+<div class="col-md-8 col-sm-8 col-xs-12 " id="divFiltroRoteiro" >
     <div class="x_panel col-md-5 col-sm-5 col-xs-5 " >
         <div class="x_title">
             <h2>Filtro Roteiro<small></small></h2>

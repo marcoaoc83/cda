@@ -299,10 +299,10 @@ class RelatoriosController extends Controller
         }
         ini_set('memory_limit', '-1');
         $limit=100000;
-
+        if($request->demo) $limit=5;
         $where=self::filtroParcela($request,$FxAtraso,$FxValor,$arrayFxValor,$arrayFxAtraso);
 
-        if(empty($where)){
+        if(empty($where) && empty($request->demo)){
             $collection = collect([]);
             return Datatables::of($collection)->make(true);
         }
@@ -335,12 +335,13 @@ class RelatoriosController extends Controller
             ->leftjoin('cda_regtab as SitCobT', 'SitCobT.REGTABID', '=', 'cda_parcela.SitCobId')
             ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
             ->leftjoin('cda_regtab as  TribT', 'TribT.REGTABID', '=', 'cda_parcela.TributoId')
-            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
-            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->leftjoin('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->leftjoin('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
             ->leftjoin('cda_modcom', 'cda_roteiro.ModComId', '=', 'cda_modcom.ModComId')
             ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
             ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
+            ->leftjoin('cda_pcevento', 'cda_pcevento.PARCELAID', '=', 'cda_parcela.ParcelaId')
             ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
             ->groupBy($group)
@@ -411,16 +412,20 @@ class RelatoriosController extends Controller
                 });
             })->store("csv",$targetpath);
 
+        if($request->demo) {
+            echo URL::to('/') . "/export/" . $file . ".csv";
+        }else{
+            $tarefa = Tarefas::create([
+                'tar_categoria' => 'execfilaParcela',
+                'tar_titulo' => 'Geração de ' . $Relatorios->rel_titulo,
+                'tar_descricao' => "<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>",
+                'tar_status' => 'Finalizado'
+            ]);
+            return true;
+        }
 
-        $tarefa=Tarefas::create([
-            'tar_categoria' => 'execfilaParcela',
-            'tar_titulo' => 'Geração de '.$Relatorios->rel_titulo,
-            'tar_descricao' =>  "<h6><a href='".URL::to('/')."/export/".$file.".csv' target='_blank'>Arquivo</a></h6>",
-            'tar_status' => 'Finalizado'
-        ]);
 
 
-        return true;
     }
     private function filtroParcela($request,&$FxAtraso,&$FxValor,&$arrayFxValor,&$arrayFxAtraso){
         $where=' `cda_pcrot`.`SaidaDt` IS NULL ';

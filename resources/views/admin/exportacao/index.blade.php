@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('styles')
     <link href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css" rel="stylesheet">
+
+    <link href="https://cdn.datatables.net/select/1.1.2/css/select.dataTables.min.css" rel="stylesheet">
 @endsection
 @section('content')
     <!-- page content -->
@@ -12,7 +14,7 @@
         <div class="">
             <div class="page-title">
                 <div class="title_left">
-                    <h3>Importação</h3>
+                    <h3>Exportação</h3>
                 </div>
             </div>
             <div class="clearfix"></div>
@@ -30,7 +32,7 @@
                     </div>
                     <div class="x_panel">
                         <div class="x_title">
-                            <h2>Importação<small></small></h2>
+                            <h2>Exportação<small></small></h2>
                             <ul class="nav navbar-right panel_toolbox">
                                 <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                 </li>
@@ -38,7 +40,7 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="x_content">
-                            <form class="form-horizontal form-label-left" id="formImport"    method="post"   enctype="multipart/form-data">
+                            <form class="form-horizontal form-label-left" id="formExport"    method="post"   enctype="multipart/form-data">
                                 {{ csrf_field() }}
 
                                 <div id="wizard" class="form_wizard wizard_horizontal" >
@@ -46,44 +48,57 @@
                                         <li>
                                             <a href="#step-1">
                                                 <span class="step_no">1</span>
-                                                <span class="step_descr">Layout</span>
+                                                <span class="step_descr">Layout/Relatório</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#step-2">
                                                 <span class="step_no">2</span>
-                                                <span class="step_descr">Arquivos</span>
+                                                <span class="step_descr">Filtros</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#step-3">
                                                 <span class="step_no">3</span>
-                                                <span class="step_descr">Validação</span>
+                                                <span class="step_descr">Pré-Visualização</span>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#step-4">
                                                 <span class="step_no">4</span>
-                                                <span class="step_descr">Importação</span>
+                                                <span class="step_descr">Exportação</span>
                                             </a>
                                         </li>
                                     </ul>
                                     <div id="step-1"  >
                                         <div class="item form-group" id="divLayout" style="height: 40px"></div>
                                         <div class="item form-group" id="divLayout" style="height: 100px" >
-                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="LayoutId" >Layout <span class="required">*</span></label>
+                                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="rel_id" >Layout <span class="required">*</span></label>
                                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                                <select class="form-control" id="LayoutId" name="LayoutId" required="required" onchange="montaArquivo(this.value)">
+                                                <select class="form-control" id="rel_id" name="rel_id" required="required" onchange="montaFiltro(this.value)">
                                                     <option value=""></option>
                                                     @foreach($Layout as $var)
-                                                        <option value="{{$var->LayoutId}}">{{$var->LayoutNm}}</option>             
+                                                        <option value="{{$var->rel_id}}">{{$var->rel_titulo}}</option>             
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div id="step-2"  style="min-height: 450px" >
-                                        <p id="p-step-2">Carregando ...</p>
+                                        <div class="x_content">
+                                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
+                                                <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="selectFila(this.value)" >
+                                                    <option value="" hidden selected disabled>Selecionar Fila</option>
+                                                    @foreach($FilaTrab as $var)
+                                                        <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @include('admin.relatorios.filtro-carteira')
+                                        @include('admin.relatorios.filtro-roteiro')
+                                        @include('admin.relatorios.filtro-contribuinte')
+                                        @include('admin.relatorios.filtro-parcela')
                                     </div>
                                     <div id="step-3" style="min-height: 450px">
                                         <div class="col-md-12">
@@ -105,7 +120,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <form id="formImport2">
+                            <form id="formExport2">
                             </form>
                         </div>
                     </div>
@@ -119,6 +134,17 @@
 
 @push('scripts')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.1.2/js/dataTables.select.min.js"></script>
+    <script src="http://kingkode.com/datatables.editor.lite/js/altEditor/dataTables.altEditor.free.js"></script>
     <script>
         /*
  * SmartWizard 3.3.1 plugin
@@ -686,7 +712,7 @@
                 if($('#LayoutId').val()<1){
                     swal({
                         title: 'Erro!',
-                        html: 'Selecione um Layout!',
+                        html: 'Selecione um Relatóro!',
                         type: 'error'
                     })
                     isStepValid=false;
@@ -694,82 +720,11 @@
 
             }
             if(stepnumber == 2 && tostep >= 3){
-                isStepValid=false;
-                $( ".imp_arquivo" ).each(function( index ) {
-                    if($(this).val().length>0){
-                        isStepValid=true;
-                    }
-                });
-                if(!isStepValid) {
-                    swal({
-                        title: 'Erro!',
-                        html: 'Escolha um arquivo!',
-                        type: 'error'
-                    })
-                }else{
-                    $( "#formImport" ).submit();
-                }
-
+                filtrarParcelas();
             }
             if(stepnumber == 3 && tostep == 4){
-                if( $('#errosImp').length ){
-                    swal({
-                        title: 'Erro!',
-                        html: 'Existe(m) erro(s) na validação!',
-                        type: 'error'
-                    });
-                    isStepValid=false;
-                } else{
-                    $('#p-step-4').html('');
 
-                    $( ".arquivoImp" ).each(function( index ) {
-                        if(typeof $(this).data("id") == "undefined"){
-                            return;
-                        }
-                        if(typeof $(this).val() == "undefined"){
-                            return;
-                        }
-                        var elemento="msgImp"+$(this).data("id");
-                        var nome =$(this).data("nome");
-                        $('#p-step-4').append(
-                            '<div class="alert alert-info alert-dismissible fade in" role="alert" id="'+elemento+'">\n' +
-                            '<strong>Importando '+nome+' ...</strong>\n' +
-                            '</div>'
-                        );
-                        $.ajax({
-                            dataType: 'json',
-                            type: 'POST',
-                            data: {
-                                _token: '{!! csrf_token() !!}',
-                                id:$(this).data("id"),
-                                arquivo:$(this).val(),
-                                _method: 'POST'
-                            },
-                            url: '{{ url('admin/importacao/importar') }}',
-                            success: function (retorno) {
-                                $('.buttonPrevious').hide();
-                                $('#'+elemento).removeClass("alert-info");
-                                $('#'+elemento).addClass("alert-success");
-                                $('#'+elemento).html(
-                                    '<strong>'+nome+' importado com sucesso!</strong>\n'
-                                );
-                            },
-                            error: function(jqXHR, exception) {
-                                $('#'+elemento).removeClass("alert-success");
-                                $('#'+elemento).addClass("alert-danger");
 
-                                $('#'+elemento).html(
-                                    '<strong>Erro ao importar '+nome+'!</strong>\n'
-                                );
-                                console.log(jqXHR);
-                                console.log(exception);
-                            }
-                        });
-
-                    });
-
-                    isStepValid=true;
-                }
             }
 
             return isStepValid;
@@ -783,70 +738,21 @@
                 init_SmartWizard();
 
             });
-        function bs_input_file() {
-            $(".input-file").before(
-                function() {
-                    if ( ! $(this).prev().hasClass('input-ghost') ) {
-                        var element = $("<input type='file' name='"+$(this).children('input').attr('name')+"' accept='.csv, .txt, .xml' class='input-ghost'  required=\"required\" style='visibility:hidden; height:0'>");
-                        element.attr("name",$(this).attr("name"));
-                        element.change(function(){
-                            element.next(element).find('input').val((element.val()).split('\\').pop());
-                            element.next(element).find('input').prop('required',true);
-                        });
-                        $(this).find("button.btn-choose").click(function(){
-                            element.click();
-                        });
-                        $(this).find("button.btn-reset").click(function(){
-                            element.val(null);
-                            $(this).parents(".input-file").find('input').val('');
-                            $(this).parents(".input-file").find('input').prop('required',false);
-                        });
-                        $(this).find('input').css("cursor","pointer");
-                        $(this).find('input').mousedown(function() {
-                            $(this).parents('.input-file').prev().click();
-                            return false;
-                        });
-                        return element;
-                    }
-                }
-            );
-        }
-        $(function() {
-            bs_input_file();
-        });
-        function montaArquivo(LayoutId) {
+
+
+        function montaFiltro(rel_id) {
             $.ajax({
                 dataType: 'json',
                 type: 'POST',
                 data: {
                     _token: '{!! csrf_token() !!}',
-                    LayoutId:LayoutId,
+                    rel_id:rel_id,
                     _method: 'POST'
                 },
-                url: '{{ url('admin/implayout/montaarquivo/') }}',
+                url: '{{ url('admin/exportacao/montafiltro/') }}',
                 success: function (retorno) {
-                    $('#ArquivoId').children().remove();
                     if(retorno) {
-                        var arquivos = JSON.parse(JSON.stringify(retorno));
-                        $('#p-step-2').html('');
-                        $.each(arquivos, function( index, value ) {
-                            $('#p-step-2').append(
-'                               <div class="item form-group">\n' +
-'                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">'+value['ArquivoDs']+'</label>\n' +
-'                                    <div class="col-md-6 col-sm-6 col-xs-12">\n' +
-'                                        <div class="form-group">\n' +
-'                                            <div class="input-group input-file">\n' +
-'                                                <input type="text"  name="imp_arquivo'+value["ArquivoId"]+'"  id="imp_arquivo'+value["ArquivoId"]+'"  class="form-control imp_arquivo" />\n' +
-'                                                <span class="input-group-btn">\n' +
-'                                                    <button class="btn btn-default btn-choose" type="button">...</button>\n' +
-'                                                </span>\n' +
-'                                            </div>\n' +
-'                                        </div>\n' +
-'                                    </div>\n' +
-'                                </div>'
-                            );
-                        });
-                        bs_input_file();
+
                     }
                 },
                 error: function (retorno) {
@@ -855,7 +761,7 @@
             });
         }
 
-        $("#formImport").on("submit", function(e) {
+        $("#formExport").on("submit", function(e) {
             e.preventDefault();
             $('#p-step-3').html('');
             $("#errosImp").remove();
@@ -865,64 +771,57 @@
             var files =$('input[type=file]');
             console.log(files.length);
 
-            for(var i=0;i<files.length;i++){
-                var file =files[i].files;
-                if(file.length>0)
-                form_data.append(files[i].name,file[0], file[0]['name']);
+        });
 
+        function addRoteiro(obj) {
+            console.log(obj);
+            if ( $( "#roteirosId"+obj.value ).length ) {
+                $( "#roteirosId"+obj.value ).remove();
+            }else{
+                $('#formExport').append('<input type="hidden" id="roteirosId'+obj.value+'" name="roteirosId[]" value='+obj.value+' />');
             }
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-Token':'{!! csrf_token() !!}',
-                }
-            });
+
+        }
+
+        function filtrarParcelas(){
+            var url = "{{ route('relatorios.getdataParcela') }}" + "/?" + $('#formExport').serialize() + '&demo=1';
 
             $.ajax({
-                url:'{{ url('admin/importacao/') }}' ,
-                data: form_data,
-                type: 'POST',
-                contentType: false, // The content type used when sending data to the server.
-                cache: false, // To unable request pages to be cached
-                processData: false,
-                xhr: function() {
-                    var myXhr = $.ajaxSettings.xhr();
-                    return myXhr;
+                type: 'get',
+                dataType: 'json',
+                data: {
+                    _token: '{!! csrf_token() !!}'
                 },
-                success: function(retorno) {
-                    var obj = $.parseJSON(retorno);
-                    var err=0;
-                    $('#p-step-3').html('')
-                    $.each(obj, function (i,v)
-                    {
-                        if(i=='erros'){
-                            $.each(v, function (i2,v2) {
-                                $('#p-step-3').append(
-                                    '<div class="alert alert-danger alert-dismissible fade in" role="alert">\n' +
-                                    '<strong>' + v2 + '</strong>\n' +
-                                    '</div>'
-                                );
-                                err=err+1;
-                            });
-                        }
-                        if(i=='arquivos'){
-                            $.each(v, function (i2,v2) {
-                                $('#formImport2').append('<input type="hidden" id="arquivos'+i2+'" name="arquivos['+i2+']" class="arquivoImp" data-id="'+i2+'" data-nome="'+v2.nome+'" value="'+v2.file+'" />');
-                            });
-                        }
-                    });
-                    if(err==0){
-                        $('#p-step-3').append(
-                            '<div class="alert alert-success alert-dismissible fade in" role="alert">\n' +
-                            '<strong>Nenhum erro encontrado!</strong>\n' +
-                            '</div>'
-                        );
-                    }else{
-                        $('.arquivoImp').remove();
-                        $('#formImport').append('<input type="hidden" id="errosImp" name="errosImp" value="1" />');
-                    }
+                url:url,
+                success: function (msg) {
+                    console.log(msg);
+                    $('#p-step-3').html(msg);
+                },
+                error: function (data) {
+                    swal({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Gerado com sucesso!',
+                        text: 'Enviado para lista de tarefas!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 }
             });
-        });
+        }
     </script>
+    @include('admin.relatorios.tbCarteira')
+    @include('admin.relatorios.tbRoteiro')
 
+
+    @include('admin.relatorios.tbFxAtraso')
+    @include('admin.relatorios.tbFxValor')
+    @include('admin.relatorios.tbSitPag')
+    @include('admin.relatorios.tbSitCob')
+    @include('admin.relatorios.tbOrigTrib')
+    @include('admin.relatorios.tbTributo')
+
+    @include('admin.relatorios.tbParcela')
+    @include('admin.relatorios.tbContribuinteRes')
+    @include('admin.relatorios.tbIMRes')
 @endpush

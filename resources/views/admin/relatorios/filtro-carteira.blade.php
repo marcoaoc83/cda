@@ -1,5 +1,5 @@
 {{--Filtro Carteira--}}
-<div class="col-md-3 col-sm-3 col-xs-12 " id="divFiltroCarteira" >
+<div class="col-md-4 col-sm-4 col-xs-12 " id="divFiltroCarteira" >
     <div class="x_panel col-md-5 col-sm-5 col-xs-5 " >
         <div class="x_title">
             <h2>Filtro Carteira<small></small></h2>

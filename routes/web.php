@@ -222,6 +222,8 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::resource('admin/impcampo', 'ImpCampoController');
     Route::resource('admin/imparquivo', 'ImpArquivoController');
 
+    Route::post('admin/exportacao/montafiltro', 'ExportacaoController@montaFiltro')->name('montafiltro.montaFiltro');
+    Route::resource('admin/exportacao', 'ExportacaoController');
     Route::resource('admin/importacao', 'ImportacaoController');
     Route::post('admin/importacao/importar', 'ImportacaoController@importar')->name('importacao.importar');
 
