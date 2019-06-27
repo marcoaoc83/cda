@@ -408,12 +408,19 @@ class RelatoriosController extends Controller
             $csv= Excel::create($file, function($excel) use ($dados) {
                 $excel->sheet('mySheet', function($sheet) use ($dados)
                 {
-                    $sheet->fromArray($dados,null);
+                    $sheet->fromArray($dados,null,'A1', false, false);
                 });
-            })->store("csv",$targetpath);
+            })->store("html",$targetpath);
 
         if($request->demo) {
-            echo URL::to('/') . "/export/" . $file . ".csv";
+
+            $response = array(
+                "success" => true,
+                "url" =>URL::to('/') . "/export/" . $file . ".html",
+                "file"=>$csv
+            );
+            echo json_encode($response);
+            die();
         }else{
             $tarefa = Tarefas::create([
                 'tar_categoria' => 'execfilaParcela',

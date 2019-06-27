@@ -85,14 +85,26 @@
                                         </div>
                                     </div>
                                     <div id="step-2"  style="min-height: 450px" >
-                                        <div class="x_content">
-                                            <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
-                                                <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="selectFila(this.value)" >
-                                                    <option value="" hidden selected disabled>Selecionar Fila</option>
-                                                    @foreach($FilaTrab as $var)
-                                                        <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             
-                                                    @endforeach
-                                                </select>
+                                        <div class="col-md-12 col-sm-12 col-xs-12 " id="divFiltroFala" >
+                                            <div class="x_panel col-md-5 col-sm-5 col-xs-5 " >
+                                                <div class="x_title">
+                                                    <h2>Filtro Filas<small></small></h2>
+                                                    <ul class="nav navbar-right panel_toolbox">
+                                                        <li><a class="collapse-link"><i class="fa fa-chevron-down"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="clearfix"></div>
+                                                </div>
+                                                <div class="x_content" style="display: none;">
+                                                    <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
+                                                        <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="selectFila(this.value)" >
+                                                            <option value="" > </option>
+                                                            @foreach($FilaTrab as $var)
+                                                                <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         @include('admin.relatorios.filtro-carteira')
@@ -795,17 +807,11 @@
                 url:url,
                 success: function (msg) {
                     console.log(msg);
-                    $('#p-step-3').html(msg);
+                    $('#p-step-3').html('');
+                    $('#p-step-3').append('<iframe src="'+msg.url+'" name="frame1" id="frame1"  width="100%" height="100%" frameBorder="0"></iframe>');
                 },
-                error: function (data) {
-                    swal({
-                        position: 'top-end',
-                        type: 'success',
-                        title: 'Gerado com sucesso!',
-                        text: 'Enviado para lista de tarefas!',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+                error: function (msg) {
+                    console.log('erro');
                 }
             });
         }
