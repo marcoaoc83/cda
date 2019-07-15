@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
  
+use App\Models\ExpCampo;
+use App\Models\ExpLayout;
 use App\Models\Fila;
 use App\Models\ImpArquivo;
 use App\Models\ImpCampo;
@@ -16,6 +18,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Maatwebsite\Excel\Facades\Excel;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 use Softon\SweetAlert\Facades\SWAL;
@@ -29,7 +32,7 @@ class ExportacaoController extends Controller
      */
     public function index()
     {
-        $Layout = Relatorios::all();
+        $Layout = ExpLayout::all();
         $FilaTrab=Fila::all();
         return view('admin.exportacao.index',compact('Layout','FilaTrab'));
     }
@@ -369,5 +372,58 @@ class ExportacaoController extends Controller
         $fila = Relatorios::where('rel_id',$request->rel_id)->first()->toArray();
 
         return response()->json($fila);
+    }
+
+    public function exportar(Request $request)
+    {
+
+        $tabela=ExpLayout::find($request->exp_id);
+        $campos=ExpCampo::where('exc_layout_id',$request->exp_id)->orderBy('exc_ord')->get();
+        foreach ($campos as $campo){
+            $header[]=$campo->exc_titulo;
+            $set[]=$campo->exc_campo;
+        }
+        $sql="select ".implode(',',$set)." from ".$tabela->exp_tabela;
+        if($request->demo){
+            $sql.=" limit 5";
+        }
+        $collect=DB::select($sql);
+        $dados[]=$header;
+        $x=1;
+        foreach ($collect as $linha){
+            $i=0;
+            foreach ($linha as $info){
+                $dados[$x][$i]=$info;
+                $i++;
+            }
+            $x++;
+        }
+        $type='csv';
+        if($request->demo) $type='html';
+        $targetpath=storage_path("../public/export");
+        $file=md5(uniqid(rand(), true));
+        $csv= Excel::create($file, function($excel) use ($dados) {
+            $excel->sheet('mySheet', function($sheet) use ($dados)
+            {
+                $sheet->fromArray($dados,null,'A1', false, false);
+            });
+        })->store($type,$targetpath);
+
+        if($request->demo) {
+
+            $response = array(
+                "success" => true,
+                "url" =>URL::to('/') . "/export/" . $file . ".html",
+                "file"=>$csv
+            );
+            echo json_encode($response);
+            die();
+        }else{
+
+            return response()->json("<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>");
+        }
+
+
+
     }
 }

@@ -212,6 +212,16 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::get('admin/regtributo/getdata', 'RegraTributoController@getDadosDataTable')->name('regtributo.getdata');
     Route::resource('admin/regtributo', 'RegraTributoController');
 
+    Route::get('admin/explayout/getcampos', 'ExpLayoutController@getCampos')->name('explayout.getcampos');
+    Route::get('admin/explayout/getdata', 'ExpLayoutController@getDadosDataTable')->name('explayout.getdata');
+    Route::post('admin/explayout/exportar', 'ExportacaoController@exportar')->name('explayout.exportar');
+    Route::resource('admin/explayout', 'ExpLayoutController');
+
+    Route::get('admin/expcampo/getdata', 'ExpCampoController@getDadosDataTable')->name('expcampo.getdata');
+
+    Route::resource('admin/expcampo', 'ExpCampoController');
+    Route::resource('admin/exparquivo', 'ExpCampoController');
+
     Route::get('admin/implayout/getcampos', 'ImpLayoutController@getCampos')->name('implayout.getcampos');
     Route::get('admin/implayout/getdata', 'ImpLayoutController@getDadosDataTable')->name('implayout.getdata');
     Route::post('admin/implayout/montaarquivo', 'ImpLayoutController@montaArquivo')->name('implayout.montaArquivo');

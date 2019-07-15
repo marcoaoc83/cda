@@ -396,6 +396,10 @@ class RelatoriosController extends Controller
         $lines=explode(PHP_EOL, $html);
         $html=$lines[1];
         if(empty($lines[1])) $html=$lines[0];
+        $type="csv";
+        if($request->demo) {
+            $type="html";
+        }
 
         $texto=[];
         foreach ($collect as $linha){
@@ -410,7 +414,7 @@ class RelatoriosController extends Controller
                 {
                     $sheet->fromArray($dados,null,'A1', false, false);
                 });
-            })->store("html",$targetpath);
+            })->store($type,$targetpath);
 
         if($request->demo) {
 
@@ -422,13 +426,8 @@ class RelatoriosController extends Controller
             echo json_encode($response);
             die();
         }else{
-            $tarefa = Tarefas::create([
-                'tar_categoria' => 'execfilaParcela',
-                'tar_titulo' => 'Geração de ' . $Relatorios->rel_titulo,
-                'tar_descricao' => "<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>",
-                'tar_status' => 'Finalizado'
-            ]);
-            return true;
+
+            return response()->json("<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>");
         }
 
 
