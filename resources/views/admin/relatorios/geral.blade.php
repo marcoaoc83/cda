@@ -31,14 +31,26 @@ function filtrarParcelas(){
         },
         url:url,
         success: function (msg) {
-            swal({
-                position: 'top-end',
-                type: 'success',
-                title: 'Gerado com sucesso!',
-                showConfirmButton: false,
-                text: 'Enviado para lista de tarefas!',
-                timer: 1500
-            })
+            if(msg=='0'){
+                swal({
+                    position: 'top-end',
+                    type: 'info',
+                    title: 'Nenhuma informação encontrada!',
+                    showConfirmButton: false,
+
+                    timer: 1500
+                })
+            }else{
+                swal({
+                    position: 'top-end',
+                    type: 'success',
+                    title: 'Gerado com sucesso!',
+                    showConfirmButton: false,
+                    text: 'Enviado para lista de tarefas!',
+                    timer: 1500
+                })
+            }
+
         },
         error: function (data) {
             swal({

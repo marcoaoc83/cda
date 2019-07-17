@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\Fila;
 use App\Models\ModCom;
 use App\Models\ModeloVar;
 use App\Models\Parcela;
@@ -175,8 +176,8 @@ class RelatoriosController extends Controller
     public function gerar($id)
     {
         $rel=Relatorios::find($id);
-
-        return view('admin.relatorios.gerar')->with('Relatorio',$rel);
+        $FilaTrab=Fila::all();
+        return view('admin.relatorios.gerar')->with('Relatorio',$rel)->with('FilaTrab',$FilaTrab);
 
     }
     public function getdataRegistroSql(Request $request)
@@ -301,7 +302,9 @@ class RelatoriosController extends Controller
         $limit=100000;
         if($request->demo) $limit=5;
         $where=self::filtroParcela($request,$FxAtraso,$FxValor,$arrayFxValor,$arrayFxAtraso);
-
+        if($request->FilaTrabId && $request->FilaTrabId!='null'){
+            $where.=' AND cda_pcevento.FILATRABID = '.$request->FilaTrabId;
+        }
         if(empty($where) && empty($request->demo)){
             $collection = collect([]);
             return Datatables::of($collection)->make(true);
@@ -342,7 +345,7 @@ class RelatoriosController extends Controller
             ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
             ->leftjoin('cda_carteira', 'cda_carteira.CARTEIRAID', '=', 'cda_roteiro.CarteiraId')
             ->leftjoin('cda_pcevento', 'cda_pcevento.PARCELAID', '=', 'cda_parcela.ParcelaId')
-            ->where('cda_parcela.SitPagId', '61')
+
             ->whereRaw($where)
             ->groupBy($group)
             ->orderBy('cda_parcela.PessoaId')
@@ -426,8 +429,15 @@ class RelatoriosController extends Controller
             echo json_encode($response);
             die();
         }else{
-
-            return response()->json("<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>");
+            if($collect->count()==0) return '0';
+            $tarefa = Tarefas::create([
+                'tar_categoria' => 'execfilaParcela',
+                'tar_titulo' => 'Geração de ' . $Relatorios->rel_titulo,
+                'tar_descricao' => "<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>",
+                'tar_status' => 'Finalizado'
+            ]);
+            return true;
+            //return response()->json("<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>");
         }
 
 
@@ -525,7 +535,6 @@ class RelatoriosController extends Controller
                 $join->on( 'cda_roteiro.CanalId', '=', 'cda_pscanal.CanalId');
                 $join->where('cda_pscanal.Ativo','=', 1);
             })
-            ->where('cda_parcela.SitPagId', '61')
             ->whereRaw($where)
             ->groupBy('cda_parcela.PessoaId','cda_parcela.ParcelaId')
             ->limit($limit);

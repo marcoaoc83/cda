@@ -29,6 +29,16 @@
                         <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" name="rel_id" value="{{$Relatorio->rel_id}}">
+                            <div class="x_content">
+                                <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
+                                    <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="selectFila(this.value)" >
+                                        <option value="" hidden selected disabled>Selecionar Fila</option>
+                                        @foreach($FilaTrab as $var)
+                                            <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             @include('admin.relatorios.filtro-carteira')
                             @include('admin.relatorios.filtro-roteiro')
                             @include('admin.relatorios.filtro-contribuinte')
