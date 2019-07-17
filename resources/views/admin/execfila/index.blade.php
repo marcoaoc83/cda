@@ -102,24 +102,24 @@
                         <input type="hidden" id="filaId" name="filaId">
                         <input type="hidden" id="parcelas" name="parcelas">
                         <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback text-center">
-                            <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="item form-group">
                                     <label for="gravar">Gravar</label>
                                     <label><input type="checkbox" id="gravar"   name="gravar"  value="1" class="js-switch" ></label>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="item form-group">
-                                <label for="gCSV">CSV</label>
-                                <label><input type="checkbox" id="gCSV"   name="gCSV"  value="1" class="js-switch" ></label>
-                            </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-12">
-                            <div class="item form-group">
-                                <label for="gTXT">TXT</label>
-                                <label><input type="checkbox" id="gTXT"   name="gTXT"  value="1" class="js-switch" ></label>
-                            </div>
-                            </div>
+                            {{--<div class="col-md-4 col-sm-4 col-xs-12">--}}
+                            {{--<div class="item form-group">--}}
+                                {{--<label for="gCSV">CSV</label>--}}
+                                {{--<label><input type="checkbox" id="gCSV"   name="gCSV"  value="1" class="js-switch" ></label>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-md-4 col-sm-4 col-xs-12">--}}
+                            {{--<div class="item form-group">--}}
+                                {{--<label for="gTXT">TXT</label>--}}
+                                {{--<label><input type="checkbox" id="gTXT"   name="gTXT"  value="1" class="js-switch" ></label>--}}
+                            {{--</div>--}}
+                            {{--</div>--}}
                         </div>
                     </form>
 
