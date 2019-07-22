@@ -16,10 +16,7 @@ class AdminController extends Controller
     public function index()
     {
 
-        if(auth()->user()->isCidadao()){
-            return view('admin.cidadao.index');
-        }
-        if(auth()->user()->isAdmin()) {
+
             $parcela_qtde = Parcela::count('ParcelaId');
             $parcela_qtde = number_format($parcela_qtde, 0, '', '.');
 
@@ -47,7 +44,7 @@ class AdminController extends Controller
                     'parcela_sum_aberta'
                 )
             );
-        }
+
     }
 
     public function debitos()

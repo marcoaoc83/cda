@@ -4,12 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\ExpArquivo;
 use App\Models\ExpLayout;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\View;
 use Softon\SweetAlert\Facades\SWAL;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -42,8 +37,7 @@ From
   information_schema.tables
 Where
   information_schema.tables.TABLE_NAME Like 'cda_%'
-  	group by nome
-");
+  	group by nome");
 
         // show the view and pass the nerd to it
         return view('admin.explayout.create',[

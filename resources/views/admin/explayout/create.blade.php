@@ -55,7 +55,7 @@
  
 
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="exp_tabela">Tabela BD <span class="required">*</span></label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="exp_tabela">Tabela Principal <span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select class="form-control" id="exp_tabela" name="exp_tabela" required="required">
                                             <option value=""></option>

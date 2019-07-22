@@ -60,7 +60,7 @@
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select class="form-control" id="rel_saida" name="rel_saida">
                                             @foreach($Tipo as $var)
-                                                <option value="{{$var->ModComId}}">{{($var->ModComNm)}}</option>             
+                                                <option value="{{$var->ModComId}}"  @if ($var->ModComId  ==  $Relatorio->rel_saida) selected @endif>{{($var->ModComNm)}}</option>             
                                             @endforeach
                                         </select>
                                     </div>

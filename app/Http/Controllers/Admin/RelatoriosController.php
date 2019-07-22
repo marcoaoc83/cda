@@ -306,11 +306,11 @@ class RelatoriosController extends Controller
             $where.=' AND cda_pcevento.FILATRABID = '.$request->FilaTrabId;
         }
         if(empty($where) && empty($request->demo)){
-            $collection = collect([]);
-            return Datatables::of($collection)->make(true);
+            return '0';
         }
 
-        $group=['cda_parcela.ParcelaId','cda_roteiro.CarteiraId'];
+        //$group=['cda_parcela.ParcelaId','cda_roteiro.CarteiraId'];
+        $group=['cda_parcela.ParcelaId' ];
         if($request->group=='Pes'){
             $group='cda_parcela.PessoaId';
         }
@@ -350,13 +350,12 @@ class RelatoriosController extends Controller
             ->groupBy($group)
             ->orderBy('cda_parcela.PessoaId')
             ->orderBy('cda_parcela.ParcelaId')
-            ->limit($limit)
-            ->get();
+            ->limit($limit) ;
 
 
         $i=0;
         $collect=[];
-        foreach ($Parcelas as $parcela){
+        foreach ($Parcelas->cursor() as $parcela){
             $doc='';
             if(strlen($parcela['CPF_CNPJNR'])==11){
                 $doc= self::maskString($parcela['CPF_CNPJNR'],'###.###.###-##');
@@ -399,7 +398,8 @@ class RelatoriosController extends Controller
         $lines=explode(PHP_EOL, $html);
         $html=$lines[1];
         if(empty($lines[1])) $html=$lines[0];
-        $type="csv";
+        $regTab=RegTab::find($Modelo->TpModId);
+        $type=$regTab->REGTABSGUSER;
         if($request->demo) {
             $type="html";
         }
@@ -415,7 +415,7 @@ class RelatoriosController extends Controller
             $csv= Excel::create($file, function($excel) use ($dados) {
                 $excel->sheet('mySheet', function($sheet) use ($dados)
                 {
-                    $sheet->fromArray($dados,null,'A1', false, false);
+                    $sheet->fromArray($dados,false,'A1',false,false);
                 });
             })->store($type,$targetpath);
 
@@ -430,13 +430,13 @@ class RelatoriosController extends Controller
             die();
         }else{
             if($collect->count()==0) return '0';
-            $tarefa = Tarefas::create([
+              Tarefas::create([
                 'tar_categoria' => 'execfilaParcela',
                 'tar_titulo' => 'Geração de ' . $Relatorios->rel_titulo,
-                'tar_descricao' => "<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>",
+                'tar_descricao' => "<h6><a href='" . URL::to('/') . "/export/" . $file . ".$type' target='_blank'>Arquivo</a></h6>",
                 'tar_status' => 'Finalizado'
             ]);
-            return true;
+            echo true;
             //return response()->json("<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>");
         }
 
@@ -525,11 +525,11 @@ class RelatoriosController extends Controller
         ])
             ->leftjoin('cda_regtab as SitPagT', 'SitPagT.REGTABID', '=', 'cda_parcela.SitPagId')
             ->leftjoin('cda_regtab as OrigTribT', 'OrigTribT.REGTABID', '=', 'cda_parcela.OrigTribId')
-            ->join('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
-            ->join('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
-            ->join('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
+            ->leftjoin('cda_pcrot', 'cda_pcrot.ParcelaId', '=', 'cda_parcela.ParcelaId')
+            ->leftjoin('cda_roteiro', 'cda_roteiro.RoteiroId', '=', 'cda_pcrot.RoteiroId')
+            ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_parcela.PessoaId')
             ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_parcela.InscrMunId')
-            ->join('cda_pscanal',  function($join)
+            ->leftjoin('cda_pscanal',  function($join)
             {
                 $join->on('cda_inscrmun.INSCRMUNID', '=', 'cda_pscanal.InscrMunId');
                 $join->on( 'cda_roteiro.CanalId', '=', 'cda_pscanal.CanalId');

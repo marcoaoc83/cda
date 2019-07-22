@@ -7,15 +7,7 @@
 
     <div class="main_container">
 
-        @if(auth()->user()->funcao==1)
-            {{--top nav--}}
-            @include('partials._sidenav')
-            {{--/topnav--}}
-        @else
-            {{--top nav--}}
-            @include('partials._sidenav2')
-            {{--/topnav--}}
-        @endif
+    @include('partials._sidenav')
 
     <!-- top navigation -->
     @include('partials._topnav')
