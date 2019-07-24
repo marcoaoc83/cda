@@ -39,7 +39,7 @@
                             <form class="form-horizontal form-label-left" novalidate method="post" action="{{ route('users.editarPost',$user->id) }}">
                                 {{ csrf_field() }}
                                 <div class="item form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="funcao">Função<span class="required">*</span></label>
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="funcao">Grupo<span class="required">*</span></label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
                                         <select class="form-control" id="funcao" name="funcao" >
                                             <option value=""></option>
@@ -79,6 +79,20 @@
                                                 <option value="{{$orgao->org_id}}" @if ($user->orgao == $orgao->org_id) selected @endif>{{$orgao->org_nome}}</option>             
                                             @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Senha
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input value=""  type="password" id="password"  data-minlength="6"  name="password" required="required" class="form-control col-md-7 col-xs-12">
+                                    </div>
+                                </div>
+                                <div class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password" >Confirmar Senha
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input value=""  type="password" id="password2" name="password2" required="required" data-match="#password" data-match-error="Senhas não conferem!" class="form-control col-md-7 col-xs-12">
                                     </div>
                                 </div>
                                 <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>

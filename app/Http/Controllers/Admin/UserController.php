@@ -108,7 +108,12 @@ class UserController extends Controller
                         "documento" => Input::get('documento')
                     ]);
                 }
+                if(Input::get('password')) {
+                    $user->update([
 
+                        "password" => bcrypt(Input::get('password'))
+                    ]);
+                }
 
                 $user2 = User::on('mysql')->where('documento',$documento);
                 if(Input::get('orgao')) {
