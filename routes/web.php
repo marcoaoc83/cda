@@ -285,6 +285,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::resource('admin/boleto', 'BoletoController');
 
     Route::get('admin/relatorios/getdataParcela', 'RelatoriosController@getDadosDataTableParcela')->name('relatorios.getdataParcela');
+    Route::get('admin/relatorios/getdataCanal', 'RelatoriosController@getDadosDataTableCanal')->name('relatorios.getdataCanal');
     Route::get('admin/relatorios/info', 'RelatoriosController@info')->name('relatorios.info');
     Route::get('admin/relatorios/getdata', 'RelatoriosController@getDadosDataTable')->name('relatorios.getdata');
     Route::get('admin/relatorios/{id}/gerar', 'RelatoriosController@gerar')->name('relatorios.gerar');

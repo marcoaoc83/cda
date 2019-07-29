@@ -63,7 +63,7 @@
                                         <hr>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 "  >
+                                <div class="col-md-4 col-sm-4 col-xs-12 "  >
                                     <div class="x_panel" id="filExecucao">
                                         <div class="x_title">
                                             <h2>Filtros<small></small></h2>
@@ -132,15 +132,6 @@
                                         </div>
                                         <div class="x_content">
                                             <div class="item form-group">
-                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_canal">Canal
-                                                </label>
-                                                <div class="col-md-4" style="margin-top: 5px">
-                                                    <label style="">
-                                                        <input type="checkbox" id="filtro_canal" name="filtro_canal"  value="1" class="js-switch" >
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="item form-group">
                                                 <label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_validacao">Validação de Envio
                                                 </label>
                                                 <div class="col-md-4" style="margin-top: 5px">
@@ -179,7 +170,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-6 col-xs-12 "  >
+                                <div class="col-md-4 col-sm-4 col-xs-12 "  >
                                     <div class="x_panel" id="filResultado">
                                         <div class="x_title">
                                             <h2>Resultado<small></small></h2>
@@ -203,15 +194,7 @@
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="item form-group">
-                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_im">Insc. Municipal
-                                                </label>
-                                                <div class="col-md-4" style="margin-top: 5px">
-                                                    <label style="">
-                                                        <input type="checkbox" id="resultado_im" name="resultado_im" value="1" class="unic" >
-                                                    </label>
-                                                </div>
-                                            </div>
+
                                             <div class="item form-group">
                                                 <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_parcelas">Parcelas
                                                 </label>

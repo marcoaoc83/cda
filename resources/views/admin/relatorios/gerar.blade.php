@@ -29,20 +29,49 @@
                         <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" name="rel_id" value="{{$Relatorio->rel_id}}">
+                            @if ($Relatorio->resultado_contribuinte)
+                            <input type="hidden" id="resTabela" value="contribuinte">
+                            @endif
+                            @if ($Relatorio->resultado_parcelas)
+                                <input type="hidden" id="resTabela" value="parcela">
+                            @endif
+                            @if ($Relatorio->resultado_canais)
+                                <input type="hidden" id="resTabela" value="canal">
+                            @endif
                             <div class="x_content">
                                 <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
                                     <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="selectFila(this.value)" >
-                                        <option value="" hidden selected disabled>Selecionar Fila</option>
+                                        <option value="" selected>Selecionar Fila</option>
                                         @foreach($FilaTrab as $var)
                                             <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
-                            @include('admin.relatorios.filtro-carteira')
-                            @include('admin.relatorios.filtro-roteiro')
-                            @include('admin.relatorios.filtro-contribuinte')
-                            @include('admin.relatorios.filtro-parcela')
+                            @if ($Relatorio->filtro_carteira)
+                                @include('admin.relatorios.filtro-carteira')
+                            @endif
+                            @if ($Relatorio->filtro_roteiro)
+                                @include('admin.relatorios.filtro-roteiro')
+                            @endif
+                            @if ($Relatorio->filtro_contribuinte)
+                                @include('admin.relatorios.filtro-contribuinte')
+                            @endif
+                            @if ($Relatorio->filtro_parcelas)
+                                @include('admin.relatorios.filtro-parcela')
+                            @endif
+                            @if ($Relatorio->filtro_validacao)
+                                @include('admin.relatorios.filtro-validacao')
+                            @endif
+                            @if ($Relatorio->filtro_eventos)
+                                @include('admin.relatorios.filtro-eventos')
+                            @endif
+                            @if ($Relatorio->filtro_tratamento)
+                                @include('admin.relatorios.filtro-tratamento')
+                            @endif
+                            @if ($Relatorio->filtro_notificacao)
+                                @include('admin.relatorios.filtro-notificacao')
+                            @endif
 
                             <div class="x_panel text-center " style="background-color: #BDBDBD" id="divBotaoFiltrar">
                                 <a class="btn btn-app" id="btfiltrar" onclick="filtrar()" >

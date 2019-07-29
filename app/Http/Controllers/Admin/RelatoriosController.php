@@ -303,7 +303,7 @@ class RelatoriosController extends Controller
         if($request->demo) $limit=5;
         $where=self::filtroParcela($request,$FxAtraso,$FxValor,$arrayFxValor,$arrayFxAtraso);
         if($request->FilaTrabId && $request->FilaTrabId!='null'){
-            $where.=' AND cda_pcevento.FILATRABID = '.$request->FilaTrabId;
+            $where.=' AND cda_roteiro.FILATRABID = '.$request->FilaTrabId;
         }
         if(empty($where) && empty($request->demo)){
             return '0';
@@ -845,4 +845,174 @@ class RelatoriosController extends Controller
         return preg_replace("/[^A-Za-z]/", "", $str);
     }
 
+
+    public function getDadosDataTableCanal(Request $request)
+    {
+        if($request->none){
+            $collection = collect([]);
+            return Datatables::of($collection)->make(true);
+        }
+
+        $where=1;
+        if($request->ValEnvId && !$request->TratRetId){
+            $where.=' AND  cda_valenv.ValEnvId IN ('.implode(',',$request->ValEnvId).')';
+        }
+        if($request->TratRetId && !$request->ValEnvId){
+            $where.=' AND  cda_tratret.TratRetId IN ('.implode(',',$request->TratRetId).')';
+        }
+        if($request->TratRetId && $request->ValEnvId){
+            $where.=' AND ( cda_valenv.ValEnvId IN ('.implode(',',$request->ValEnvId).')';
+            $where.=' or  cda_tratret.TratRetId IN ('.implode(',',$request->TratRetId).'))';
+        }
+        if($request->Canal){
+            $where.=" AND cda_pscanal.CanalId = '$request->Canal'";
+        }
+        if($request->ContribuinteResId){
+            $where.=' AND cda_pessoa.PessoaId IN ('.implode(',',$request->ContribuinteResId).')';
+        }
+        if($request->ContribuinteResIMId && ($request->group!='IM')){
+            $where.=' AND cda_pscanal.InscrMunId IN ('.implode(',',$request->ContribuinteResIMId).')';
+        }
+        $Validacao=[];
+        $x=0;
+        $pscanais = PsCanal::select([
+            'cda_pscanal.PsCanalId',
+            'cda_pscanal.PessoaId',
+            'cda_pscanal.InscrMunId',
+            'cda_pscanal.FonteInfoId',
+            'cda_pscanal.CanalId',
+            'cda_pscanal.TipPosId',
+            'cda_pscanal.CEP',
+            'cda_pscanal.LogradouroId',
+            'cda_pscanal.EnderecoNr',
+            'cda_pscanal.Complemento',
+            'cda_pscanal.TelefoneNr',
+            'cda_pscanal.Email',
+            'cda_pscanal.BairroId',
+            'cda_pscanal.CidadeId',
+
+            'FonteInfoId.REGTABSG as FonteInfo',
+            'TipPosId.REGTABNM as TipPos',
+            'cda_canal.CANALSG',
+            'cda_inscrmun.INSCRMUNID',
+            'cda_inscrmun.INSCRMUNNR',
+            'cda_pessoa.PESSOANMRS as Nome',
+            'cda_pessoa.CPF_CNPJNR as Documento',
+            'cda_evento.*',
+            DB::raw('IF(cda_pscanal.LogradouroId IS NOT NULL , CONCAT_WS(" ",cda_logradouro.logr_tipo,cda_logradouro.logr_nome),cda_pscanal.Logradouro) AS Logradouro'),
+            DB::raw('IF(cda_pscanal.BairroId IS NOT NULL ,cda_bairro.bair_nome,cda_pscanal.Bairro) AS Bairro'),
+            DB::raw('IF(cda_pscanal.CidadeId IS NOT NULL , cda_cidade.cida_nome,cda_pscanal.Cidade) AS Cidade'),
+            DB::raw('IF(cda_cidade.cida_uf IS NOT NULL , cda_cidade.cida_uf,cda_pscanal.UF) AS UF')
+        ])
+            ->leftjoin('cda_regtab as FonteInfoId', 'FonteInfoId.REGTABID', '=', 'cda_pscanal.FonteInfoId')
+            ->leftjoin('cda_regtab as TipPosId', 'TipPosId.REGTABID', '=', 'cda_pscanal.TipPosId')
+            ->leftjoin('cda_canal', 'cda_canal.CANALID', '=', 'cda_pscanal.CanalId')
+            ->leftjoin('cda_inscrmun', 'cda_inscrmun.INSCRMUNID', '=', 'cda_pscanal.InscrMunId')
+            ->leftjoin('cda_logradouro', 'cda_logradouro.logr_id', '=', 'cda_pscanal.LogradouroId')
+            ->leftjoin('cda_bairro', 'cda_bairro.bair_id', '=', 'cda_pscanal.BairroId')
+            ->leftjoin('cda_cidade', 'cda_cidade.cida_id', '=', 'cda_pscanal.CidadeId')
+            ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId')
+            ->join('cda_canal_fila', 'cda_canal_fila.cafi_pscanal', '=', 'cda_pscanal.PsCanalId')
+            ->join('cda_evento','cda_evento.EventoId','=','cda_canal_fila.cafi_evento')
+            ->leftjoin('cda_valenv','cda_valenv.EventoId','=','cda_evento.EventoId')
+            ->leftjoin('cda_tratret','cda_tratret.EventoId','=','cda_evento.EventoId')
+            ->where('cda_canal_fila.cafi_fila',$request->FilaTrabId)
+            ->whereNull('cda_canal_fila.cafi_saida')
+            ->whereRaw($where)
+            ->limit(100)
+            ->groupBy('cda_canal_fila.cafi_id')
+            ->get()->toArray();
+
+        //error_log(print_r($pscanais,1));
+
+        foreach ($pscanais as $dado){
+            $dado=array_change_key_case($dado,CASE_LOWER);
+            $Dados=$dado['logradouro'].' '.$dado['endereconr'].' '.$dado['bairro'].' '.$dado['cidade'].' '.$dado['uf'].' '.$dado['cep'].' '.$dado['email'].' '.$dado['telefonenr'];
+            $Validacao[$x]['PessoaId']=$dado['pessoaid'];
+            $Validacao[$x]['PsCanalId']=$dado['pscanalid'];
+            $Validacao[$x]['EventoId']=$dado['eventoid'];
+            $Validacao[$x]['Evento']=$dado['eventosg'];
+            $Validacao[$x]['FilaTrabId']=2;
+            $Validacao[$x]['Nome']=$dado['nome'];
+            $Validacao[$x]['Documento']=$dado['documento'];
+            $Validacao[$x]['INSCRMUNID']=$dado['inscrmunid'];
+            $Validacao[$x]['INSCRMUNNR']=$dado['inscrmunnr'];
+            $Validacao[$x]['Canal']=$dado['canalsg'];
+            $Validacao[$x]['TipoPos']=$dado['tippos'];
+            $Validacao[$x]['Fonte']=$dado['fonteinfo'];
+            $Validacao[$x]['Dados']=trim($Dados);
+            $x++;
+        }
+        if($request->group=='Pes'){
+            $tempValidacao=[];
+            foreach ($Validacao as $key => $value){
+                $tempValidacao[$value['PessoaId']]['PessoaId']=$value['PessoaId'];
+                $tempValidacao[$value['PessoaId']]['Nome']=$value['Nome'];
+                $tempValidacao[$value['PessoaId']]['CPFCNPJ']=$value['Documento'];
+            }
+            ksort($tempValidacao);
+            $Validacao=$tempValidacao;
+        }
+        if($request->group=='IM'){
+            $tempValidacao=[];
+            foreach ($Validacao as $key => $value){
+                $tempValidacao[$value['INSCRMUNID']]['INSCRMUNID']=$value['INSCRMUNID'];
+                $tempValidacao[$value['INSCRMUNID']]['INSCRMUNNR']=$value['INSCRMUNNR'];
+                $tempValidacao[$value['INSCRMUNID']]['Nome']=$value['Nome'];
+            }
+            ksort($tempValidacao);
+            $Validacao=$tempValidacao;
+        }
+        $collect = collect($Validacao);
+
+
+        $Relatorios=Relatorios::find($request->rel_id);
+        $Modelo=ModCom::find($Relatorios->rel_saida);
+        $html=$Modelo->ModTexto;
+        $lines=explode(PHP_EOL, $html);
+        $html=$lines[1];
+        if(empty($lines[1])) $html=$lines[0];
+        $regTab=RegTab::find($Modelo->TpModId);
+        $type=$regTab->REGTABSGUSER;
+        if($request->demo) {
+            $type="html";
+        }
+
+        $texto=[];
+        foreach ($collect as $linha){
+            $res=($this->geraModelo($linha,$html));
+            $dados[]=explode(';',$res);
+        }
+
+        $targetpath=storage_path("../public/export");
+        $file=md5(uniqid(rand(), true));
+        $csv= Excel::create($file, function($excel) use ($dados) {
+            $excel->sheet('mySheet', function($sheet) use ($dados)
+            {
+                $sheet->fromArray($dados,false,'A1',false,false);
+            });
+        })->store($type,$targetpath);
+
+        if($request->demo) {
+
+            $response = array(
+                "success" => true,
+                "url" =>URL::to('/') . "/export/" . $file . ".html",
+                "file"=>$csv
+            );
+            echo json_encode($response);
+            die();
+        }else{
+            if($collect->count()==0) return '0';
+            Tarefas::create([
+                'tar_categoria' => 'execfilaParcela',
+                'tar_titulo' => 'Geração de ' . $Relatorios->rel_titulo,
+                'tar_descricao' => "<h6><a href='" . URL::to('/') . "/export/" . $file . ".$type' target='_blank'>Arquivo</a></h6>",
+                'tar_status' => 'Finalizado'
+            ]);
+            echo true;
+            //return response()->json("<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>");
+        }
+
+    }
 }

@@ -139,21 +139,13 @@
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="x_content">
-                                            <div class="item form-group">
-                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_canal">Canal
-                                                </label>
-                                                <div class="col-md-4" style="margin-top: 5px">
-                                                    <label style="">
-                                                        <input type="checkbox" id="filtro_canal" name="filtro_canal"  value="1" class="js-switch" >
-                                                    </label>
-                                                </div>
-                                            </div>
+
                                             <div class="item form-group">
                                                 <label class="control-label col-md-8 col-sm-8 col-xs-12" for="filtro_validacao">Validação de Envio
                                                 </label>
                                                 <div class="col-md-4" style="margin-top: 5px">
                                                     <label style="">
-                                                        <input type="checkbox" id="filtro_validacao" name="filtro_validacao"  value="1" class="js-switch" >
+                                                        <input type="checkbox" id="filtro_validacao" name="filtro_validacao" @if($Relatorio->filtro_validacao ==1)checked @endif   value="1" class="js-switch" >
                                                     </label>
                                                 </div>
                                             </div>
@@ -162,7 +154,7 @@
                                                 </label>
                                                 <div class="col-md-4" style="margin-top: 5px">
                                                     <label style="">
-                                                        <input type="checkbox" id="filtro_eventos" name="filtro_eventos"  value="1" class="js-switch"  >
+                                                        <input type="checkbox" id="filtro_eventos" name="filtro_eventos" @if($Relatorio->filtro_eventos ==1)checked @endif   value="1" class="js-switch"  >
                                                     </label>
                                                 </div>
                                             </div>
@@ -171,7 +163,7 @@
                                                 </label>
                                                 <div class="col-md-4" style="margin-top: 5px">
                                                     <label style="">
-                                                        <input type="checkbox" id="filtro_tratamento" name="filtro_tratamento"  value="1" class="js-switch"   >
+                                                        <input type="checkbox" id="filtro_tratamento" name="filtro_tratamento"  @if($Relatorio->filtro_tratamento ==1)checked @endif   value="1" class="js-switch"   >
                                                     </label>
                                                 </div>
                                             </div>
@@ -180,7 +172,7 @@
                                                 </label>
                                                 <div class="col-md-4" style="margin-top: 5px">
                                                     <label style="">
-                                                        <input type="checkbox" id="filtro_notificacao" name="filtro_notificacao"  value="1" class="js-switch"   >
+                                                        <input type="checkbox" id="filtro_notificacao" name="filtro_notificacao"  @if($Relatorio->filtro_notificacao ==1)checked @endif    value="1" class="js-switch"   >
                                                     </label>
                                                 </div>
                                             </div>
@@ -203,7 +195,7 @@
                                         <div class="x_content">
 
                                             <div class="item form-group">
-                                                <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_contribuinte">Contribuinte
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_contribuinte">Contribuinte
                                                 </label>
                                                 <div class="col-md-3" style="margin-top: 5px">
                                                     <label style="">
@@ -211,17 +203,9 @@
                                                     </label>
                                                 </div>
                                             </div>
+
                                             <div class="item form-group">
-                                                <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_im">Insc. Municipal
-                                                </label>
-                                                <div class="col-md-3" style="margin-top: 5px">
-                                                    <label style="">
-                                                        <input type="checkbox" id="resultado_im" name="resultado_im" @if($Relatorio->resultado_im ==1)checked @endif value="1" class=" unic" >
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="item form-group">
-                                                <label class="control-label col-md-9 col-sm-9 col-xs-12" for="resultado_parcelas">Parcelas
+                                                <label class="control-label col-md-8 col-sm-8 col-xs-12" for="resultado_parcelas">Parcelas
                                                 </label>
                                                 <div class="col-md-3" style="margin-top: 5px">
                                                     <label style="">
