@@ -196,7 +196,7 @@ $(document).ready(function() {
 });
 
 function filtrarCanal(){
-    var url = "{{ route('relatorios.getdataParcela') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();
+    var url = "{{ route('relatorios.getdataCanal') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();
     //tbContribuinteRes.ajax.url(url).load();
     $.ajax({
         type: 'get',

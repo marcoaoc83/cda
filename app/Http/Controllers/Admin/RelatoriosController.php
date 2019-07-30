@@ -6,6 +6,7 @@ use App\Models\Fila;
 use App\Models\ModCom;
 use App\Models\ModeloVar;
 use App\Models\Parcela;
+use App\Models\PsCanal;
 use App\Models\RegTab;
 use App\Models\RelatorioParametro;
 use App\Models\Relatorios;
@@ -873,6 +874,9 @@ class RelatoriosController extends Controller
         if($request->ContribuinteResIMId && ($request->group!='IM')){
             $where.=' AND cda_pscanal.InscrMunId IN ('.implode(',',$request->ContribuinteResIMId).')';
         }
+        if($request->FilaTrabId && $request->FilaTrabId!='null'){
+            $where.=' AND cda_roteiro.FILATRABID = '.$request->FilaTrabId;
+        }
         $Validacao=[];
         $x=0;
         $pscanais = PsCanal::select([
@@ -912,35 +916,35 @@ class RelatoriosController extends Controller
             ->leftjoin('cda_bairro', 'cda_bairro.bair_id', '=', 'cda_pscanal.BairroId')
             ->leftjoin('cda_cidade', 'cda_cidade.cida_id', '=', 'cda_pscanal.CidadeId')
             ->leftjoin('cda_pessoa', 'cda_pessoa.PessoaId', '=', 'cda_pscanal.PessoaId')
-            ->join('cda_canal_fila', 'cda_canal_fila.cafi_pscanal', '=', 'cda_pscanal.PsCanalId')
-            ->join('cda_evento','cda_evento.EventoId','=','cda_canal_fila.cafi_evento')
+            ->leftjoin('cda_canal_fila', 'cda_canal_fila.cafi_pscanal', '=', 'cda_pscanal.PsCanalId')
+            ->leftjoin('cda_evento','cda_evento.EventoId','=','cda_canal_fila.cafi_evento')
             ->leftjoin('cda_valenv','cda_valenv.EventoId','=','cda_evento.EventoId')
-            ->leftjoin('cda_tratret','cda_tratret.EventoId','=','cda_evento.EventoId')
-            ->where('cda_canal_fila.cafi_fila',$request->FilaTrabId)
-            ->whereNull('cda_canal_fila.cafi_saida')
-            ->whereRaw($where)
-            ->limit(100)
-            ->groupBy('cda_canal_fila.cafi_id')
-            ->get()->toArray();
+            ->leftjoin('cda_tratret','cda_tratret.EventoId','=','cda_evento.EventoId');
+             if($request->FilaTrabId && $request->FilaTrabId!='null')
+                 $pscanais->where('cda_canal_fila.cafi_fila',$request->FilaTrabId);
+
+            $pscanais->whereRaw($where);
+
+            $pscanais->groupBy('cda_pscanal.PsCanalId');
+
 
         //error_log(print_r($pscanais,1));
 
-        foreach ($pscanais as $dado){
-            $dado=array_change_key_case($dado,CASE_LOWER);
-            $Dados=$dado['logradouro'].' '.$dado['endereconr'].' '.$dado['bairro'].' '.$dado['cidade'].' '.$dado['uf'].' '.$dado['cep'].' '.$dado['email'].' '.$dado['telefonenr'];
-            $Validacao[$x]['PessoaId']=$dado['pessoaid'];
-            $Validacao[$x]['PsCanalId']=$dado['pscanalid'];
-            $Validacao[$x]['EventoId']=$dado['eventoid'];
-            $Validacao[$x]['Evento']=$dado['eventosg'];
-            $Validacao[$x]['FilaTrabId']=2;
-            $Validacao[$x]['Nome']=$dado['nome'];
-            $Validacao[$x]['Documento']=$dado['documento'];
-            $Validacao[$x]['INSCRMUNID']=$dado['inscrmunid'];
-            $Validacao[$x]['INSCRMUNNR']=$dado['inscrmunnr'];
-            $Validacao[$x]['Canal']=$dado['canalsg'];
-            $Validacao[$x]['TipoPos']=$dado['tippos'];
-            $Validacao[$x]['Fonte']=$dado['fonteinfo'];
-            $Validacao[$x]['Dados']=trim($Dados);
+        foreach ($pscanais->cursor() as $dado){
+
+            $Dados=$dado->logradouro.' '.$dado->EnderecoNr.' '.$dado->Bairro.' '.$dado->Cidade.' '.$dado->UF.' '.$dado->cep.' '.$dado->Email.' '.$dado->TelefoneNr;
+            $Validacao[$x][$x]['PessoaId']=$dado->PessoaId;
+            $Validacao[$x][$x]['PsCanalId']=$dado->PsCanalId;
+            $Validacao[$x][$x]['EventoId']=$dado->EventoId;
+            $Validacao[$x][$x]['Evento']=$dado->EventoSg;
+            $Validacao[$x][$x]['Nome']=$dado->Nome;
+            $Validacao[$x][$x]['Documento']=$dado->Documento;
+            $Validacao[$x][$x]['INSCRMUNID']=$dado->InscrMunId;
+            $Validacao[$x][$x]['INSCRMUNNR']=$dado->InscrMunNr;
+            $Validacao[$x][$x]['Canal']=$dado->CanalSg;
+            $Validacao[$x][$x]['TipoPos']=$dado->TipPos;
+            $Validacao[$x][$x]['Fonte']=$dado->FonteInfo;
+            $Validacao[$x][$x]['Dados']=trim($Dados);
             $x++;
         }
         if($request->group=='Pes'){
@@ -1005,7 +1009,7 @@ class RelatoriosController extends Controller
         }else{
             if($collect->count()==0) return '0';
             Tarefas::create([
-                'tar_categoria' => 'execfilaParcela',
+                'tar_categoria' => 'relatorioCanal',
                 'tar_titulo' => 'Geração de ' . $Relatorios->rel_titulo,
                 'tar_descricao' => "<h6><a href='" . URL::to('/') . "/export/" . $file . ".$type' target='_blank'>Arquivo</a></h6>",
                 'tar_status' => 'Finalizado'

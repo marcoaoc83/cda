@@ -29,6 +29,7 @@
                         <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" name="rel_id" value="{{$Relatorio->rel_id}}">
+                            <input type="hidden" name="rel_saida" value="{{$Relatorio->rel_saida}}">
                             @if ($Relatorio->resultado_contribuinte)
                             <input type="hidden" id="resTabela" value="contribuinte">
                             @endif
@@ -125,6 +126,9 @@
     @include('admin.relatorios.tbCarteira')
     @include('admin.relatorios.tbRoteiro')
 
+    @include('admin.relatorios.tbValidacao')
+    @include('admin.relatorios.tbEventos')
+    @include('admin.relatorios.tbTratRet')
 
     @include('admin.relatorios.tbFxAtraso')
     @include('admin.relatorios.tbFxValor')
