@@ -12,13 +12,22 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="exc_layout_id" value="{{$ExpLayout->exp_id}}">
 
+                    <div class="item form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ext_nome">Nome <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <input value="{{ old('ext_nome') }}"  type="text" id="ext_nome" name="ext_nome" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                    </div>
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ext_tabela">Tabela<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="exc_campo" name="exc_campo" required="required">
+                            <select class="form-control" id="ext_tabela" name="ext_tabela" required="required">
                                 <option value=""></option>
-
+                                @foreach($Tabelas as $var)
+                                    <option value="{{$var->alias}}">{{$var->nome}}</option>             
+                                @endforeach
                             </select>
                         </div>
                     </div>

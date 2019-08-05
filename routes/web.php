@@ -217,6 +217,8 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::post('admin/explayout/exportar', 'ExportacaoController@exportar')->name('explayout.exportar');
     Route::resource('admin/explayout', 'ExpLayoutController');
 
+    Route::get('admin/expcampoprincipal/getdata', 'ExpCampoPrincipalController@getDadosDataTable')->name('expcampoprincipal.getdata');
+
     Route::get('admin/expcampo/getdata', 'ExpCampoController@getDadosDataTable')->name('expcampo.getdata');
     Route::get('admin/exparquivo/getdata', 'ExpArquivoController@getDadosDataTable')->name('exparquivo.getdata');
 

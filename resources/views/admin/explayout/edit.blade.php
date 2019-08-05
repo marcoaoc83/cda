@@ -75,6 +75,8 @@
                             </form>
                         </div>
                     </div>
+                    @include('admin.explayout.expcampoprincipal.index');
+
                     @include('admin.explayout.exparquivo.index');
 
                     @include('admin.explayout.expcampo.index');

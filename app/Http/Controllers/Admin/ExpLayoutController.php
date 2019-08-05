@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\ExpArquivo;
 use App\Models\ExpLayout;
+use App\Models\RegTab;
 use Illuminate\Support\Facades\DB;
 use Softon\SweetAlert\Facades\SWAL;
 use App\Http\Controllers\Controller;
@@ -39,9 +40,11 @@ Where
   information_schema.tables.TABLE_NAME Like 'cda_%'
   	group by nome");
 
+        $Extensoes= RegTab::where('TABSYSID',9)->get();
         // show the view and pass the nerd to it
         return view('admin.explayout.create',[
-            'Tabelas'=>$Tabelas
+            'Tabelas'=>$Tabelas,
+            'Extensoes'=>$Extensoes
         ]);
 
     }
@@ -102,12 +105,13 @@ table_schema = '".DB::getDatabaseName()."'");
             ->where('TABSYSSG','TpArq')
             ->get();
         ;
-
+        $Extensoes= RegTab::where('TABSYSID',9)->get();
         // show the view and pass the nerd to it
         return view('admin.explayout.edit',[
             'Campos'=>$Campos,
             'ExpLayout'=>$explayout,
             'TpArq'=>$TpArq,
+            'Extensoes'=>$Extensoes,
             'Tabelas'=>$Tabelas
         ]);
     }
