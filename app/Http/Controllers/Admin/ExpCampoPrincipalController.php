@@ -82,9 +82,9 @@ class ExpCampoPrincipalController extends Controller
     {
 
         $ExpCampoPrincipal = ExpCampoPrincipal::findOrFail($id);
-        $ExpCampoPrincipal->exc_ord         = $request->exc_ord;
-        $ExpCampoPrincipal->exc_campo       = $request->exc_campo;
-        $ExpCampoPrincipal->exc_titulo       = $request->exc_titulo;
+        $ExpCampoPrincipal->epc_ord         = $request->epc_ord;
+        $ExpCampoPrincipal->epc_campo       = $request->epc_campo;
+        $ExpCampoPrincipal->epc_titulo       = $request->epc_titulo;
 
         if($ExpCampoPrincipal->save())
             return \response()->json(true);
@@ -99,7 +99,7 @@ class ExpCampoPrincipalController extends Controller
      */
     public function destroy(Request $request)
     {
-        $model = ExpCampoPrincipal::findOrFail($request->exc_id);
+        $model = ExpCampoPrincipal::findOrFail($request->epc_id);
         if($model->delete()) {
             return 'true';
         }else{
@@ -110,9 +110,9 @@ class ExpCampoPrincipalController extends Controller
 
     public function getDadosDataTable(Request $request)
     {
-        $entcart = ExpCampoPrincipal::where('exc_layout_id',$request->exp_id)
-            ->orderBy('exc_ord', 'ASC')
-            ->orderBy('exc_id', 'ASC')
+        $entcart = ExpCampoPrincipal::where('epc_layout_id',$request->exp_id)
+            ->orderBy('epc_ord', 'ASC')
+            ->orderBy('epc_id', 'ASC')
             ->get();
 
          return Datatables::of($entcart)->make(true);

@@ -223,6 +223,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::get('admin/exparquivo/getdata', 'ExpArquivoController@getDadosDataTable')->name('exparquivo.getdata');
 
     Route::resource('admin/exparquivo', 'ExpArquivoController');
+    Route::resource('admin/expcampoprincipal', 'ExpCampoPrincipalController');
     Route::resource('admin/expcampo', 'ExpCampoController');
     Route::resource('admin/exparquivo', 'ExpCampoController');
 
