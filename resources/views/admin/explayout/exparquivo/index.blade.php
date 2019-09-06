@@ -1,6 +1,6 @@
 <div class="x_panel" id="pnExpArquivo">
     <div class="x_title">
-        <h2>Arquivos <small></small></h2>
+        <h2>Arquivos Secundários <small></small></h2>
         <ul class="nav navbar-right panel_toolbox">
             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
             </li>
@@ -27,8 +27,6 @@
             <tr>
                 <th>Arquivo - Nome</th>
                 <th>Tabela</th>
-                <th>Campo</th>
-                <th>Campo Ref. - FK</th>
             </tr>
             </thead>
         </table>

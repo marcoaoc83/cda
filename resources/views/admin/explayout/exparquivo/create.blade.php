@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form id="formExpArquivo"  class="form-horizontal form-label-left" >
                     {{ csrf_field() }}
-                    <input type="hidden" name="exc_layout_id" value="{{$ExpLayout->exp_id}}">
+                    <input type="hidden" name="ext_layout_id" id="ext_layout_id" value="{{$ExpLayout->exp_id}}">
 
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ext_nome">Nome <span class="required">*</span>
@@ -23,7 +23,7 @@
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ext_tabela">Tabela<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="ext_tabela" name="ext_tabela" required="required">
+                            <select class="form-control" id="ext_tabela" name="ext_tabela" required="required"  onchange="reloadCampo('#formExpArquivo #ext_campo',this.value);reloadCampo('#formExpArquivo #ext_campo_fk',$('#exp_tabela').val())">
                                 <option value=""></option>
                                 @foreach($Tabelas as $var)
                                     <option value="{{$var->alias}}">{{$var->nome}}</option>             
@@ -35,7 +35,7 @@
                     <div class="item form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="ext_campo">Campo <span class="required">*</span> </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="exc_campo" name="exc_campo" required="required">
+                            <select class="form-control" id="ext_campo" name="ext_campo" required="required">
                                 <option value=""></option>
 
                             </select>

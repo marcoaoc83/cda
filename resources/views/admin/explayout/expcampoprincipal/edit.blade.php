@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div id="myModalExpCampoEdita" class="modal fade" role="dialog">
+<div id="myModalExpCampoPrincipalEdita" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
@@ -13,27 +13,27 @@
                     {{ method_field('PUT') }}
                     <input type="hidden" name="exp_id" value="{{$ExpLayout->exp_id}}">
 
-                    <input type="hidden" name="exc_id" id="exc_id" value="">
+                    <input type="hidden" name="epc_id" id="epc_id" value="">
 
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="exc_ord">Ordem<span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="epc_ord">Ordem<span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input value="{{ old('exc_ord') }}"  type="number" id="exc_ord" name="exc_ord" required="required" class="form-control col-md-7 col-xs-12">
+                            <input value="{{ old('epc_ord') }}"  type="number" id="epc_ord" name="epc_ord" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="exc_titulo">Título <span class="required">*</span> </label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="epc_titulo">Título <span class="required">*</span> </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input value="{{ $ExpLayout->exc_titulo }}"  type="text" id="exc_titulo" name="exc_titulo" required="required" class="form-control col-md-7 col-xs-12">
+                            <input value="{{ $ExpLayout->epc_titulo }}"  type="text" id="epc_titulo" name="epc_titulo" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                     </div>
 
 
                     <div class="item form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="exc_campo">Campo no BD <span class="required">*</span></label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="epc_campo">Campo no BD <span class="required">*</span></label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <select class="form-control" id="exc_campo" name="exc_campo" required="required">
+                            <select class="form-control" id="epc_campo" name="epc_campo" required="required">
                                 <option value=""></option>
                                     @foreach($Campos as $var)
                                     @if ($ExpLayout->exp_tabela === $var->tabela)

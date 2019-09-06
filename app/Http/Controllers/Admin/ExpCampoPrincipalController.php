@@ -82,9 +82,9 @@ class ExpCampoPrincipalController extends Controller
     {
 
         $ExpCampoPrincipal = ExpCampoPrincipal::findOrFail($id);
-        $ExpCampoPrincipal->epc_ord         = $request->epc_ord;
-        $ExpCampoPrincipal->epc_campo       = $request->epc_campo;
-        $ExpCampoPrincipal->epc_titulo       = $request->epc_titulo;
+        $ExpCampoPrincipal->epc_ord             = $request->epc_ord;
+        $ExpCampoPrincipal->epc_campo           = $request->epc_campo;
+        $ExpCampoPrincipal->epc_titulo          = $request->epc_titulo;
 
         if($ExpCampoPrincipal->save())
             return \response()->json(true);

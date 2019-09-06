@@ -18,18 +18,13 @@
                 }
             },
             columns: [
-
+                {
+                    data: 'ext_nome',
+                    name: 'ext_nome'
+                },
                 {
                     data: 'ext_tabela',
                     name: 'ext_tabela'
-                },
-                {
-                    data: 'ext_campo',
-                    name: 'ext_campo'
-                },
-                {
-                    data: 'ext_campo_fk',
-                    name: 'ext_campo_fk'
                 },
 
 
@@ -93,7 +88,7 @@
         });
         $('#pnExpArquivo #btDeletar').click(function () {
             var linha =table.row('.selected').data();
-            var id = linha[   'exc_id'];
+            var id = linha[   'ext_id'];
             swal({
                 title             : "Tem certeza?",
                 text              : "Esta registro será deletado!",
@@ -141,9 +136,9 @@
             var linha =table.row('.selected').data();
 
             var exp_tabela = '{{$ExpLayout->exp_tabela}}';
-            var exc_ord = linha[   'exc_ord'];
-            var exc_campo = linha[   'exc_campo'];
-            var exc_titulo = linha[   'exc_titulo'];
+            var exc_ord = linha['exc_ord'];
+            var exc_campo = linha['exc_campo'];
+            var exc_titulo = linha['exc_titulo'];
 
             var exc_id = linha['exc_id'];
             $('#pnExpArquivo #formEditar #exc_id').val(exc_id);

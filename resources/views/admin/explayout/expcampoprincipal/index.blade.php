@@ -21,14 +21,13 @@
         </a>
     </div>
     <div class="x_content">
-
         <table id="tbExpCampoPrincipal" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
             <thead>
-            <tr>
-                <th>Ordem</th>
-                <th>Título</th>
-                <th>Nome Campo BD</th>
-            </tr>
+                <tr>
+                    <th>Ordem</th>
+                    <th>Título</th>
+                    <th>Nome Campo BD</th>
+                </tr>
             </thead>
         </table>
     </div>

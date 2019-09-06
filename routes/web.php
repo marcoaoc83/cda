@@ -225,7 +225,6 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
     Route::resource('admin/exparquivo', 'ExpArquivoController');
     Route::resource('admin/expcampoprincipal', 'ExpCampoPrincipalController');
     Route::resource('admin/expcampo', 'ExpCampoController');
-    Route::resource('admin/exparquivo', 'ExpCampoController');
 
     Route::get('admin/implayout/getcampos', 'ImpLayoutController@getCampos')->name('implayout.getcampos');
     Route::get('admin/implayout/getdata', 'ImpLayoutController@getDadosDataTable')->name('implayout.getdata');
