@@ -60,11 +60,24 @@
             if ( type === 'row' ) {
                 $('#pnExpArquivo #btEditar').removeClass('disabled');
                 $('#pnExpArquivo #btDeletar').removeClass('disabled');
+
+
+                var ARQUIVO = table.rows( indexes ).data().pluck( 'ext_id' );
+                var TABELA = table.rows( indexes ).data().pluck( 'ext_tabela' );
+                var tbExpCampo = $('#tbExpCampo').DataTable();
+                var url = "{{ route('expcampo.getdata') }}"+"/?exc_tabela="+ARQUIVO[0];
+                tbExpCampo.ajax.url(url).load( );
+                $('#formExpCampo #exc_tabela').val(ARQUIVO[0]);
+                $('#formExpCampo #tabela').val(TABELA[0]);
+                $('#myModalExpCampoEdita #exc_tabela').val(ARQUIVO[0]);
+                $('#myModalExpCampoEdita #tabela').val(TABELA[0]);
+                $('#pnExpCampo #btInserir').removeClass('disabled');
             }
         } )
             .on( 'deselect', function ( e, dt, type, indexes ) {
                 $('#pnExpArquivo #btEditar').addClass('disabled');
                 $('#pnExpArquivo #btDeletar').addClass('disabled');
+                $('#pnExpCampo #btInserir').addClass('disabled');
             } );
 
 

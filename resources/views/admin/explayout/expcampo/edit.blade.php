@@ -12,7 +12,8 @@
                     {{ csrf_field() }}
                     {{ method_field('PUT') }}
                     <input type="hidden" name="exp_id" value="{{$ExpLayout->exp_id}}">
-
+                    <input type="hidden" name="exc_tabela" id="exc_tabela" value="">
+                    <input type="hidden" name="tabela"  id="tabela" value="">
                     <input type="hidden" name="exc_id" id="exc_id" value="">
 
                     <div class="item form-group">

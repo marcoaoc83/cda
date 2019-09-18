@@ -110,7 +110,7 @@ class ExpCampoController extends Controller
 
     public function getDadosDataTable(Request $request)
     {
-        $entcart = ExpCampo::where('exc_layout_id',$request->exp_id)
+        $entcart = ExpCampo::where('exc_tabela',$request->exc_tabela)
             ->orderBy('exc_ord', 'ASC')
             ->orderBy('exc_id', 'ASC')
             ->get();

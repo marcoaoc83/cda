@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ExpCampo extends Model
 {
     protected $fillable = [
-        'exc_layout_id', 'exc_ord', 'exc_campo', 'exc_titulo'
+        'exc_layout_id', 'exc_ord', 'exc_campo', 'exc_titulo', 'exc_tabela'
     ];
     protected $table = 'cda_exportacao_campo';
     protected $primaryKey = 'exc_id';

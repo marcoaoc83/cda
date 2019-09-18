@@ -11,6 +11,8 @@
                 <form id="formExpCampo"  class="form-horizontal form-label-left" >
                     {{ csrf_field() }}
                     <input type="hidden" name="exc_layout_id" value="{{$ExpLayout->exp_id}}">
+                    <input type="hidden" name="exc_tabela" id="exc_tabela" value="">
+                    <input type="hidden" name="tabela"  id="tabela" value="">
 
 
                     <div class="item form-group">

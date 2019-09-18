@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
  
+use App\Models\ExpArquivo;
 use App\Models\ExpCampo;
+use App\Models\ExpCampoPrincipal;
 use App\Models\ExpLayout;
 use App\Models\Fila;
 use App\Models\ImpArquivo;
@@ -378,10 +380,10 @@ class ExportacaoController extends Controller
     {
 
         $tabela=ExpLayout::find($request->exp_id);
-        $campos=ExpCampo::where('exc_layout_id',$request->exp_id)->orderBy('exc_ord')->get();
+        $campos=ExpCampoPrincipal::where('epc_layout_id',$request->exp_id)->orderBy('epc_ord')->get();
         foreach ($campos as $campo){
-            $header[]=$campo->exc_titulo;
-            $set[]=$campo->exc_campo;
+            $header[]=$campo->epc_titulo;
+            $set[]=$campo->epc_campo;
         }
         $sql="select ".implode(',',$set)." from ".$tabela->exp_tabela;
         if($request->demo){
@@ -420,7 +422,46 @@ class ExportacaoController extends Controller
             die();
         }else{
 
-            return response()->json("<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>");
+            $ret="<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo Principal</a></h6>";
+            $arqSec=ExpArquivo::where('ext_layout_id',$request->exp_id)->get();
+            foreach ($arqSec as $arquivo){
+                unset($dados);
+                unset($header);
+                $resCampos=ExpCampo::where('exc_tabela',$arquivo->ext_id)->get();
+                foreach ($resCampos as $campo){
+                    $colunas[]=$arquivo->ext_tabela.".".$campo->exc_campo." as '".$campo->exc_titulo."'";
+                    $group[]=$arquivo->ext_tabela.".".$campo->exc_campo;
+                    $header[]=$campo->exc_titulo;
+                }
+                $sql="SELECT ".implode(',',$colunas)." from ".$arquivo->ext_tabela;
+                $sql.=" INNER JOIN ".$tabela->exp_tabela." ON ".$arquivo->ext_tabela.".".$arquivo->ext_campo."=".$tabela->exp_tabela.".".$arquivo->ext_campo_fk;
+                $sql.=" group by ".implode(',',$group);
+                $collect=DB::select($sql);
+
+                $dados[]=$header;
+                $x=1;
+                foreach ($collect as $linha){
+                    $i=0;
+                    foreach ($linha as $info){
+                        $dados[$x][$i]=$info;
+                        $i++;
+                    }
+                    $x++;
+                }
+                $type='csv';
+
+                $targetpath=storage_path("../public/export");
+                $file=md5(uniqid(rand(), true));
+                $csv= Excel::create($file, function($excel) use ($dados) {
+                    $excel->sheet('mySheet', function($sheet) use ($dados)
+                    {
+                        $sheet->fromArray($dados,null,'A1', false, false);
+                    });
+                })->store($type,$targetpath);
+                $ret.="<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo - ".$arquivo->ext_nome."</a></h6>";
+            }
+
+            return response()->json($ret);
         }
 
 

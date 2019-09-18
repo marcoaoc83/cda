@@ -114,7 +114,7 @@
                         },
                         url: '{{ url('admin/expcampo/destroy') }}',
                         success: function (msg) {
-                            $('.datatable').DataTable().ajax.reload();
+                            $('#tbExpCampo').DataTable().ajax.reload();
                             swal({
                                 position: 'top-end',
                                 type: 'success',
