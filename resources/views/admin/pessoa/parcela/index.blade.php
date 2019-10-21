@@ -32,6 +32,7 @@
                 <th>Pc</th>
                 <th>Pl</th>
                 <th>Vencimento</th>
+                <th>Pgto</th>
                 <th>Principal</th>
                 <th>Multa</th>
                 <th>Juros</th>

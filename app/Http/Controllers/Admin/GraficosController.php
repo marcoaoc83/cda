@@ -471,7 +471,7 @@ class GraficosController extends Controller
         $sql .= " LEFT JOIN cda_pcrot     ON cda_pcrot.ParcelaId=cda_parcela.ParcelaId";
         $sql .= " LEFT JOIN cda_roteiro   ON cda_roteiro.RoteiroId=cda_pcrot.RoteiroId";
         $sql .= " LEFT JOIN cda_carteira  ON cda_carteira.CARTEIRAID=cda_roteiro.RoteiroId";
-        $sql .= " GROUP BY cda_parcela.ParcelaId";
+        //$sql .= " GROUP BY cda_parcela.ParcelaId";
         return $sql;
     }
     private function PessoaSQL(){

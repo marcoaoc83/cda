@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Maatwebsite\Excel\Facades\Excel;
@@ -377,9 +378,17 @@ class RelatoriosController extends Controller
             $collect[$i][$i]['Trib']=$parcela['Trib'];
             $collect[$i][$i]['LancamentoNr']=$parcela['LancamentoNr'];
             $collect[$i][$i]['ParcelaNr']=$parcela['ParcelaNr'];
+            $collect[$i][$i]['TotalVr']=$parcela['TotalVr'];
+            $collect[$i][$i]['PrincipalVr']=$parcela['PrincipalVr'];
+            $collect[$i][$i]['Honorarios']=$parcela['Honorarios'];
+            $collect[$i][$i]['DescontoVr']=$parcela['DescontoVr'];
+            $collect[$i][$i]['MultaVr']=$parcela['MultaVr'];
+            $collect[$i][$i]['JurosVr']=$parcela['JurosVr'];
+            $collect[$i][$i]['TaxaVr']=$parcela['TaxaVr'];
+            $collect[$i][$i]['AcrescimoVr']=$parcela['AcrescimoVr'];
             $collect[$i][$i]['PlanoQt']=$parcela['PlanoQt'];
             $collect[$i][$i]['VencimentoDt']=$parcela['VencimentoDt']->format('d/m/Y');
-            $collect[$i][$i]['TotalVr']="R$ ".number_format($parcela['TotalVr2'],2,',','.');
+            $collect[$i][$i]['TotalVr2']="R$ ".number_format($parcela['TotalVr2'],2,',','.');
             $collect[$i][$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['PessoaId']]]['Desc']:'';
             if($request->group=='IM'){
                 $collect[$i][$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['InscrMunId']]]['Desc']:'';
@@ -413,12 +422,20 @@ class RelatoriosController extends Controller
 
             $targetpath=storage_path("../public/export");
             $file=md5(uniqid(rand(), true));
-            $csv= Excel::create($file, function($excel) use ($dados) {
-                $excel->sheet('mySheet', function($sheet) use ($dados)
-                {
-                    $sheet->fromArray($dados,false,'A1',false,false);
-                });
-            })->store($type,$targetpath);
+            if($type='pdf'){
+                $csv = App::make('dompdf.wrapper');
+                $csv->setPaper('b3')
+                    ->setWarnings(false)
+                    ->loadHTML($html);
+
+                $csv->save($targetpath.'/'.$file.'.'.$type);
+            }else {
+                $csv = Excel::create($file, function ($excel) use ($dados) {
+                    $excel->sheet('mySheet', function ($sheet) use ($dados) {
+                        $sheet->fromArray($dados, false, 'A1', false, false);
+                    });
+                })->store($type, $targetpath);
+            }
 
         if($request->demo) {
 

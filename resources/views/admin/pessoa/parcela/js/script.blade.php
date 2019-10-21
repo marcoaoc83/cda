@@ -58,6 +58,10 @@
                     name: 'VencimentoDt'
                 },
                 {
+                    data: 'PagamentoDt',
+                    name: 'PagamentoDt'
+                },
+                {
                     data: 'PrincipalVr',
                     name: 'PrincipalVr',
                     render: $.fn.dataTable.render.number('.', ',', 2, 'R$ ')
@@ -251,6 +255,7 @@
             $('#pnParcela #formEditar #LancamentoDt').val(linha['LancamentoDt']);
             $('#pnParcela #formEditar #LancamentoNr').val(linha['LancamentoNr']);
             $('#pnParcela #formEditar #VencimentoDt').val(linha['VencimentoDt']);
+            $('#pnParcela #formEditar #PagamentoDt').val(linha['PagamentoDt']);
             $('#pnParcela #formEditar #ParcelaNr').val(linha['ParcelaNr']);
             $('#pnParcela #formEditar #PlanoQt').val(linha['PlanoQt']);
             $('#pnParcela #formEditar #PrincipalVr').val(linha['PrincipalVr']);
