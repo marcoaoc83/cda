@@ -855,6 +855,7 @@ class RelatoriosController extends Controller
             }
             $i++;
         }
+        $html = str_replace('{{Agora}}',date("d/m/Y H:i:s"), $html);
         foreach ($result as $campos) {
             foreach ($campos as $key=>$val) {
                 $sg = "{{" . $key . "}}";
