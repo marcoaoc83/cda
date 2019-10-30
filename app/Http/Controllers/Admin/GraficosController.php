@@ -320,8 +320,10 @@ class GraficosController extends Controller
     public function update(Request $request,$id)
     {
         $Graficos = Graficos::findOrFail($id);
-        $Graficos->update($request->except(['_token']));
 
+        $Graficos->update($request->except(['_token']));
+        if(!$request->graf_status)
+            $Graficos->update(['graf_status'=>0]);
         // redirect
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('graficos.index');

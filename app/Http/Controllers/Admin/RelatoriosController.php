@@ -288,8 +288,10 @@ class RelatoriosController extends Controller
 
     public function info(Request $request){
 
-        $fila = Relatorios::find($request->id)->toArray();
-
+        $fila = Relatorios::find($request->id) ;
+        if ($fila) {
+            $fila = $fila->toArray();
+        }
         return response()->json($fila);
     }
 
@@ -301,7 +303,7 @@ class RelatoriosController extends Controller
             return Datatables::of($collection)->make(true);
         }
         ini_set('memory_limit', '-1');
-        $limit=100000;
+        $limit=100;
         if($request->demo) $limit=5;
         $where=self::filtroParcela($request,$FxAtraso,$FxValor,$arrayFxValor,$arrayFxAtraso);
         if($request->FilaTrabId && $request->FilaTrabId!='null'){
@@ -365,39 +367,40 @@ class RelatoriosController extends Controller
             if(strlen($parcela['CPF_CNPJNR'])==14){
                 $doc= self::maskString($parcela['CPF_CNPJNR'],'##.###.###/####-##');
             }
-            $collect[$i][$i]['PESSOANMRS']=$parcela['Nome'];
-            $collect[$i][$i]['Modelo']=$parcela['ModComSg'];
-            $collect[$i][$i]['Carteira']=$parcela['Carteira'];
-            $collect[$i][$i]['SitPag']=$parcela['SitPag'];
-            $collect[$i][$i]['PessoaId']=$parcela['PessoaId'];
-            $collect[$i][$i]['INSCRMUNNR']=$parcela['INSCRMUNNR'];
-            $collect[$i][$i]['INSCRMUNID']=$parcela['INSCRMUNID'];
-            $collect[$i][$i]['CPF_CNPJNR']=$doc;
-            $collect[$i][$i]['SitCob']=$parcela['SitCob'];
-            $collect[$i][$i]['OrigTrib']=$parcela['OrigTrib'];
-            $collect[$i][$i]['Trib']=$parcela['Trib'];
-            $collect[$i][$i]['LancamentoNr']=$parcela['LancamentoNr'];
-            $collect[$i][$i]['ParcelaNr']=$parcela['ParcelaNr'];
-            $collect[$i][$i]['TotalVr']=$parcela['TotalVr'];
-            $collect[$i][$i]['PrincipalVr']=$parcela['PrincipalVr'];
-            $collect[$i][$i]['Honorarios']=$parcela['Honorarios'];
-            $collect[$i][$i]['DescontoVr']=$parcela['DescontoVr'];
-            $collect[$i][$i]['MultaVr']=$parcela['MultaVr'];
-            $collect[$i][$i]['JurosVr']=$parcela['JurosVr'];
-            $collect[$i][$i]['TaxaVr']=$parcela['TaxaVr'];
-            $collect[$i][$i]['AcrescimoVr']=$parcela['AcrescimoVr'];
-            $collect[$i][$i]['PlanoQt']=$parcela['PlanoQt'];
-            $collect[$i][$i]['VencimentoDt']=$parcela['VencimentoDt']->format('d/m/Y');
-            $collect[$i][$i]['TotalVr2']="R$ ".number_format($parcela['TotalVr2'],2,',','.');
-            $collect[$i][$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['PessoaId']]]['Desc']:'';
+            $collect[$i]['LancamentoDt']=$parcela['LancamentoDt']->format('d/m/Y');
+            $collect[$i]['PESSOANMRS']=$parcela['Nome'];
+            $collect[$i]['Modelo']=$parcela['ModComSg'];
+            $collect[$i]['Carteira']=$parcela['Carteira'];
+            $collect[$i]['SitPag']=$parcela['SitPag'];
+            $collect[$i]['PessoaId']=$parcela['PessoaId'];
+            $collect[$i]['INSCRMUNNR']=$parcela['INSCRMUNNR'];
+            $collect[$i]['INSCRMUNID']=$parcela['INSCRMUNID'];
+            $collect[$i]['CPF_CNPJNR']=$doc;
+            $collect[$i]['SitCob']=$parcela['SitCob'];
+            $collect[$i]['OrigTrib']=$parcela['OrigTrib'];
+            $collect[$i]['Trib']=$parcela['Trib'];
+            $collect[$i]['LancamentoNr']=$parcela['LancamentoNr'];
+            $collect[$i]['ParcelaNr']=$parcela['ParcelaNr'];
+            $collect[$i]['TotalVr']=$parcela['TotalVr'];
+            $collect[$i]['PrincipalVr']=$parcela['PrincipalVr'];
+            $collect[$i]['Honorarios']=$parcela['Honorarios'];
+            $collect[$i]['DescontoVr']=$parcela['DescontoVr'];
+            $collect[$i]['MultaVr']=$parcela['MultaVr'];
+            $collect[$i]['JurosVr']=$parcela['JurosVr'];
+            $collect[$i]['TaxaVr']=$parcela['TaxaVr'];
+            $collect[$i]['AcrescimoVr']=$parcela['AcrescimoVr'];
+            $collect[$i]['PlanoQt']=$parcela['PlanoQt'];
+            $collect[$i]['VencimentoDt']=$parcela['VencimentoDt']->format('d/m/Y');
+            $collect[$i]['TotalVr2']="R$ ".number_format($parcela['TotalVr2'],2,',','.');
+            $collect[$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['PessoaId']]]['Desc']:'';
             if($request->group=='IM'){
-                $collect[$i][$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['InscrMunId']]]['Desc']:'';
+                $collect[$i]['FxAtraso']=$FxAtraso?$arrayFxAtraso[$FxAtraso[$parcela['InscrMunId']]]['Desc']:'';
             }
-            $collect[$i][$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['PessoaId']]]['Desc']:'';
+            $collect[$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['PessoaId']]]['Desc']:'';
             if($request->group=='IM'){
                 $collect[$i]['FxValor']=$FxValor?$arrayFxValor[$FxValor[$parcela['InscrMunId']]]['Desc']:'';
             }
-            $collect[$i][$i]['ParcelaId']=$parcela['ParcelaId'];
+            $collect[$i]['ParcelaId']=$parcela['ParcelaId'];
             $i++;
         }
 
@@ -414,11 +417,11 @@ class RelatoriosController extends Controller
             $type="html";
         }
 
-        $texto=[];
-        foreach ($collect as $linha){
-            $res=($this->geraModelo($linha,$html));
-            $dados[]=explode(';',$res);
-        }
+        $res="";
+
+        $res.=($this->geraModelo($collect,$html));
+
+
 
             $targetpath=storage_path("../public/export");
             $file=md5(uniqid(rand(), true));
@@ -426,10 +429,11 @@ class RelatoriosController extends Controller
                 $csv = App::make('dompdf.wrapper');
                 $csv->setPaper('b3')
                     ->setWarnings(false)
-                    ->loadHTML($html);
+                    ->loadHTML($res);
 
                 $csv->save($targetpath.'/'.$file.'.'.$type);
             }else {
+                $dados[]=explode(';',$res);
                 $csv = Excel::create($file, function ($excel) use ($dados) {
                     $excel->sheet('mySheet', function ($sheet) use ($dados) {
                         $sheet->fromArray($dados, false, 'A1', false, false);
@@ -451,6 +455,9 @@ class RelatoriosController extends Controller
               Tarefas::create([
                 'tar_categoria' => 'execfilaParcela',
                 'tar_titulo' => 'Geração de ' . $Relatorios->rel_titulo,
+                'tar_user' => auth()->id(),
+                'tar_inicio' => date("Y-m-d H:i:s"),
+                'tar_final' => date("Y-m-d H:i:s"),
                 'tar_descricao' => "<h6><a href='" . URL::to('/') . "/export/" . $file . ".$type' target='_blank'>Arquivo</a></h6>",
                 'tar_status' => 'Finalizado'
             ]);
@@ -764,7 +771,7 @@ class RelatoriosController extends Controller
 
     function geraModelo($pessoa,$html){
 
-        $Variaveis=RegTab::where('TABSYSID',46)->get();
+        $Variaveis=RegTab::where('TABSYSID',46)->where('REGTABSG', 'like',  'rel%')->get();
 
         $x=0;
         foreach ($Variaveis as $var){
@@ -817,7 +824,7 @@ class RelatoriosController extends Controller
                             if (isset($linha[$campo])) {
                                 $valor = $linha[$campo];
                                 if (strpos($valor, '-') !== false) {
-                                    $valor = Carbon::createFromFormat('Y-m-d', $linha[$campo])->format('d/m/Y');
+                                    //$valor = Carbon::createFromFormat('Y-m-d', $linha[$campo])->format('d/m/Y');
                                 }
                                 $result[$i][self::soLetra($sg) . $i] = $valor;
                             }
@@ -1028,6 +1035,9 @@ class RelatoriosController extends Controller
             Tarefas::create([
                 'tar_categoria' => 'relatorioCanal',
                 'tar_titulo' => 'Geração de ' . $Relatorios->rel_titulo,
+                'tar_user' => auth()->id(),
+                'tar_inicio' => date("Y-m-d H:i:s"),
+                'tar_final' => date("Y-m-d H:i:s"),
                 'tar_descricao' => "<h6><a href='" . URL::to('/') . "/export/" . $file . ".$type' target='_blank'>Arquivo</a></h6>",
                 'tar_status' => 'Finalizado'
             ]);

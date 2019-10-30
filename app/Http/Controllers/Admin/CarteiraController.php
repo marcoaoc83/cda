@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Carteira;
+use App\Models\Evento;
 use App\Models\Roteiro;
 use Illuminate\Support\Facades\DB;
 use Softon\SweetAlert\Facades\SWAL;
@@ -126,7 +127,7 @@ class CarteiraController extends Controller
             ->where('TABSYSSG','FaseCart')
             ->get();
 
-        $Evento = DB::table('cda_evento')->get();
+        $Evento = Evento::where('TpASId',79)->orderBy('EventoNm')->get();
 
         $ModCom = DB::table('cda_modcom')->orderBy('cda_modcom.ModComSg','asc')->get();
 
