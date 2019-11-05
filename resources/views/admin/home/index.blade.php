@@ -54,6 +54,7 @@
                     var series='';
                     var titulo='';
                     var nome='';
+                    var eixoy='';
                     var pai='';
                     var ref='';
                     var axes=[];
@@ -62,13 +63,14 @@
                     $.each(datas[index1], function(index) {
                         let data = datas[index1];
                         var new_data = [];
-                        if(!$('#container'+index).length>0)         // use this if you are using class to check
+                        if(!$('#container'+index1).length>0)         // use this if you are using class to check
                         {
-                            $("#graficosHome").append('<br><div class=" text-center"><div id="container'+index+'" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>');
+                            $("#graficosHome").append('<br><div class=" text-center"><div id="container'+index1+'" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>');
                         }
 
                         series=data[index].series.data;
                         nome=data[index].series.name;
+                        eixoy=data[index].series.eixoy;
                         titulo=data[index].titulo;
                         pai=data[index].pai;
                         ref=data[index].ref;
@@ -78,20 +80,12 @@
                                 y:parseInt(series[index2].y)
                             });
                         });
-                        if(index+1==datas[index1].length){
-                            axes.push({
-                                name:nome,
-                                type:data[index].tipo,
-                                data:new_data
-                            });
-                        }else{
-                            axes.push({
-                                name:nome,
-                                yAxis: yAxisC,
-                                type:data[index].tipo,
-                                data:new_data
-                            });
-                        }
+                        axes.push({
+                            name:nome,
+                            type:data[index].tipo,
+                            data:new_data,
+                            yAxis: parseInt(eixoy)-1
+                        });
                         yAxisC++;
                         yAxis.push({
                             labels:false,
@@ -125,6 +119,7 @@
                         },
 
                         plotOptions: {
+
                             series: {
                                 borderWidth: 0,
                                 dataLabels: {
@@ -133,6 +128,37 @@
                                 colorByPoint: true,
                                 cursor: 'pointer',
                                 point: {
+                                    events: {
+                                        click: function() {
+                                            console.log(ref);
+                                            if (ref > 0)
+                                                mostraGrafico("container"+index1,ref,event.point.name,pai);
+                                        }
+                                    }
+                                }
+                            },
+
+                            area: {
+
+                                cursor: 'pointer',
+                                point: {
+                                    events: {
+                                        click: function() {
+                                            console.log(ref);
+                                            if (ref > 0)
+                                                mostraGrafico("container"+index1,ref,event.point.name,pai);
+                                        }
+                                    }
+                                },
+                                marker: {
+                                    enabled: false,
+                                    symbol: 'circle',
+                                    radius: 2,
+                                    states: {
+                                        hover: {
+                                            enabled: true
+                                        }
+                                    },
                                     events: {
                                         click: function() {
                                             console.log(ref);
@@ -277,6 +303,37 @@
 
                                                 if (vref > 0)
                                                     mostraGrafico(elemento,vref,event.point.name,vpai,filtros);
+                                            }
+                                        }
+                                    }
+                                },
+                                area: {
+
+
+                                    cursor: 'pointer',
+                                    point: {
+                                        events: {
+                                            click: function() {
+                                                console.log(ref);
+                                                if (ref > 0)
+                                                    mostraGrafico("container"+index1,ref,event.point.name,pai);
+                                            }
+                                        }
+                                    },
+                                    marker: {
+                                        enabled: false,
+                                        symbol: 'circle',
+                                        radius: 2,
+                                        states: {
+                                            hover: {
+                                                enabled: true
+                                            }
+                                        },
+                                        events: {
+                                            click: function() {
+                                                console.log(ref);
+                                                if (ref > 0)
+                                                    mostraGrafico("container"+index1,ref,event.point.name,pai);
                                             }
                                         }
                                     }

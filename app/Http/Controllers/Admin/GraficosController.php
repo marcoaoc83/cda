@@ -401,12 +401,13 @@ class GraficosController extends Controller
                 ->get();
             $z=0;
             foreach ($res as $linha) {
-
+                $where='';
                 $sql=self::SQL($linha['graf_tabela']);
                 $valor = $linha->grse_sql_valor . " as Valor";
                 $alias = $linha->grse_sql_campo . " as Campo";
                 if ($linha->grse_sql_condicao) $where = $linha->grse_sql_condicao;
                 $group = $linha->grse_sql_agrupamento;
+                $order = $linha->grse_sql_ordenacao;
 
                 if ($request->filtros) {
                     $i = 1;
@@ -418,6 +419,7 @@ class GraficosController extends Controller
 
                 $sql = "SELECT $valor,$alias FROM ($sql) as Parcelas WHERE 1 $where";
                 if ($group) $sql .= " GROUP BY $group";
+                if ($order) $sql .= " ORDER BY $order";
 
                 $resultado = DB::select($sql);
 
@@ -428,6 +430,7 @@ class GraficosController extends Controller
                 $y = 0;
                 foreach ($resultado as $res) {
                     $retorno[$x][$z]['series']['name'] = $linha['grse_subtitulo'];
+                    $retorno[$x][$z]['series']['eixoy'] = $linha['grse_eixoy'];
                     $retorno[$x][$z]['series']['data'][$y]['name'] = $res->Campo;
                     $retorno[$x][$z]['series']['data'][$y]['y'] = $res->Valor;
                     $retorno[$x][$z]['series']['data'][$y]['drilldown'] = "drilldown" . $linha['graf_grafico_ref'];
@@ -473,7 +476,7 @@ class GraficosController extends Controller
         $sql .= " LEFT JOIN cda_pcrot     ON cda_pcrot.ParcelaId=cda_parcela.ParcelaId";
         $sql .= " LEFT JOIN cda_roteiro   ON cda_roteiro.RoteiroId=cda_pcrot.RoteiroId";
         $sql .= " LEFT JOIN cda_carteira  ON cda_carteira.CARTEIRAID=cda_roteiro.RoteiroId";
-        //$sql .= " GROUP BY cda_parcela.ParcelaId";
+        $sql .= " GROUP BY cda_parcela.ParcelaId";
         return $sql;
     }
     private function PessoaSQL(){

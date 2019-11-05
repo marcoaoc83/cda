@@ -140,6 +140,7 @@
                     $('#pnSeries #formEditar #grse_sql_campo').val(retorno['grse_sql_campo']);
                     $('#pnSeries #formEditar #grse_sql_condicao').val(retorno['grse_sql_condicao']);
                     $('#pnSeries #formEditar #grse_sql_agrupamento').val(retorno['grse_sql_agrupamento']);
+                   // $('#pnSeries #formEditar #grse_sql_ordenacao').val(retorno['grse_sql_ordenacao']);
                     $('#pnSeries #formEditar #grse_id').val(grse_id);
                 },
                 error: function (retorno) {

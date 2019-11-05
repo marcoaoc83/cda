@@ -52,6 +52,7 @@ class User extends Authenticatable
         $grupos= Grupos::find($this->funcao);
         $arr= json_decode($grupos->fun_menu_json,true) ;
         $html='';
+        if(!is_array($arr)) return $html;
         foreach($arr as $var){
             if($var['id']){
                 $menu=Menu::find($var['id']);
