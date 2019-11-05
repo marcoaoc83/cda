@@ -68,9 +68,13 @@
                             $("#graficosHome").append('<br><div class=" text-center"><div id="container'+index1+'" style="min-width: 310px; height: 400px; margin: 0 auto"></div></div>');
                         }
 
-                        series=data[index].series.data;
-                        nome=data[index].series.name;
-                        eixoy=data[index].series.eixoy;
+                        if (data[index].series !== undefined && data[index].series !== null) {
+                            series=data[index].series.data;
+                            nome=data[index].series.name;
+                            eixoy=data[index].series.eixoy;
+                        }
+
+
                         titulo=data[index].titulo;
                         pai=data[index].pai;
                         ref=data[index].ref;
@@ -210,8 +214,11 @@
                         $.each(datas[index1], function(index) {
                             let data = datas[index1];
                             $(elemento).html(' ');
-                            series=data[index].series.data;
-                            nome=data[index].series.name;
+                            if (data[index].series !== undefined && data[index].series !== null) {
+                                series=data[index].series.data;
+                                nome=data[index].series.name;
+                                eixoy=data[index].series.eixoy;
+                            }
 
                             vpai=data[index].pai;
                             vref=data[index].ref;
@@ -229,20 +236,13 @@
                                     y:parseInt(series[index2].y)
                                 });
                             });
-                            if(index+1==datas[index1].length){
-                                axes.push({
-                                    name:nome,
-                                    type:data[index].tipo,
-                                    data:new_data
-                                });
-                            }else{
-                                axes.push({
-                                    name:nome,
-                                    yAxis: yAxisC,
-                                    type:data[index].tipo,
-                                    data:new_data
-                                });
-                            }
+                            axes.push({
+                                name:nome,
+                                yAxis: yAxisC,
+                                type:data[index].tipo,
+                                data:new_data,
+                                yAxis: parseInt(eixoy)-1
+                            });
                             yAxisC++;
                             yAxis.push({
                                 labels:false,
@@ -295,7 +295,7 @@
                                     dataLabels: {
                                         enabled: true
                                     },
-                                    colorByPoint: true,
+
                                     cursor: 'pointer',
                                     point: {
                                         events: {
@@ -337,6 +337,9 @@
                                             }
                                         }
                                     }
+                                },
+                                column: {
+                                    stacking: 'normal'
                                 }
                             },
                             series:axes,

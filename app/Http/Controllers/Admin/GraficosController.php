@@ -428,6 +428,13 @@ class GraficosController extends Controller
                 $retorno[$x][$z]['pai'] = $linha['graf_id'];
                 $retorno[$x][$z]['ref'] = $linha['ref'];
                 $y = 0;
+                if(count($resultado)==0){
+                    $retorno[$x][$z]['series']['name'] = $linha['grse_subtitulo'];
+                    $retorno[$x][$z]['series']['eixoy'] = $linha['grse_eixoy'];
+                    $retorno[$x][$z]['series']['data'][$y]['name'] = '';
+                    $retorno[$x][$z]['series']['data'][$y]['y'] = '0';
+                    $retorno[$x][$z]['series']['data'][$y]['drilldown'] = "drilldown" . $linha['graf_grafico_ref'];
+                }
                 foreach ($resultado as $res) {
                     $retorno[$x][$z]['series']['name'] = $linha['grse_subtitulo'];
                     $retorno[$x][$z]['series']['eixoy'] = $linha['grse_eixoy'];
