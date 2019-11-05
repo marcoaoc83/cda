@@ -339,7 +339,7 @@
                                     }
                                 },
                                 column: {
-                                    stacking: 'normal'
+                                    stacking: 'stream'
                                 }
                             },
                             series:axes,
