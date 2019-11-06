@@ -334,4 +334,9 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
 
     Route::get('admin/graficosseries/getdata', 'GraficosSeriesController@getDadosDataTable')->name('graficosseries.getdata');
     Route::resource('admin/graficosseries', 'GraficosSeriesController');
+
+    Route::get('admin/distribuir', function () {
+        return view('admin.distribuicao.index');
+    })->name('distribuicao.index');
+
 });

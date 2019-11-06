@@ -54,7 +54,7 @@ class DistribuicaoJob implements ShouldQueue
         foreach ($consulta->cursor() as $parcelas){
             DB::beginTransaction();
             try {
-                $consulta_carteiras=Carteira::query();
+                $consulta_carteiras=Carteira::query()->orderBy('CARTEIRAORD');
                 //Log::notice('2 - '.date('H:i:s'));
                 foreach ($consulta_carteiras->cursor() as $carteiras) {
                     $where="";
@@ -70,7 +70,8 @@ class DistribuicaoJob implements ShouldQueue
                     $sql_pric .= $where;
 
                     $consulta_prin = DB::select($sql_pric);
-                    if (count($consulta_prin) > 0) {
+                    $consulta_prin = (is_array($consulta_prin) ? count($consulta_prin) : 0);
+                    if (($consulta_prin) > 0) {
 
                         $consulta_roteiro = Roteiro::select(['RoteiroId'])->where('cda_roteiro.CarteiraId',$carteiras->CARTEIRAID)->orderBy('cda_roteiro.RoteiroOrd');
 
@@ -94,10 +95,16 @@ class DistribuicaoJob implements ShouldQueue
                             $sql_monta_roteiro = "SELECT ParcelaId FROM cda_parcela WHERE ParcelaId =" . $parcelas->ParcelaId;
                             $sql_monta_roteiro .= $where_roteiro;
                             $consulta_monta_roteiro = DB::select($sql_monta_roteiro);
-
-                            if (count($consulta_monta_roteiro) <= 0) {
+                            $consulta_monta_roteiro = (is_array($consulta_monta_roteiro) ? count($consulta_monta_roteiro) : 0);
+                            if (($consulta_monta_roteiro) <= 0) {
                                 continue;
                             }
+
+                            /* Verifica se ja existe roteira para aquela parcela*/
+                            $consulta_exec = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt');
+                            $consulta_exec = (is_array($consulta_exec) ? count($consulta_exec) : 0);
+                            if (($consulta_exec) > 0) {continue;}
+
 
                             $consulta_exec = PcRot::select([
                                 'cda_pcrot.RoteiroId'
@@ -107,7 +114,8 @@ class DistribuicaoJob implements ShouldQueue
                                 ->whereNull('cda_pcrot.SaidaDt')->get();
                             ;
 
-                            if (count($consulta_exec) > 0) {
+                            $consulta_exec = (is_array($consulta_exec) ? count($consulta_exec) : 0);
+                            if (($consulta_exec) > 0) {
                                 if ($consulta_exec[0]->RoteiroId == $roteiros->RoteiroId) {
                                     continue;
                                 } else {
@@ -115,6 +123,7 @@ class DistribuicaoJob implements ShouldQueue
                                 }
                             }
                             DB::insert("INSERT INTO cda_pcrot SET EntradaDt=NOW() , CarteiraId= {$carteiras->CARTEIRAID} , ParcelaId={$parcelas->ParcelaId} , RoteiroId=" . $roteiros->RoteiroId);
+
                         }
                     }
                 }
@@ -132,10 +141,10 @@ class DistribuicaoJob implements ShouldQueue
             ->limit(50)
             ->offset($this->page)->get();
         if(count($consulta)>0){
-            Log::notice(count($consulta));
+            //Log::notice(count($consulta));
             DistribuicaoJob::dispatch($this->page,$this->x)->onQueue("distribuicao".$this->x);
         }
-        //Artisan::call('queue:restart');
+        Artisan::call('queue:restart');
         echo true;
     }
 }

@@ -402,7 +402,7 @@ class GraficosController extends Controller
             $z=0;
             foreach ($res as $linha) {
                 $where='';
-                $sql=self::SQL($linha['graf_tabela']);
+
                 $valor = $linha->grse_sql_valor . " as Valor";
                 $alias = $linha->grse_sql_campo . " as Campo";
                 if ($linha->grse_sql_condicao) $where = $linha->grse_sql_condicao;
@@ -416,7 +416,7 @@ class GraficosController extends Controller
                         $i++;
                     }
                 }
-
+                $sql=self::SQL($linha['graf_tabela'],$group);
                 $sql = "SELECT $valor,$alias FROM ($sql) as Parcelas WHERE 1 $where";
                 if ($group) $sql .= " GROUP BY $group";
                 if ($order) $sql .= " ORDER BY $order";
@@ -451,10 +451,10 @@ class GraficosController extends Controller
         return \response()->json($retorno);
     }
 
-    private function SQL($tabela){
+    private function SQL($tabela,$group){
         switch ($tabela){
             case 'cda_parcela':
-                return self::ParcelaSQL();
+                return self::ParcelaSQL($group);
                 break;
             case 'cda_pessoa':
                 return self::PessoaSQL();
@@ -467,7 +467,7 @@ class GraficosController extends Controller
                 break;
         }
     }
-    private function ParcelaSQL(){
+    private function ParcelaSQL($group){
         $sql=  "SELECT 
                   cda_parcela.*,
                   SitPagT.REGTABNM as SitPag,
@@ -482,7 +482,11 @@ class GraficosController extends Controller
         $sql .= " LEFT JOIN cda_regtab as TribT ON TribT.REGTABID=cda_parcela.TributoId";
         $sql .= " LEFT JOIN cda_pcrot     ON cda_pcrot.ParcelaId=cda_parcela.ParcelaId";
         $sql .= " LEFT JOIN cda_roteiro   ON cda_roteiro.RoteiroId=cda_pcrot.RoteiroId";
-        $sql .= " LEFT JOIN cda_carteira  ON cda_carteira.CARTEIRAID=cda_roteiro.RoteiroId";
+        $sql .= " LEFT JOIN cda_carteira  ON cda_carteira.CARTEIRAID=cda_pcrot.CarteiraId";
+        $sql .= " WHERE cda_pcrot.SaidaDt is null";
+        if($group=='Carteira')
+        $sql .= " GROUP BY cda_parcela.ParcelaId, cda_carteira.CARTEIRASG ";
+        else
         $sql .= " GROUP BY cda_parcela.ParcelaId";
         return $sql;
     }

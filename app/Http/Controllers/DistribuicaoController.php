@@ -107,16 +107,16 @@ class DistribuicaoController extends Controller
                 ->whereNull('distribuicao_parcelas.parcela_id')
                 ->whereNotNull('cda_parcela.VENCIMENTODT')
                 ->where('cda_parcela.SitPagId',61)
-                ->limit(50)
+                ->limit(500)
                 ->offset($page);
         $where="";
         foreach ($consulta->cursor() as $parcelas){
             echo "<br>Parcela".$parcelas->ParcelaId;
             DB::beginTransaction();
             try {
-                $consulta_carteiras=Carteira::query();
+                $consulta_carteiras=Carteira::query()->orderBy('CARTEIRAORD');
                 foreach ($consulta_carteiras->cursor() as $carteiras) {
-
+                    $where="";
                    $consulta2 = EntCart::select([
                         'cda_entcart.CarteiraId',
                         'cda_entcart.EntCartId',
@@ -136,7 +136,8 @@ class DistribuicaoController extends Controller
                     $sql_pric .= $where;
 
                     $consulta_prin = DB::select($sql_pric);
-                    if (count($consulta_prin) > 0) {
+                    $consulta_prin = (is_array($consulta_prin) ? count($consulta_prin) : 0);
+                    if (($consulta_prin) > 0) {
 
                         $consulta_roteiro = Roteiro::select(['RoteiroId'])->where('cda_roteiro.CarteiraId',$carteiras->CARTEIRAID)->orderBy('cda_roteiro.RoteiroOrd');
 
@@ -160,10 +161,16 @@ class DistribuicaoController extends Controller
                             $sql_monta_roteiro = "SELECT ParcelaId FROM cda_parcela WHERE ParcelaId =" . $parcelas->ParcelaId;
                             $sql_monta_roteiro .= $where_roteiro;
                             $consulta_monta_roteiro = DB::select($sql_monta_roteiro);
-
-                            if (count($consulta_monta_roteiro) <= 0) {
+                            $consulta_monta_roteiro = (is_array($consulta_monta_roteiro) ? count($consulta_monta_roteiro) : 0);
+                            if (($consulta_monta_roteiro) <= 0) {
                                 continue;
                             }
+
+                            /* Verifica se ja existe roteira para aquela parcela*/
+                            $consulta_exec = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt');
+                            $consulta_exec = (is_array($consulta_exec) ? count($consulta_exec) : 0);
+                            if (($consulta_exec) > 0) {continue;}
+
 
                             $consulta_exec = PcRot::select([
                                 'cda_pcrot.RoteiroId'
@@ -172,8 +179,8 @@ class DistribuicaoController extends Controller
                                 ->where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)
                                 ->whereNull('cda_pcrot.SaidaDt')
                             ;
-
-                            if (count($consulta_exec) > 0) {
+                            $consulta_exec = (is_array($consulta_exec) ? count($consulta_exec) : 0);
+                            if (($consulta_exec) > 0) {
                                 if ($consulta_exec[0]->RoteiroId == $roteiros->RoteiroId) {
                                     continue;
                                 } else {
@@ -181,6 +188,7 @@ class DistribuicaoController extends Controller
                                 }
                             }
                             DB::insert("INSERT INTO cda_pcrot SET EntradaDt=NOW() , CarteiraId= {$carteiras->CARTEIRAID} , ParcelaId={$parcelas->ParcelaId} , RoteiroId=" . $roteiros->RoteiroId);
+                            break;
                         }
                     }
                 }
