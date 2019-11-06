@@ -101,9 +101,8 @@ class DistribuicaoJob implements ShouldQueue
                             }
 
                             /* Verifica se ja existe roteira para aquela parcela*/
-                            $consulta_exec = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt');
-                            $consulta_exec = (is_array($consulta_exec) ? count($consulta_exec) : 0);
-                            if (($consulta_exec) > 0) {continue;}
+                            $consulta_exec = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt')->get();
+                            if (count($consulta_exec) > 0) {continue;}
 
 
                             $consulta_exec = PcRot::select([
@@ -114,8 +113,7 @@ class DistribuicaoJob implements ShouldQueue
                                 ->whereNull('cda_pcrot.SaidaDt')->get();
                             ;
 
-                            $consulta_exec = (is_array($consulta_exec) ? count($consulta_exec) : 0);
-                            if (($consulta_exec) > 0) {
+                            if (count($consulta_exec) > 0) {
                                 if ($consulta_exec[0]->RoteiroId == $roteiros->RoteiroId) {
                                     continue;
                                 } else {
@@ -144,7 +142,7 @@ class DistribuicaoJob implements ShouldQueue
             //Log::notice(count($consulta));
             DistribuicaoJob::dispatch($this->page,$this->x)->onQueue("distribuicao".$this->x);
         }
-        Artisan::call('queue:restart');
+        //Artisan::call('queue:restart');
         echo true;
     }
 }

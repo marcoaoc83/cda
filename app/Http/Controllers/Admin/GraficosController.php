@@ -485,7 +485,7 @@ class GraficosController extends Controller
         $sql .= " LEFT JOIN cda_carteira  ON cda_carteira.CARTEIRAID=cda_pcrot.CarteiraId";
         $sql .= " WHERE cda_pcrot.SaidaDt is null";
         if($group=='Carteira')
-        $sql .= " GROUP BY cda_parcela.ParcelaId, cda_carteira.CARTEIRASG ";
+        $sql .= " GROUP BY  cda_carteira.CARTEIRASG ,cda_parcela.ParcelaId";
         else
         $sql .= " GROUP BY cda_parcela.ParcelaId";
         return $sql;
