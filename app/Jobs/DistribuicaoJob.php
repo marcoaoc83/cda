@@ -57,6 +57,9 @@ class DistribuicaoJob implements ShouldQueue
                 $consulta_carteiras=Carteira::query()->orderBy('CARTEIRAORD');
                 //Log::notice('2 - '.date('H:i:s'));
                 foreach ($consulta_carteiras->cursor() as $carteiras) {
+                    /* Verifica se ja existe roteira para aquela parcela*/
+                    $consulta_exist = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt')->get();
+                    if (count($consulta_exist) > 0) {break;}
                     $where="";
                     $consulta2 = EntCart::select(['cda_regtab.REGTABSQL'])
                         ->join('cda_regtab','cda_entcart.EntCartId','=','cda_regtab.REGTABID')
@@ -101,8 +104,8 @@ class DistribuicaoJob implements ShouldQueue
                             }
 
                             /* Verifica se ja existe roteira para aquela parcela*/
-                            $consulta_exec = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt')->get();
-                            if (count($consulta_exec) > 0) {continue;}
+                            $consulta_exist = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt')->get();
+                            if (count($consulta_exist) > 0) {continue;}
 
 
                             $consulta_exec = PcRot::select([
