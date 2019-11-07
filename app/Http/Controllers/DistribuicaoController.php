@@ -188,7 +188,7 @@ class DistribuicaoController extends Controller
                                 }
                             }
                             DB::insert("INSERT INTO cda_pcrot SET EntradaDt=NOW() , CarteiraId= {$carteiras->CARTEIRAID} , ParcelaId={$parcelas->ParcelaId} , RoteiroId=" . $roteiros->RoteiroId);
-                            break;
+                            //break;
                         }
                     }
                 }

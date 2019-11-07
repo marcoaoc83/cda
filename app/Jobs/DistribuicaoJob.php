@@ -57,9 +57,7 @@ class DistribuicaoJob implements ShouldQueue
                 $consulta_carteiras=Carteira::query()->orderBy('CARTEIRAORD');
                 //Log::notice('2 - '.date('H:i:s'));
                 foreach ($consulta_carteiras->cursor() as $carteiras) {
-                    /* Verifica se ja existe roteira para aquela parcela*/
-                    $consulta_exist = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt')->get();
-                    if (count($consulta_exist) > 0) {break;}
+
                     $where="";
                     $consulta2 = EntCart::select(['cda_regtab.REGTABSQL'])
                         ->join('cda_regtab','cda_entcart.EntCartId','=','cda_regtab.REGTABID')
@@ -103,10 +101,6 @@ class DistribuicaoJob implements ShouldQueue
                                 continue;
                             }
 
-                            /* Verifica se ja existe roteira para aquela parcela*/
-                            $consulta_exist = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt')->get();
-                            if (count($consulta_exist) > 0) {continue;}
-
 
                             $consulta_exec = PcRot::select([
                                 'cda_pcrot.RoteiroId'
@@ -123,6 +117,10 @@ class DistribuicaoJob implements ShouldQueue
                                     DB::update("UPDATE cda_pcrot SET SaidaDt=NOW() WHERE CarteiraId= {$carteiras->CARTEIRAID} AND ParcelaId={$parcelas->ParcelaId} AND RoteiroId=" . $consulta_exec[0]->RoteiroId);
                                 }
                             }
+
+                            /* Verifica se ja existe roteira para aquela parcela*/
+                            $consulta_exist = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt')->get();
+                            if (count($consulta_exist) > 0) {continue;}
                             DB::insert("INSERT INTO cda_pcrot SET EntradaDt=NOW() , CarteiraId= {$carteiras->CARTEIRAID} , ParcelaId={$parcelas->ParcelaId} , RoteiroId=" . $roteiros->RoteiroId);
 
                         }
@@ -145,6 +143,8 @@ class DistribuicaoJob implements ShouldQueue
             //Log::notice(count($consulta));
             DistribuicaoJob::dispatch($this->page,$this->x)->onQueue("distribuicao".$this->x);
         }
+        $sql="DELETE a FROM cda_pcrot AS a, cda_pcrot AS b WHERE a.CarteiraId=b.CarteiraId  and a.ParcelaId=b.ParcelaId and a.SaidaDt is null and b.SaidaDt is null AND a.pcrot_id > b.pcrot_id";
+        DB::query($sql);
         //Artisan::call('queue:restart');
         echo true;
     }
