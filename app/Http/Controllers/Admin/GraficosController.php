@@ -248,7 +248,7 @@ class GraficosController extends Controller
         $Tabelas=[
             'cda_pscanal'=>'Canal',
             'cda_evento'=>'Evento',
-            //'cda_filatrab'=>'Fila',
+            'cda_filatrab'=>'Fila',
             'cda_parcela'=>'Parcela',
             'cda_pessoa'=>'Pessoa'
         ];
@@ -298,7 +298,7 @@ class GraficosController extends Controller
         $Tabelas=[
             'cda_pscanal'=>'Canal',
             'cda_evento'=>'Evento',
-            //'cda_filatrab'=>'Fila',
+             'cda_filatrab'=>'Fila',
             'cda_parcela'=>'Parcela',
             'cda_pessoa'=>'Pessoa'
         ];
@@ -465,6 +465,9 @@ class GraficosController extends Controller
             case 'cda_evento':
                 return self::EventoSQL();
                 break;
+            case 'cda_filatrab':
+                return self::FilaSQL();
+                break;
         }
     }
     private function ParcelaSQL($group){
@@ -512,6 +515,23 @@ class GraficosController extends Controller
               FROM cda_evento ";
         $sql .= " LEFT JOIN cda_canal_eventos ON cda_canal_eventos.EventoId=cda_evento.EventoId";
         $sql .= " LEFT JOIN cda_pcevento  ON cda_pcevento.EVENTOID=cda_evento.EventoId";
+        return $sql;
+    }
+    private function FilaSQL(){
+        $sql=  "SELECT 
+
+                  cda_parcela.*,
+                  cda_filatrab.*,
+                  EventoParcela.EventoNm as EventoNm1,
+                  EventoCanal.EventoNm as EventoNm2
+              FROM cda_filatrab ";
+        $sql .= " LEFT JOIN cda_pcevento   ON cda_pcevento.FILATRABID=cda_filatrab.FilaTrabId";
+        $sql .= " LEFT JOIN cda_evento as EventoParcela  ON EventoParcela.EventoId=cda_pcevento.FilaTrabId";
+        $sql .= " LEFT JOIN cda_parcela   ON cda_parcela.ParcelaId=cda_pcevento.PARCELAID";
+
+        $sql .= " LEFT JOIN cda_canal_fila   ON cda_canal_fila.cafi_fila=cda_filatrab.FilaTrabId";
+        $sql .= " LEFT JOIN cda_evento  as EventoCanal  ON EventoCanal.EventoId=cda_canal_fila.cafi_fila";
+
         return $sql;
     }
 }
