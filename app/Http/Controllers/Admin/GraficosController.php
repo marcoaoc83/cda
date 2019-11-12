@@ -519,19 +519,19 @@ class GraficosController extends Controller
     }
     private function FilaSQL(){
         $sql=  "SELECT 
-
                   cda_parcela.*,
                   cda_filatrab.*,
-                  EventoParcela.EventoNm as EventoNm1,
-                  EventoCanal.EventoNm as EventoNm2
-              FROM cda_filatrab ";
-        $sql .= " LEFT JOIN cda_pcevento   ON cda_pcevento.FILATRABID=cda_filatrab.FilaTrabId";
-        $sql .= " LEFT JOIN cda_evento as EventoParcela  ON EventoParcela.EventoId=cda_pcevento.FilaTrabId";
-        $sql .= " LEFT JOIN cda_parcela   ON cda_parcela.ParcelaId=cda_pcevento.PARCELAID";
-
-        $sql .= " LEFT JOIN cda_canal_fila   ON cda_canal_fila.cafi_fila=cda_filatrab.FilaTrabId";
-        $sql .= " LEFT JOIN cda_evento  as EventoCanal  ON EventoCanal.EventoId=cda_canal_fila.cafi_fila";
+                  Fase.REGTABSG as Roteiro,
+                  cda_roteiro.RoteiroId as RoteiroId,
+                  cda_carteira.CARTEIRASG as Carteira 
+              FROM cda_parcela";
+        $sql .= " INNER JOIN cda_pcrot              ON cda_pcrot.ParcelaId          =       cda_parcela.ParcelaId";
+        $sql .= " INNER JOIN cda_roteiro            ON cda_roteiro.RoteiroId        =       cda_pcrot.RoteiroId";
+        $sql .= " INNER JOIN cda_filatrab           ON cda_filatrab.FilaTrabId      =       cda_roteiro.FilaTrabId";
+        $sql .= " INNER JOIN cda_regtab as Fase     ON Fase.REGTABID                =       cda_roteiro.FaseCartId";
+        $sql .= " INNER JOIN cda_carteira           ON cda_carteira.CARTEIRAID      =       cda_pcrot.CarteiraId";
 
         return $sql;
     }
+    
 }
