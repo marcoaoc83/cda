@@ -54,6 +54,9 @@ class DistribuicaoJob implements ShouldQueue
         foreach ($consulta->cursor() as $parcelas){
             DB::beginTransaction();
             try {
+
+                $PCRot=PcRot::where('ParcelaId', $parcelas->ParcelaId)->whereNull('SaidaDt')->get();
+                $PCRot=$PCRot[0];
                 $consulta_carteiras=Carteira::query()->orderBy('CARTEIRAORD');
                 //Log::notice('2 - '.date('H:i:s'));
                 foreach ($consulta_carteiras->cursor() as $carteiras) {
@@ -97,7 +100,11 @@ class DistribuicaoJob implements ShouldQueue
                             $sql_monta_roteiro .= $where_roteiro;
                             $consulta_monta_roteiro = DB::select($sql_monta_roteiro);
                             $consulta_monta_roteiro = (is_array($consulta_monta_roteiro) ? count($consulta_monta_roteiro) : 0);
+
                             if (($consulta_monta_roteiro) <= 0) {
+                                if($PCRot->RoteiroId == $roteiros->RoteiroId){
+                                    DB::update("UPDATE cda_pcrot SET SaidaDt=NOW() WHERE  pcrot_id=".$PCRot->pcrot_id);
+                                }
                                 continue;
                             }
 
@@ -118,7 +125,7 @@ class DistribuicaoJob implements ShouldQueue
                                 }
                             }
 
-                            /* Verifica se ja existe roteira para aquela parcela*/
+                            /* Verifica se ja existe roteiro para aquela parcela*/
                             $consulta_exist = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt')->get();
                             if (count($consulta_exist) > 0) {continue;}
                             DB::insert("INSERT INTO cda_pcrot SET EntradaDt=NOW() , CarteiraId= {$carteiras->CARTEIRAID} , ParcelaId={$parcelas->ParcelaId} , RoteiroId=" . $roteiros->RoteiroId);

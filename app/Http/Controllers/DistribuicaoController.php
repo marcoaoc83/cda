@@ -103,35 +103,33 @@ class DistribuicaoController extends Controller
     public function teste(Request $request)
     {
         $page=$request->page??0;
-        $consulta= Parcela::leftjoin('distribuicao_parcelas', 'cda_parcela.ParcelaId', '=', 'distribuicao_parcelas.parcela_id')
-                ->whereNull('distribuicao_parcelas.parcela_id')
-                ->whereNotNull('cda_parcela.VENCIMENTODT')
-                ->where('cda_parcela.SitPagId',61)
-                ->limit(500)
-                ->offset($page);
-        $where="";
+        $consulta= Parcela::select(['cda_parcela.ParcelaId'])
+            ->leftjoin('distribuicao_parcelas', 'cda_parcela.ParcelaId', '=', 'distribuicao_parcelas.parcela_id')
+            ->whereNull('distribuicao_parcelas.parcela_id')
+            ->whereNotNull('cda_parcela.VENCIMENTODT')
+            ->where('cda_parcela.SitPagId',61)
+            ->limit(5000)
+            ->offset($page);
+        //Log::notice('1 - '.date('H:i:s'));
         foreach ($consulta->cursor() as $parcelas){
-            echo "<br>Parcela".$parcelas->ParcelaId;
             DB::beginTransaction();
             try {
-                $consulta_carteiras=Carteira::query()->orderBy('CARTEIRAORD');
-                foreach ($consulta_carteiras->cursor() as $carteiras) {
-                    $where="";
-                   $consulta2 = EntCart::select([
-                        'cda_entcart.CarteiraId',
-                        'cda_entcart.EntCartId',
-                        'cda_entcart.AtivoSN',
-                        'cda_regtab.REGTABSG',
-                        'cda_regtab.REGTABNM',
-                        'cda_regtab.REGTABSQL'])
-                    ->join('cda_regtab','cda_entcart.EntCartId','=','cda_regtab.REGTABID')
-                    ->where('cda_entcart.CarteiraId',$carteiras->CARTEIRAID)
-                    ->where('cda_entcart.AtivoSN',True);
 
+                $PCRot=PcRot::where('ParcelaId', $parcelas->ParcelaId)->whereNull('SaidaDt')->get();
+                $PCRot=$PCRot[0];
+                $consulta_carteiras=Carteira::query()->orderBy('CARTEIRAORD');
+                //Log::notice('2 - '.date('H:i:s'));
+                foreach ($consulta_carteiras->cursor() as $carteiras) {
+
+                    $where="";
+                    $consulta2 = EntCart::select(['cda_regtab.REGTABSQL'])
+                        ->join('cda_regtab','cda_entcart.EntCartId','=','cda_regtab.REGTABID')
+                        ->where('cda_entcart.CarteiraId',$carteiras->CARTEIRAID)
+                        ->where('cda_entcart.AtivoSN',True);
                     foreach ($consulta2->cursor() as $linha2) {
                         $where .= " " . $linha2->REGTABSQL;
                     }
-
+                    //Log::notice('3 - '.date('H:i:s'));
                     $sql_pric = "SELECT ParcelaId FROM cda_parcela WHERE ParcelaId =" . $parcelas->ParcelaId;
                     $sql_pric .= $where;
 
@@ -142,15 +140,15 @@ class DistribuicaoController extends Controller
                         $consulta_roteiro = Roteiro::select(['RoteiroId'])->where('cda_roteiro.CarteiraId',$carteiras->CARTEIRAID)->orderBy('cda_roteiro.RoteiroOrd');
 
                         foreach ($consulta_roteiro->cursor() as $roteiros) {
+                            //Log::notice('4 - '.date('H:i:s'));
                             $where_roteiro = null;
-
                             $consulta_var_roteiro = ExecRot::select([
                                 'cda_regtab.REGTABSQL'
                             ])
                                 ->join('cda_regtab','cda_execrot.ExecRotId','=','cda_regtab.REGTABID')
                                 ->where('cda_execrot.RoteiroId',$roteiros->RoteiroId)
                                 ->where('cda_execrot.AtivoSN',True)
-                                ;
+                            ;
                             foreach ($consulta_var_roteiro->cursor() as $var_roteiros) {
                                 $where_roteiro .= " " . $var_roteiros->REGTABSQL;
                             }
@@ -162,14 +160,13 @@ class DistribuicaoController extends Controller
                             $sql_monta_roteiro .= $where_roteiro;
                             $consulta_monta_roteiro = DB::select($sql_monta_roteiro);
                             $consulta_monta_roteiro = (is_array($consulta_monta_roteiro) ? count($consulta_monta_roteiro) : 0);
+
                             if (($consulta_monta_roteiro) <= 0) {
+                                if($PCRot->RoteiroId == $roteiros->RoteiroId){
+                                    DB::update("UPDATE cda_pcrot SET SaidaDt=NOW() WHERE  pcrot_id=".$PCRot->pcrot_id);
+                                }
                                 continue;
                             }
-
-                            /* Verifica se ja existe roteira para aquela parcela*/
-                            $consulta_exec = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt');
-                            $consulta_exec = (is_array($consulta_exec) ? count($consulta_exec) : 0);
-                            if (($consulta_exec) > 0) {continue;}
 
 
                             $consulta_exec = PcRot::select([
@@ -177,28 +174,41 @@ class DistribuicaoController extends Controller
                             ])
                                 ->where('cda_pcrot.CarteiraId',$carteiras->CARTEIRAID)
                                 ->where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)
-                                ->whereNull('cda_pcrot.SaidaDt')
+                                ->whereNull('cda_pcrot.SaidaDt')->get();
                             ;
-                            $consulta_exec = (is_array($consulta_exec) ? count($consulta_exec) : 0);
-                            if (($consulta_exec) > 0) {
+
+                            if (count($consulta_exec) > 0) {
                                 if ($consulta_exec[0]->RoteiroId == $roteiros->RoteiroId) {
                                     continue;
                                 } else {
                                     DB::update("UPDATE cda_pcrot SET SaidaDt=NOW() WHERE CarteiraId= {$carteiras->CARTEIRAID} AND ParcelaId={$parcelas->ParcelaId} AND RoteiroId=" . $consulta_exec[0]->RoteiroId);
                                 }
                             }
+
+                            /* Verifica se ja existe roteiro para aquela parcela*/
+                            $consulta_exist = PcRot::where('cda_pcrot.ParcelaId',$parcelas->ParcelaId)->whereNull('cda_pcrot.SaidaDt')->get();
+                            if (count($consulta_exist) > 0) {continue;}
                             DB::insert("INSERT INTO cda_pcrot SET EntradaDt=NOW() , CarteiraId= {$carteiras->CARTEIRAID} , ParcelaId={$parcelas->ParcelaId} , RoteiroId=" . $roteiros->RoteiroId);
-                            //break;
+
                         }
                     }
                 }
-                DB::insert("INSERT INTO distribuicao_parcelas SET  parcela_id='".$parcelas->ParcelaId."' ON DUPLICATE KEY UPDATE parcela_id ='".$parcelas->ParcelaId."'");
+                DB::insert("INSERT INTO distribuicao_parcelas SET  parcela_id='".$parcelas->ParcelaId."' ON DUPLICATE KEY UPDATE  parcela_id='".$parcelas->ParcelaId."' ");
                 DB::commit();
             } catch (\Exception $e) {
                 echo $e->getMessage();
                 DB::rollback();
             }
         }
+        $consulta= Parcela::leftjoin('distribuicao_parcelas', 'cda_parcela.ParcelaId', '=', 'distribuicao_parcelas.parcela_id')
+            ->whereNull('distribuicao_parcelas.parcela_id')
+            ->whereNotNull('cda_parcela.VENCIMENTODT')
+            ->where('cda_parcela.SitPagId',61)
+            ->limit(5000)
+            ->offset($page)->get();
+        $sql="DELETE a FROM cda_pcrot AS a, cda_pcrot AS b WHERE a.CarteiraId=b.CarteiraId  and a.ParcelaId=b.ParcelaId and a.SaidaDt is null and b.SaidaDt is null AND a.pcrot_id > b.pcrot_id";
+        DB::query($sql);
+        echo true;
     }
 
 }

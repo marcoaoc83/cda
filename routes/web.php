@@ -35,6 +35,10 @@ Route::get('crontab/execfila', 'CronController@execfila');
 Route::get('teste-execfila', 'Admin\ExecFilaController@teste');
 Route::get('regras-calculo', 'Admin\RegraCalculoController@gerarRegra');
 
+Route::get('distribuir', function () {
+    return view('portal.distribuicao.index');
+})->name('distribuir.index');
+
 //Froala
 Route::post('admin/uploadfroala', 'Admin\FroalaController@store');
 Route::get('admin/uploadfroala', 'Admin\FroalaController@store');
