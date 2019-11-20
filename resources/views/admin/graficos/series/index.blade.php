@@ -26,7 +26,10 @@
             <thead>
             <tr>
                 <th>Titulo</th>
+                <th>Tipo</th>
+                <th>Eixo - Y</th>
             </tr>
+
             </thead>
         </table>
     </div>

@@ -511,10 +511,24 @@ class GraficosController extends Controller
     }
     private function EventoSQL(){
         $sql=  "SELECT 
-                * 
-              FROM cda_evento ";
+                cda_parcela.*,
+                cda_evento.*,
+                cda_canal.*,
+                cda_carteira.CARTEIRASG as Carteira ,
+                cda_pcevento.PROCESSOID,
+                cda_pcevento.EVENTODT,
+                cda_pcevento.PSCANALID,
+                cda_pcevento.MODCOMID,
+                Fase.REGTABSG as Roteiro,
+                cda_roteiro.RoteiroId as RoteiroId
+              FROM cda_parcela ";
+        $sql .= " LEFT JOIN cda_pcevento  ON cda_parcela.ParcelaId=cda_pcevento.PARCELAID";
+        $sql .= " LEFT JOIN cda_evento  ON cda_pcevento.EVENTOID=cda_evento.EventoId";
         $sql .= " LEFT JOIN cda_canal_eventos ON cda_canal_eventos.EventoId=cda_evento.EventoId";
-        $sql .= " LEFT JOIN cda_pcevento  ON cda_pcevento.EVENTOID=cda_evento.EventoId";
+        $sql .= " LEFT JOIN cda_canal ON cda_canal.CANALID=cda_canal_eventos.CanalId";
+        $sql .= " LEFT JOIN cda_roteiro            ON cda_roteiro.RoteiroId        =       cda_pcevento.ROTEIROID";
+        $sql .= " LEFT JOIN cda_regtab as Fase     ON Fase.REGTABID                =       cda_roteiro.FaseCartId";
+        $sql .= " INNER JOIN cda_carteira           ON cda_carteira.CARTEIRAID      =       cda_pcevento.CarteiraId";
         return $sql;
     }
     private function FilaSQL(){

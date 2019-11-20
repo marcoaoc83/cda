@@ -23,6 +23,14 @@
                     name: 'grse_titulo'
                 },
                 {
+                    data: 'grti_nome',
+                    name: 'grti_nome'
+                },
+                {
+                    data: 'grse_eixoy',
+                    name: 'grse_eixoy'
+                },
+                {
                     data: 'grse_id',
                     name: 'grse_id',
                     "visible": false,

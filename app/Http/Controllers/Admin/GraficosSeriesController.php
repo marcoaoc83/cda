@@ -109,6 +109,7 @@ class GraficosSeriesController extends Controller
     public function getDadosDataTable(Request $request)
     {
         $cda_graficos_series = GraficosSeries::select(['*'])
+            ->join('cda_graficos_tipos','grti_id','=','grse_tipo')
             ->where('grse_grafico_id',$request->grse_grafico_id)
             ->get();
 
