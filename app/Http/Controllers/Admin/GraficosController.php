@@ -488,9 +488,10 @@ class GraficosController extends Controller
         $sql .= " LEFT JOIN cda_carteira  ON cda_carteira.CARTEIRAID=cda_pcrot.CarteiraId";
         $sql .= " WHERE cda_pcrot.SaidaDt is null";
         if($group=='Carteira')
-        $sql .= " GROUP BY  cda_carteira.CARTEIRASG ,cda_parcela.ParcelaId";
+            $sql .= " GROUP BY  cda_carteira.CARTEIRASG ,cda_parcela.ParcelaId";
         else
-        $sql .= " GROUP BY cda_parcela.ParcelaId";
+            $sql .= " GROUP BY cda_parcela.ParcelaId";
+
         return $sql;
     }
     private function PessoaSQL(){
@@ -519,6 +520,8 @@ class GraficosController extends Controller
                 cda_pcevento.EVENTODT,
                 cda_pcevento.PSCANALID,
                 cda_pcevento.MODCOMID,
+                cda_evento.EventoSg as Evento,
+                cda_filatrab.FilaTrabSg as Fila,
                 Fase.REGTABSG as Roteiro,
                 cda_roteiro.RoteiroId as RoteiroId
               FROM cda_parcela ";
@@ -526,6 +529,7 @@ class GraficosController extends Controller
         $sql .= " LEFT JOIN cda_evento  ON cda_pcevento.EVENTOID=cda_evento.EventoId";
         $sql .= " LEFT JOIN cda_canal_eventos ON cda_canal_eventos.EventoId=cda_evento.EventoId";
         $sql .= " LEFT JOIN cda_canal ON cda_canal.CANALID=cda_canal_eventos.CanalId";
+        $sql .= " LEFT JOIN cda_filatrab            ON cda_filatrab.FilaTrabId        =       cda_pcevento.FILATRABID";
         $sql .= " LEFT JOIN cda_roteiro            ON cda_roteiro.RoteiroId        =       cda_pcevento.ROTEIROID";
         $sql .= " LEFT JOIN cda_regtab as Fase     ON Fase.REGTABID                =       cda_roteiro.FaseCartId";
         $sql .= " INNER JOIN cda_carteira           ON cda_carteira.CARTEIRAID      =       cda_pcevento.CarteiraId";
@@ -547,5 +551,13 @@ class GraficosController extends Controller
 
         return $sql;
     }
-    
+
+    private function FxAtraso()
+    {
+        $FxAtraso = DB::select("Select * From cda_regtab Where cda_regtab.TABSYSID = 32");
+    }
+    public function FxValor()
+    {
+        $FxValor = DB::select("Select  * From cda_regtab Where cda_regtab.TABSYSID = 33");
+    }
 }

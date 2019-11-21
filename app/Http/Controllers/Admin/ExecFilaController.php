@@ -1568,7 +1568,7 @@ class ExecFilaController extends Controller
                             }
                         }
                     }else{
-                        if($request->group=='IM'){
+                        if($requesFxAtrasot->group=='IM'){
                             $FxAtraso[$pessoa['InscrMunId']]=$key;
                         }else{
                             $FxAtraso[$pessoa['PessoaId']]=$key;

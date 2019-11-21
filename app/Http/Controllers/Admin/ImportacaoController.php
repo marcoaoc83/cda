@@ -184,6 +184,7 @@ class ImportacaoController extends Controller
                 self::importarCSV($request->id,$arquivo);
             }
             DB::commit();
+            self::arrumaPsCanal();
             echo true;
         } catch (\Exception $e) {
             DB::rollback();
@@ -359,5 +360,23 @@ class ImportacaoController extends Controller
         }
 
         return $results;
+    }
+
+    function arrumaPsCanal(){
+        $pscanal=\App\Models\PsCanal::leftJoin('cda_bairro','cda_bairro.bair_id','=','cda_pscanal.BairroId')
+            ->leftJoin('cda_cidade','cda_cidade.cida_id','=','cda_pscanal.CidadeId')
+            ->leftJoin('cda_logradouro','cda_logradouro.logr_id','=','cda_pscanal.LogradouroId')
+            ->get();
+        foreach ($pscanal as $val){
+
+            $flight = \App\Models\PsCanal::find($val->PsCanalId);
+            $flight->update([
+                'Logradouro'=>$val->logr_tipo." ".$val->logr_nome,
+                'Bairro'=>$val->bair_nome ,
+                'Cidade'=>$val->cida_nome ,
+                'UF'=>$val->cida_uf
+            ]);
+
+        }
     }
 }
