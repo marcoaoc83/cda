@@ -477,8 +477,14 @@ class GraficosController extends Controller
                   SitCobT.REGTABNM as SitCob,
                   OrigTribT.REGTABNM as OrigTrib,
                   TribT.REGTABSG as Trib,
-                  cda_carteira.CARTEIRASG as Carteira 
-              FROM cda_parcela ";
+                  cda_carteira.CARTEIRASG as Carteira";
+        if($group=='FaixaAtraso'){
+            $sql.=" ,FxAtraso(cda_parcela.VencimentoDt) as FaixaAtraso";
+        }
+        if($group=='FaixaValor'){
+            $sql.=" ,FxValor(cda_parcela.TotalVr) as FaixaValor";
+        }
+        $sql .=  " FROM cda_parcela ";
         $sql .= " LEFT JOIN cda_regtab as SitPagT ON SitPagT.REGTABID=cda_parcela.SitPagId";
         $sql .= " LEFT JOIN cda_regtab as SitCobT ON SitCobT.REGTABID=cda_parcela.SitCobId";
         $sql .= " LEFT JOIN cda_regtab as OrigTribT ON OrigTribT.REGTABID=cda_parcela.OrigTribId";
