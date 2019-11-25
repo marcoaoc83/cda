@@ -1,4 +1,4 @@
-<div class="x_panel" id="divResultParcela" style="display: none">
+<div class="x_panel" id="divResultParcela" style="display: ">
     <div class="x_title">
         <h2>Parcelas<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">
@@ -12,7 +12,7 @@
         <table id="tbParcela" class="table table-hover table-bordered table-striped datatable display responsive nowrap" style="width:100%">
             <thead>
             <tr>
-                <th><input name="select_all" value="1" type="checkbox"></th>
+                
                 <th>Carteira</th>
                 <th>Modelo</th>
                 <th>Nome</th>

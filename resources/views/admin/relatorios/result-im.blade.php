@@ -1,4 +1,4 @@
-<div class="x_panel " id="divResultIM" style="display: none">
+<div class="x_panel " id="divResultIM" style="display:">
     <div class="x_title">
         <h2>{{App\Models\RegTab::where('REGTABSG','LbDocument')->first()->REGTABNM}}<small></small></h2>
         <ul class="nav navbar-right panel_toolbox">

@@ -25,13 +25,14 @@
 
             <div class="row">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <div class="x_panel" id="divFiltros" style="">
+                    <div class="x_panel" id="divFiltros" >
+
                         <form class="form-horizontal form-label-left" id="formFiltroParcela"    method="post" action="" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <input type="hidden" name="rel_id" value="{{$Relatorio->rel_id}}">
                             <input type="hidden" name="rel_saida" value="{{$Relatorio->rel_saida}}">
                             @if ($Relatorio->resultado_contribuinte)
-                            <input type="hidden" id="resTabela" value="contribuinte">
+                                <input type="hidden" id="resTabela" value="contribuinte">
                             @endif
                             @if ($Relatorio->resultado_parcelas)
                                 <input type="hidden" id="resTabela" value="parcela">
@@ -49,6 +50,7 @@
                                     </select>
                                 </div>
                             </div>
+                            {{ csrf_field() }}
                             @if ($Relatorio->filtro_carteira)
                                 @include('admin.relatorios.filtro-carteira')
                             @endif
@@ -75,24 +77,56 @@
                             @endif
 
                             <div class="x_panel text-center " style="background-color: #BDBDBD" id="divBotaoFiltrar">
-                                <a class="btn btn-app" id="btfiltrar" onclick="filtrar()" >
-                                    <i class="fa fa-filter"></i> Gerar
+                                <a class="btn btn-app" id="btfiltrar" onclick="filtrar(1)" >
+                                    <i class="fa fa-filter"></i> Filtrar
                                 </a>
                             </div>
-                            <button id="send" type="submit" class="btn btn-success hidden">Salvar - {{strtoupper($Relatorio->rel_saida)}}</button>
+                            <button id="send" type="submit" class="btn btn-success hidden">Salvar</button>
                         </form>
                     </div>
-                    {{--@include('admin.relatorios.result-contribuinte')--}}
-                    {{--@include('admin.relatorios.result-im')--}}
-                    {{--@include('admin.relatorios.result-parcela')--}}
-                    {{--<div class="x_panel text-center noHigiene ">--}}
+                    <div id="divResultados"  >
+                        @if ($Relatorio->resultado_contribuinte)
+                            @include('admin.relatorios.result-contribuinte')
+                            @include('admin.relatorios.result-im')
+                        @endif
+                        @if ($Relatorio->resultado_parcelas)
+                            @include('admin.relatorios.result-contribuinte')
+                            @include('admin.relatorios.result-im')
+                            @include('admin.relatorios.result-parcela')
+                        @endif
+                        @if ($Relatorio->resultado_canais)
+                            @include('admin.relatorios.result-canal')
+                        @endif
+                    </div>
 
-                        {{--<div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">--}}
-                            {{--<a class="btn btn-app " >--}}
-                                {{--<i class="fa fa-save"></i> SALVAR - {{strtoupper($Relatorio->rel_saida)}}--}}
-                            {{--</a>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
+
+                    <form  id="formParcelas" class="noHigiene" method="post"   >
+                        {{ csrf_field() }}
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback text-center">
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="item form-group">
+                                    <label for="gCSV">CSV</label>
+                                    <label><input type="checkbox" id="gCSV"   name="gCSV"  value="1" class="js-switch" ></label>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="item form-group">
+                                    <label for="gTXT">TXT</label>
+                                    <label><input type="checkbox" id="gTXT"   name="gTXT"  value="1" class="js-switch" ></label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="x_panel text-center noHigiene">
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                            <a class="btn btn-app" id="execRel" onclick="filtrar(0)">
+                                <i class="fa fa-save"></i> Executar
+                            </a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -143,7 +177,5 @@
 
 
     @include('admin.relatorios.execFila')
-    <script>
-        selectFila({{$Relatorio->rel_id}});
-    </script>
+
 @endpush

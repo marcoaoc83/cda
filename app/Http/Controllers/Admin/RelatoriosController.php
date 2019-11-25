@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\Canal;
 use App\Models\Fila;
 use App\Models\ModCom;
 use App\Models\ModeloVar;
@@ -11,6 +12,7 @@ use App\Models\RegTab;
 use App\Models\RelatorioParametro;
 use App\Models\Relatorios;
 use App\Models\Tarefas;
+use App\Models\TratRet;
 use Barryvdh\DomPDF\PDF;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -179,7 +181,18 @@ class RelatoriosController extends Controller
     {
         $rel=Relatorios::find($id);
         $FilaTrab=Fila::all();
-        return view('admin.relatorios.gerar')->with('Relatorio',$rel)->with('FilaTrab',$FilaTrab);
+        $FonteInfoId=RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','FonteInfo')->get();
+        $Canal= Canal::get();
+        $TipPos=RegTab::join('cda_tabsys', 'cda_tabsys.TABSYSID', '=', 'cda_regtab.TABSYSID')->where('TABSYSSG','TpPos')->get();
+        $Trat=TratRet::all();
+        return view('admin.relatorios.gerar')
+            ->with('Relatorio',$rel)
+            ->with('FilaTrab',$FilaTrab)
+            ->with('Canal',$Canal)
+            ->with('FonteInfoId',$FonteInfoId)
+            ->with('TipPos',$TipPos)
+            ->with('Trat',$Trat)
+            ;
 
     }
     public function getdataRegistroSql(Request $request)
@@ -303,14 +316,19 @@ class RelatoriosController extends Controller
             return Datatables::of($collection)->make(true);
         }
         ini_set('memory_limit', '-1');
-        $limit=100;
+        $limit=10000;
         if($request->demo) $limit=5;
         $where=self::filtroParcela($request,$FxAtraso,$FxValor,$arrayFxValor,$arrayFxAtraso);
         if($request->FilaTrabId && $request->FilaTrabId!='null'){
             $where.=' AND cda_roteiro.FILATRABID = '.$request->FilaTrabId;
         }
         if(empty($where) && empty($request->demo)){
-            return '0';
+            if($request->filtro) {
+                $collection = collect([]);
+                return Datatables::of($collection)->make(true);
+            }else{
+                return '0';
+            }
         }
 
         //$group=['cda_parcela.ParcelaId','cda_roteiro.CarteiraId'];
@@ -405,6 +423,10 @@ class RelatoriosController extends Controller
         }
 
         $collect = collect($collect);
+        if($request->filtro==1){
+            return Datatables::of($collect)->make(true);
+        }
+
         $Relatorios=Relatorios::find($request->rel_id);
         $Modelo=ModCom::find($Relatorios->rel_saida);
         $html=$Modelo->ModTexto;

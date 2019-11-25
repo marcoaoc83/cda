@@ -16,81 +16,77 @@ function buscacep(cep,form) {
 }
 
 
-function filtrar() {
+function filtrar(filtro) {
 
     $res=$('#resTabela').val();
     if($res=='contribuinte' ||$res=='parcela'){
-        filtrarParcelas();
+        filtrarParcelas(filtro);
     }
     if($res=='canal'){
-        filtrarCanal();
+        filtrarCanal(filtro);
     }
 }
 
-function filtrarParcelas(){
-    var url = "{{ route('relatorios.getdataParcela') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();
-    //tbContribuinteRes.ajax.url(url).load();
-    $.ajax({
-        type: 'get',
-        dataType: 'json',
-        data: {
-            _token: '{!! csrf_token() !!}'
-        },
-        url:url,
-        success: function (msg) {
-            if(msg=='0'){
-                swal({
-                    position: 'top-end',
-                    type: 'info',
-                    title: 'Nenhuma informação encontrada!',
-                    showConfirmButton: false,
 
-                    timer: 1500
-                })
-            }else{
+function filtrarParcelas(filtro){
+    var url = "{{ route('relatorios.getdataParcela') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val()+'&filtro='+filtro;
+    //tbContribuinteRes.ajax.url(url).load();
+    if(filtro==0) {
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            data: {
+                _token: '{!! csrf_token() !!}'
+            },
+            url: url,
+            success: function (msg) {
+                if (msg == '0') {
+                    swal({
+                        position: 'top-end',
+                        type: 'info',
+                        title: 'Nenhuma informação encontrada!',
+                        showConfirmButton: false,
+
+                        timer: 1500
+                    })
+                } else {
+                    swal({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Gerado com sucesso!',
+                        showConfirmButton: false,
+                        text: 'Enviado para lista de tarefas!',
+                        timer: 1500
+                    })
+                }
+
+            },
+            error: function (data) {
                 swal({
                     position: 'top-end',
                     type: 'success',
                     title: 'Gerado com sucesso!',
-                    showConfirmButton: false,
                     text: 'Enviado para lista de tarefas!',
+                    showConfirmButton: false,
                     timer: 1500
                 })
             }
-
-        },
-        error: function (data) {
-            swal({
-                position: 'top-end',
-                type: 'success',
-                title: 'Gerado com sucesso!',
-                text: 'Enviado para lista de tarefas!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+        });
+    }else {
+        if ($('#tbContribuinteRes').is(':visible')) {
+            var tbContribuinteRes = $('#tbContribuinteRes').DataTable();
+            tbContribuinteRes.ajax.url(url+'&group=Pes').load();
         }
-    });
 
-{{--if($('#tbContribuinteRes').is(':visible')) {--}}
-        {{--var tbContribuinteRes = $('#tbContribuinteRes').DataTable();--}}
-        {{--var url = "{{ route('relatorios.getdataParcela') }}" + "/?group=Pes&" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();--}}
-        {{--tbContribuinteRes.ajax.url(url).load();--}}
-    {{--}--}}
-
-    {{--if($('#tbIMRes').is(':visible')) {--}}
-        {{--var tbIMRes = $('#tbIMRes').DataTable();--}}
-        {{--var url = "{{ route('relatorios.getdataParcela') }}" + "/?group=IM&" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();--}}
-        {{--tbIMRes.ajax.url(url).load();--}}
-    {{--}--}}
-    {{--if($('#tbParcela').is(':visible')) {--}}
-        {{--var tbParcela = $('#tbParcela').DataTable();--}}
-        {{--var url = "{{ route('relatorios.getdataParcela') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();--}}
-        {{--tbParcela.ajax.url(url).load();--}}
-        {{--// Get the column API object--}}
-        {{--var column = tbParcela.column(0);--}}
-        {{--// Toggle the visibility--}}
-        {{--column.visible(true);--}}
-    {{--}--}}
+        if ($('#tbIMRes').is(':visible')) {
+            var tbIMRes = $('#tbIMRes').DataTable();
+            tbIMRes.ajax.url(url+'&group=IM').load();
+        }
+        if ($('#tbParcela').is(':visible')) {
+            var tbParcela = $('#tbParcela').DataTable();
+            tbParcela.ajax.url(url).load();
+        }
+    }
 }
 
 function selectFila(fila) {
@@ -100,6 +96,7 @@ function selectFila(fila) {
         dataType: 'json',
         data: {
             _token: '{!! csrf_token() !!}',
+            filtro:filtro,
             id: fila
         },
         url: "{!! url('admin/relatorios/info') !!}",
@@ -195,7 +192,7 @@ $(document).ready(function() {
 
 });
 
-function filtrarCanal(){
+function filtrarCanal(filtro){
     var url = "{{ route('relatorios.getdataCanal') }}" + "/?" + $('#formFiltroParcela').serialize() + '&FilaTrabId=' + $('#FilaTrabId').val();
     //tbContribuinteRes.ajax.url(url).load();
     $.ajax({

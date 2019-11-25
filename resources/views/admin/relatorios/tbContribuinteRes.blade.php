@@ -16,8 +16,8 @@
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
             columns: [
-                {data: 'Nome', name: 'Nome'},
-                {data: 'CPFCNPJ', name: 'CPFCNPJ'},
+                {data: 'PESSOANMRS', name: 'PESSOANMRS'},
+                {data: 'CPF_CNPJNR', name: 'CPF_CNPJNR'},
 
                 {data: 'VencimentoDt', name: 'VencimentoDt'},
                 {data: 'TotalVr', name: 'TotalVr'},
