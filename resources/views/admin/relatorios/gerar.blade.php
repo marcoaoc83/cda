@@ -41,7 +41,7 @@
                             @endif
                             <div class="x_content">
                                 <div class="col-md-12 col-sm-6 col-xs-12 form-group has-feedback"  >
-                                    <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila"  onchange="selectFila(this.value)" >
+                                    <select class="form-control" id="FilaTrabId" name="FilaTrabId" placeholder="Fila" {{-- onchange="selectFila(this.value)" --}}>
                                         <option value="" selected>Selecionar Fila</option>
                                         @foreach($FilaTrab as $var)
                                             <option value="{{$var->FilaTrabId}}" >{{$var->FilaTrabSg}} - {{$var->FilaTrabNm}}</option>             

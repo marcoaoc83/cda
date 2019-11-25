@@ -860,7 +860,7 @@ class RelatoriosController extends Controller
             foreach ($campos as $key=>$val) {
                 $sg = "{{" . $key . "}}";
                 $value = $val;
-                $html = str_replace($sg,$value, $html);
+                $html = str_replace($sg,$value."<BR>".$sg, $html);
             }
         }
 
