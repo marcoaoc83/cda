@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Maatwebsite\Excel\Facades\Excel;
 use Softon\SweetAlert\Facades\SWAL;
@@ -403,8 +404,8 @@ class RelatoriosController extends Controller
             $collect[$i]['PrincipalVr']=$parcela['PrincipalVr'];
             $collect[$i]['Honorarios']=$parcela['Honorarios'];
             $collect[$i]['DescontoVr']=$parcela['DescontoVr'];
-            $collect[$i]['MultaVr']=$parcela['MultaVr'];
-            $collect[$i]['JurosVr']=$parcela['JurosVr'];
+            $collect[$i]['MultaVr']=$parcela['MultaVr']??0;
+            $collect[$i]['JurosVr']=$parcela['JurosVr']??0;
             $collect[$i]['TaxaVr']=$parcela['TaxaVr'];
             $collect[$i]['AcrescimoVr']=$parcela['AcrescimoVr'];
             $collect[$i]['PlanoQt']=$parcela['PlanoQt'];
@@ -430,9 +431,7 @@ class RelatoriosController extends Controller
         $Relatorios=Relatorios::find($request->rel_id);
         $Modelo=ModCom::find($Relatorios->rel_saida);
         $html=$Modelo->ModTexto;
-        $lines=explode(PHP_EOL, $html);
-        $html=$lines[1];
-        if(empty($lines[1])) $html=$lines[0];
+
         $regTab=RegTab::find($Modelo->TpModId);
         $type=$regTab->REGTABSGUSER;
         if($request->demo) {
@@ -807,8 +806,13 @@ class RelatoriosController extends Controller
         }
         $result=[];
         $i=1;
-        foreach ($pessoa as $linha) {
 
+        if(strpos($html, '<!--subRelInicio-->')){
+            $subHtml=$this->getBetween($html,'<!--subRelInicio-->','<!--subRelFinal-->');
+        }
+        Log::notice($subHtml);
+        foreach ($pessoa as $linha) {
+            $html = str_replace_first('<!--subRelFinal-->',$subHtml.'<!--subRelFinal-->', $html);
 
             foreach ($replace as $tipo => $campo) {
                 foreach ($campo as  $campos) {
@@ -868,7 +872,7 @@ class RelatoriosController extends Controller
                                     $valor = $linha[$campo];
                                 }
 
-                                $result[$i][$sg] = $valor;
+                                $result[$i][$sg] =  number_format($valor, 2, ',', '.');
                             }
                             break;
                     }
@@ -877,14 +881,16 @@ class RelatoriosController extends Controller
             }
             $i++;
         }
-        $html = str_replace('{{Agora}}',date("d/m/Y H:i:s"), $html);
+        $html = str_replace_first('{{Agora}}',date("d/m/Y H:i:s"), $html);
         foreach ($result as $campos) {
             foreach ($campos as $key=>$val) {
                 $sg = "{{" . $key . "}}";
                 $value = $val;
-                $html = str_replace($sg,$value."<BR>".$sg, $html);
+                $html = str_replace_first($sg,$value,$html);
             }
         }
+        if(strlen($subHtml)>1)
+        $html = str_replace_first($subHtml,'', $html);
 
         return $html;
 
@@ -1068,5 +1074,12 @@ class RelatoriosController extends Controller
             //return response()->json("<h6><a href='" . URL::to('/') . "/export/" . $file . ".csv' target='_blank'>Arquivo</a></h6>");
         }
 
+    }
+
+
+
+     function getBetween($htmlContent,$text1,$text2){
+        preg_match('/'.$text1.'(.*?)'.$text2.'/s', $htmlContent, $match);
+        return $match[1];
     }
 }
