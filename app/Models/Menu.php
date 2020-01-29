@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     protected $fillable = [
-        'menu_nome','menu_url','menu_icone','menu_target','menu_ativo'
+        'menu_nome','menu_url','menu_icone','menu_target','menu_ativo','menu_relatorio_id'
     ];
     protected $table = 'cda_menu';
     protected $primaryKey = 'menu_id';

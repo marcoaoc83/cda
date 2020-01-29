@@ -11,8 +11,9 @@
     <div class="right_col" role="main">
         <div class="">
             <div class="page-title">
-                <div class="title_left">
-                    <h3>Pessoas</h3>
+                <div class="title_left" style="">
+                    <h3 style="float: left">Pessoas</h3>
+                    <a><span class="glyphicon glyphicon-question-sign" style="font-size: 20px; margin-left: 20px;cursor:pointer;margin-top: 11px;"></span></a>
                 </div>
             </div>
 
