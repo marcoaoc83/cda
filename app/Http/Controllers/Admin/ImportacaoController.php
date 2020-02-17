@@ -264,7 +264,7 @@ class ImportacaoController extends Controller
                         foreach ($Tabela as $Campo) {
 
                             $value=$linha[$Campo["CampoNm"]];
-                            if(empty($value)) continue;
+                            if(empty($value)) $value='';
                             if($Campo["TipoDados"]=="date" || $Campo["TipoDados"]=="data"){
                                 $date = Carbon::createFromFormat('d/m/Y', $value);
                                 $value=$date->format('Y-m-d');
@@ -316,7 +316,7 @@ class ImportacaoController extends Controller
                         $values=substr_replace($values, '', -1);
                         $sql=$sql.$values;
                         $sql.=" ON DUPLICATE KEY UPDATE ".$values;
-                        //Log::info("\n\r".$sql);
+                        Log::info("\n\r".$sql);
 
                         if(empty($values)){
                             continue;
