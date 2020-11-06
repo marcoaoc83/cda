@@ -39,7 +39,7 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents";
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/";
         $body=[
             "name"=>$request->name,
             "description"=>$request->description
@@ -71,7 +71,7 @@ class ChatController extends Controller
     public function edit($id)
     {
         // show the view and pass the nerd to it
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$id";
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/$id";
         $intents=self::requestRecast($endpoint);
         return view('admin.chat.edit',[
             'Chat'=>$intents
@@ -88,7 +88,7 @@ class ChatController extends Controller
     public function update(Request $request,$id)
     {
 
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$id";
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/$id";
         $body=[
         "name"=>$request->name,
             "description"=>$request->description
@@ -108,7 +108,7 @@ class ChatController extends Controller
      */
     public function destroy($id)
     {
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$id";
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/$id";
         $return=self::requestRecast($endpoint,'DELETE');
 
         return 'true';
@@ -135,7 +135,7 @@ class ChatController extends Controller
 
     public function getPerguntas(Request $request)
     {
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents/$request->id/expressions";
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/$request->id/expressions";
         $intents=self::requestRecast($endpoint);
         return Datatables::of($intents)->make(true);
     }
