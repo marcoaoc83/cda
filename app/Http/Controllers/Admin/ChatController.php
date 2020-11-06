@@ -117,7 +117,7 @@ class ChatController extends Controller
 
     public function getDadosDataTable()
     {
-        $endpoint="https://api.recast.ai/v2/users/cda/bots/divinopolis/intents";
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents";
         $intents=self::requestRecast($endpoint);
         return Datatables::of($intents)
             ->addColumn('action', function ($intents) {
