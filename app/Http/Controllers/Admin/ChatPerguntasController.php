@@ -39,8 +39,8 @@ class ChatPerguntasController extends Controller
      */
     public function store(Request $request)
     {
-        //https://api.cai.tools.sap/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions
-        $endpoint="https://api.cai.tools.sap/v2/users/cda/bots/divinopolis/intents/$request->intent/expressions";
+        //https://api.recast.ai/train/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/$request->intent/expressions";
         $body=[
             "source"=>$request->source,
             "language"=>["isocode"=>"pt"]
@@ -70,7 +70,7 @@ class ChatPerguntasController extends Controller
     public function edit($id)
     {
         // show the view and pass the nerd to it
-        $endpoint="https://api.cai.tools.sap/v2/users/cda/bots/divinopolis/intents/$id";
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/$id";
         $intents=self::requestRecast($endpoint);
         return view('admin.perguntas.edit',[
             'ChatPerguntas'=>$intents
@@ -86,8 +86,8 @@ class ChatPerguntasController extends Controller
      */
     public function update(Request $request,$id)
     {
-        //https://api.cai.tools.sap/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions/${EXPRESSION_ID}
-        $endpoint="https://api.cai.tools.sap/v2/users/cda/bots/divinopolis/intents/$request->intent/expressions/$request->id";
+        //https://api.recast.ai/train/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions/${EXPRESSION_ID}
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/$request->intent/expressions/$request->id";
         $body=[
             "source"=>$request->source
         ];
@@ -104,8 +104,8 @@ class ChatPerguntasController extends Controller
      */
     public function destroy(Request $request)
     {
-        //https://api.cai.tools.sap/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions/${EXPRESSION_ID}
-        $endpoint="https://api.cai.tools.sap/v2/users/cda/bots/divinopolis/intents/$request->intent/expressions/$request->id";
+        //https://api.recast.ai/train/v2/users/${USER_SLUG}/bots/${BOT_SLUG}/intents/${INTENT_SLUG}/expressions/${EXPRESSION_ID}
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/$request->intent/expressions/$request->id";
         $return=self::requestRecast($endpoint,'DELETE');
 
         return 'true';
@@ -114,7 +114,7 @@ class ChatPerguntasController extends Controller
 
     public function getDadosDataTable(Request $request)
     {
-        $endpoint="https://api.cai.tools.sap/v2/users/cda/bots/divinopolis/intents/$request->id/expressions";
+        $endpoint="https://api.recast.ai/train/v2/users/cda/bots/divinopolis/versions/v1/dataset/intents/$request->id/expressions";
         $intents=self::requestRecast($endpoint);
         return Datatables::of($intents)->make(true);
     }
