@@ -55,7 +55,8 @@ class PortalController extends Controller
     public function chatMsg(Request $request)
     {
         $msg=$request->msg;
-        $client = RecastAI::get();
+        $RecastAI = new RecastAI();
+        $client=$RecastAI->get();
         $res = $client->request->analyseText($msg);
         $intencao= $res->intent()->slug;
 
