@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Portal;
 
+use App\Helpers\RecastAI;
 use App\Http\Controllers\Controller;
 use App\Models\ChatRespostas;
 use App\Models\CredPort;
@@ -54,7 +55,7 @@ class PortalController extends Controller
     public function chatMsg(Request $request)
     {
         $msg=$request->msg;
-        $client = \RecastAI::get();
+        $client = RecastAI::get();
         $res = $client->request->analyseText($msg);
         $intencao= $res->intent()->slug;
 
