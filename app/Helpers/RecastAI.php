@@ -16,7 +16,7 @@ class RecastAI {
      */
     public function __construct() {
         $token= env('RECASTAI_TOKEN','32af5b8eacd51b2fbe0a9526eee4a9d5');
-        $language =env('LANGUAGE','en');
+        $language =env('LANGUAGE','pt');
         $this->recastai = new Client($token, $language);
     }
 
