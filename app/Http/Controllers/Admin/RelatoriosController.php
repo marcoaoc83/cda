@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Models\Canal;
 use App\Models\Fila;
+use App\Models\Menu;
 use App\Models\ModCom;
 use App\Models\ModeloVar;
 use App\Models\Parcela;
@@ -76,7 +77,14 @@ class RelatoriosController extends Controller
         $data['resultado_parcelas']?$data['resultado_parcelas']=1:$data['resultado_parcelas']=0;
         $data['resultado_canais']?$data['resultado_canais']=1:$data['resultado_canais']=0;
 
-        Relatorios::create($data);
+        $rel=Relatorios::create($data);
+        Menu::create([
+            'menu_nome'=>$request->rel_titulo,
+            'menu_url'=>'relatorios.gerar?'.$rel->rel_id,
+            'menu_icone'=>'fa-file-text-o',
+            'menu_ativo'=>'1',
+            'menu_relatorio_id'=>$rel->rel_id
+        ]);
         SWAL::message('Salvo','Salvo com sucesso!','success',['timer'=>4000,'showConfirmButton'=>false]);
         return redirect()->route('relatorios.index');
     }

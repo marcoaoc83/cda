@@ -6,6 +6,7 @@ use App\Models\Bairro;
 use App\Models\Canal;
 use App\Models\CanalFila;
 use App\Models\Cidade;
+use App\Models\Help;
 use App\Models\InscrMun;
 use App\Models\Logradouro;
 use App\Models\Parcela;
@@ -15,6 +16,7 @@ use App\Models\PsCanal;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
 use Softon\SweetAlert\Facades\SWAL;
 use App\Http\Controllers\Controller;
@@ -31,7 +33,12 @@ class PessoaController extends Controller
     public function index()
     {
         $cda_pessoa = DB::table('cda_pessoa')->get();
-        return view('admin.pessoa.index',compact('cda_pessoa'));
+        $Route=Route::current()->getName();
+        $Help= Help::where('help_formulario',$Route)->get();
+        $help_titulo=$Help[0]->help_titulo;
+        $help_texto=$Help[0]->help_texto;
+
+        return view('admin.pessoa.index',compact('cda_pessoa','help_titulo','help_texto'));
     }
 
     /**

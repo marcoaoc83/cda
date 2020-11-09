@@ -343,4 +343,7 @@ Route::group(['middleware'=>['auth','cors'],'namespace' =>'Admin'],function (){
         return view('admin.distribuicao.index');
     })->name('distribuicao.index');
 
+    Route::get('admin/help/getdata', 'HelpController@getDadosDataTable')->name('help.getdata');
+    Route::resource('admin/help', 'HelpController');
+
 });

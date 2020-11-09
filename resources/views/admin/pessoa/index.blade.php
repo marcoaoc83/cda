@@ -3,6 +3,21 @@
 @section('styles')
     <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/2.2.1/css/responsive.dataTables.min.css" rel="stylesheet">
+    <style>
+        @media screen and (min-width: 768px) {
+            .modal-dialog {
+                width: 700px; /* New width for default modal */
+            }
+            .modal-sm {
+                width: 350px; /* New width for small modal */
+            }
+        }
+        @media screen and (min-width: 992px) {
+            .modal-lg {
+                width: 950px; /* New width for large modal */
+            }
+        }
+    </style>
 @endsection
 @section('content')
 
@@ -11,8 +26,9 @@
     <div class="right_col" role="main">
         <div class="">
             <div class="page-title">
-                <div class="title_left">
-                    <h3>Pessoas</h3>
+                <div class="title_left" style="">
+                    <h3 style="float: left">Pessoas</h3>
+                    <a data-toggle="modal" data-target="#exampleModal"><span class="glyphicon glyphicon-question-sign" style="font-size: 20px; margin-left: 20px;cursor:pointer;margin-top: 11px;"></span></a>
                 </div>
             </div>
 
@@ -65,7 +81,21 @@
         </div>
     </div>
     <!-- /page content -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajuda - {{$help_titulo}}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">{!! $help_texto !!}</div>
 
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
